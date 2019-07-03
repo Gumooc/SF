@@ -2,6 +2,8 @@ package com.run.service.Impl;
 
 import java.util.List;
 
+import javax.imageio.spi.RegisterableService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +43,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public JSONObject register(User user) {
+		JSONObject feedback = new JSONObject();
+		if (userMapper.logincheck(user) != null) feedback.put("resp", "f");
+	    	else
+	        {
+	    	    int uid = userMapper.getmaxid()+1;
+	    	    user.setUid(uid);
+	    	    user.setActivation(false);
+	    	    user.setAdm(false);
+	            userMapper.register(user);
+	            feedback.put("resp", "s");
+	            JSONObject temp = new JSONObject();
+	            temp.put("uid", uid);
+	            feedback.put("body", temp);
+	        }
+		return feedback;
+	}
+	
+	@Override
 	public JSONObject useractive(int uid) {
 		System.out.println("¼¤»î");
+		userMapper.active(uid);
 		return null;
 	}
 	
