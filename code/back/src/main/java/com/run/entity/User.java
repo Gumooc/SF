@@ -7,11 +7,29 @@ public class User {
 	private String username;
 	private String password;
 	private Date lst;
+	private Date rgt;
 	private String img;
-	private Boolean male;
+	private boolean male;
 	private String phone;
 	private String email;
 	private boolean activation;
+	private boolean adm;
+	
+	public void setAdm(boolean adm) {
+		this.adm = adm;
+	}
+	
+	public boolean getAdm() {
+		return adm;
+	}
+	
+	public void setRgt(Date rgt) {
+		this.rgt = rgt;
+	}
+	
+	public Date getRgt() {
+		return this.rgt;
+	}
 	
 	public void setActivation(boolean activation) {
 		this.activation = activation;
