@@ -6,8 +6,8 @@ public class User {
 	private int uid;
 	private String username;
 	private String password;
-	private Date lst;
-	private Date rgt;
+	private String lst;
+	private String rgt;
 	private String img;
 	private boolean male;
 	private String phone;
@@ -23,11 +23,11 @@ public class User {
 		return adm;
 	}
 	
-	public void setRgt(Date rgt) {
+	public void setRgt(String rgt) {
 		this.rgt = rgt;
 	}
 	
-	public Date getRgt() {
+	public String getRgt() {
 		return this.rgt;
 	}
 	
@@ -71,11 +71,11 @@ public class User {
 		return this.img;
 	}
 	
-	public void setLst(Date lst) {
+	public void setLst(String lst) {
 		this.lst = lst;
 	}
 	
-	public Date getLst() {
+	public String getLst() {
 		return this.lst;
 	}
 	
