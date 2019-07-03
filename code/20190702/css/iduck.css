@@ -1,0 +1,450 @@
+#iduck-bookList-navi
+{
+	width:80%;
+	float:left;
+	text-align:left;
+}
+#iduck-bookList-navi-btn
+{
+	float:right;
+}
+#iduck-bookList-bookEntry{
+	margin: 17px;
+	width: 40%;
+	height:180px;
+	float: left;
+	margin-bottom: 0px;
+}
+#iduck-bookList-bookEntry-img{
+	height:130px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+}
+#iduck-bookList-bookItem{
+	height: auto;
+}
+#iduck-bookList-bookItem-img{
+	height: 180px;
+	width:35%;
+	float: left;
+	margin: 10px;
+	margin-right:0px ;
+}
+#iduck-bookList-bookItem-abs{
+	height: 180px;
+	width: 55%;
+	float: left;
+}
+#iduck-bookList-bookItem-dtl{
+	height: 50px;
+	width: 94%;
+	float: left;
+	margin-top: 0px;
+}
+#iduck-bookList-bookitem-moreBtn{
+	float: right;
+	margin-right: 10px;
+}
+#iduck-bookList-section{
+	height: 80px;
+	padding-left: 10px;
+	padding-top:5px;
+	font-size: 16px;
+	color: #007AFF;
+}
+#iduck-bookList-section-secBtn{
+	margin-top:5px;
+	margin-left:2px;
+	margin-right:2px;
+	width:60px;
+	height:40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	float:left;
+	color: #000000;
+}
+#iduck-bookList-author{
+	height: 120px;
+	padding-left: 10px;
+	padding-top:5px;
+	font-size: 16px;
+	color: #007AFF;
+}
+#iduck-bookList-author-img{
+	height: 80px;
+	width: 80px;
+	margin: 5px;
+	float: left;
+	border-radius: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 10px;
+}
+#iduck-bookList-author-motto{
+	margin: 0px;
+	box-shadow: 0 0 0 #000000 inset;
+	color: darkgray;
+}
+#iduck-bookList-author-name{
+	box-shadow:0 0 0px #000000 inset;
+	color: #000000;
+	margin: 0px;
+	margin-top: 5px;
+}
+#iduck-bookList-comment{
+	height: auto;
+	padding-left: 10px;
+	padding-top:5px;
+	font-size: 16px;
+	color: #007AFF;
+}
+#iduck-bookList-comment-publish{
+	height: 140px;
+	padding: 10px;
+}
+#iduck-bookList-comment-input{
+	height:70px;
+	margin-right: 10px;
+}
+#iduck-bookList-comment-submit{
+	float: right;
+}
+#iduck-bookList-comment-clear{
+	float: right;
+	margin-right: 10px;
+}
+#iduck-bookList-comment-cmtItem{
+	height: auto;
+}
+#iduck-bookList-comment-img{
+	height: 60px;
+	width: 60px;
+	margin: 5px;
+	float: left;
+	border-radius: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 10px;
+}
+#iduck-bookList-comment-name{
+	box-shadow:0 0 0px #000000 inset;
+	color: #000000;
+	margin: 0px;
+	margin-top: 5px;
+}
+#iduck-bookList-comment-comment{
+	margin: 0px;
+	box-shadow: 0 0 0 #000000 inset;
+	color: darkgray;
+}
+#iduck-bookRead-background{
+	background-color: #464646;
+}
+#iduck-bookRead-navi-backBtn{
+	float:right;
+}
+#iduck-bookRead-navi-listBtn{
+	float:left;
+}
+#iduck-bookRead-navi-secname{
+	width: 60%;
+	float: left;
+	box-shadow: 0 0 0 #000000 inset;
+	font-size: 16px;
+	background-color:whitesmoke ;
+}
+#iduck-bookRead-broadcast-img{
+	height: 250px;
+	width: 250px;
+	float: left;
+	border-radius: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left:16%;
+	margin-right: 13%;
+	margin-top:60px;
+}
+#iduck-bookRead-broadcast-setBtn{
+	color: white;
+	float: left;
+	font-size:30px;
+	margin-top: 7%;
+	margin-left: 19%;
+}
+#iduck-bookRead-broadcast-iconName{
+	float: left;
+	margin-left: 18%;
+	margin-top: 10px;
+	color: white;
+}
+#iduck-bookRead-broadcast-progress{
+	float: left;
+	width: 70%;
+	height: 5px;
+	margin-left: 15% ;
+	margin-top: 60px;
+}
+#iduck-bookRead-broadcast-proBtn{
+	float: left;
+	width: 60%;
+	margin-left: 24%;
+	margin-top: 10px;
+}
+#iduck-bookRead-broadcast-proIcon{
+	color: white;
+	float: left;
+	font-size:50px;
+	margin-right: 20px;
+}
+#iduck-userSpace-userAbs{
+	height: 250px;
+	margin: 0px;
+	text-align: center;
+}
+#iduck-userSpace-img{
+	height: 120px;
+	width: 30%;
+	margin-top: 30px;
+	float: left;
+	border-radius: 100px;
+	/*文字居中*/
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 24%;
+}
+#iduck-userSpace-name{
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 170px;
+	font-size: 18px;	
+}
+#iduck-userSpace-motto{
+	width: 90%;
+	margin: 0 auto;
+	margin-top: 10px;
+	font-size: 18px;
+	color: darkgray;	
+	/*mark:单行溢出*/
+	overflow:hidden;
+ 	text-overflow:ellipsis;
+  	white-space:nowrap;
+}
+#iduck-userSpace-userLog{
+	float: left;
+	width: 85%;
+	height: 40px;
+	padding: 5px;
+	padding-left: 20px;
+	margin-bottom: 0px;
+	font-size: 20px;
+	color: #007AFF;
+	margin:0px;
+	margin-left: 10px;
+	margin-top:10px;
+}
+#iduck-userSpace-deco{
+	float: left;
+	width: 5%;
+	height: 40px;
+	margin-right:0px;
+	margin-bottom: 0px;
+	background-color: #007AFF;
+	margin: 0px;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+#iduck-userSpace-setBtn{
+	float: right;
+	font-size: 35px;
+	margin-top:5px;
+	margin-right: 5px;
+}
+#iduck-userSpace-backBtn{
+	float: left;
+	font-size: 35px;
+	margin-top:5px;
+	margin-left: 5px;
+}
+#iduck-userSpace-userInfo-attr{
+	float: left;
+	margin-left: 10px;
+	margin-top:10px;
+	width: 33%;
+}
+#iduck-userSpace-userInfo-val{
+	float: left;
+	margin-left: 10px;
+	margin-top:10px;
+	width: 57%;
+}
+#iduck-userSpace-userlog-backBtn{
+	float: right;
+}
+#iduck-userSpace-userCmt{
+	float: left;
+	width: 93%;
+	height: auto;
+	margin-top: 15px;
+	margin-bottom: 0px;
+}
+#iduck-userSpace-userCmt-title{
+	display:inline-block;
+	width: auto;
+	height: 40px;
+	font-size: 16px;
+	color: #007AFF;
+	margin-left: 5px;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	padding: 10px;
+}
+#iduck-userSpace-userCmt-comment{
+	width: 90%;
+	height: 40px;
+	font-size: 14px;
+	color: darkgray;
+	margin-left: 5px;
+	margin-top: 0px;
+	padding: 10px;
+}
+#iduck-userSpace-follow{
+	height: 120px;
+	padding-left: 10px;
+	padding-top:5px;
+	font-size: 16px;
+	color: #007AFF;
+	float: left;
+	width: 93%;
+}
+#iduck-userSpace-follow-img{
+	height: 80px;
+	width: 80px;
+	margin: 5px;
+	float: left;
+	border-radius: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 10px;
+}
+#iduck-userSpace-follow-motto{
+	margin: 0px;
+	box-shadow: 0 0 0 #000000 inset;
+	color: darkgray;
+}
+#iduck-userSpace-follow-name{
+	box-shadow:0 0 0px #000000 inset;
+	color: #000000;
+	margin: 0px;
+	margin-top: 5px;
+}
+#iduck-bookMake-welcome{
+	float: left;
+	width:60%;
+	height: 40px;
+	padding: 7px;
+	font-size: 25px;
+	margin-left: 20%;
+	margin-top: 35%;
+	background-color: rgba(0,0,0,0);
+	box-shadow: 0 0 0 #000000 inset;
+	color: #007AFF;
+	font-weight: bolder;
+}
+#iduck-bookMake-choice{
+	background-color: rgba(0,0,0,0);
+	width:36%;
+	margin:0px;
+	margin-left:10%;
+	margin-top: 20px;
+	float: left;
+	font-weight: bolder;
+}
+#iduck-bookMake-choiceIcon{
+	height: 120px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#iduck-bookMake-navi-backBtn{
+	float:right;
+}
+#iduck-bookMake-setBtn{
+	margin-right: 5px;
+	position: absolute;
+	left: 120px;
+	top:02px;
+	font-size: 30px;
+}
+#iduck-bookMake-deco{
+	float: left;
+	width: 5%;
+	height: 40px;
+	margin-right:0px;
+	margin-bottom: 0px;
+	background-color: #007AFF;
+	margin: 0px;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+#iduck-bookMake-type{
+	float: left;
+	width: 85%;
+	height: 40px;
+	padding: 5px;
+	padding-left: 20px;
+	margin-bottom: 0px;
+	font-size: 20px;
+	color: #007AFF;
+	margin:0px;
+	margin-left: 10px;
+	margin-top:10px;
+}
+#iduck-bookMake-blank{
+	float: left;
+	width: 100%;
+	margin-top: 15px;
+}
+#iduck-bookMake-title{
+	float: left;
+	width: 94%;
+	height: 40px;
+	padding: 5px;
+	padding-left: 20px;
+	margin-bottom: 0px;
+	font-size: 20px;
+	color: #007AFF;
+	margin:0px;
+	margin-left: 10px;
+	margin-top:10px;
+}
+#iduck-bookMake-section{
+	float: left;
+	width: 86%;
+	height: 40px;
+	padding: 5px;
+	padding-left: 10px;
+	margin-bottom: 0px;
+	font-size: 18px;
+	color: #007AFF;
+	margin:0px;
+	margin-left: 10px;
+	margin-top:10px;
+
+}
+#iduck-bookMake-navi-trashBtn{
+	float:right;
+}
+#iduck-bookMake-edit-title{
+	float: left;
+	width: 80%;
+	height: 30px;
+	margin-left:5px ;
+}
