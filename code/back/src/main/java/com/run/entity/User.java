@@ -11,6 +11,15 @@ public class User {
 	private Boolean male;
 	private String phone;
 	private String email;
+	private boolean activation;
+	
+	public void setActivation(boolean activation) {
+		this.activation = activation;
+	}
+	
+	public boolean getActivation() {
+		return activation;
+	}
 	
 	public void setUid(int uid) {
 		this.uid = uid;
