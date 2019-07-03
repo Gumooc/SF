@@ -7,4 +7,8 @@ import net.sf.json.JSONObject;
 public interface UserService {
 	JSONObject logincheck(User user);
 	JSONObject useractive(int uid);
+	JSONObject askcollector(int uid);
+	JSONObject askhistory(int uid);
+	JSONObject askcomment(int uid);
+	JSONObject askworks(int uid);
 }
