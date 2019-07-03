@@ -53,9 +53,20 @@ public class UserController {
 		JSONObject userinfo = JSONObject.fromObject(liString);
 		JSONObject feedback = new JSONObject();
 		Email email = new Email();
+		User user = new User();
 		//email.setTo("1653395382@qq.com");
-		email.setTo(userinfo.getString("email"));
-		emailService.sendmail(email);
+		user.setEmail(userinfo.getString("email"));
+		emailService.sendmail(user);
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/activation")
+	public JSONObject handleactivation(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject userinfo = JSONObject.fromObject(liString);
+		JSONObject feedback = new JSONObject();
+		feedback = userService.useractive(userinfo.getInt("uid"));
 		return feedback;
 	}
 }
