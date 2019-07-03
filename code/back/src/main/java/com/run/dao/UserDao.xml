@@ -14,7 +14,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
     </select>
-    
+    <update id="active" parameterType="Integer">
+    	update user set activation = true where uid = #{uid}
+    </update>
+    <insert id="register" parameterType="com.run.entity.User">
+    	insert into user(uid,username,password,lst,rgt,male,phone,email,activation,adm) 
+    		values(#{uid},#{username},#{password},#{lst},#{rgt},#{male},#{phone},#{email},#{activation},#{adm});
+    </insert>
+    <select id="getmaxid" resultType="Integer">
+    	select max(uid) from user;
+    </select>
      <resultMap id="collectormap" type="com.run.entity.Collector">
     	<result column="uid" property="uid"></result>
     	<collection property="books" ofType="com.run.entity.Book"  fetchType="eager">
