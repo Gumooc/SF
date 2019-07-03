@@ -1,6 +1,5 @@
 package com.run.control;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -57,11 +56,14 @@ public class UserController {
 		setRHeader(request, response);
 		JSONObject userinfo = JSONObject.fromObject(liString);
 		JSONObject feedback = new JSONObject();
-		Email email = new Email();
 		User user = new User();
-		//email.setTo("1653395382@qq.com");
-		user.setEmail(userinfo.getString("email"));
-		emailService.sendmail(user);
+		user = (User) JSONObject.toBean(userinfo,User.class);
+		//user.setEmail(userinfo.getString("email"));
+		feedback = userService.register(user);
+		if (feedback.getString("resp").equals("s")) {
+			user.setUid(feedback.getJSONObject("body").getInt("uid"));
+			emailService.sendmail(user);
+		}
 		return feedback;
 	}
 
@@ -69,12 +71,10 @@ public class UserController {
 	@RequestMapping("/activation")
 	public JSONObject handleactivation(HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
-		//JSONObject userinfo = JSONObject.fromObject(liString);
 		int uid = Integer.valueOf(request.getParameter("uid"));
 		String active = request.getParameter("active");
-		//System.out.println(uid+","+active);
 		JSONObject feedback = new JSONObject();
-		feedback = userService.useractive(1);
+		feedback = userService.useractive(uid);
 		return feedback;
 	}
 	
