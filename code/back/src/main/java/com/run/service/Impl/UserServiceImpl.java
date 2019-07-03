@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public JSONObject useractive(User user) {
-		// TODO Auto-generated method stub
+	public JSONObject useractive(int uid) {
+		System.out.println("¼¤»î");
 		return null;
 	}
 
