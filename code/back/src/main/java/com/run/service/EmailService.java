@@ -1,9 +1,9 @@
 package com.run.service;
 
-import com.run.entity.Email;
+import com.run.entity.User;
 
 import net.sf.json.JSONObject;
 
 public interface EmailService {
-	JSONObject sendmail(Email email);
+	JSONObject sendmail(User user);
 }
