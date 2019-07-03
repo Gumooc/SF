@@ -1,4 +1,4 @@
-/*
+
 drop table if exists user;
 create table user(
 	uid int,
@@ -9,10 +9,10 @@ create table user(
     male boolean,
     phone varchar(13),
     email varchar(30),
-    avtivation bool,
+    activation bool,
     adm bool,
     primary key(uid)
-);*/
+);
 /*
 drop table if exists book;
 create table book(
