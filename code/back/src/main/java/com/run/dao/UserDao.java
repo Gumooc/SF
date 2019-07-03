@@ -12,8 +12,11 @@ import com.run.entity.User;
 @Repository
 public interface UserDao {
 	User logincheck(User user);
+	void active(int uid);
 	Collector askcollector(int uid); 
 	Collector askhistory(int uid);
 	List<Comment> askcomment(int uid);
 	List<Book> askworks(int uid);
+	void register(User user);
+	int getmaxid();
 }
