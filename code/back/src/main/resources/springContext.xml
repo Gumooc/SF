@@ -60,4 +60,27 @@ http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd ">
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
 	    <property name="maxUploadSize" value="1048576" />  
 	</bean>
+	
+	<!-- 定义mongo对象 -->
+    <mongo:mongo id="mongo" replica-set="${mongo.hostport}">
+        <mongo:options 
+         connections-per-host="${mongo.connectionsPerHost}" 
+         threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
+         connect-timeout="${mongo.connectTimeout}" 
+         max-wait-time="${mongo.maxWaitTime}" 
+         auto-connect-retry="${mongo.autoConnectRetry}" 
+         socket-keep-alive="${mongo.socketKeepAlive}" 
+         socket-timeout="${mongo.socketTimeout}" 
+         slave-ok="${mongo.slaveOk}" 
+         write-number="1" 
+         write-timeout="0" 
+         write-fsync="true" />
+    </mongo:mongo>
+    <mongo:db-factory dbname="${mongo.dbname}" mongo-ref="mongo" />
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg ref="mongo" />
+        <constructor-arg name="databaseName" value="sfbook" />
+    </bean>
+    <mongo:repositories base-package="com.run.dao"></mongo:repositories>
 </beans>
