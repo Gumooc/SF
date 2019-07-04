@@ -2,14 +2,34 @@ package com.run.entity;
 
 import java.sql.Date;
 
+import javax.mail.util.SharedByteArrayInputStream;
+
 public class Book {
 	private int bid;
 	private int uid;
+	private String bookname;
 	private String kind;
-	private String txt;
-	private String sound;
-	private String img;
-	private Date lst;
+	private String txt; //mongo
+	private String sound;//mongo
+	private String img;//mongo
+	private String lst;
+	private boolean shared;
+	
+	public void setShared(boolean shared) {
+		this.shared = shared;
+	}
+	
+	public boolean getShared() {
+		return shared;
+	}
+	
+	public void setBookname(String bookname) {
+		this.bookname = bookname;
+	}
+	
+	public String getBookname() {
+		return bookname;
+	}
 	
 	public int getBid() {
 		return this.bid;
@@ -60,16 +80,16 @@ public class Book {
 		this.img = img;
 	}
 	
-	public Date getLst() {
+	public String getLst() {
 		return this.lst;
 	}
 	
-	public void setLst(Date lst) {
+	public void setLst(String lst) {
 		this.lst = lst;
 	}
 	
 	@Override
 	public String toString() {
-		return "Book = ["+"bid="+bid+",uid="+uid+",lst="+lst+"]";
+		return "Book = ["+"bid="+bid+",uid="+uid+",bookname="+bookname+",lst="+lst+"]";
 	}
 }

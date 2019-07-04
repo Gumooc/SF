@@ -6,11 +6,38 @@ public class User {
 	private int uid;
 	private String username;
 	private String password;
-	private Date lst;
+	private String lst;
+	private String rgt;
 	private String img;
-	private Boolean male;
+	private boolean male;
 	private String phone;
 	private String email;
+	private boolean activation;
+	private boolean adm;
+	
+	public void setAdm(boolean adm) {
+		this.adm = adm;
+	}
+	
+	public boolean getAdm() {
+		return adm;
+	}
+	
+	public void setRgt(String rgt) {
+		this.rgt = rgt;
+	}
+	
+	public String getRgt() {
+		return this.rgt;
+	}
+	
+	public void setActivation(boolean activation) {
+		this.activation = activation;
+	}
+	
+	public boolean getActivation() {
+		return activation;
+	}
 	
 	public void setUid(int uid) {
 		this.uid = uid;
@@ -44,11 +71,11 @@ public class User {
 		return this.img;
 	}
 	
-	public void setLst(Date lst) {
+	public void setLst(String lst) {
 		this.lst = lst;
 	}
 	
-	public Date getLst() {
+	public String getLst() {
 		return this.lst;
 	}
 	

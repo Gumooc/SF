@@ -1,5 +1,8 @@
 package com.run.control;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,7 +43,8 @@ public class UserController {
 		JSONObject feedback = new JSONObject();
 		User user = new User();
 		user.setUsername(userinfo.getString("username"));
-		user.setPassword(userinfo.getString("password"));
+		user.setPassword(userinfo.getString("password")); 
+		System.out.println(user);
 		feedback = userService.logincheck(user);
 		return feedback;
 	}
@@ -52,10 +56,62 @@ public class UserController {
 		setRHeader(request, response);
 		JSONObject userinfo = JSONObject.fromObject(liString);
 		JSONObject feedback = new JSONObject();
-		Email email = new Email();
-		//email.setTo("1653395382@qq.com");
-		email.setTo(userinfo.getString("email"));
-		emailService.sendmail(email);
+		User user = new User();
+		user = (User) JSONObject.toBean(userinfo,User.class);
+		//user.setEmail(userinfo.getString("email"));
+		feedback = userService.register(user);
+		if (feedback.getString("resp").equals("s")) {
+			user.setUid(feedback.getJSONObject("body").getInt("uid"));
+			emailService.sendmail(user);
+		}
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/activation")
+	public JSONObject handleactivation(HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		int uid = Integer.valueOf(request.getParameter("uid"));
+		String active = request.getParameter("active");
+		JSONObject feedback = new JSONObject();
+		feedback = userService.useractive(uid);
+		return feedback;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/collector")
+	public JSONObject askcollector(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int uid = JSONObject.fromObject(liString).getInt("uid");
+		feedback = userService.askcollector(uid);
+		return feedback;
+	}
+	@ResponseBody
+	@RequestMapping("/history")
+	public JSONObject askhistory(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int uid = JSONObject.fromObject(liString).getInt("uid");
+		feedback = userService.askhistory(uid);
+		return feedback;
+	}
+	@ResponseBody
+	@RequestMapping("/comment")
+	public JSONObject askcomment(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int uid = JSONObject.fromObject(liString).getInt("uid");
+		feedback = userService.askcomment(uid);
+		return feedback;
+	}
+	@ResponseBody
+	@RequestMapping("/works")
+	public JSONObject askworks(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int uid = JSONObject.fromObject(liString).getInt("uid");
+		feedback = userService.askworks(uid);
 		return feedback;
 	}
 }

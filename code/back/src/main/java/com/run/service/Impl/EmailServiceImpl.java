@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.stereotype.Service;
 
-import com.run.entity.Email;
+import com.run.entity.User;
 import com.run.service.EmailService;
 import com.sun.mail.util.MailSSLSocketFactory;
 
@@ -21,7 +21,7 @@ import net.sf.json.JSONObject;
 @Service
 public class EmailServiceImpl implements EmailService {
 	@Override
-	public JSONObject sendmail(Email email) {
+	public JSONObject sendmail(User user) {
 		 // 1.创建连接对象javax.mail.Session
         // 2.创建邮件对象 javax.mail.Message
         // 3.发送一封激活邮件
@@ -40,7 +40,7 @@ public class EmailServiceImpl implements EmailService {
             properties.put("mail.smtp.ssl.enable", "true");
             properties.put("mail.smtp.ssl.socketFactory", sf);
  
- 
+            
             // 1.获取默认session对象
             Session session = Session.getDefaultInstance(properties, new Authenticator() {
                 public PasswordAuthentication getPasswordAuthentication() {
@@ -53,12 +53,12 @@ public class EmailServiceImpl implements EmailService {
             // 2.1设置发件人
             message.setFrom(new InternetAddress(from));
             // 2.2设置接收人
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email.getTo()));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
             // 2.3设置邮件主题
             message.setSubject("账号激活");
             // 2.4设置邮件内容
-            String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://localhost:8080/RegisterDemo/ActiveServlet?code="
-                    +"123456789" + "'>http://localhost:8080/RegisterDemo/ActiveServlet?code=" + "123456789"
+            String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://localhost:8080/sfbook/user/activation?uid="
+                    +user.getUid()+"&active="+"1" + "'>http://localhost:8080/sfbook/user/activation?uid=" +user.getUid() +"&active="+"1"
                     + "</href></h3></body></html>";
             message.setContent(content, "text/html;charset=UTF-8");
             // 3.发送邮件
