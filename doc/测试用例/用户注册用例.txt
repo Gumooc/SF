@@ -1,0 +1,12 @@
+{{username:"", password:"", male:null, phone:"", email:""}, {"resp":"f"}},
+{{username:"", password:"", male:true, phone:"", email:""}, {"resp":"f"}},
+{{username:"0", password:"", male:false, phone:"", email:"@"}, {"resp":"f"}},
+{{username:"", password:"0", male:true, phone:"", email:"@"}, {"resp":"f"}},
+{{username:"sf4", password:"sf", male:true, phone:"111111111111", email:"@@"}, {"resp":"f"}},
+{{username:"sf4", password:"sf", male:true, phone:"111111111", email:"@"}, {"resp":"f"}},
+{{username:"sf500000000000000", password:"sf", male:false, phone:"13917546428", email:"xyzeric@sina.com"}, {"resp":"f"}},
+{{username:"sf5", password:"00000000000000000", male:true, phone:"13917546428", email:"xyzeric@sina.com"}, {"resp":"f"}},
+{{username:"sf6", password:"sf", male:null, phone:"13917546428", email:"xyzeric@sina.com"}, {"resp":"f"}},//前端性别不选
+{{username:"sf7", password:"sf", male:false, phone:"13917546428", email:"xyzeric@sina.com"}, {"resp":"s"}},
+{{username:"sf8", password:"1234567", male:true, phone:"13917546428", email:"13917546428@sina.com"}, {"resp":"s"}},
+{{username:"000000", password:"sfiadhia", male:false, phone:"13917546428", email:"13917546428@163.com"}, {"resp":"s"}},
