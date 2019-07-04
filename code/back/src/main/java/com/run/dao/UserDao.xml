@@ -14,6 +14,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
     </select>
+	<select id="registercheck" parameterType="com.run.entity.User" resultType="com.run.entity.User">
+        select * from user where email=#{email} or phone=#{phone};
+    </select>
     <update id="active" parameterType="Integer">
     	update user set activation = true where uid = #{uid}
     </update>
