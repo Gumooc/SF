@@ -48,15 +48,19 @@ public class UserServiceImpl implements UserService {
 		if (userMapper.logincheck(user) != null) feedback.put("resp", "f");
 	    	else
 	        {
-	    	    int uid = userMapper.getmaxid()+1;
-	    	    user.setUid(uid);
-	    	    user.setActivation(false);
-	    	    user.setAdm(false);
-	            userMapper.register(user);
-	            feedback.put("resp", "s");
-	            JSONObject temp = new JSONObject();
-	            temp.put("uid", uid);
-	            feedback.put("body", temp);
+	    		if (userMapper.registercheck(user)!=null) {
+	    			feedback.put("resp", "ov");
+	    		} else {
+		    	    int uid = userMapper.getmaxid()+1;
+		    	    user.setUid(uid);
+		    	    user.setActivation(false);
+		    	    user.setAdm(false);
+		            userMapper.register(user);
+		            feedback.put("resp", "s");
+		            JSONObject temp = new JSONObject();
+		            temp.put("uid", uid);
+		            feedback.put("body", temp);
+	    		}
 	        }
 		return feedback;
 	}
