@@ -1,11 +1,10 @@
 package com.run.entity;
 
-import java.sql.Date;
-
 public class User {
 	private int uid;
 	private String username;
 	private String password;
+	private String nickname;
 	private String lst;
 	private String rgt;
 	private String birth;
@@ -15,7 +14,14 @@ public class User {
 	private String email;
 	private boolean activation;
 	private boolean adm;
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	
+	public String getNickname() {
+		return nickname;
+	}
 
 	public void setBirth(String birth) {
 		this.birth = birth;
@@ -115,6 +121,6 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User = ["+"uid="+uid+",username="+username+",password="+password+",lst="+lst+"]";
+		return "User = ["+"uid="+uid+",username="+username+",password="+password+"email="+email+",lst="+lst+"]";
 	}
 }
