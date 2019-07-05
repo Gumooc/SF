@@ -4,6 +4,7 @@ create table user(
 	uid int,
     username varchar(16),
     password varchar(16),
+    nickname varchar(16),
     lst date,
     rgt date,
     male boolean,
@@ -11,7 +12,8 @@ create table user(
     email varchar(30),
     activation bool,
     adm bool,
-    primary key(uid)
+    primary key(uid),
+    forbidden bool
 );
 /*
 drop table if exists book;
