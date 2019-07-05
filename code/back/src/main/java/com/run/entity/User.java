@@ -8,12 +8,22 @@ public class User {
 	private String password;
 	private String lst;
 	private String rgt;
+	private String birth;
 	private String img;
 	private boolean male;
 	private String phone;
 	private String email;
 	private boolean activation;
 	private boolean adm;
+	
+
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+	
+	public String getBirth() {
+		return birth;
+	}
 	
 	public void setAdm(boolean adm) {
 		this.adm = adm;
