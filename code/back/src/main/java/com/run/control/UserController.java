@@ -1,8 +1,5 @@
 package com.run.control;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.run.entity.Email;
 import com.run.entity.User;
 import com.run.service.EmailService;
 import com.run.service.UserService;
@@ -48,7 +46,6 @@ public class UserController {
 		feedback = userService.logincheck(user);
 		return feedback;
 	}
-	
 	
 	@ResponseBody
 	@RequestMapping("/register")
@@ -87,6 +84,7 @@ public class UserController {
 		feedback = userService.askcollector(uid);
 		return feedback;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/history")
 	public JSONObject askhistory(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
@@ -96,6 +94,7 @@ public class UserController {
 		feedback = userService.askhistory(uid);
 		return feedback;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/comment")
 	public JSONObject askcomment(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
@@ -105,6 +104,7 @@ public class UserController {
 		feedback = userService.askcomment(uid);
 		return feedback;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/works")
 	public JSONObject askworks(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
@@ -112,6 +112,25 @@ public class UserController {
 		JSONObject feedback = new JSONObject();
 		int uid = JSONObject.fromObject(liString).getInt("uid");
 		feedback = userService.askworks(uid);
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/setImg")
+	public JSONObject setImg(@RequestParam(value="uid") int uid, @RequestParam(value="file", required = false) MultipartFile img,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		feedback = userService.setImg(uid, img);
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/askuserinfo")
+	public JSONObject askuserinfo(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int uid = JSONObject.fromObject(liString).getInt("uid");
+		feedback = userService.askuser(uid);
 		return feedback;
 	}
 }
