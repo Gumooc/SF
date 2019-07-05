@@ -1,9 +1,5 @@
 package com.run.entity;
 
-import java.sql.Date;
-
-import javax.mail.util.SharedByteArrayInputStream;
-
 public class Book {
 	private int bid;
 	private int uid;
