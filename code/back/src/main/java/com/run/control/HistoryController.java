@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.run.entity.UserbookItem;
 import com.run.service.HistoryService;
-import com.run.service.UserService;
-
 import net.sf.json.JSONObject;
 
 @Controller
@@ -46,7 +44,7 @@ public class HistoryController {
 		JSONObject feedback = new JSONObject();
 		JSONObject hisjs = JSONObject.fromObject(liString);
 		UserbookItem ubi = (UserbookItem) JSONObject.toBean(hisjs,UserbookItem.class);
-		feedback = historyService.clear(hisjs.getInt("uid"));
+		feedback = historyService.insert(ubi);
 		return feedback;
 	}
 	
