@@ -13,7 +13,8 @@
 		<header>
 			<div class="mui-card" id="iduck-userSpace-userAbs">
 				<div><icon class="mui-icon mui-icon-gear" id="iduck-userSpace-setBtn"></div>
-				<div><icon class="mui-icon mui-icon-contact" id="iduck-userSpace-backBtn"></div>
+				<div><icon class="mui-icon mui-icon-redo" id="iduck-userSpace-backBtn"></div>
+				<div><icon class="mui-icon mui-icon-contact" id="iduck-userSpace-selfBtn"></div>
 				<div class="mui-card" id="iduck-userSpace-img">:(</div>
 				<div id="iduck-userSpace-name">柴迤天</div>
 				<div id="iduck-userSpace-motto">邪恶象拔蚌的化身,将被推翻的组长</div>
@@ -34,7 +35,13 @@
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init();
+			mui(".mui-content").on("tap","#iduck-userSpace-userlog-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userFollow.html','userSpace/userSpace.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
 		</script>
 	</body>
 

@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iduck.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="mui-card" id="iduck-bookList-bookEntry">
+				<div class="mui-card-content" id="iduck-bookList-bookEntry-img" >有声书图片</div>
+				<div class="mui-card-footer">小青龙找妈妈</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui(".mui-content").on("tap","#iduck-bookList-bookEntry",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookEdu.html','bookItem.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+		</script>
+	</body>
+
+</html>

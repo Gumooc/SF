@@ -44,7 +44,19 @@
 		<button type="button" class="mui-btn mui-btn-primary"" id="iduck-bookMake-submit">试听作品</button>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init();
+			mui("body").on("tap","#iduck-bookMake-navi-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookTranscribe.html','bookMake/bookSort.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			mui("body").on("tap","#iduck-bookMake-submit",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookTranscribe.html','bookMake/bookSort.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
 		</script>
 	</body>
 

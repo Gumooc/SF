@@ -1,6 +1,6 @@
 #iduck-bookList-navi
 {
-	width:80%;
+	width:90%;
 	float:left;
 	text-align:left;
 }
@@ -10,17 +10,19 @@
 }
 #iduck-bookList-bookEntry{
 	margin: 17px;
-	width: 40%;
-	height:180px;
+	width: 42%;
+	height:220px;
 	float: left;
 	margin-bottom: 0px;
+	border-radius: 10px;
+	margin-left:24px;
+	margin-right: 0px;
 }
 #iduck-bookList-bookEntry-img{
-	height:130px;
+	height:180px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	
 }
 #iduck-bookList-bookItem{
 	height: auto;
@@ -159,23 +161,58 @@
 	background-color:whitesmoke ;
 }
 #iduck-bookRead-broadcast-img{
-	height: 250px;
-	width: 250px;
+	height: 350px;
+	width:76%;
 	float: left;
-	border-radius: 200px;
+	border-radius: 300px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-left:16%;
-	margin-right: 13%;
+	margin-left:12%;
+	margin-right: 12%;
 	margin-top:60px;
+	background-color: whitesmoke;
 }
 #iduck-bookRead-broadcast-setBtn{
-	color: white;
+	color: whitesmoke;
 	float: left;
-	font-size:30px;
-	margin-top: 7%;
-	margin-left: 19%;
+	font-size:40px;
+	font-weight:bolder;
+	margin-left:5%;
+	margin-right:5%;
+}
+#iduck-bookRead-option{
+	float:left;
+	width:60%;
+	height:100px;
+	margin-left:20%;
+	margin-right:20%;
+	margin-top:10px;
+	text-align: center;
+}
+#iduck-bookRead-collectBtn{
+	float: left;
+	position: absolute;
+	left: 10%;
+	top:53%;
+	border-radius: 100px;
+	width: 100px;
+	height:100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#iduck-bookRead-downBtn{
+	float: left;
+	position: absolute;
+	left: 72%;
+	top:53%;
+	border-radius: 100px;
+	width: 100px;
+	height:100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 #iduck-bookRead-broadcast-iconName{
 	float: left;
@@ -185,39 +222,53 @@
 }
 #iduck-bookRead-broadcast-progress{
 	float: left;
-	width: 70%;
+	width: 80%;
 	height: 5px;
-	margin-left: 15% ;
-	margin-top: 60px;
+	margin-left: 10% ;
+	margin-right: 10%;
+	margin-top: 100px;
 }
-#iduck-bookRead-broadcast-proBtn{
+#iduck-bookRead-broadcast-proBox{
 	float: left;
 	width: 60%;
-	margin-left: 24%;
+	margin-left: 23%;
+	margin-right: 20%;
 	margin-top: 10px;
 }
-#iduck-bookRead-broadcast-proIcon{
-	color: white;
+#iduck-bookRead-broadcast-proBtn{
+	margin: 0px;
+	padding: 0px;
+	width:33%;
 	float: left;
-	font-size:50px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 100px;
+}
+#iduck-bookRead-broadcast-proIcon{
+	color: whitesmoke;
+	float: left;
+	font-size:80px;
 	margin-right: 20px;
 }
 #iduck-userSpace-userAbs{
-	height: 250px;
+	height: 280px;
 	margin: 0px;
 	text-align: center;
 }
 #iduck-userSpace-img{
-	height: 120px;
+	height: 150px;
 	width: 30%;
-	margin-top: 30px;
+	margin-top: 0px;
 	float: left;
 	border-radius: 100px;
 	/*文字居中*/
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-left: 24%;
+	margin-left: 35%;
+	margin-right:35%;
 }
 #iduck-userSpace-name{
 	width: 50%;
@@ -236,7 +287,13 @@
  	text-overflow:ellipsis;
   	white-space:nowrap;
 }
-#iduck-userSpace-userLog{
+#iduck-userSpace-userLog,
+#iduck-userSpace-userLog1,
+#iduck-userSpace-userLog2,
+#iduck-userSpace-userLog3,
+#iduck-userSpace-userLog4,
+#iduck-userSpace-userLog5,
+#iduck-userSpace-userLog6{
 	float: left;
 	width: 85%;
 	height: 40px;
@@ -347,18 +404,20 @@
 }
 #iduck-bookMake-welcome{
 	float: left;
-	width:60%;
-	height: 40px;
+	width:auto;
+	height: 80px;
 	padding: 7px;
 	font-size: 25px;
-	margin-left: 20%;
+	margin-left: 25%;
+	margin-right: 20%;
 	margin-top: 35%;
 	background-color: rgba(0,0,0,0);
 	box-shadow: 0 0 0 #000000 inset;
 	color: #007AFF;
 	font-weight: bolder;
 }
-#iduck-bookMake-choice{
+#iduck-bookMake-create,
+#iduck-bookMake-edit{
 	background-color: rgba(0,0,0,0);
 	width:36%;
 	margin:0px;
@@ -544,4 +603,66 @@
 	width: 94%;
 	margin-top: 10px;
 	margin-left: 3%;
+}
+#iduck-bookList-header-div-1{
+	float: left;
+	width: 100%;
+	height:50px;
+	margin: 0px;
+	padding:0px;
+	background-color:rgba(0,0,0,0);
+}
+#iduck-bookList-header-div-2{
+	width: 1000px;
+	background-color:rgba(0,0,0,0);
+}
+#iduck-bookList-header{
+	height:100px;
+}
+#iduck-bookList-header-btn-1{
+	width: 70px;
+	height:40px;
+	float: left;
+	color: white;
+	background-color: lightgray;
+	border: white;
+	margin-right: 5px;
+}
+#iduck-bookList-header-btn-2{
+	width: 70px;
+	height:40px;
+	float: left;
+	color: white;
+	background-color: #007AFF;
+	border: white;
+	margin-right: 5px;
+}
+#iduck-bookList-header-scroll-1{
+	width: 800px;
+}
+#iduck-bookList-cabinet-div-1{
+	background-color: rgba(0,0,0,0);
+	box-shadow: 0 0 0 #000000 inset;
+	height: auto;
+	width: 375px;
+	margin:0px;
+	float: left;
+}
+#iduck-bookList-cabinet-scroll-1{
+	width: 300%;
+}
+#iduck-login-alarm-div-1{
+	color: darkgray;
+	margin-top: 30px;
+}
+#iduck-userSpace-selfBtn{
+	float: left;
+	font-size:60px;
+	margin-top:5px;
+	margin-left: 5px;
+	color: #007AFF;
+	position: absolute;
+	left: 55%;
+	top:48%;
+	z-index: 2;
 }

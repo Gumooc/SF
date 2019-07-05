@@ -23,20 +23,7 @@
 			
 			<textarea type="text" class="mui-input-clear" id="iduck-bookMake-edit-detail" placeholder="图书简介" ></textarea>
 			
-			<div class="mui-card" id="iduck-bookMake-deco"></div>
-			<div class="mui-card" id="iduck-bookMake-section">
-				发布状态
-				<div class="mui-switch mui-btn-primary" id="iduck-bookMake-edit-share">
-				<div class="mui-switch-handle "></div>
-				</div>
-			</div>
-			<div class="mui-card" id="iduck-bookMake-deco"></div>
-			<div class="mui-card" id="iduck-bookMake-section">
-				更新状态
-				<div class="mui-switch mui-btn-primary" id="iduck-bookMake-edit-share">
-				<div class="mui-switch-handle "></div>
-				</div>
-			</div>
+			
 			
 			<div class="mui-card" id="iduck-bookMake-edit-tags">
 			<div>书籍标签</div>
@@ -62,9 +49,22 @@
 			
 			<button type="button" class="mui-btn mui-btn-primary"" id="iduck-bookMake-submit">新建作品</button>
 		</div>
+		
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init();
+			mui("body").on("tap","#iduck-bookMake-navi-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookNew.html','bookMake/bookMake.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			mui("body").on("tap","#iduck-bookMake-submit",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookNew.html','bookMake/bookSort.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
 		</script>
 	</body>
 

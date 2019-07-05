@@ -15,34 +15,36 @@
 				<icon class="mui-icon mui-icon-arrowdown" id="iduck-bookRead-navi-listBtn">
 			</div>
 			<div class="mui-card" id="iduck-bookRead-navi-secname">
-				P1: 小青龙大战象拔蚌
+				P3: 因恨生爱
 			</div>
 			<div>
 				<icon class="mui-icon mui-icon-redo" id="iduck-bookRead-navi-backBtn">
 			</div>
 		</header> 
-		<div class="mui-content">
+		<div class="mui-content" id="iduck-bookRead-content">
 			<div class="mui-card" id="iduck-bookRead-broadcast-img">
-				:(
+				:)
 			</div>
-			<div><icon class="mui-icon mui-icon-star" id="iduck-bookRead-broadcast-setBtn"></div>
-			<div><icon class="mui-icon mui-icon-flag" id="iduck-bookRead-broadcast-setBtn"></div>
-			<div><icon class="mui-icon mui-icon-gear" id="iduck-bookRead-broadcast-setBtn"></div>
-			<!--<div id="iduck-bookRead-broadcast-iconName">收藏</div>
-			<div id="iduck-bookRead-broadcast-iconName">点赞</div>
-			<div id="iduck-bookRead-broadcast-iconName">设置</div>-->
+			<div class="mui-tab-item" id="iduck-bookRead-collectBtn"><icon class="mui-icon mui-icon-star" id="iduck-bookRead-broadcast-setBtn"></div>
+			<div class="mui-tab-item" id="iduck-bookRead-downBtn"><icon class="mui-icon mui-icon-download" id="iduck-bookRead-broadcast-setBtn"></div>
 			<div id="iduck-bookRead-broadcast-progress" class="mui-progressbar mui-progressbar-infinite">
 				<span></span>
 			</div>
-			<div id="iduck-bookRead-broadcast-proBtn">
-				<div><icon class="mui-icon mui-icon-back" id="iduck-bookRead-broadcast-proIcon"></div>
-				<div><icon class="mui-icon mui-icon-navigate" id="iduck-bookRead-broadcast-proIcon"></div>
-				<div><icon class="mui-icon mui-icon-forward" id="iduck-bookRead-broadcast-proIcon"></div>
+			<div id="iduck-bookRead-broadcast-proBox">
+				<div id="iduck-bookRead-broadcast-proBtn"><icon class="mui-icon mui-icon-back" id="iduck-bookRead-broadcast-proIcon"></div>
+				<div id="iduck-bookRead-broadcast-proBtn"><icon class="mui-icon mui-icon-navigate" id="iduck-bookRead-broadcast-proIcon"></div>
+				<div id="iduck-bookRead-broadcast-proBtn"><icon class="mui-icon mui-icon-forward" id="iduck-bookRead-broadcast-proIcon"></div>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init();
+			mui("body").on("tap","#iduck-bookRead-navi-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookRead/bookRead.html','bookList/bookList.html')");
+				opener.evalJS("changeNavi('iduck-Index-home')");
+			});
 		</script>
 	</body>
 

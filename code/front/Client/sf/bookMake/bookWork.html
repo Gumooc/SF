@@ -52,7 +52,20 @@
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init();
+			mui("body").on("tap","#iduck-bookList-bookEntry",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookWork.html','bookMake/bookSort.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			mui("body").on("tap","#iduck-bookMake-navi-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookWork.html','bookMake/bookMake.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			
 		</script>
 	</body>
 
