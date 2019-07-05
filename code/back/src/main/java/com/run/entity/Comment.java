@@ -1,7 +1,5 @@
 package com.run.entity;
 
-import java.sql.Date;
-//弱实体类、主键（bid、cid）
 public class Comment {
 	private int bid;
 	private int cid; 
