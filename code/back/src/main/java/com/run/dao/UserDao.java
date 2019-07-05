@@ -8,11 +8,11 @@ import com.run.entity.Book;
 import com.run.entity.Collector;
 import com.run.entity.Comment;
 import com.run.entity.User;
-import com.run.entity.UserbookItem;
 
 @Repository
 public interface UserDao {
 	User logincheck(User user);
+	User usercheck(User user);
 	User registercheck(User user);
 	void register(User user);
 	void active(int uid);
