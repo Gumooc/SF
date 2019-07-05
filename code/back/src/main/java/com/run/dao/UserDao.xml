@@ -17,16 +17,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="registercheck" parameterType="com.run.entity.User" resultType="com.run.entity.User">
         select * from user where email=#{email} or phone=#{phone};
     </select>
+    
+    
+	<select id="askuser" parameterType="Integer" resultType="com.run.entity.User">
+        select * from user where where uid=#{uid};
+    </select>
+    
+    
     <update id="active" parameterType="Integer">
     	update user set activation = true where uid = #{uid}
     </update>
+    
+    
     <insert id="register" parameterType="com.run.entity.User">
     	insert into user(uid,username,password,lst,rgt,male,phone,email,activation,adm) 
     		values(#{uid},#{username},#{password},#{lst},#{rgt},#{male},#{phone},#{email},#{activation},#{adm});
     </insert>
+    
+    
     <select id="getmaxid" resultType="Integer">
     	select max(uid) from user;
     </select>
+    
+    
      <resultMap id="collectormap" type="com.run.entity.Collector">
     	<result column="uid" property="uid"></result>
     	<collection property="books" ofType="com.run.entity.Book"  fetchType="eager">
@@ -38,12 +51,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     		<result column="shared" property="shared"></result>
     	</collection>
     </resultMap>
+    
+    
 	<select id="askcollector" parameterType="Integer" resultMap="collectormap">
         select collector.uid,book.* from collector,book 
 		<where>
 			collector.bid = book.bid and collector.uid=#{uid}
 		</where> 
     </select>
+    
+    
 	<select id="askhistory" parameterType="Integer" resultMap="collectormap">
         select history.uid,book.* from history,book 
 		<where>
@@ -58,4 +75,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="askworks" parameterType="Integer" resultType="com.run.entity.Book">
     	select * from book where uid=#{uid}
     </select>
+    
+    
 </mapper>
