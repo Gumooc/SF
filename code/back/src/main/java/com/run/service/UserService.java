@@ -3,8 +3,6 @@ package com.run.service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.run.entity.User;
-import com.run.entity.UserbookItem;
-
 import net.sf.json.JSONObject;
 
 public interface UserService {
