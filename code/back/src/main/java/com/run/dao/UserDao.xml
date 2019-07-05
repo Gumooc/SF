@@ -15,12 +15,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
     </select>
 	<select id="registercheck" parameterType="com.run.entity.User" resultType="com.run.entity.User">
-        select * from user where email=#{email} or phone=#{phone};
+        select * from user where email=#{email};
     </select>
     
+	<select id="usercheck" parameterType="com.run.entity.User" resultType="com.run.entity.User">
+        select * from user where username=#{username};
+    </select>
     
 	<select id="askuser" parameterType="Integer" resultType="com.run.entity.User">
-        select * from user where where uid=#{uid};
+        select nickname,lst,rgt,male,phone,email from user where uid=#{uid};
     </select>
     
     
@@ -30,8 +33,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     
     <insert id="register" parameterType="com.run.entity.User">
-    	insert into user(uid,username,password,lst,rgt,male,phone,email,activation,adm) 
-    		values(#{uid},#{username},#{password},#{lst},#{rgt},#{male},#{phone},#{email},#{activation},#{adm});
+    	insert into user(uid,username,password,nickname,lst,rgt,male,phone,email,activation,adm) 
+    		values(#{uid},#{username},#{password},#{nickname},#{lst},#{rgt},#{male},#{phone},#{email},#{activation},#{adm});
     </insert>
     
     
