@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.run.entity.UserbookItem;
 import com.run.service.CollectorService;
-import com.run.service.UserService;
-
 import net.sf.json.JSONObject;
 
 @Controller
