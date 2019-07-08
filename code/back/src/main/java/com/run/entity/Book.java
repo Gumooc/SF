@@ -1,8 +1,10 @@
 package com.run.entity;
 
 public class Book {
+	private String des;
 	private int bid;
 	private int uid;
+	private int playtime;
 	private String bookname;
 	private String kind;
 	private String txt; //mongo
@@ -10,6 +12,22 @@ public class Book {
 	private String img;//mongo
 	private String lst;
 	private boolean shared;
+	
+	public void setDes(String des) {
+		this.des = des;
+	}
+	
+	public String getDes() {
+		return des;
+	}
+	
+	public void setPlaytime(int playtime) {
+		this.playtime = playtime;
+	}
+	
+	public int getPlaytime() {
+		return playtime;
+	}
 	
 	public void setShared(boolean shared) {
 		this.shared = shared;
