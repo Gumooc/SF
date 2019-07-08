@@ -23,4 +23,8 @@ public interface BookService {
 	JSONObject askaudio(int bid, int index);
 	JSONObject delaudio(int bid, int index);
 	JSONObject insaudio(int bid, int index, MultipartFile audio);
+	
+	JSONObject insDes(int bid, String des);
+	JSONObject delDes(int bid);
+	JSONObject askDes(int bid);
 }
