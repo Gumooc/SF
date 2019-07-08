@@ -14,6 +14,7 @@ import com.alibaba.druid.util.Base64;
 import com.run.dao.BookDao;
 import com.run.entity.Book;
 import com.run.entity.BookAudio;
+import com.run.entity.BookDes;
 import com.run.entity.BookImg;
 import com.run.entity.Comment;
 import com.run.service.BookService;
@@ -72,7 +73,8 @@ public class BookServiceImpl implements BookService {
 		JSONObject feedback = new JSONObject();
 		int bid = bookMapper.getmaxid()+1;
 		book.setBid(bid);
-		bookMapper.insertBook(book);
+		System.out.println(book);
+		bookMapper.insertbook(book);
 		feedback.put("resp", "s");
 		return feedback;
 	}
@@ -80,7 +82,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public JSONObject deleteBook(int bid) {
 		JSONObject feedback = new JSONObject();
-		bookMapper.deleteBook(bid);
+		bookMapper.deletebook(bid);
 		feedback.put("resp", "s");
 		return feedback;
 	}
@@ -88,7 +90,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public JSONObject updateBook(Book book) {
 		JSONObject feedback = new JSONObject();
-		bookMapper.updateBook(book);
+		bookMapper.updatebook(book);
 		feedback.put("resp", "s");
 		return feedback;
 	}
@@ -139,7 +141,7 @@ public class BookServiceImpl implements BookService {
 		bookAudio.setId(bid);
 		bookAudio.setIndex(index);
 		bookAudio.setAudio(audio);
-		mongoTemplate.save(bookAudio,"book");
+		mongoTemplate.save(bookAudio, "book");
 		feedback.put("resp", "s");
 		return feedback;
 	}
@@ -150,6 +152,34 @@ public class BookServiceImpl implements BookService {
 		Query query = new Query(Criteria.where("id").is(bid).and("index").is(index));
 		mongoTemplate.remove(query, BookAudio.class);
 		feedback.put("resp", "s");
+		return feedback;
+	}
+	
+	@Override
+	public JSONObject insDes(int bid, String des) {
+		JSONObject feedback = new JSONObject();
+		BookDes bookDes = new BookDes();
+		bookDes.setId(bid);
+		bookDes.setDes(des);
+		mongoTemplate.save(bookDes, "bookdes");
+		return feedback;
+	}
+	
+	@Override
+	public JSONObject delDes(int bid) {
+		JSONObject feedback = new JSONObject();
+		Query query = new Query(Criteria.where("id").is(bid));
+		mongoTemplate.remove(query, BookDes.class);
+		return feedback;
+	}
+
+	@Override
+	public JSONObject askDes(int bid) {
+		JSONObject feedback = new JSONObject();
+		Query query = new Query(Criteria.where("id").is(bid));
+		BookDes result=mongoTemplate.findOne(query, BookDes.class, "bookdes");
+		feedback.put("resp", "s");
+		feedback.put("body", result);
 		return feedback;
 	}
 }
