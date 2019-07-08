@@ -103,7 +103,7 @@ public class BookController {
 	public JSONObject insbook(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
-		Book book = (Book) JSONObject.toBean(JSONObject.fromObject(liString));
+		Book book = (Book) JSONObject.toBean(JSONObject.fromObject(liString), Book.class);
 		feedback = bookService.insertBook(book);
 		return feedback;
 	}
@@ -124,7 +124,7 @@ public class BookController {
 	public JSONObject updbook(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
-		Book book = (Book) JSONObject.toBean(JSONObject.fromObject(liString));
+		Book book = (Book) JSONObject.toBean(JSONObject.fromObject(liString), Book.class);
 		feedback = bookService.updateBook(book);
 		
 		return feedback;
@@ -147,6 +147,7 @@ public class BookController {
 		JSONObject feedback = new JSONObject();
 		return feedback;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/askaudio")
 	public JSONObject audiobook(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
@@ -158,6 +159,7 @@ public class BookController {
 		feedback = bookService.askaudio(bid, index);
 		return feedback;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/delaudio")
 	public JSONObject delaudio(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
@@ -169,12 +171,34 @@ public class BookController {
 		feedback = bookService.delaudio(bid, index);
 		return feedback;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/insaudio")
 	public JSONObject insaudio(@RequestParam(value="bid") int bid, @RequestParam(value="index") int index, @RequestParam(value="file", required = false) MultipartFile audio,HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
 		feedback = bookService.insaudio(bid, index, audio);
+		return feedback;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/insbookdes")
+	public JSONObject insbookdes(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int bid = JSONObject.fromObject(liString).getInt("bid");
+		String des = JSONObject.fromObject(liString).getString("des");
+		feedback = bookService.insDes(bid, des);
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/askbookdes")
+	public JSONObject askbookdes(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int bid = JSONObject.fromObject(liString).getInt("bid");
+		feedback = bookService.askDes(bid);
 		return feedback;
 	}
 }
