@@ -80,6 +80,15 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 	
+
+	@Override
+	public JSONObject updateuser(User user) {
+		JSONObject feedback = new JSONObject();
+		userMapper.updateuser(user);
+		feedback.put("resp", "s");
+		return feedback;
+	}
+	
 	@Override
 	public JSONObject askcollector(int uid) {
 		JSONObject feedback = new JSONObject();
