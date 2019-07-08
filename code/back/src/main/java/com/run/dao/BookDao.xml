@@ -27,4 +27,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	delete from book where bid = #{bid};
     </delete>
     
+    <update id="updatebook" parameterType="com.run.entity.Book">
+    	update book 
+    		set uid=#{uid}, bookname=#{bookname}, kind=#{kind}, lst=#{lst}, shared=#{shared}, playtime=#{playtime}
+    	where bid=#{bid};
+    </update>
+    
+    <select id="getmaxid" resultType="Integer">
+    	select max(bid) from book;
+    </select>
 </mapper>
