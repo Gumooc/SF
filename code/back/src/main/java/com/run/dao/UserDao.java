@@ -18,7 +18,7 @@ public interface UserDao {
 	void active(int uid);
 	
 	Collector askcollector(int uid); 
-	
+	void updateuser(User user);
 	Collector askhistory(int uid);
 	
 	List<Comment> askcomment(int uid);
