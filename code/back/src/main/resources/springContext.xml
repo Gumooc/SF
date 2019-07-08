@@ -83,4 +83,5 @@ http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd ">
         <constructor-arg name="databaseName" value="sfbook" />
     </bean>
     <mongo:repositories base-package="com.run.dao"></mongo:repositories>
+    
 </beans>
