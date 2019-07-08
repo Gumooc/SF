@@ -27,6 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     
+    <update id="updateuser" parameterType="com.run.entity.User">
+    	update user 
+    		nickname=#{nickname}, lst=#{lst}, rgt=#{rgt}, male=#{male}, phone=#{phone}, email=#{email}
+    	where uid=#{uid};
+    </update>
+    
     <update id="active" parameterType="Integer">
     	update user set activation = true where uid = #{uid}
     </update>
