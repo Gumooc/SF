@@ -118,6 +118,28 @@ public class BookController {
 		
 		return feedback;
 	}
+
+	@ResponseBody
+	@RequestMapping("/updatebook")
+	public JSONObject updbook(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		Book book = (Book) JSONObject.toBean(JSONObject.fromObject(liString));
+		feedback = bookService.updateBook(book);
+		
+		return feedback;
+	}
+	
+
+	@ResponseBody
+	@RequestMapping("/setImg")
+	public JSONObject setImg(@RequestParam(value="bid") int bid, @RequestParam(value="file", required = false) MultipartFile img,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		feedback = bookService.setBookimg(bid, img);
+		return feedback;
+	}
+	
 	@ResponseBody
 	@RequestMapping("/createbookbytext")
 	public JSONObject textbook(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
