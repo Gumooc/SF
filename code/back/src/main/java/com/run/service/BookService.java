@@ -17,6 +17,8 @@ public interface BookService {
 	
 	JSONObject insertBook(Book book);
 	JSONObject deleteBook(int bid);
+	JSONObject updateBook(Book book);
+	JSONObject setBookimg(int bid, MultipartFile img);
 	
 	JSONObject askaudio(int bid, int index);
 	JSONObject delaudio(int bid, int index);
