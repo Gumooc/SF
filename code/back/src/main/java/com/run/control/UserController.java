@@ -64,15 +64,15 @@ public class UserController {
 		return feedback;
 	}
 
-	@ResponseBody
 	@RequestMapping("/activation")
-	public JSONObject handleactivation(HttpServletRequest request, HttpServletResponse response) {
+	public String handleactivation(HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		int uid = Integer.valueOf(request.getParameter("uid"));
 		String active = request.getParameter("active");
 		JSONObject feedback = new JSONObject();
 		feedback = userService.useractive(uid);
-		return feedback;
+		
+		return "activation";
 	}
 	
 	@ResponseBody
