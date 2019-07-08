@@ -62,7 +62,33 @@
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
+			var book={
+				img:"xbb.jpg",
+				name:"象拔蚌大战小青龙",
+				descrip:"象拔蚌大战小青龙是一部史诗级爱情武侠小说,讲述了象拔蚌和小青龙之间跨越种族的凄美爱情故事",
+				section:["前世恩怨","狭路相逢","因恨生爱","二人幸终"],
+				author:"柴迤天",
+				aimg:"cyt.jpg",
+				amotto:"邪恶象拔蚌的化身,将被推翻的组长",
+				cmt:[
+					{name:"陈狄威",cimg:"cdw.jpg",cmt:"情节令人感动"},
+					{name:"黄钟涛",cimg:"hzt.jpg",cmt:"写的什么几把玩意"},
+					{name:"柴迤天",cimg:"cyt.jpg",cmt:"喜欢的话请多多关注哦❤"}
+				]
+			}
 			mui.init();
+			function loadBookDetail(){
+				console.log("loadBookDetail");
+				document.getElementById("iduck-bookList-bookItem-img").innerHTML="<img width='100%' height='100%' src='../images/"+book.img+"'/>";
+				document.getElementById("iduck-bookList-bookItem-abs").innerHTML=book.name+"<br/>作者："+book.author;
+				document.getElementById("iduck-bookList-bookItem-dtl").innerHTML=book.descrip;
+				document.getElementById("iduck-bookList-author-img").innerHTML="<img width='100%' height='100%' src='../images/"+book.aimg+"'/>";;
+				document.getElementById("iduck-bookList-author-name").innerHTML=book.author;
+				document.getElementById("iduck-bookList-author-motto").innerHTML=book.amotto;
+			}
+			mui.plusReady(function(){
+				loadBookDetail();
+			});
 			mui(".mui-content").on("tap","#iduck-bookList-bookItem-img",function(){
 				var self=plus.webview.currentWebview();
 				var opener=self.opener();

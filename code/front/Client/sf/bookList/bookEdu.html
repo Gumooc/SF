@@ -10,20 +10,57 @@
 	</head>
 
 	<body>
-		<div class="mui-content">
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img" >有声书图片</div>
-				<div class="mui-card-footer">小青龙找妈妈</div>
-			</div>
+		<div class="mui-content" id="iduck-bookList-div-1">
 		</div>
+
+		
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init();
+			//override
+			var books=[
+				{img:"ng.jpg",name:"花园宝宝"},
+				{img:"tele.jpg",name:"天线宝宝"},
+				{img:"bob.png",name:"海绵宝宝"},
+			];
+			mui.init({
+				gestureConfig:{
+				   tap: true, //默认为true
+				   doubletap: true, //默认为false
+				   longtap: true, //默认为false
+				   swipe: true, //默认为true
+				   drag: true, //默认为true
+				}
+			});
+			function loadBook(){
+				console.log("loadBook");
+				var html="";
+				for(var i=0;i<books.length;i++){
+					html+="<div class='mui-card' id='iduck-bookList-bookEntry'>"
+						html+="<div class='mui-card-content' id='iduck-bookList-bookEntry-img'><img height='80%' width='80%' src='../images/"+books[i].img+"'/></div>";
+						html+="<div class='mui-card-footer'>"+books[i].name+"</div>";
+					html+="</div>";
+				}
+				document.getElementById("iduck-bookList-div-1").innerHTML=html;
+			}
+			mui.plusReady(function(){
+				loadBook();
+			});
+			//override
 			mui(".mui-content").on("tap","#iduck-bookList-bookEntry",function(){
 				var self=plus.webview.currentWebview();
 				var opener=self.opener();
 				opener.evalJS("changeSub('bookEdu.html','bookItem.html')");
 				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			//override
+			window.addEventListener("swiperight",function(){
+			    var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookEdu.html','bookRoman.html')");
+				opener.evalJS("simSwipe(false)");
+			});
+			window.addEventListener("swipeleft",function(){
+			   //do nothing
 			});
 		</script>
 	</body>

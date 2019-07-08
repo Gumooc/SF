@@ -28,14 +28,14 @@
 	height: auto;
 }
 #iduck-bookList-bookItem-img{
-	height: 180px;
+	height: 150px;
 	width:35%;
 	float: left;
 	margin: 10px;
 	margin-right:0px ;
 }
 #iduck-bookList-bookItem-abs{
-	height: 180px;
+	height: 150px;
 	width: 55%;
 	float: left;
 }

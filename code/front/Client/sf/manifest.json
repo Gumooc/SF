@@ -151,7 +151,8 @@
 					"bookMake/bookNew.html",
 					"bookMake/bookWork.html",
 					"userSpace/userCmt.html",
-					"forget_password.html"
+					"forget_password.html",
+					null
 				],
 				"priority": 0
 			},

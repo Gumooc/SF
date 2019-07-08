@@ -10,22 +10,17 @@
 	</head>
 
 	<body>
-		<div class="mui-content">
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img" >有声书图片</div>
-				<div class="mui-card-footer">象拔蚌大战小青龙</div>
-			</div>
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img" >有声书图片</div>
-				<div class="mui-card-footer">象拔蚌大战虫虫龙</div>
-			</div>
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img" >有声书图片</div>
-				<div class="mui-card-footer">象拔蚌二战虫虫龙</div>
-			</div>
+		<div class="mui-content" id="iduck-bookList-div-1">
 		</div>
+
+		
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
+			//override
+			var books=[
+				{img:"xbb.jpg",name:"象拔蚌大战小青龙"},
+				{img:"bsz.jpg",name:"白蛇传"}
+			];
 			mui.init({
 				gestureConfig:{
 				   tap: true, //默认为true
@@ -35,16 +30,37 @@
 				   drag: true, //默认为true
 				}
 			});
+			function loadBook(){
+				console.log("loadBook");
+				var html="";
+				for(var i=0;i<books.length;i++){
+					html+="<div class='mui-card' id='iduck-bookList-bookEntry'>"
+						html+="<div class='mui-card-content' id='iduck-bookList-bookEntry-img'><img height='80%' width='80%' src='../images/"+books[i].img+"'/></div>";
+						html+="<div class='mui-card-footer'>"+books[i].name+"</div>";
+					html+="</div>";
+				}
+				document.getElementById("iduck-bookList-div-1").innerHTML=html;
+			}
+			mui.plusReady(function(){
+				loadBook();
+			});
+			//override
 			mui(".mui-content").on("tap","#iduck-bookList-bookEntry",function(){
 				var self=plus.webview.currentWebview();
 				var opener=self.opener();
 				opener.evalJS("changeSub('bookRoman.html','bookItem.html')");
 				//opener.evalJS("changeNavi('iduck-Index-space')");
 			});
+			//override
+			window.addEventListener("swipeleft",function(){
+			    //console.log("swipeRight");
+			    var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookRoman.html','bookEdu.html')");
+				opener.evalJS("simSwipe(true)");
+			});
 			window.addEventListener("swiperight",function(){
-			    console.log("swipeRight");
-			    var opener=self.opener();
-			    
+			   //do nothing
 			});
 		</script>
 	</body>

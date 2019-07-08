@@ -61,7 +61,7 @@
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			var subpages = ["bookRoman.html","bookEdu.html","bookItem.html"];
-			var subpage_style = {top:'100px', bottom: '51px'};
+			var subpage_style = {top:'100px', bottom: '0px'};
 			var activeTab="bookRoman.html";
 			mui.init({
 				gestureConfig:{
@@ -88,7 +88,21 @@
 	            plus.webview.show(dest);
 	            plus.webview.hide(cur);
 	    		activeTab=dest;
-	    	}
+	    	} 
+			function simSwipe(isleft){
+				var oldBtn= document.getElementById("iduck-bookList-header-btn-2");
+				if(isleft==true){
+					var newBtn= document.getElementById("iduck-bookList-header-btn-1");
+					oldBtn.id="iduck-bookList-header-btn-1";
+					newBtn.id="iduck-bookList-header-btn-2";
+				}
+				else{
+					var newBtn= document.getElementById("iduck-bookList-header-btn-1");
+					oldBtn.id="iduck-bookList-header-btn-1";
+					newBtn.id="iduck-bookList-header-btn-2";
+				}
+			}
+			
 			mui(".mui-scroll-wrapper").scroll({
 					scrollX:true,
 					indicators:false
@@ -96,11 +110,20 @@
 			mui(".mui-scroll").on("tap",".mui-btn",function(){
 				var targetTab = this.getAttribute('href');
 				if(targetTab==activeTab)return;
+				var oldBtn= document.getElementById("iduck-bookList-header-btn-2");
 				console.log(targetTab);
-				plus.webview.show(targetTab,"slide-in-right",2000);
+				plus.webview.show(targetTab,"none",2000);
 				plus.webview.hide(activeTab);
+				oldBtn.id="iduck-bookList-header-btn-1";
+				this.id="iduck-bookList-header-btn-2";
+				//console.log("oldid="+oldBtn.id+"thisid="+this.id);
+				//oldBtn.setIdAttribute("");
+				//this.setIdAttribute("iduck-bookList-header-btn-2");
 				activeTab = targetTab;
+				
+				
 			});
+			//希望加入滑动事件
 			/*
 			mui(".mui-content").on("tap","#iduck-bookList-bookEntry",function(){
 				var self=plus.webview.currentWebview();
