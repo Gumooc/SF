@@ -13,5 +13,9 @@ public interface BookDao {
 	
 	void insertBook(Book book);
 	void deleteBook(int bid);
+	void updateBook(Book book);
+	
+
+	int getmaxid();
 	
 }
