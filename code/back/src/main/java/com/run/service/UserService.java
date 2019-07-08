@@ -10,7 +10,7 @@ public interface UserService {
 	JSONObject register(User user);
 	JSONObject useractive(int uid);
 	
-	
+	JSONObject updateuser(User user);
 	JSONObject askcollector(int uid);
 	JSONObject askhistory(int uid);
 	
