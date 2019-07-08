@@ -11,9 +11,9 @@ public interface BookDao {
 	List<Book> searchbytitle(String bookname);
 	List<Comment> askcomment(int bid); 
 	
-	void insertBook(Book book);
-	void deleteBook(int bid);
-	void updateBook(Book book);
+	void insertbook(Book book);
+	void deletebook(int bid);
+	void updatebook(Book book);
 	
 
 	int getmaxid();
