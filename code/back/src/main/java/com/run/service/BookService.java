@@ -15,10 +15,10 @@ public interface BookService {
 	List<Book> searchbytitle(String bookname);
 	List<Comment> askcomment(int bid); 
 	
-	void insertBook(Book book);
-	void deleteBook(int bid);
+	JSONObject insertBook(Book book);
+	JSONObject deleteBook(int bid);
 	
-	JSONObject askaudio(int bid);
-	void delaudio(int bid);
-	void insaudio(int bid, MultipartFile audio);
+	JSONObject askaudio(int bid, int index);
+	JSONObject delaudio(int bid, int index);
+	JSONObject insaudio(int bid, int index, MultipartFile audio);
 }
