@@ -133,4 +133,14 @@ public class UserController {
 		feedback = userService.askuser(uid);
 		return feedback;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/updateuser")
+	public JSONObject updateuser(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		User user = (User) JSONObject.toBean(JSONObject.fromObject(liString), User.class);
+		feedback = userService.updateuser(user);
+		return feedback;
+	}
 }
