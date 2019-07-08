@@ -10,21 +10,17 @@
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav"> 
-			<div>
-			<icon class="mui-icon mui-icon-redo" id="iduck-bookList-navi-btn">
-			</div>
-		</header>  
+		
 		<div class="mui-content">
 			<div class="mui-card" id="iduck-bookList-bookItem">
 				<div class="mui-card" id="iduck-bookList-bookItem-img">
-					小青龙大战象拔蚌
+					象拔蚌大战小青龙
 				</div>
 				<div class="mui-card" id="iduck-bookList-bookItem-abs">
 					播放数，点赞，名称，作者……
 				</div>
 				<div class="mui-card" id="iduck-bookList-bookItem-dtl">
-					小青龙大战象拔蚌是一部史诗级武侠小说
+					象拔蚌大战小青龙是一部史诗级武侠小说
 					<icon class="mui-icon mui-icon-arrowdown" id="iduck-bookList-bookitem-moreBtn">
 				</div>
 			</div>
@@ -43,7 +39,7 @@
 			<div class="mui-card" id="iduck-bookList-comment">
 				<div>评论</div>
 				<div class="mui-card" id="iduck-bookList-comment-publish">
-					<input type="search" class="iduck-searchBar" id="iduck-bookList-comment-input" placeholder="发布评论" readonly="readonly" >
+					<textarea type="search" class="iduck-searchBar" id="iduck-bookList-comment-input" placeholder="发布评论" readonly="readonly"></textarea>
 					<button type="button" class="mui-btn" id="iduck-bookList-comment-submit">提交</button>
 					<button type="button" class="mui-btn" id="iduck-bookList-comment-clear">清空</button>
 				</div>
@@ -57,11 +53,66 @@
 					<div class="mui-card" id="iduck-bookList-comment-name">黄钟涛</div>
 					<div class="mui-card" id="iduck-bookList-comment-comment">写的什么玩意</div>
 				</div>
+				<div class="mui-card" id="iduck-bookList-comment-cmtItem">
+					<div class="mui-card" id="iduck-bookList-comment-img">:)</div>
+					<div class="mui-card" id="iduck-bookList-comment-name">柴迤天</div>
+					<div class="mui-card" id="iduck-bookList-comment-comment">谢谢大家的支持</div>
+				</div>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			var book={
+				img:"xbb.jpg",
+				name:"象拔蚌大战小青龙",
+				descrip:"象拔蚌大战小青龙是一部史诗级爱情武侠小说,讲述了象拔蚌和小青龙之间跨越种族的凄美爱情故事",
+				section:["前世恩怨","狭路相逢","因恨生爱","二人幸终"],
+				author:"柴迤天",
+				aimg:"cyt.jpg",
+				amotto:"邪恶象拔蚌的化身,将被推翻的组长",
+				cmt:[
+					{name:"陈狄威",cimg:"cdw.jpg",cmt:"情节令人感动"},
+					{name:"黄钟涛",cimg:"hzt.jpg",cmt:"写的什么几把玩意"},
+					{name:"柴迤天",cimg:"cyt.jpg",cmt:"喜欢的话请多多关注哦❤"}
+				]
+			}
+			mui.init();
+			function loadBookDetail(){
+				console.log("loadBookDetail");
+				document.getElementById("iduck-bookList-bookItem-img").innerHTML="<img width='100%' height='100%' src='../images/"+book.img+"'/>";
+				document.getElementById("iduck-bookList-bookItem-abs").innerHTML=book.name+"<br/>作者："+book.author;
+				document.getElementById("iduck-bookList-bookItem-dtl").innerHTML=book.descrip;
+				document.getElementById("iduck-bookList-author-img").innerHTML="<img width='100%' height='100%' src='../images/"+book.aimg+"'/>";;
+				document.getElementById("iduck-bookList-author-name").innerHTML=book.author;
+				document.getElementById("iduck-bookList-author-motto").innerHTML=book.amotto;
+			}
+			mui.plusReady(function(){
+				loadBookDetail();
+			});
+			mui(".mui-content").on("tap","#iduck-bookList-bookItem-img",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookItem.html','bookRoman.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			mui("body").on("tap","#iduck-bookList-section-secBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener().opener();
+				opener.evalJS("changeSub('bookList/bookList.html','bookRead/bookRead.html')");
+				opener.evalJS("changeNavi('iduck-Index-read')");
+			});
+			mui("body").on("tap","#iduck-bookList-author-img",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener().opener();
+				opener.evalJS("changeSub('bookList/bookList.html','userSpace/userSpace.html')");
+				opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			mui("body").on("tap","#iduck-bookList-comment-img",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener().opener();
+				opener.evalJS("changeSub('bookList/bookList.html','userSpace/userSpace.html')");
+				opener.evalJS("changeNavi('iduck-Index-space')");
+			});
 		</script>
 	</body>
 

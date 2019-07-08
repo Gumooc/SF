@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -10,33 +9,130 @@
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav"> 
-			<div class="mui-input-row mui-search" id="iduck-bookList-navi">
-				<input type="search" class="iduck-searchBar" placeholder="搜索有声书" readonly="readonly" >
-			</div> 
-			<icon class="mui-icon mui-icon-bars" id="iduck-bookList-navi-btn">
+		<header class="mui-bar mui-bar-nav" id="iduck-bookList-header"> 
+			<div class="mui-input-row mui-search" id="iduck-bookList-navi" style="width:100%;">
+				<input type="search" id="iduck-searchBar" placeholder="搜索有声书" readonly="readonly" >
+				<div class="mui-card" id="iduck-bookList-header-div-1">
+					<div class="mui-scroll-wrapper" id="iduck-bookList-header-scrollwrap-1">
+						<div class="mui-scroll" id="iduck-bookList-header-scroll-1">
+							<a href="bookRoman.html" type="button" class="mui-btn mui-btn-primary" id="iduck-bookList-header-btn-2">爱情</a>
+							<a href="bookEdu.html" type="button" class="mui-btn mui-btn-primary" id="iduck-bookList-header-btn-1">教育</a>
+							
+						</div>
+					</div>
+				</div>
+			</div> 	
 		</header>  
-		<div class="mui-content">
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">有声书图片</div>
-				<div class="mui-card-footer">有声书标题</div>
+			
+		<!--<div class="mui-content">
+			<div class="mui-scroll-wrapper" style="margin-top:100px">
+
+			<div class="mui-scroll"  id="iduck-bookList-cabinet-scroll-1">
+				<div class="mui-card" id="iduck-bookList-cabinet-div-1">
+					<div class="mui-card" id="iduck-bookList-bookEntry">
+						<div class="mui-card-content" id="iduck-bookList-bookEntry-img" >有声书图片</div>
+						<div class="mui-card-footer">象拔蚌大战小青龙</div>
+					</div>
+					<div class="mui-card" id="iduck-bookList-bookEntry">
+						<div class="mui-card-content" id="iduck-bookList-bookEntry-img" >有声书图片</div>
+						<div class="mui-card-footer">象拔蚌大战虫虫龙</div>
+					</div>
+					<div class="mui-card" id="iduck-bookList-bookEntry">
+						<div class="mui-card-content" id="iduck-bookList-bookEntry-img" >有声书图片</div>
+						<div class="mui-card-footer">象拔蚌二战虫虫龙</div>
+					</div>
+				</div>
+				<div class="mui-card" id="iduck-bookList-cabinet-div-1">
+					<div class="mui-card" id="iduck-bookList-bookEntry">
+						<div class="mui-card-content" id="iduck-bookList-bookEntry-img" >有声书图片</div>
+						<div class="mui-card-footer">组长的秋天</div>
+					</div>
+				</div>
+				<div class="mui-card" id="iduck-bookList-cabinet-div-1">
+					<div class="mui-card" id="iduck-bookList-bookEntry">
+						<div class="mui-card-content" id="iduck-bookList-bookEntry-img" >有声书图片</div>
+						<div class="mui-card-footer">小蝌蚪找妈妈</div>
+					</div>
+				</div>
 			</div>
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">有声书图片</div>
-				<div class="mui-card-footer">有声书标题</div>
 			</div>
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">有声书图片</div>
-				<div class="mui-card-footer">有声书标题</div>
-			</div>
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">有声书图片</div>
-				<div class="mui-card-footer">有声书标题</div>
-			</div>
-		</div>
-		<script src="js/mui.min.js"></script>
-		<script type="text/javascript">
-			mui.init()
+		</div>-->
+		
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var subpages = ["bookRoman.html","bookEdu.html","bookItem.html"];
+			var subpage_style = {top:'100px', bottom: '0px'};
+			var activeTab="bookRoman.html";
+			mui.init({
+				gestureConfig:{
+				   tap: true, //默认为true
+				   doubletap: true, //默认为false
+				   longtap: true, //默认为false
+				   swipe: true, //默认为true
+				   drag: true, //默认为true
+				},
+				show:{
+					autoshow:true
+				}
+			});
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+	            for(var i=0;i<subpages.length;i++){
+	                var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+	                if (i>0){sub.hide();}
+	                self.append(sub);
+	            }
+			});
+			function changeSub(cur,dest){
+	    		console.log("ChangeSubpage--cur="+cur+";dest="+dest);
+	            plus.webview.show(dest);
+	            plus.webview.hide(cur);
+	    		activeTab=dest;
+	    	} 
+			function simSwipe(isleft){
+				var oldBtn= document.getElementById("iduck-bookList-header-btn-2");
+				if(isleft==true){
+					var newBtn= document.getElementById("iduck-bookList-header-btn-1");
+					oldBtn.id="iduck-bookList-header-btn-1";
+					newBtn.id="iduck-bookList-header-btn-2";
+				}
+				else{
+					var newBtn= document.getElementById("iduck-bookList-header-btn-1");
+					oldBtn.id="iduck-bookList-header-btn-1";
+					newBtn.id="iduck-bookList-header-btn-2";
+				}
+			}
+			
+			mui(".mui-scroll-wrapper").scroll({
+					scrollX:true,
+					indicators:false
+				})
+			mui(".mui-scroll").on("tap",".mui-btn",function(){
+				var targetTab = this.getAttribute('href');
+				if(targetTab==activeTab)return;
+				var oldBtn= document.getElementById("iduck-bookList-header-btn-2");
+				console.log(targetTab);
+				plus.webview.show(targetTab,"none",2000);
+				plus.webview.hide(activeTab);
+				oldBtn.id="iduck-bookList-header-btn-1";
+				this.id="iduck-bookList-header-btn-2";
+				//console.log("oldid="+oldBtn.id+"thisid="+this.id);
+				//oldBtn.setIdAttribute("");
+				//this.setIdAttribute("iduck-bookList-header-btn-2");
+				activeTab = targetTab;
+				
+				
+			});
+			//希望加入滑动事件
+			/*
+			mui(".mui-content").on("tap","#iduck-bookList-bookEntry",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookList/bookList.html','bookList/bookItem.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			*/
+			
 		</script>
 		
 	</body>
