@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.run.dao.BookDao;
@@ -16,6 +17,7 @@ import com.run.service.BookService;
 
 import net.sf.json.JSONObject;
 
+@Service
 public class BookServiceImpl implements BookService {
 	@Autowired
 	private BookDao bookMapper;
@@ -34,7 +36,8 @@ public class BookServiceImpl implements BookService {
 	
 	@Override
 	public List<Book> searchbytitle(String bookname){
-		return searchbytitle(bookname);
+		System.out.println("service:"+bookname);
+		return bookMapper.searchbytitle(bookname);
 	}
 	
 	@Override
@@ -43,19 +46,25 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void insertBook(Book book) {
-		bookMapper.insertBook(book);
-	}
-	
-	@Override
-	public void deleteBook(int bid) {
-		bookMapper.deleteBook(bid);
-	}
-	
-	@Override
-	public JSONObject askaudio(int bid) {
+	public JSONObject insertBook(Book book) {
 		JSONObject feedback = new JSONObject();
-		Query query = new Query(Criteria.where("id").is(bid));
+		bookMapper.insertBook(book);
+		feedback.put("resp", "s");
+		return feedback;
+	}
+	
+	@Override
+	public JSONObject deleteBook(int bid) {
+		JSONObject feedback = new JSONObject();
+		bookMapper.deleteBook(bid);
+		feedback.put("resp", "s");
+		return feedback;
+	}
+	
+	@Override
+	public JSONObject askaudio(int bid, int index) {
+		JSONObject feedback = new JSONObject();
+		Query query = new Query(Criteria.where("id").is(bid).and("index").is(index));
 		BookAudio result=mongoTemplate.findOne(query, BookAudio.class, "book");
 		
 		if (result==null) {
@@ -69,12 +78,27 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Override
-	public void insaudio(int bid, MultipartFile audio) {
-		//
+	public JSONObject insaudio(int bid, int index, MultipartFile audio) {
+		JSONObject feedback = new JSONObject();
+		BookAudio bookAudio = new BookAudio();
+		bookAudio.setId(bid);
+		bookAudio.setIndex(index);
+		bookAudio.setAudio(audio);
+		mongoTemplate.save(bookAudio,"book");
+		feedback.put("resp", "s");
+		return feedback;
 	}
 	
 	@Override
-	public void delaudio(int bid) {
-		//
+	public JSONObject delaudio(int bid, int index) {
+		JSONObject feedback = new JSONObject();
+		Query query = new Query(Criteria.where("id").is(bid).and("index").is(index));
+		if (query != null) {
+			mongoTemplate.remove(query, BookAudio.class);
+			feedback.put("resp", "s");
+		} else {
+			feedback.put("resp", "f");
+		}
+		return feedback;
 	}
 }
