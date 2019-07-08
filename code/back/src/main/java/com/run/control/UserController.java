@@ -114,7 +114,7 @@ public class UserController {
 		feedback = userService.askworks(uid);
 		return feedback;
 	}
-
+	
 	@ResponseBody
 	@RequestMapping("/setImg")
 	public JSONObject setImg(@RequestParam(value="uid") int uid, @RequestParam(value="file", required = false) MultipartFile img,HttpServletRequest request, HttpServletResponse response) {
@@ -123,7 +123,7 @@ public class UserController {
 		feedback = userService.setImg(uid, img);
 		return feedback;
 	}
-
+	
 	@ResponseBody
 	@RequestMapping("/askuserinfo")
 	public JSONObject askuserinfo(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
