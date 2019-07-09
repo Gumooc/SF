@@ -3,6 +3,7 @@ package com.run.entity;
 public class Book {
 	private String des;
 	private int bid;
+	private String nickname;
 	private int uid;
 	private int playtime;
 	private String bookname;
@@ -11,7 +12,24 @@ public class Book {
 	private String sound;//mongo
 	private String img;//mongo
 	private String lst;
+	private String chapter;
 	private boolean shared;
+	
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	
+	public String getNickname() {
+		return nickname;
+	}
+	
+	public void setChapter(String chapter) {
+		this.chapter =chapter;
+	}
+	
+	public String getChapter() {
+		return chapter;
+	}
 	
 	public void setDes(String des) {
 		this.des = des;
