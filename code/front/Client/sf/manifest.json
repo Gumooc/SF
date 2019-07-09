@@ -165,6 +165,24 @@
 					"bookList/bookEdu.html"
 				],
 				"priority": 0
+			},
+			"bookList/bookItem.html": {
+				"resources": [
+					"images/hzt.jpg",
+					"images/cdw.jpg",
+					"images/cyt.jpg",
+					"images/xbb.jpg",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"reg.html": {
+				"resources": [
+					"css/style.css"
+				],
+				"refer": [],
+				"priority": 0
 			}
 		},
 		"idle": {
@@ -181,7 +199,6 @@
 				"README.md",
 				"js/app.js",
 				"fonts/mui.ttf",
-				"css/style.css",
 				"css/mui.css",
 				"js/mui.enterfocus.js",
 				"unlock.html",

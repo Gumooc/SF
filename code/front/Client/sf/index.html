@@ -105,27 +105,27 @@
                 var temp = {};
                 temp[targetTab]="true";
                 mui.extend(aniShow,temp);
-                plus.webview.show(targetTab,"fade-in",300);
+                plus.webview.show(targetTab,"none",300);
             }
             plus.webview.hide(activeTab);
             //更改当前活跃的选项卡
             activeTab = targetTab;
         });
     	function changeSub(cur,dest){
-    		console.log("ChangeSubpage--cur="+cur+";dest="+dest);
+    		//console.log("ChangeSubpage--cur="+cur+";dest="+dest);
     		if(mui.os.ios||aniShow[dest]){
                 plus.webview.show(dest);
             }else{
             	var temp = {};
                 temp[dest]="true";
     			mui.extend(aniShow,temp);
-    			plus.webview.show(dest,"fade-in",300);
+    			plus.webview.show(dest,"none",300);
 			}
             plus.webview.hide(cur);
     		activeTab=dest;
     	}
     	function changeNavi(dest){
-    		console.log("ChangeNavi");
+    		//console.log("ChangeNavi");
     		//搜索当前高亮的选项卡
     		var currNavi = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
 			var destNavi = document.getElementById(dest);

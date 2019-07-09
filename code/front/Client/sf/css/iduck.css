@@ -33,24 +33,90 @@
 	float: left;
 	margin: 10px;
 	margin-right:0px ;
+	border-radius:10px;
 }
 #iduck-bookList-bookItem-abs{
 	height: 150px;
 	width: 55%;
 	float: left;
+	border-radius:10px;
+}
+#iduck-bookItem-icon-1{
+	font-size: 40px;
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	color: #007AFF;
+	font-weight:bold;
+}
+#iduck-bookItem-icon-2{
+	font-size: 30px;
+	color: #007AFF;
+	position: absolute;
+	right: 10px;
+	bottom: 12px;
+}
+#iduck-bookItem-div-2{
+	//background: red;
+	width: 88%;
+	height: auto;
+	float: left;
+	color: darkgray;
+	padding:3px;
+	padding-left: 8px;
 }
 #iduck-bookList-bookItem-dtl{
 	height: 50px;
 	width: 94%;
 	float: left;
 	margin-top: 0px;
+	border-radius: 10px;
+}
+#iduck-bookItem-icon-3{
+	margin-right: 10px;
+	color: #007AFF;
+	position: absolute;
+	right: 0px;
+	height: 50px;
+	display: none;
+	font-size: 33px;
+}
+#iduck-bookItem-div-4{
+	width:90%;
+	height: auto;
+}
+#iduck-bookItem-icon-4{
+	position: absolute;
+	right:10px;
+	top: 10px;
+	font-size: 30px;
+	font-weight: bolder;
 }
 #iduck-bookList-bookitem-moreBtn{
-	float: right;
 	margin-right: 10px;
+	color: #007AFF;
+	position: absolute;
+	right:0px;
+	display: block;
+	font-size: 33px;
+}
+#iduck-bookItem-div-3{
+	height: auto;
+	width: 94%;
+	float: left;
+	margin-top: 0px;
+	border-radius: 10px;
+}
+#iduck-bookItem-div-5{
+	width: 90%;
+	padding:3px;
+	margin:3px;
+	height:40px;
+	padding-left: 20px;
+	padding-top:10px;
 }
 #iduck-bookList-section{
-	height: 80px;
+	height: auto;
 	padding-left: 10px;
 	padding-top:5px;
 	font-size: 16px;
