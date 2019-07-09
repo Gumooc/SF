@@ -13,7 +13,7 @@ public interface BookService {
 	Book askbookinfo(int bid);
 	List<Book> askbooklist();
 	List<Book> searchbytitle(String bookname);
-	List<Comment> askcomment(int bid); 
+	JSONObject askcomment(int bid); 
 	
 	JSONObject insertBook(Book book);
 	JSONObject deleteBook(int bid);
@@ -27,4 +27,6 @@ public interface BookService {
 	JSONObject insDes(int bid, String des);
 	JSONObject delDes(int bid);
 	JSONObject askDes(int bid);
+	
+	JSONObject updatechapter(int bid, String chapter);
 }
