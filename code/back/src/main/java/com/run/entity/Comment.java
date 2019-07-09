@@ -4,8 +4,26 @@ public class Comment {
 	private int bid;
 	private int cid; 
 	private int uid;
+	private String nickname;
 	private String lst;
 	private String des;
+	private String img;
+	
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	
+	public String getNickname() {
+		return nickname;
+	}
+	
+	public void setImg(String img) {
+		this.img = img;
+	}
+	
+	public String getImg() {
+		return img;
+	}
 	
 	public void setDes(String des) {
 		this.des = des;
