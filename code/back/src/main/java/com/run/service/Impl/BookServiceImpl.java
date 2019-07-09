@@ -12,11 +12,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.druid.util.Base64;
 import com.run.dao.BookDao;
+import com.run.dao.UserDao;
 import com.run.entity.Book;
 import com.run.entity.BookAudio;
+import com.run.entity.BookChapter;
 import com.run.entity.BookDes;
 import com.run.entity.BookImg;
 import com.run.entity.Comment;
+import com.run.entity.CommentDes;
+import com.run.entity.User;
+import com.run.entity.UserDetl;
 import com.run.service.BookService;
 
 import net.sf.json.JSONObject;
@@ -25,6 +30,8 @@ import net.sf.json.JSONObject;
 public class BookServiceImpl implements BookService {
 	@Autowired
 	private BookDao bookMapper;
+	@Autowired
+	private UserDao userMapper;
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
@@ -36,6 +43,14 @@ public class BookServiceImpl implements BookService {
 		if (result != null) {
 			book.setImg(result.getImg());
 		}
+		BookChapter re = mongoTemplate.findOne(query, BookChapter.class, "bookchapter");
+		JSONObject chapter = new JSONObject();
+		if (re == null) {
+			chapter.put("index", 0);
+		} else {
+			chapter = JSONObject.fromObject(re.getChapter());
+		}
+		book.setChapter(chapter.toString());
 		return book;
 	}
 	
@@ -58,14 +73,37 @@ public class BookServiceImpl implements BookService {
 		for (Book book:booklist) {
 			Query query = new Query(Criteria.where("id").is(book.getBid()));
 			BookImg result=mongoTemplate.findOne(query, BookImg.class, "bookimg");
-			book.setImg(result.getImg());
+			if (result != null) {
+				book.setImg(result.getImg());
+			}
 		}
 		return booklist;
 	}
 	
 	@Override
-	public List<Comment> askcomment(int bid) {
-		return bookMapper.askcomment(bid);
+	public JSONObject askcomment(int bid) {
+		JSONObject feedback = new JSONObject();
+		List<Comment> commentl = bookMapper.askcomment(bid);
+		for (Comment comment:commentl) {
+			Query query = new Query(Criteria.where("id").is(comment.getCid()));
+			CommentDes result=mongoTemplate.findOne(query, CommentDes.class, "comment");
+			if (result != null) {
+				comment.setDes(result.getDes());
+			}
+			
+			Query query2 = new Query(Criteria.where("id").is(comment.getUid()));
+			UserDetl userDetl = mongoTemplate.findOne(query2, UserDetl.class, "user");
+			if (userDetl != null) {
+				comment.setImg(userDetl.getImg());
+			}
+			
+
+			User user = userMapper.askuser(comment.getUid());
+			comment.setNickname(user.getNickname());
+		}
+		feedback.put("resp", "s");
+		feedback.put("body", commentl);
+		return feedback;
 	}
 
 	@Override
@@ -180,6 +218,16 @@ public class BookServiceImpl implements BookService {
 		BookDes result=mongoTemplate.findOne(query, BookDes.class, "bookdes");
 		feedback.put("resp", "s");
 		feedback.put("body", result);
+		return feedback;
+	}
+	
+	@Override
+	public JSONObject updatechapter(int bid, String chapter) {
+		JSONObject feedback = new JSONObject();
+		BookChapter bookChapter = new BookChapter();
+		bookChapter.setId(bid);
+		bookChapter.setChapter(chapter);
+		mongoTemplate.save(bookChapter, "bookchapter");
 		return feedback;
 	}
 }
