@@ -60,10 +60,21 @@ public class BookController {
 		feedback.put("body", booklist);
 		return feedback;
 	}
+
+	@ResponseBody
+	@RequestMapping("/chapter")
+	public JSONObject chapter(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int bid = JSONObject.fromObject(liString).getInt("bid");
+		String chapter = JSONObject.fromObject(liString).getString("chapter");
+		bookService.updatechapter(bid, chapter);
+		return feedback;
+	}
 	
 	@ResponseBody
 	@RequestMapping("/search")
-	public JSONObject search(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+	public JSONObject search(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
 		String bookname = JSONObject.fromObject(liString).getString("bookname");
@@ -85,15 +96,8 @@ public class BookController {
 	public JSONObject askcomment(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
-		int uid = JSONObject.fromObject(liString).getInt("bid");
-		List<Comment> comments = bookService.askcomment(uid);
-		if (comments == null) {
-			feedback.put("resp", "f");
-			feedback.put("body", "");
-		} else {
-			feedback.put("resp", "s");
-			feedback.put("body", comments);
-		}
+		int bid = JSONObject.fromObject(liString).getInt("bid");
+		feedback = bookService.askcomment(bid);
 		return feedback;
 	}
 	
