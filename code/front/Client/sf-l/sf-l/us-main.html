@@ -11,7 +11,10 @@
 <body>
 	
 	<div class="mui-content">
-		
+		<div class="us-main-div-2">
+			
+		</div>
+		<button class='us-main-btn-3'>修改信息</button>
 	</div>
 	
 	<script src="js/mui.min.js"></script>
@@ -38,11 +41,15 @@
 	    	mui.fire(dst,'get',{uid:uid});
    		})
    		//按钮事件，登录
-   		mui('body').on('tap','.ua-main-btn-2',function(e){
+   		mui('body').on('tap','.us-main-btn-2',function(e){
    			mui.openWindow({
 	    		url:'ua-log.html',
 	    		id:'ua-log.html',
 	    	});
+   		})
+   		//按钮事件，修改个人信息
+   		mui('body').on('tap','.us-main-btn-3',function(e){
+   			mui.fire(opener,'jump',{dst:'us-set.html'});
    		})
    		
    		
@@ -53,7 +60,7 @@
 	    	var html="";
 	    	if(ustr==null){
 	    		html+="尚未登录";
-				html+="<button class='ua-main-btn-2'>登录</button>"
+				html+="<button class='us-main-btn-2'>登录</button>"
 	    	}
 	    	else{
 	    		html+="<div class='us-main-div-1'>"+uid+"</div>";
@@ -64,7 +71,7 @@
 				html+="<button class='us-main-btn-1'>个人作品</button>";
 				html+="<button class='us-main-btn-1'>评论记录</button>";
 	    	}
-	    	document.getElementsByClassName('mui-content')[0].innerHTML=html;
+	    	document.getElementsByClassName('us-main-div-2')[0].innerHTML=html;
 		});
 		
 	</script>

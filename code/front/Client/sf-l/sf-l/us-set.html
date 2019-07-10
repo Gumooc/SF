@@ -1,18 +1,91 @@
 <!doctype html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="css/mui.min.css" rel="stylesheet" />
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+</head>
 
-	<body>
-		<script src="js/mui.min.js"></script>
-		<script type="text/javascript">
-			mui.init();
-		</script>
-	</body>
+<body>
+	
+	<div class="mui-content">
+		<button class="us-set-btn-2">退出</button>
+		真实姓名
+		<textarea id='nick' placeholder="真实姓名"></textarea>
+		生日
+		<textarea id='birth' placeholder="生日"></textarea>
+		邮箱
+		<textarea id='email' placeholder="邮箱"></textarea>
+		电话
+		<textarea id='phone' placeholder="电话"></textarea>
+	
+		性别
+		<div class="mui-switch" id='male'>
+		  <div class="mui-switch-handle"></div>
+		</div>
+		头像？
+		<br/>
+		签名？
+		<br/>
+		<button class="us-set-btn-1">提交</button>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		
+		mui.init();
+		mui.plusReady(function(){
+			self=plus.webview.currentWebview();
+			opener=self.opener();
+		});
+		
+		//点击事件，上传个人信息
+		mui('body').on('tap','.us-set-btn-1',function(e){
+    		var user={};
+   			user.nickname=document.getElementById('nick').value;
+   			user.birth=document.getElementById('birth').value;
+   			user.email=document.getElementById('email').value;
+   			user.phone=document.getElementById('phone').value;
+   			user.lst=getdt();
+   			user.rgt=getdt();
+   			user.male=document.getElementById("male").classList.contains("mui-active");
+   			var ustr=plus.storage.getItem('uid');
+   			user.uid=parseInt(ustr);
+   			//console.log('user='+user.uid+user.nickname+user.birth+user.email+user.phone+user.lst+user.rgt+user.male);
+   			mui.ajax('http://49.234.77.32:8080/sfbook/user/updateuser',{
+				data:user,
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='s'){
+						console.log("成功更新用户");
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+   		});
+   		//点击事件，返回
+		mui('body').on('tap','.us-set-btn-2',function(e){
+    		mui.fire(opener,'jump',{dst:'us-main.html'});
+   		});
+   		
+   		//应用函数，获取时间
+		function getdt(){
+			var date=new Date(); 
+			var year=date.getFullYear(); 
+			var mon=date.getMonth()+1; 
+		    var day=date.getDate();
+		    var stamp=year+'-'+mon+'-'+day;
+		    return stamp;
+		}
+	</script>
+</body>
 
 </html>

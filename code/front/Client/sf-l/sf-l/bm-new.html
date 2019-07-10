@@ -6,6 +6,7 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="css/mui.min.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 </head>
 
 <body>
@@ -21,6 +22,7 @@
 			分类
 			<br/>暂无分类<br/>
 			<button class='bm-new-btn-2'>提交</button>
+			<button class='bm-new-btn-3'>图片</button>
 		</div>
 	</div>
 	
@@ -66,27 +68,51 @@
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
-			
+			/*
 			var des=document.getElementById('des').value;
 			var img=document.getElementById('img').files[0];
-			const formData=new FormData();
+			var formData=new FormData();
+			formData.append('bid',bid);
     		formData.append('file',img); 
-    		formData.append('bid',bid);
+    		console.log(formData);
 			mui.ajax('http://49.234.77.32:8080/sfbook/book/setImg',{
 				data:formData,
 				dataType:'json',
 				type:'post',
 				async:false,
-				timeout:10000,
-				headers:{'Content-Type':'application/json'},	              
+				timeout:10000,   
+				processData: false, 
+        		contentType: false, 
+				headers:{'Content-Type':'multipart/form-data'},	              
 				success:function(data){
 					if(data.resp=='s'){
 						console.log("成功上传图片");
 					}
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
-			});
-   		})
+			});*/
+   		});
+   		mui('body').on('tap','.bm-new-btn-3',function(e){
+			var des=document.getElementById('des').value;
+			var img=document.getElementById('img').files[0];
+			var formData=new FormData();
+			formData.append('bid',5);
+    		formData.append('file',img); 
+			$.ajax({
+		        url:'http://49.234.77.32:8080/sfbook/book/setImg',
+		        type:'post',
+		        dataType:'text',
+		        cache: false,     //上传文件无需缓存
+		        processData: false, //用于对data参数进行序列化处理 这里必须false
+		        contentType: false, //必须 
+		        data:formData,
+		        success:function(list){  
+		           console.log('成功！');
+		        },
+		        error:function(){console.log("保存失败");}
+    		});
+   		});
+   		
    		
    		//应用函数，获取时间
 		function getdt(){
