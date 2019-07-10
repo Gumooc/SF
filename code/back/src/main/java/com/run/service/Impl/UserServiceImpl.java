@@ -3,7 +3,6 @@ package com.run.service.Impl;
 import java.io.IOException;
 import java.util.List;
 
-import org.hibernate.dialect.function.VarArgsSQLFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -38,7 +37,10 @@ public class UserServiceImpl implements UserService {
 		User ans = userMapper.logincheck(user);
 		if (ans!=null) {
 			if (ans.getActivation()) {
+				JSONObject uidjs = new JSONObject();
+				uidjs.put("uid", ans.getUid());
 				feedback.put("resp", "s");
+				feedback.put("body", uidjs);
 				System.out.println(ans+"ÒÑµÇÂ¼");
 			} else {
 				feedback.put("resp", "na");
