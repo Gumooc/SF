@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	
+	<div class="mui-content">
+		<button class='us-univ-btn-1'>返回</button>
+		<button class='us-univ-btn-2'>刷新</button>
+		<div class='us-univ-div-1'>信息</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var uid;
+		var list=[];
+		
+		mui.init();
+		mui.plusReady(function(){
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+   		});
+   		
+   		
+   		mui('body').on('tap','.us-univ-btn-1',function(e){
+	    	mui.fire(opener,'jump',{dst:'us-main.html'});
+   		});
+   		//按钮事件，刷新页面
+   		mui('body').on('tap','.us-univ-btn-2',function(e){
+	    	mui.fire(self,'get',{uid:uid});
+   		});
+   		//按钮事件，显示详情
+   		mui('body').on('tap','.us-collect-btn-1',function(e){
+	    	var ele=document.getElementsByClassName('us-collect-btn-1');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	
+	    	mui.openWindow({
+	    		url:'bi.html',
+	    		id:'bi.html',
+	    	});
+	    	
+	    	var bi=plus.webview.getWebviewById('bi.html');
+	    	mui.fire(bi,'item',{bid:list[cnt].bid});
+   		})
+   		//按钮事件，从收藏夹中删除
+   		mui('body').on('tap','.us-collect-btn-2',function(e){
+	    	var ele=document.getElementsByClassName('us-collect-btn-2');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	
+	    	var resp=false;
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/collector/delete',{
+				data:{uid:uid,bid:list[cnt].bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='s'){
+						resp=true;
+						console.log("从收藏夹删除图书");
+						mui.fire(self,'get',{uid:uid});
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+   		})
+		
+		//监听事件，加载信息
+		window.addEventListener('get',function(event){
+			uid=event.detail.uid;
+	    	var html="";
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/collector',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					list=data.body;
+					if(!list.length){html+="<div>暂无收藏记录</div>";}
+					else{
+						for(var i=0;i<list.length;i++){
+							html+="<div>";
+							html+="<div>"+list[i].bookname+"</div>";
+							html+="<button class='us-collect-btn-1'>详情</button>";
+							html+="<button class='us-collect-btn-2'>删除</button>";
+							html+="</div>";
+						}
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+	    	document.getElementsByClassName('us-univ-div-1')[0].innerHTML=html;
+		});
+		
+	</script>
+</body>
+
+</html>

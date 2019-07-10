@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="mui-content">
+		check
+	</div>
+	
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		
+		mui.init();
+		mui.plusReady(function(){
+	    	self = plus.webview.currentWebview();
+	    	mui.fire(self,'check',{});
+	    });
+	    
+	    //监听事件，登录
+	    mui('body').on('tap','.ua-acc-btn-1',function(e){	
+	    	mui.openWindow({
+	    		url:'ua-log.html',
+	    		id:'ua-log.html',
+	    	});
+		});
+		//按钮事件，登出
+		mui('body').on('tap','.ua-acc-btn-2',function(e){	
+	    	plus.storage.removeItem('uid');
+	    	var us_main=plus.webview.getWebviewById('us-main.html');
+	    	var us=plus.webview.getWebviewById('us.html');
+	    	mui.fire(us_main,'self',{});
+	    	mui.fire(us,'jump',{dst:'us-main.html'});
+	    	var bm_main=plus.webview.getWebviewById('bm-main.html');
+	    	var bm=plus.webview.getWebviewById('bm.html');
+	    	mui.fire(bm_main,'self',{});
+	    	mui.fire(bm,'jump',{dst:'bm-main.html'});
+	    	mui.fire(self,'check',{});
+		});
+		
+	    
+	    //监听事件，检查登录状态
+	    window.addEventListener('check',function(event){   	
+	    	var uid=plus.storage.getItem('uid');
+	    	var html="";
+	    	if(uid==null){
+	    		html+="尚未登录";
+				html+="<button class='ua-acc-btn-1'>登录</button>"
+	    	}
+	    	else{
+	    		html+=uid;
+	    		html+="<button class='ua-acc-btn-2'>登出</button>";
+	    		html+="<button class='ua-acc-btn-3'>更改密码</button>";
+	    		html+="<button class='ua-acc-btn-4'>信息管理</button>";
+	    	}
+	    	document.getElementsByClassName('mui-content')[0].innerHTML=html;
+	    });
+
+		
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="mui-content">
+		<button class='bm-new-btn-1'>返回</button>
+		<div class="bm-new-div-1">
+			标题
+			<textarea placeholder="有声书标题" id="name"></textarea>
+			封面
+			<br/><input type="file" id='img'/><br/>
+			描述
+			<textarea placeholder="有声书描述" id="des"></textarea>
+			分类
+			<br/>暂无分类<br/>
+			<button class='bm-new-btn-2'>提交</button>
+		</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		
+		mui.init();
+		mui.plusReady(function(){
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+       		mui.fire(self,'self',{});
+   		});
+   		
+		//按钮事件，返回页面
+   		mui('body').on('tap','.bm-new-btn-1',function(e){
+   			mui.fire(opener,'jump',{dst:'bm-main.html'});
+   		})
+   		mui('body').on('tap','.bm-new-btn-2',function(e){
+   			var item={};
+   			item.bookname=document.getElementById('name').value;
+   			item.lst=getdt();
+   			var ustr=plus.storage.getItem('uid');
+   			item.uid=parseInt(ustr);
+   			item.playtime=0;
+   			item.kind="";
+   			item.shared=false;
+   			console.log('book='+item.bookname+item.lst+item.uid+item.playtime+item.kind+item.shared);
+   			var bid;
+   			mui.ajax('http://49.234.77.32:8080/sfbook/book/insertbook',{
+				data:item,
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='s'){
+						console.log("成功创建图书");
+						bid=data.body.bid;
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			
+			var des=document.getElementById('des').value;
+			var img=document.getElementById('img').files[0];
+			const formData=new FormData();
+    		formData.append('file',img); 
+    		formData.append('bid',bid);
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/setImg',{
+				data:formData,
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='s'){
+						console.log("成功上传图片");
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+   		})
+   		
+   		//应用函数，获取时间
+		function getdt(){
+			var date=new Date(); 
+			var year=date.getFullYear(); 
+			var mon=date.getMonth()+1; 
+		    var day=date.getDate();
+		    var stamp=year+'-'+mon+'-'+day;
+		    return stamp;
+		}
+   		
+	</script>
+</body>
+
+</html>

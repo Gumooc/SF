@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	
+	<div class="mui-content">
+		
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var sub=['us-info.html','us-collect.html','us-track.html','us-follow.html','us-work.html','us-cmt.html'];
+		var self;
+		var opener;
+		var uid;
+		
+		mui.init();
+		mui.plusReady(function(){
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+       		mui.fire(self,'self',{});
+   		});
+   		
+   		//按钮事件，界面跳转
+   		mui('body').on('tap','.us-main-btn-1',function(e){
+   			var ele=document.getElementsByClassName('us-main-btn-1');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	mui.fire(opener,'jump',{dst:sub[cnt]});
+	    	var dst=plus.webview.getWebviewById(sub[cnt]);
+	    	mui.fire(dst,'get',{uid:uid});
+   		})
+   		//按钮事件，登录
+   		mui('body').on('tap','.ua-main-btn-2',function(e){
+   			mui.openWindow({
+	    		url:'ua-log.html',
+	    		id:'ua-log.html',
+	    	});
+   		})
+   		
+   		
+		//监听事件，返回个人页面
+		window.addEventListener('self',function(event){
+	    	var ustr=plus.storage.getItem('uid');
+	    	uid=parseInt(ustr);
+	    	var html="";
+	    	if(ustr==null){
+	    		html+="尚未登录";
+				html+="<button class='ua-main-btn-2'>登录</button>"
+	    	}
+	    	else{
+	    		html+="<div class='us-main-div-1'>"+uid+"</div>";
+				html+="<button class='us-main-btn-1'>个人信息</button>";
+				html+="<button class='us-main-btn-1'>收藏作品</button>";
+				html+="<button class='us-main-btn-1'>历史浏览</button>";
+				html+="<button class='us-main-btn-1'>关注用户</button>";
+				html+="<button class='us-main-btn-1'>个人作品</button>";
+				html+="<button class='us-main-btn-1'>评论记录</button>";
+	    	}
+	    	document.getElementsByClassName('mui-content')[0].innerHTML=html;
+		});
+		
+	</script>
+</body>
+
+</html>
