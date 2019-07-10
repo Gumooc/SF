@@ -28,6 +28,7 @@
 		<div class="bl-main-div-1">
 			内容
 		</div>
+		<button class="bl-main-btn-2">刷新</button>
 	</div>
 	
 	
@@ -54,6 +55,10 @@
 	    	});
 	    	var bi=plus.webview.getWebviewById('bi.html');
 	    	mui.fire(bi,'item',{bid:list[cnt].bid});
+		});
+		//监听事件，刷新页面
+		mui('body').on('tap','.bl-main-btn-2',function(e){	
+			mui.fire(self,'list',{});
 		});
 		
 		//监听事件，获取书单

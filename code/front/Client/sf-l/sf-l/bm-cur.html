@@ -26,12 +26,21 @@
 		mui.plusReady(function(){
        		self=plus.webview.currentWebview();
        		opener=self.opener();
-       		mui.fire(self,'self',{});
    		});
    		
 		//按钮事件，返回页面
    		mui('body').on('tap','.bm-cur-btn-1',function(e){
    			mui.fire(opener,'jump',{dst:'bm-main.html'});
+   		});
+   		//按钮事件，编辑内容
+   		mui('body').on('tap','.bm-cur-btn-2',function(e){
+   			var ele=document.getElementsByClassName('bm-cur-btn-2');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+   			
+   			mui.fire(opener,'jump',{dst:'bm-edit.html'});
+   			var bm_edit=plus.webview.getWebviewById('bm-edit.html');
+   			mui.fire(bm_edit,'item',{bid:list[cnt].bid});
    		});
    		mui('body').on('tap','.bm-cur-btn-3',function(e){
    			var ele=document.getElementsByClassName('bm-cur-btn-3');
@@ -69,7 +78,7 @@
    		//监听事件，加载作品
    		window.addEventListener('get',function(event){
 			uid=event.detail.uid;
-	    	var html="";
+	    	console.log(s1);
 	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/selfworks',{
 				data:{uid:uid},
 				dataType:'json',
@@ -94,7 +103,7 @@
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
 	    	document.getElementsByClassName('bm-cur-div-1')[0].innerHTML=html;
-		});
+   		});
 	</script>
 </body>
 

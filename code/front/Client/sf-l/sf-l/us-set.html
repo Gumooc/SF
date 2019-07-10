@@ -6,12 +6,14 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="css/mui.min.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 </head>
 
 <body>
 	
 	<div class="mui-content">
 		<button class="us-set-btn-2">退出</button>
+		<br/>
 		真实姓名
 		<textarea id='nick' placeholder="真实姓名"></textarea>
 		生日
@@ -25,7 +27,9 @@
 		<div class="mui-switch" id='male'>
 		  <div class="mui-switch-handle"></div>
 		</div>
-		头像？
+		<br/>
+		头像
+		<input type='file' id='img'/>
 		<br/>
 		签名？
 		<br/>
@@ -70,6 +74,24 @@
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
+			var img=document.getElementById('img').files[0];
+			var formData=new FormData();
+			formData.append('uid',user.uid);
+    		formData.append('file',img); 
+			$.ajax({
+		        url:'http://49.234.77.32:8080/sfbook/user/setImg',
+		        type:'post',
+		        dataType:'text',
+		        cache: false,
+		        processData: false,
+		        contentType: false,
+		        async:false,
+		        data:formData,
+		        success:function(list){  
+		           console.log('成功导入头像');
+		        },
+		        error:function(){console.log("头像导入失败");}
+    		});
    		});
    		//点击事件，返回
 		mui('body').on('tap','.us-set-btn-2',function(e){
