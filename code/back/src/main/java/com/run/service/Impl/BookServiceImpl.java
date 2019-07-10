@@ -43,6 +43,7 @@ public class BookServiceImpl implements BookService {
 		if (result != null) {
 			book.setImg(result.getImg());
 		}
+		
 		BookChapter re = mongoTemplate.findOne(query, BookChapter.class, "bookchapter");
 		JSONObject chapter = new JSONObject();
 		if (re == null) {
@@ -51,6 +52,7 @@ public class BookServiceImpl implements BookService {
 			chapter = JSONObject.fromObject(re.getChapter());
 		}
 		book.setChapter(chapter.toString());
+		
 		return book;
 	}
 	
@@ -230,4 +232,6 @@ public class BookServiceImpl implements BookService {
 		mongoTemplate.save(bookChapter, "bookchapter");
 		return feedback;
 	}
+	
+	
 }
