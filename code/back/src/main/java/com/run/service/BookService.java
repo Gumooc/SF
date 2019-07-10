@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.run.entity.Book;
-import com.run.entity.Comment;
-
 import net.sf.json.JSONObject;
 
 public interface BookService {
@@ -29,4 +27,5 @@ public interface BookService {
 	JSONObject askDes(int bid);
 	
 	JSONObject updatechapter(int bid, String chapter);
+	
 }
