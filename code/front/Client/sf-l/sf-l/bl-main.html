@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		body{
+			margin: 0px;
+			padding: 0px;
+		}
+		.bl-main-div-2{
+			margin: 5px 0px 5px 0px; 
+			height: 50px;
+			background: gray;
+		}
+		.bl-main-btn-1{
+			float: right;
+		}
+	</style>
+</head>
+
+<body>
+	
+	<div class="mui-content">
+		<div class="bl-main-div-1">
+			内容
+		</div>
+	</div>
+	
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		
+		var list=[];
+		
+		mui.init();
+		mui.plusReady(function(){
+			var self=plus.webview.currentWebview();
+			mui.fire(self,'list',{});
+		});
+		
+		//监听事件，显示详情
+		mui('body').on('tap','.bl-main-btn-1',function(e){	
+			var ele=document.getElementsByClassName('bl-main-btn-1');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	
+	    	mui.openWindow({
+	    		url:'bi.html',
+	    		id:'bi.html',
+	    	});
+	    	var bi=plus.webview.getWebviewById('bi.html');
+	    	mui.fire(bi,'item',{bid:list[cnt].bid});
+		});
+		
+		//监听事件，获取书单
+		window.addEventListener('list',function(event){
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/book/booklist',{
+				data:{},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					list=data.body;
+					var html="";
+					for(var i=0;i<list.length;i++){
+						html+="<div class='bl-main-div-2'>"
+						html+=list[i].bookname;
+						html+="<button class='bl-main-btn-1'>详情</button>"
+						html+="</div>";
+					}
+					document.getElementsByClassName("bl-main-div-1")[0].innerHTML=html;
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+		});
+		
+	</script>
+</body>
+
+</html>

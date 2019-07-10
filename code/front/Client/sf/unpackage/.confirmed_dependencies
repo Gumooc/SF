@@ -35,5 +35,19 @@
 		"resources": [
 			"bookList/bookRoman.html"
 		]
+	},
+	"bookList/bookItem.html": {
+		"resources": [
+			"images/hzt.jpg",
+			"images/cdw.jpg",
+			"images/cyt.jpg",
+			"images/xbb.jpg",
+			"fonts/iconfont.ttf"
+		]
+	},
+	"reg.html": {
+		"resources": [
+			"css/style.css"
+		]
 	}
 }

@@ -1,0 +1,12 @@
+BookController("/book"):
+	"/bookinfo":	request(bid),		response("resp":"s","body":book)
+	"/booklist":	request(),		response("resp":"s","body":booklist)
+	"/search":	request(bookname),	response("resp":"s","body":booklist)
+	"/comment":	request(bid),		response("resp":"s","body":commentlist)
+	"/insertbook":	request(Book),		response()
+	"/deletebook":	request(bid),		response()
+	"/updatebook": 	request(Book),		response()
+	"/setImg":	request("bid":bid,"file":img)	response()
+	"/createbookbytext": null
+	"/insbookdes":	request(bid,des),	response()
+	"/askbookdes":	request(bid),		response("resp":"s","des":"")

@@ -3,32 +3,39 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title></title> 
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
 		<link href="../css/iduck.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css"/> 
 	</head>
 
 	<body>
-		
 		<div class="mui-content">
 			<div class="mui-card" id="iduck-bookList-bookItem">
 				<div class="mui-card" id="iduck-bookList-bookItem-img">
 					象拔蚌大战小青龙
 				</div>
 				<div class="mui-card" id="iduck-bookList-bookItem-abs">
-					播放数，点赞，名称，作者……
+					<div id="iduck-bookItem-div-1"></div>
+					<div><icon class="mui-icon iconfont icon-tuichu" id="iduck-bookItem-icon-2"></icon></div>
 				</div>
 				<div class="mui-card" id="iduck-bookList-bookItem-dtl">
-					象拔蚌大战小青龙是一部史诗级武侠小说
-					<icon class="mui-icon mui-icon-arrowdown" id="iduck-bookList-bookitem-moreBtn">
+					<div id="iduck-bookItem-div-2" >象拔蚌大战小青龙是一部史诗级武侠小说</div>
+					<icon class="mui-icon mui-icon-arrowdown" id="iduck-bookList-bookitem-moreBtn"></icon>
+					<icon class="mui-icon mui-icon-arrowup" id="iduck-bookItem-icon-3"></icon>
 				</div>
 			</div>
 			<div class="mui-card" id="iduck-bookList-section">
 				<div>分集情况</div>
+				<div><icon class="mui-icon mui-icon-bars" id="iduck-bookItem-icon-4"></icon></div>
+				<div id="iduck-bookItem-div-4">
+			
+				</div>
+				<!--<div>分集情况mui-icon mui-icon-more</div>
 				<div class="mui-card" id="iduck-bookList-section-secBtn">p1</div>
 				<div class="mui-card" id="iduck-bookList-section-secBtn">p2</div>
-				<div class="mui-card" id="iduck-bookList-section-secBtn">p3</div>
+				<div class="mui-card" id="iduck-bookList-section-secBtn">p3</div>-->
 			</div>
 			<div class="mui-card" id="iduck-bookList-author">
 				<div>作者信息</div>
@@ -43,59 +50,158 @@
 					<button type="button" class="mui-btn" id="iduck-bookList-comment-submit">提交</button>
 					<button type="button" class="mui-btn" id="iduck-bookList-comment-clear">清空</button>
 				</div>
-				<div class="mui-card" id="iduck-bookList-comment-cmtItem">
+				<!--<div class="mui-card" id="iduck-bookList-comment-cmtItem">
 					<div class="mui-card" id="iduck-bookList-comment-img">:)</div>
 					<div class="mui-card" id="iduck-bookList-comment-name">陈狄威</div>
 					<div class="mui-card" id="iduck-bookList-comment-comment">情节令人感动</div>
-				</div>
-				<div class="mui-card" id="iduck-bookList-comment-cmtItem">
-					<div class="mui-card" id="iduck-bookList-comment-img">:)</div>
-					<div class="mui-card" id="iduck-bookList-comment-name">黄钟涛</div>
-					<div class="mui-card" id="iduck-bookList-comment-comment">写的什么玩意</div>
-				</div>
-				<div class="mui-card" id="iduck-bookList-comment-cmtItem">
-					<div class="mui-card" id="iduck-bookList-comment-img">:)</div>
-					<div class="mui-card" id="iduck-bookList-comment-name">柴迤天</div>
-					<div class="mui-card" id="iduck-bookList-comment-comment">谢谢大家的支持</div>
-				</div>
+				</div>-->
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
+			var bid=1;
+			var comment=[];
+			var cmter={};
+			var author={};
+			var newbook={};
 			var book={
 				img:"xbb.jpg",
 				name:"象拔蚌大战小青龙",
-				descrip:"象拔蚌大战小青龙是一部史诗级爱情武侠小说,讲述了象拔蚌和小青龙之间跨越种族的凄美爱情故事",
-				section:["前世恩怨","狭路相逢","因恨生爱","二人幸终"],
+				descrip:"象拔蚌大战小青龙是一部史诗级爱情武侠小说,讲述了象拔蚌和小青龙之间跨越种族的凄美爱情故事象拔蚌大战小青龙是一部史诗级爱情武侠小说,讲述了象拔蚌和小青龙之间跨越种族的凄美爱情故事象拔蚌大战小青龙是一部史诗级爱情武侠小说,讲述了象拔蚌和小青龙之间跨越种族的凄美爱情故事象拔蚌大战小青龙是一部史诗级爱情武侠小说,讲述了象拔蚌和小青龙之间跨越种族的凄美爱情故事象拔蚌大战小青龙是一部史诗级爱情武侠小说,讲述了象拔蚌和小青龙之间跨越种族的凄美爱情故事",
+				section:["前世恩怨","狭路相逢","因恨生爱","二人幸终","狭路相逢","因恨生爱","二人幸终","狭路相逢","因恨生爱","二人幸终","狭路相逢","因恨生爱","二人幸终"],
 				author:"柴迤天",
 				aimg:"cyt.jpg",
 				amotto:"邪恶象拔蚌的化身,将被推翻的组长",
 				cmt:[
 					{name:"陈狄威",cimg:"cdw.jpg",cmt:"情节令人感动"},
 					{name:"黄钟涛",cimg:"hzt.jpg",cmt:"写的什么几把玩意"},
-					{name:"柴迤天",cimg:"cyt.jpg",cmt:"喜欢的话请多多关注哦❤"}
+					{name:"柴迤天",cimg:"cyt.jpg",cmt:"期待的话请多多为我投票吧{❤}"}
 				]
 			}
+			
+			
+			window.addEventListener('hello',function(event){
+			   //console.log("hello="+event.detail.bid);
+			   bid=event.detail.bid;
+			   loadBookDetail();
+			});		
+			var section_state=false;
 			mui.init();
+			function loadBookInfo(){
+				mui.ajax('http://49.234.77.32:8080/sfbook/book/bookinfo',{
+					data:{
+						bid:bid
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					async:false,
+					timeout:10000,//超时时间设置为10秒；
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						newbook=data.body;
+						//console.log(newbook.img);
+						document.getElementById("iduck-bookList-bookItem-img").innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+newbook.img+"'/>";
+						document.getElementById("iduck-bookItem-div-1").innerHTML=newbook.bookname;
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+						console.log("loadBook-err");
+					}
+				});
+			}
+			function loadBookAuthor(){
+				
+				mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+					data:{
+						uid:newbook.uid
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					async:false,
+					timeout:10000,//超时时间设置为10秒；
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						author=data.body;
+						//console.log("author="+author.lst);
+						document.getElementById("iduck-bookList-author-img").innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+author.img+"'/>";
+						document.getElementById("iduck-bookList-author-name").innerHTML=author.lst;
+						document.getElementById("iduck-bookList-author-motto").innerHTML=book.amotto;
+						var h3=document.getElementById("iduck-bookItem-div-1").innerHTML;
+						h3+="<br/>上传者："+author.username;
+						document.getElementById("iduck-bookItem-div-1").innerHTML=h3;
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+						//console.log("loadauthor-err");
+					}
+				});
+			}
+			function loadBookCmt(){
+				mui.ajax('http://49.234.77.32:8080/sfbook/book/comment',{
+					data:{
+						bid:bid
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					async:false,
+					timeout:10000,//超时时间设置为10秒；
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						comment=data.body;
+						//console.log("comment[0]="+comment[0].des);
+						var h2="<div>评论</div>";
+						h2+="<div class='mui-card' id='iduck-bookList-comment-publish'>";
+						h2+="<textarea type='search' class='iduck-searchBar' id='iduck-bookList-comment-input' placeholder='发布评论' readonly='readonly'></textarea>"
+						h2+="<button type='button' class='mui-btn' id='iduck-bookList-comment-submit'>提交</button>";
+						h2+="<button type='button; class='mui-btn' id='iduck-bookList-comment-clear'>清空</button>";
+						h2+="</div>"
+						for(var i=0;i<comment.length;i++){
+							h2+="<div class='mui-card' id='iduck-bookList-comment-cmtItem'>";
+							h2+="<div class='mui-card' id='iduck-bookList-comment-img'>:(</div>";
+							h2+="<div class='mui-card' id='iduck-bookList-comment-name'>"+comment[i].uid+"</div>";
+							h2+="<div class='mui-card' id='iduck-bookList-comment-comment'>"+comment[i].des+"</div>";
+							h2+="</div>";
+						}
+						document.getElementById("iduck-bookList-comment").innerHTML=h2;
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+						console.log("loadCmt-err");
+					}
+				});
+							
+			}
 			function loadBookDetail(){
-				console.log("loadBookDetail");
-				document.getElementById("iduck-bookList-bookItem-img").innerHTML="<img width='100%' height='100%' src='../images/"+book.img+"'/>";
-				document.getElementById("iduck-bookList-bookItem-abs").innerHTML=book.name+"<br/>作者："+book.author;
-				document.getElementById("iduck-bookList-bookItem-dtl").innerHTML=book.descrip;
-				document.getElementById("iduck-bookList-author-img").innerHTML="<img width='100%' height='100%' src='../images/"+book.aimg+"'/>";;
-				document.getElementById("iduck-bookList-author-name").innerHTML=book.author;
-				document.getElementById("iduck-bookList-author-motto").innerHTML=book.amotto;
+				loadBookInfo();
+				loadBookAuthor();
+				loadBookCmt();
+				document.getElementById("iduck-bookItem-div-2").innerHTML=book.descrip;
+				var h1="";
+				for(var i=0;i<book.section.length;i++){
+					h1+="<div class='mui-card' id='iduck-bookList-section-secBtn'>p"+i+"</div>";
+				}
+				document.getElementById("iduck-bookItem-div-4").innerHTML=h1;
 			}
 			mui.plusReady(function(){
-				loadBookDetail();
+				
 			});
-			mui(".mui-content").on("tap","#iduck-bookList-bookItem-img",function(){
+			mui(".mui-content").on("tap","#iduck-bookItem-icon-2",function(){
 				var self=plus.webview.currentWebview();
 				var opener=self.opener();
 				opener.evalJS("changeSub('bookItem.html','bookRoman.html')");
 				//opener.evalJS("changeNavi('iduck-Index-space')");
 			});
 			mui("body").on("tap","#iduck-bookList-section-secBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener().opener();
+				opener.evalJS("changeSub('bookList/bookList.html','bookRead/bookRead.html')");
+				opener.evalJS("changeNavi('iduck-Index-read')");
+			});
+			mui("body").on("tap","#iduck-bookItem-div-5",function(){
 				var self=plus.webview.currentWebview();
 				var opener=self.opener().opener();
 				opener.evalJS("changeSub('bookList/bookList.html','bookRead/bookRead.html')");
@@ -113,6 +219,42 @@
 				opener.evalJS("changeSub('bookList/bookList.html','userSpace/userSpace.html')");
 				opener.evalJS("changeNavi('iduck-Index-space')");
 			});
+			mui("body").on("tap",".mui-icon-arrowdown",function(){
+				var div=document.getElementById("iduck-bookList-bookItem-dtl");
+				div.id="iduck-bookItem-div-3";
+				var more=document.getElementById("iduck-bookList-bookitem-moreBtn");
+				var less=document.getElementById("iduck-bookItem-icon-3");
+				more.id="iduck-bookItem-icon-3";
+				less.id="iduck-bookList-bookitem-moreBtn";
+			});
+			mui("body").on("tap",".mui-icon-arrowup",function(){
+				var div=document.getElementById("iduck-bookItem-div-3");
+				div.id="iduck-bookList-bookItem-dtl";
+				var less=document.getElementById("iduck-bookList-bookitem-moreBtn");
+				var more=document.getElementById("iduck-bookItem-icon-3");
+				less.id="iduck-bookItem-icon-3";
+				more.id="iduck-bookList-bookitem-moreBtn";
+			});
+			mui("body").on("tap","#iduck-bookItem-icon-4",function(){
+				console.log("changeSectionStyle");
+				if(section_state==false){
+					var h1="";
+					for(var i=0;i<book.section.length;i++){
+						h1+="<div  class='mui-card' id='iduck-bookItem-div-5'>p"+i+":&nbsp;&nbsp;&nbsp;&nbsp;"+book.section[i]+"</div>";
+					}
+					document.getElementById("iduck-bookItem-div-4").innerHTML=h1;
+					section_state=true;
+				}
+				else{
+					var h1="";
+					for(var i=0;i<book.section.length;i++){
+						h1+="<div class='mui-card' id='iduck-bookList-section-secBtn'>p"+i+"</div>";
+					}
+					document.getElementById("iduck-bookItem-div-4").innerHTML=h1;
+					section_state=false;
+				}
+			});
+			
 		</script>
 	</body>
 

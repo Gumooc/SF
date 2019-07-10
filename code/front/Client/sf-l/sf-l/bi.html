@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		body{
+			padding: 0px;
+			margin: 0px;
+		}
+		.bi-div-1,.bi-div-2,.bi-div-3,.bi-div-5{
+			margin: 5px 0px 5px 0px;
+			background: gray;
+		}
+		.bi-div-4{
+			background: whitesmoke;
+			margin: 5px 5px 5px 5px;
+		}
+	</style>
+</head>
+
+<body>
+	
+	<div class="mui-content">
+		<button class='mui-btn mui-btn-danger mui-action-back'>关闭</button>
+		<div class='bi-div-1'>
+			有声书信息
+		</div>
+			<button class='bi-btn-4'>收藏</button>	
+		<div class='bi-div-2'>
+			作者信息
+		</div>
+			<button class='bi-btn-2'>关注</button>
+			<button class='bi-btn-3'>查看</button>
+		<div class='bi-div-5'>
+			选集
+		</div>
+		<button class='bi-btn-1'>播放</button>
+		<div class='bi-div-3'>
+			评论信息
+		</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var item={book:{},author:{},cmt:[]};
+		var self;
+		
+		mui.init();
+		mui.plusReady(function(){
+			self=plus.webview.currentWebview();
+		})
+		
+		//点击事件，播放音频
+		mui('body').on('tap','.bi-btn-1',function(e){	
+			mui.fire(self,'play',{});
+	    });
+	    //点击事件，收藏作品
+	    mui('body').on('tap','.bi-btn-4',function(e){	
+			var ustr=plus.storage.getItem('uid');
+			if(ustr==null){
+				console.log("尚未登录无法收藏");
+				return;
+			}
+			var uid=parseInt(ustr);
+			var bid=item.book.bid;
+			var stamp=getdt(); 
+			mui.ajax('http://49.234.77.32:8080/sfbook/collector/insert',{
+				data:{uid:uid,bid:item.book.bid,lst:stamp},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					var resp=data.resp;
+					if(resp=='s'){
+						console.log("添加图书至收藏夹");
+						var us_collect=plus.webview.getWebviewById('us-collect.html');
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+	    });
+		
+		//监听事件，加载详情
+		window.addEventListener('item',function(event){
+			var ustr=plus.storage.getItem('uid');
+			var uid=0;
+			if(ustr!=null){uid=parseInt(ustr);}
+			
+			console.log("加载图书详情");
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/bookinfo',{
+				data:{bid:event.detail.bid,uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					item.book=data.body;
+					document.getElementsByClassName("bi-div-1")[0].innerHTML=item.book.bookname;
+					//console.log("加载图书详情步骤1");
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+				data:{uid:item.book.uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					item.author=data.body;
+					document.getElementsByClassName("bi-div-2")[0].innerHTML=item.author.nickname;
+					//console.log("加载图书详情步骤2");
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/comment',{
+				data:{bid:event.detail.bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					item.cmt=data.body;
+					var html="";
+					for(var i=0;i<item.cmt.length;i++){
+						html+="<div class='bi-div-4'>";
+						html+="<div>"+item.cmt[i].uid+"</div>";
+						html+="<div>"+item.cmt[i].des+"</div>";
+						html+="</div>";
+					}
+					document.getElementsByClassName("bi-div-3")[0].innerHTML=html;
+					//console.log("加载图书详情步骤3");
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			//console.log("加载图书详情结束");
+		});
+		//监听事件，播放音频
+		window.addEventListener('play',function(event){
+			var index=plus.webview.getLaunchWebview();
+			mui.fire(index,'jump',{dst:'bp.html'});
+			var bp=plus.webview.getWebviewById('bp.html');
+			mui.fire(bp,'play',{bid:item.book.bid,sec:1});
+			self.close();
+		});
+		
+		//应用函数，获取时间
+		function getdt(){
+			var date=new Date(); 
+			var year=date.getFullYear(); 
+			var mon=date.getMonth()+1; 
+		    var day=date.getDate();
+		    var stamp=year+'-'+mon+'-'+day;
+		    return stamp;
+		}
+		
+	</script>
+</body>
+
+</html>

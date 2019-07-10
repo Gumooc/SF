@@ -26,13 +26,12 @@
 				<div><icon class="mui-icon mui-icon-redo" id="iduck-userSpace-userlog-backBtn"></div>
 				用户作品
 			</div>
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">有声书图片</div>
-				<div class="mui-card-footer">小青龙大战象拔蚌</div>
-			</div>
+			<div id="iduck-userWork-div-1"></div>
+			
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
+			var works=[];
 			mui.init();
 			mui(".mui-content").on("tap","#iduck-userSpace-userlog-backBtn",function(){
 				var self=plus.webview.currentWebview();
@@ -40,6 +39,37 @@
 				opener.evalJS("changeSub('userSpace/userWork.html','userSpace/userSpace.html')");
 				//opener.evalJS("changeNavi('iduck-Index-space')");
 			});
+			mui.plusReady(function(){
+				loadBook();
+			})
+			function loadBook(){
+				mui.ajax('http://49.234.77.32:8080/sfbook/user/works',{
+					data:{
+						uid:1
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					async:false,
+					timeout:10000,//超时时间设置为10秒；
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						works=data.body;
+						console.log("works="+works.length);
+						var html="";
+						for(var i=0;i<works.length;i++){
+							html+="<div class='mui-card' id='iduck-bookList-bookEntry'>"
+								html+="<div class='mui-card-content' id='iduck-bookList-bookEntry-img'><img height='80%' width='80%' src='data:image/jpg;base64,"+works[i].img+"'/></div>";
+								html+="<div class='mui-card-footer'>"+works[i].bookname+"</div>";
+							html+="</div>";
+						}
+						document.getElementById("iduck-userWork-div-1").innerHTML=html;
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+			}
 		</script>
 	</body>
 

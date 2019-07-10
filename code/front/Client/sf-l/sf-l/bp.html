@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="mui-content">
+		播放<br/>
+		<button class="bp-btn-1">详情</button>
+		<button class="bp-btn-2">暂停</button>
+		<button class="bp-btn-3">下载</button>
+		<button class="bp-btn-4">收藏</button>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		
+		var self;
+		var s;
+		var pause=false;
+		var bid=-1;
+		var sec=0;
+		
+		mui.init();
+		mui.plusReady(function(){
+			self=plus.webview.currentWebview();
+		})
+		
+		//按钮事件，显示详情
+		mui('body').on('tap','.bp-btn-1',function(e){	
+			if(bid==-1){
+				console.log('当前暂无播放任务');
+				return;
+			}
+			mui.openWindow({
+	    		url:'bi.html',
+	    		id:'bi.html',
+	    	});
+	    	var bi=plus.webview.getWebviewById('bi.html');
+	    	mui.fire(bi,'item',{bid:bid});
+	    });
+	    //按钮事件，暂停播放
+		mui('body').on('tap','.bp-btn-2',function(e){	
+			mui.fire(self,'pause',{});
+	   	});
+		
+		//监听事件，播放音频
+		window.addEventListener('play',function(event){
+			if(s) s.stop();
+			bid=event.detail.bid;
+			sec=event.detail.sec;
+			s= plus.audio.createPlayer("audio/1.mp3");
+		    var num = s.getDuration();
+		    setTimeout(function(){var num = s.getDuration();},100);
+		    s.play(function (){console.log("播放音频文件(bid:"+bid+",sec:"+sec+")");},
+		    	function(e){console.log("error");}
+		    );
+		});
+		//监听事件，暂停播放
+		window.addEventListener('pause',function(event){
+			if(pause==true){
+				s.resume();
+				pause=false;
+			}
+			else{
+				s.pause();
+				pause=true;
+			}
+		});
+		
+		
+	</script>
+</body>
+
+</html>

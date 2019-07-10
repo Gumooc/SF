@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    
+    <link href="css/mui.min.css" rel="stylesheet"/>  
+</head>
+<body>
+	<nav class="mui-bar mui-bar-tab"> 
+		<a class="mui-tab-item mui-active">
+			<span class="mui-icon mui-icon-home"></span>
+			<span class="mui-tab-label">首页</span>
+		</a>       
+		<a class="mui-tab-item"> 
+			<span class="mui-icon mui-icon-home"></span>            
+			<span class="mui-tab-label">空间</span>        
+		</a>        
+		<a class="mui-tab-item">
+			<span class="mui-icon mui-icon-home"></span>
+			<span class="mui-tab-label">播放</span>
+		</a>
+		<a class="mui-tab-item">            
+			<span class="mui-icon mui-icon-home"></span>            
+			<span class="mui-tab-label">制作</span>        
+		</a>   
+		<a  class="mui-tab-item">            
+			<span class="mui-icon mui-icon-home"></span>            
+			<span class="mui-tab-label">账号</span>        
+		</a>   
+	</nav>
+	
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		var src='bl.html';
+		var sub=['bl.html','us.html','bp.html','bm.html','ua.html'];
+		var sub_style={top:'0px',bottom:'51px'};
+		var self;
+		
+	    mui.init();
+	    mui.plusReady(function(){
+	    	self = plus.webview.currentWebview();
+            for(var i=0;i<sub.length;i++){
+                var page = plus.webview.create(sub[i], sub[i], sub_style);
+				page.hide();
+                self.append(page);
+            }
+            plus.webview.show(src);
+            console.log("智能有声书开始运行");
+	    });
+	    
+	    //点击事件，导航跳转
+	    mui('body').on('tap','.mui-tab-item',function(e){	
+	    	var ele=document.getElementsByClassName('mui-tab-item');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){
+	    		if(ele[cnt]==this)break;
+	    	}
+	    	mui.fire(self,'jump',{dst:sub[cnt]})
+	    });
+	    
+	    //监听事件，导航跳转
+	    window.addEventListener('jump',function(event){
+	    	var dst=event.detail.dst;
+	    	if(dst==src)return;
+	    	plus.webview.show(dst);
+	    	plus.webview.hide(src);
+	    	src=dst;
+		});
+	</script>
+	
+</body>
+</html>

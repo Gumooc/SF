@@ -26,26 +26,13 @@
 					<div><icon class="mui-icon mui-icon-redo" id="iduck-userSpace-userlog-backBtn"></div>
 					用户收藏
 			</div>
-			</div>
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">有声书图片</div>
-				<div class="mui-card-footer">小青龙大战象拔蚌</div>
-			</div>
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">有声书图片</div>
-				<div class="mui-card-footer">有声书标题</div>
-			</div>
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">有声书图片</div>
-				<div class="mui-card-footer">有声书标题</div>
-			</div>
-			<div class="mui-card" id="iduck-bookList-bookEntry">
-				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">有声书图片</div>
-				<div class="mui-card-footer">有声书标题</div>
+			<div id="iduck-userCollect-div-1">
+				
 			</div>
 		</body>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
+			var collect=[];
 			mui.init();
 			mui(".mui-content").on("tap","#iduck-userSpace-userlog-backBtn",function(){
 				var self=plus.webview.currentWebview();
@@ -53,6 +40,56 @@
 				opener.evalJS("changeSub('userSpace/userCollect.html','userSpace/userSpace.html')");
 				//opener.evalJS("changeNavi('iduck-Index-space')");
 			});
+			mui.plusReady(function(){
+				loadBook();
+			})
+			mui(".mui-content").on("tap","#iduck-bookList-bookEntry",function(){
+				var ele=document.getElementById("iduck-bookList-bookEntry");
+				var i=0;
+				while(this!=ele){
+					i++;
+					ele=ele.nextElementSibling;
+				}
+				console.log(i);
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userCollect.html','bookList.html')");
+				opener.evalJS("changeNavi('iduck-Index-home')");
+				var item=plus.webview.getWebviewById('bookList/bookItem.html');
+				mui.fire(item,'hello',{
+				   bid:collect[i].bid
+				});
+			});
+			function loadBook(){
+				//console.log("loadBook");
+				mui.ajax('http://49.234.77.32:8080/sfbook/user/collector',{
+					data:{
+						uid:2
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					async:false,
+					timeout:10000,//超时时间设置为10秒；
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						collect=data.body;
+						//console.log(data.resp);
+						console.log("collect="+collect.length);
+						var html="";
+						for(var i=0;i<collect.length;i++){
+							html+="<div class='mui-card' id='iduck-bookList-bookEntry'>"
+								html+="<div class='mui-card-content' id='iduck-bookList-bookEntry-img'><img height='80%' width='80%' src='data:image/jpg;base64,"+collect[i].img+"'/></div>";
+								html+="<div class='mui-card-footer'>"+collect[i].bookname+"</div>";
+							html+="</div>";
+						}
+						document.getElementById("iduck-userCollect-div-1").innerHTML=html;
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+			}
 		</script>
 	</body>
 

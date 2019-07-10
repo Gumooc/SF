@@ -1,0 +1,10 @@
+UserController("/user"):
+	"/login":
+	"/register":
+	"/collector":		request(uid),
+	"/history":		request(uid),
+	"/comment":		request(uid),
+	"/works":		request(uid),
+	"/setImg":		request("uid":uid,"file":img),
+	"/askuserinfo":		request(uid),
+	"/updateuser":		request(user),

@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	
+	<div class="mui-content">
+		<button class='us-univ-btn-1'>返回</button>
+		<button class='us-univ-btn-1'>刷新</button>
+		<div class='us-univ-div-1'>信息</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var uid;
+		var cmt=[];
+		
+		mui.init();
+		mui.plusReady(function(){
+    	var self = plus.webview.currentWebview();
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+   		});
+   		
+   		//按钮事件，刷新页面
+   		mui('body').on('tap','.us-univ-btn-2',function(e){
+	    	mui.fire(self,'get',{uid:uid});
+   		});
+   		mui('body').on('tap','.us-univ-btn-1',function(e){
+	    	mui.fire(opener,'jump',{dst:'us-main.html'});
+   		})
+		
+		//监听事件，加载信息
+		window.addEventListener('get',function(event){
+			uid=event.detail.uid;
+	    	var html="";
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/comment',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					cmt=data.body;
+					if(!cmt.length){html+="<div>暂无评论记录</div>";}
+					else{
+						for(var i=0;i<cmt.length;i++){
+							html+="<div>";
+							html+="<div>"+cmt[i].bid+"</div>";
+							html+="<div>"+cmt[i].des+"</div>";
+							html+="</div>";
+						}
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+	    	document.getElementsByClassName('us-univ-div-1')[0].innerHTML=html;
+		});
+		
+	</script>
+</body>
+
+</html>
