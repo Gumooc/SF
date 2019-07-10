@@ -44,12 +44,31 @@
 	    	});
 	    	var bi=plus.webview.getWebviewById('bi.html');
 	    	mui.fire(bi,'item',{bid:list[cnt].bid});
+   		});
+   		mui('body').on('tap','.bm-cur-btn-4',function(e){
+   			var ele=document.getElementsByClassName('bm-cur-btn-4');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/book/deletebook',{
+				data:{bid:list[cnt].bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='s'){
+						console.log('删除图书成功！');
+						mui.fire(self,'get',{uid:uid});
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
    		})
    		
    		//监听事件，加载作品
    		window.addEventListener('get',function(event){
 			uid=event.detail.uid;
-			console.log("访问我的创作室"+uid);
 	    	var html="";
 	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/selfworks',{
 				data:{uid:uid},
@@ -67,6 +86,7 @@
 							html+="<div>"+list[i].bookname+"</div>";
 							html+="<button class='bm-cur-btn-2'>编辑</button>";
 							html+="<button class='bm-cur-btn-3'>详情</button>";
+							html+="<button class='bm-cur-btn-4'>删除</button>";
 							html+="</div>";
 						}
 					}

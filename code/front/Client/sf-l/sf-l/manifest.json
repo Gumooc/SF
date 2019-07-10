@@ -210,12 +210,11 @@
 				"resources": [
 					"bl-main.html",
 					"bm-main.html",
-					"bm-new.html"
+					"bm-new.html",
+					"bm-edit.html",
+					"bm-cur.html"
 				],
-				"refer": [
-					"bm-cur.html",
-					"bm-edit.html"
-				],
+				"refer": [],
 				"priority": 0
 			},
 			"bm-main.html": {
@@ -229,6 +228,13 @@
 				"resources": [],
 				"refer": [
 					"bi.html"
+				],
+				"priority": 0
+			},
+			"ua-log.html": {
+				"resources": [],
+				"refer": [
+					"ua-reg.html"
 				],
 				"priority": 0
 			}

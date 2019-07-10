@@ -72,7 +72,9 @@
 		"resources": [
 			"bl-main.html",
 			"bm-main.html",
-			"bm-new.html"
+			"bm-new.html",
+			"bm-edit.html",
+			"bm-cur.html"
 		],
 		"refer": [
 			"bl-main.html",
@@ -90,6 +92,11 @@
 	"bm-cur.html": {
 		"refer": [
 			"bi.html"
+		]
+	},
+	"ua-log.html": {
+		"refer": [
+			"ua-reg.html"
 		]
 	}
 }
