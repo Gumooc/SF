@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.run.entity.Book;
 import com.run.entity.Comment;
+import com.run.entity.UserbookItem;
 
 public interface BookDao {
 	Book askbookinfo(int bid);
@@ -15,7 +16,8 @@ public interface BookDao {
 	void deletebook(int bid);
 	void updatebook(Book book);
 	
-
+	Book collectcheck(UserbookItem ubi);
+	
 	int getmaxid();
 	
 }
