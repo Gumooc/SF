@@ -14,6 +14,24 @@ public class Book {
 	private String lst;
 	private String chapter;
 	private boolean shared;
+	private boolean forbidden;
+	private boolean collected;
+	
+	public void setCollected(boolean collected) {
+		this.collected = collected;
+	}
+	
+	public boolean getCollected() {
+		return collected;
+	}
+	
+	public void setForbidden(boolean forbidden) {
+		this.forbidden = forbidden;
+	}
+	
+	public boolean getForbidden() {
+		return forbidden;
+	}
 	
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
