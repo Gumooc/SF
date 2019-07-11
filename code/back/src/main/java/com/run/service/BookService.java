@@ -28,4 +28,6 @@ public interface BookService {
 	
 	JSONObject updatechapter(int bid, String chapter);
 	
+	boolean collectcheck(int uid, int bid);
+	
 }
