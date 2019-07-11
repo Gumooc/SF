@@ -17,6 +17,7 @@ public interface UserService {
 	
 	JSONObject askcomment(int uid);
 	JSONObject askworks(int uid);
+	JSONObject askselfworks(int uid);
 	JSONObject askuser(int uid);
 	JSONObject setImg(int uid, MultipartFile file);
 }
