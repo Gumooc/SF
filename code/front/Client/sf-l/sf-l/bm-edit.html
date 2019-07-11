@@ -1,18 +1,147 @@
 <!doctype html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="css/mui.min.css" rel="stylesheet" />
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
 
-	<body>
-		<script src="js/mui.min.js"></script>
-		<script type="text/javascript">
-			mui.init();
-		</script>
-	</body>
+<body>
+	
+	<div class="mui-content">
+		<button class='bm-edit-btn-1'>返回</button>
+		<div class="bm-edit-div-1">
+			标题
+			<textarea placeholder="有声书标题" id="name"></textarea>
+			封面
+			<br/><input type="file" id='img'/><br/>
+			描述
+			<textarea placeholder="有声书描述" id="des"></textarea>
+			发布状态
+			<div class="mui-switch" id='share'>
+			  	<div class="mui-switch-handle"></div>
+			</div>
+			分类
+			<br/>
+			分集
+			<button class='bm-edit-btn-3'>第一集</button>
+			<button class='bm-edit-btn-4'>+</button>
+			<br/>
+			<button class='bm-edit-btn-2'>提交</button>
+		</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var item={};
+		
+		mui.init();
+		mui.plusReady(function(){
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+   		});
+   		
+   		//按钮事件，返回页面
+   		mui('body').on('tap','.bm-edit-btn-1',function(e){
+   			mui.fire(opener,'jump',{dst:'bm-cur.html'});
+   		})
+   		//按钮事件，提交修改
+   		mui('body').on('tap','.bm-edit-btn-2',function(e){
+   			var nitem={};
+   			nitem.bookname=document.getElementById('name').value;
+   			nitem.lst=getdt();
+   			var ustr=plus.storage.getItem('uid');
+   			nitem.uid=parseInt(ustr);
+   			nitem.playtime=item.playtime;
+   			nitem.kind="";
+   			nitem.shared=document.getElementById("share").classList.contains("mui-active");;
+   			nitem.bid=item.bid;
+   			mui.ajax('http://49.234.77.32:8080/sfbook/book/updatebook',{
+				data:nitem,
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='s'){
+						console.log("成功更新图书");
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			var des=document.getElementById('des').value;
+			var img=document.getElementById('img').files[0];
+			var formData=new FormData();
+			formData.append('bid',item.bid);
+    		formData.append('file',img); 
+			$.ajax({
+		        url:'http://49.234.77.32:8080/sfbook/book/setImg',
+		        type:'post',
+		        dataType:'text',
+		        cache: false,     //上传文件无需缓存
+		        processData: false, //用于对data参数进行序列化处理 这里必须false
+		        contentType: false, //必须 
+		        async:false,
+		        data:formData,
+		        success:function(list){  
+		           console.log('成功导入图片');
+		        },
+		        error:function(){console.log("保存失败");}
+    		});
+    		mui.ajax('http://49.234.77.32:8080/sfbook/book/insbookdes',{
+				data:{des:des,bid:item.bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					console.log("成功导入简介");
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			
+   		})
+		
+		//监听事件，加载图书信息
+		window.addEventListener('item',function(event){
+			var bid=event.detail.bid;
+			var ustr=plus.storage.getItem('uid');
+			var uid=parseInt(ustr);
+			
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/bookinfo',{
+				data:{bid:event.detail.bid,uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					item=data.body;
+					console.log(item.bookname+item.bid);
+					document.getElementById('name').placeholder=item.bookname;
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+		});
+		
+		
+   		//应用函数，获取时间
+		function getdt(){
+			var date=new Date(); 
+			var year=date.getFullYear(); 
+			var mon=date.getMonth()+1; 
+		    var day=date.getDate();
+		    var stamp=year+'-'+mon+'-'+day;
+		    return stamp;
+		}
+	</script>
+</body>
 
 </html>
