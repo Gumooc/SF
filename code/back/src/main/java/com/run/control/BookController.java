@@ -38,11 +38,18 @@ public class BookController {
 		setRHeader(request, response);
 		JSONObject bookinfo = JSONObject.fromObject(liString);
 		JSONObject feedback = new JSONObject();
-		Book book = bookService.askbookinfo(bookinfo.getInt("bid"));
+		int bid = bookinfo.getInt("bid");
+		int uid = bookinfo.getInt("uid");
+		Book book = bookService.askbookinfo(bid);
 		if (book == null) {
 			feedback.put("resp", "f");
 			feedback.put("body", "");
 		} else {
+			if (uid>0) {
+				book.setCollected(bookService.collectcheck(uid, bid));
+			} else {
+				book.setCollected(false);
+			}
 			feedback.put("resp", "s");
 			feedback.put("body", book);
 		}
