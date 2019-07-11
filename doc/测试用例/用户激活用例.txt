@@ -1,6 +1,0 @@
-{{uid:0},null},
-{{uid:1},null},
-{{uid:-1},null},//no change
-{{uid:2},null},
-{{uid:99},null},//no change
-{{uid:65536},null}//no change
