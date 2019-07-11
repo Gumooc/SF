@@ -1,0 +1,13 @@
+{{username:"", password1:"", password2:"", email:""}, {"resp":"f"}},
+{{username:"1", password1:"", password2:"", email:""}, {"resp":"f"}},
+{{username:"0", password1:"2", password2:"2", email:""}, {"resp":"f"}},
+{{username:"", password1:"0", password2:"0", email:"xyzeric@sina.com"}, {"resp":"f"}},
+{{username:"sf4", password1:"sf", password2:"sf", email:"@@"}, {"resp":"f"}},
+{{username:"sf500000000000000", password1:"sf", password2:"sf", email:"xyzeric@sina.com"}, {"resp":"f"}},
+{{username:"sf5", password1:"00000000000000000", password2:"00000000000000000", email:"xyzeric@sina.com"}, {"resp":"f"}},
+{{username:"sf6", password1:"sf", password2:"sf", email:"xyzeric@sina.com"}, {"resp":"s"}},不激活
+{{username:"sf6", password1:"sf333", password2:"sf333", email:"xyzeric@sina.com"}, {"resp":"f"}},
+{{username:"sf8", password1:"1234567", password2:"1234567", email:"13917546428@sina.com"}, {"resp":"s"}},激活
+{{username:"000000", password1:"sfiadhia", password2:"sfiadhia", email:"13917546428@163.com"}, {"resp":"s"}},不激活
+{{username:"__djai213-.^&*(\"", password1:"123", password2:"123", email:"@"}, {"resp":"f"}},
+{{username:"sf9", password1:"!@#$%^&*()", password2:"!@#$%^&*()", email:"13917546428@163.com"}, {"resp":"f"}}
