@@ -120,6 +120,12 @@
 		      <version>1.4.7</version>
 		</dependency>
 		
+		<!-- HanLP -->
+		<dependency>
+		    <groupId>com.hankcs</groupId>
+		    <artifactId>hanlp</artifactId>
+		    <version>portable-1.7.4</version>
+		</dependency>
   </dependencies>
   
   <build>
