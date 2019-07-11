@@ -24,6 +24,7 @@ public interface UserDao {
 	List<Comment> askcomment(int uid);
 	
 	List<Book> askworks(int uid);
+	List<Book> askselfworks(int uid); 
 	User askuser(int uid);
 	int getmaxid();
 }
