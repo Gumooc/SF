@@ -121,7 +121,9 @@ public class UserServiceImpl implements UserService {
 			for (Book book:bookl.getBooks()) {
 				Query query = new Query(Criteria.where("id").is(book.getBid()));
 				BookImg bookImg = mongoTemplate.findOne(query, BookImg.class, "bookimg");
-				book.setImg(bookImg.getImg());
+				if (bookImg != null) {
+					book.setImg(bookImg.getImg());
+				}
 			}
 			feedback.put("body", bookl.getBooks());
 		}
@@ -164,14 +166,35 @@ public class UserServiceImpl implements UserService {
 			for (Book book:bookl) {
 				Query query = new Query(Criteria.where("id").is(book.getBid()));
 				BookImg bookImg = mongoTemplate.findOne(query, BookImg.class, "bookimg");
-				book.setImg(bookImg.getImg());
+				if (bookImg != null) {
+					book.setImg(bookImg.getImg());
+				}
 			}
 			feedback.put("body", bookl);
 		}
 		feedback.put("resp", "s");
 		return feedback;
 	}
-	
+
+	@Override
+	public JSONObject askselfworks(int uid) {
+		JSONObject feedback = new JSONObject();
+		List<Book> bookl = userMapper.askselfworks(uid);
+		if (bookl == null) {
+			feedback.put("body", "");
+		} else {
+			for (Book book:bookl) {
+				Query query = new Query(Criteria.where("id").is(book.getBid()));
+				BookImg bookImg = mongoTemplate.findOne(query, BookImg.class, "bookimg");
+				if (bookImg != null) {
+					book.setImg(bookImg.getImg());
+				}
+			}
+			feedback.put("body", bookl);
+		}
+		feedback.put("resp", "s");
+		return feedback;
+	}
 	@Override
 	public JSONObject askuser(int uid) {
 		JSONObject feedback = new JSONObject();
