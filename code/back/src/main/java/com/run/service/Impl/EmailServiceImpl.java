@@ -44,7 +44,7 @@ public class EmailServiceImpl implements EmailService {
             // 1.获取默认session对象
             Session session = Session.getDefaultInstance(properties, new Authenticator() {
                 public PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("1456199702@qq.com", "gzrcavrtipxhgjjg"); // 发件人邮箱账号、授权码
+                    return new PasswordAuthentication("1456199702@qq.com", "eqcigyfycvoihjjb"); // 发件人邮箱账号、授权码
                 }
             });
  
