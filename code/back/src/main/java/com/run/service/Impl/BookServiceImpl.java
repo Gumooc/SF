@@ -22,6 +22,7 @@ import com.run.entity.Comment;
 import com.run.entity.CommentDes;
 import com.run.entity.User;
 import com.run.entity.UserDetl;
+import com.run.entity.UserbookItem;
 import com.run.service.BookService;
 
 import net.sf.json.JSONObject;
@@ -35,9 +36,18 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
+	@Override 
+	public boolean collectcheck(int uid, int bid) {
+		UserbookItem ubi = new UserbookItem();
+		ubi.setBid(bid);
+		ubi.setUid(uid);
+		return bookMapper.collectcheck(ubi) != null;
+	}
+	
 	@Override
 	public Book askbookinfo(int bid) {
 		Book book = bookMapper.askbookinfo(bid);
+		if (book == null) return null;
 		Query query = new Query(Criteria.where("id").is(bid));
 		BookImg result=mongoTemplate.findOne(query, BookImg.class, "bookimg");
 		if (result != null) {
@@ -51,6 +61,7 @@ public class BookServiceImpl implements BookService {
 		} else {
 			chapter = JSONObject.fromObject(re.getChapter());
 		}
+		//System.out.println(chapter.toString());
 		book.setChapter(chapter.toString());
 		
 		return book;
@@ -116,6 +127,9 @@ public class BookServiceImpl implements BookService {
 		System.out.println(book);
 		bookMapper.insertbook(book);
 		feedback.put("resp", "s");
+		JSONObject bidjs = new JSONObject();
+		bidjs.put("bid", bid);
+		feedback.put("body",bidjs);
 		return feedback;
 	}
 	
