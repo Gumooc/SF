@@ -114,6 +114,16 @@ public class UserController {
 		feedback = userService.askworks(uid);
 		return feedback;
 	}
+
+	@ResponseBody
+	@RequestMapping("/selfworks")
+	public JSONObject askselfworks(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int uid = JSONObject.fromObject(liString).getInt("uid");
+		feedback = userService.askselfworks(uid);
+		return feedback;
+	}
 	
 	@ResponseBody
 	@RequestMapping("/setImg")
