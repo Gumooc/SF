@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
 	<select id="askuser" parameterType="Integer" resultType="com.run.entity.User">
-        select nickname,lst,rgt,male,phone,email from user where uid=#{uid};
+        select nickname,lst,rgt,male,phone,email,activation from user where uid=#{uid};
     </select>
     
     
