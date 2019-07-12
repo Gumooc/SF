@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.druid.util.Base64;
+import com.run.dao.BookDao;
 import com.run.dao.UserDao;
 import com.run.entity.Book;
 import com.run.entity.BookImg;
@@ -29,6 +30,8 @@ public class UserServiceImpl implements UserService {
 	private UserDao userMapper;
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	@Autowired
+	private BookDao bookMapper;
 	
 	@Override
 	public JSONObject logincheck(User user) {
@@ -150,6 +153,11 @@ public class UserServiceImpl implements UserService {
 				comment.setImg(userDetl.getImg());
 			}
 			comment.setNickname(user.getNickname());
+			
+			Book book = bookMapper.askbookinfo(comment.getBid());
+			if (book != null) {
+				comment.setBookname(book.getBookname());
+			}
 		}
 		
 		feedback.put("body", commentl);
