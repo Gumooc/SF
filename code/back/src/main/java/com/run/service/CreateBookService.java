@@ -6,7 +6,7 @@ import net.sf.json.JSONObject;
 
 public interface CreateBookService {
 
-	JSONObject createbookbytext(int bid, int chapter, MultipartFile txt);
-	JSONObject createbookbysound(int bid, int chapter, MultipartFile sound);
+	JSONObject bytext(JSONObject info, MultipartFile txt);
+	JSONObject bysound(JSONObject info, MultipartFile sound);
 	
 }
