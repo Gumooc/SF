@@ -15,6 +15,7 @@
 			
 		</div>
 		<button class='us-main-btn-3'>修改信息</button>
+		<button class='us-main-btn-4'>我的空间</button>
 	</div>
 	
 	<script src="js/mui.min.js"></script>
@@ -51,7 +52,26 @@
    		mui('body').on('tap','.us-main-btn-3',function(e){
    			mui.fire(opener,'jump',{dst:'us-set.html'});
    		})
+   		//按钮事件，返回个人空间
+   		mui('body').on('tap','.us-main-btn-4',function(e){
+   			mui.fire(self,'self',{});
+   		})
    		
+   		//监听事件,返回他人页面
+   		window.addEventListener('else',function(event){
+	    	uid=event.detail.uid;
+	    	var html="";
+	    	
+    		html+="<div class='us-main-div-1'>"+uid+"</div>";
+			html+="<button class='us-main-btn-1'>个人信息</button>";
+			html+="<button class='us-main-btn-1'>收藏作品</button>";
+			html+="<button class='us-main-btn-1'>历史浏览</button>";
+			html+="<button class='us-main-btn-1'>关注用户</button>";
+			html+="<button class='us-main-btn-1'>个人作品</button>";
+			html+="<button class='us-main-btn-1'>评论记录</button>";
+	    	
+	    	document.getElementsByClassName('us-main-div-2')[0].innerHTML=html;
+		});
    		
 		//监听事件，返回个人页面
 		window.addEventListener('self',function(event){

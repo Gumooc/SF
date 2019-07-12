@@ -48,6 +48,10 @@
 				success:function(data){
 					user=data.body;
 					html+="<div>真实姓名:"+user.nickname+"</div>";
+					html+="<div>签名:</div>";
+					html+="<div><img height='80px' width='80px' src='data:image/jpg;base64,"+user.img+"'/></div>";
+					html+="<div>电话:"+user.phone+"</div>";
+					html+="<div>注册时间:"+user.rgt+"</div>";
 					html+="<div>email:"+user.email+"</div>";
 					html+="<div>性别:"+user.male+"</div>";
 				},

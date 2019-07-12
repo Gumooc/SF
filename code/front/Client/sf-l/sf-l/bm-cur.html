@@ -42,6 +42,7 @@
    			var bm_edit=plus.webview.getWebviewById('bm-edit.html');
    			mui.fire(bm_edit,'item',{bid:list[cnt].bid});
    		});
+   		//按钮事件，显示详情
    		mui('body').on('tap','.bm-cur-btn-3',function(e){
    			var ele=document.getElementsByClassName('bm-cur-btn-3');
 	    	var cnt=0;
@@ -54,6 +55,7 @@
 	    	var bi=plus.webview.getWebviewById('bi.html');
 	    	mui.fire(bi,'item',{bid:list[cnt].bid});
    		});
+   		//按钮事件，删除图书
    		mui('body').on('tap','.bm-cur-btn-4',function(e){
    			var ele=document.getElementsByClassName('bm-cur-btn-4');
 	    	var cnt=0;
@@ -78,7 +80,6 @@
    		//监听事件，加载作品
    		window.addEventListener('get',function(event){
 			uid=event.detail.uid;
-	    	console.log(s1);
 	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/selfworks',{
 				data:{uid:uid},
 				dataType:'json',
@@ -90,19 +91,22 @@
 					list=data.body;
 					if(!list.length){html+="<div>暂无作品</div>";}
 					else{
+						var html='';
 						for(var i=0;i<list.length;i++){
 							html+="<div>";
-							html+="<div>"+list[i].bookname+"</div>";
+							html+="<div>书名"+list[i].bookname+"</div>";
+							html+="<div><img height='80px' width='80px' src='data:image/jpg;base64,"+list[i].img+"'/></div>"
+							html+="<div>发布状态"+list[i].shared+"</div>";
 							html+="<button class='bm-cur-btn-2'>编辑</button>";
 							html+="<button class='bm-cur-btn-3'>详情</button>";
 							html+="<button class='bm-cur-btn-4'>删除</button>";
 							html+="</div>";
 						}
+						document.getElementsByClassName('bm-cur-div-1')[0].innerHTML=html;
 					}
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
-	    	document.getElementsByClassName('bm-cur-div-1')[0].innerHTML=html;
    		});
 	</script>
 </body>

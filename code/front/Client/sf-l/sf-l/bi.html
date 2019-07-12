@@ -30,6 +30,7 @@
 			有声书信息
 		</div>
 			<button class='bi-btn-4'>收藏</button>	
+			<button type="button" class="mui-btn mui-btn-primary bi-btn-4">取消收藏</button>
 		<div class='bi-div-2'>
 			作者信息
 		</div>
@@ -39,6 +40,8 @@
 			选集
 		</div>
 		<button class='bi-btn-1'>播放</button>
+		<textarea placeholder="添加评论" id='cmt'></textarea>
+		<button class='bi-btn-5'>评论</button>
 		<div class='bi-div-3'>
 			评论信息
 		</div>
@@ -48,20 +51,32 @@
 	<script type="text/javascript">
 		var item={book:{},author:{},cmt:[]};
 		var self;
+		var opener;
 		
 		mui.init();
 		mui.plusReady(function(){
 			self=plus.webview.currentWebview();
+			opener=self.opener();
 		})
 		
+		//点击事件，加载空间页面
+		mui('body').on('tap','.bi-btn-3',function(e){
+			var index=plus.webview.getLaunchWebview();
+			var us=plus.webview.getWebviewById('us.html');
+			var us_main=plus.webview.getWebviewById('us-main.html');
+			mui.fire(us,'jump',{dst:'us-main.html'});
+			mui.fire(us_main,'else',{uid:item.book.uid});
+			mui.fire(index,'jump',{dst:'us.html'});
+			self.close();
+		});
 		//点击事件，播放音频
-		mui('body').on('tap','.bi-btn-1',function(e){	
+		mui('body').on('tap','.bi-btn-1',function(e){
 			mui.fire(self,'play',{});
 	    });
 	    //点击事件，收藏作品
-	    mui('body').on('tap','.bi-btn-4',function(e){	
+	    mui('body').on('tap','.bi-btn-4',function(e){
 			var ustr=plus.storage.getItem('uid');
-			if(ustr==null){
+			if(ustr==null){ 
 				console.log("尚未登录无法收藏");
 				return;
 			}
@@ -85,6 +100,34 @@
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
 	    });
+		//点击事件，发布评论
+		mui('body').on('tap','.bi-btn-5',function(e){
+			var ustr=plus.storage.getItem('uid');
+			if(ustr==null){
+				console.log("尚未登录无法评论");
+				return;
+			}
+			var uid=parseInt(ustr);
+			
+			var cmt=document.getElementById('cmt').value;
+			console.log(cmt);
+			mui.ajax('http://49.234.77.32:8080/sfbook/comment/insert',{
+				data:{uid:uid,bid:item.book.bid,des:cmt},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},	              
+				success:function(data){
+					if(data.resp=='s'){
+						console.log('成功发布评论');
+						mui.fire(self,'item',{bid:item.book.bid});
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			
+	    });
 		
 		//监听事件，加载详情
 		window.addEventListener('item',function(event){
@@ -102,8 +145,15 @@
 				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 					item.book=data.body;
-					document.getElementsByClassName("bi-div-1")[0].innerHTML=item.book.bookname;
-					//console.log("加载图书详情步骤1");
+					var html='';
+					html+="<div>作者"+item.book.bookname+"</div>";
+					html+="<div>播放次数"+item.book.playtime+'</div>';
+					html+="<div>创作时间"+item.book.lst+"</div>";
+					html+="<div>更新时间"+item.book.lst+"</div>";
+					html+="<div>分类"+item.book.kind+"</div>";
+					html+="<div>简介"+item.book.des+"</div>";
+					html+="<div><img height='80px' width='80px' src='data:image/jpg;base64,"+item.book.img+"'/></div>";
+					document.getElementsByClassName("bi-div-1")[0].innerHTML=html;
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
@@ -116,8 +166,11 @@
 				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 					item.author=data.body;
-					document.getElementsByClassName("bi-div-2")[0].innerHTML=item.author.nickname;
-					//console.log("加载图书详情步骤2");
+					var html='';
+					html+="<div>作者姓名"+item.author.nickname+"</div>";
+					html+="<div>作者介绍</div>";
+					html+="<div><img height='80px' width='80px' src='data:image/jpg;base64,"+item.author.img+"'/></div>";
+					document.getElementsByClassName("bi-div-2")[0].innerHTML=html;
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
@@ -130,19 +183,19 @@
 				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 					item.cmt=data.body;
-					var html="";
+					var html='';
 					for(var i=0;i<item.cmt.length;i++){
 						html+="<div class='bi-div-4'>";
-						html+="<div>"+item.cmt[i].uid+"</div>";
+						html+="<div>"+item.cmt[i].nickname+"</div>";
 						html+="<div>"+item.cmt[i].des+"</div>";
+						html+="<div><img height='80px' width='80px' src='data:image/jpg;base64,"+item.cmt[i].img+"'/></div>";
+						html+="<button class='bi-btn-5'>查看</button>";
 						html+="</div>";
 					}
 					document.getElementsByClassName("bi-div-3")[0].innerHTML=html;
-					//console.log("加载图书详情步骤3");
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
-			//console.log("加载图书详情结束");
 		});
 		//监听事件，播放音频
 		window.addEventListener('play',function(event){
@@ -162,6 +215,7 @@
 		    var stamp=year+'-'+mon+'-'+day;
 		    return stamp;
 		}
+		
 		
 	</script>
 </body>
