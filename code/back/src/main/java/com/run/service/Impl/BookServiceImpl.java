@@ -189,7 +189,7 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Override
-	public JSONObject insaudio(int bid, int index, MultipartFile audio) {
+	public JSONObject insaudio(int bid, int index, String audio) {
 		JSONObject feedback = new JSONObject();
 		BookAudio bookAudio = new BookAudio();
 		bookAudio.setId(bid);
