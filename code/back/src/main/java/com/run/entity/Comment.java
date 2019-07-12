@@ -5,9 +5,18 @@ public class Comment {
 	private int cid; 
 	private int uid;
 	private String nickname;
+	private String bookname;
 	private String lst;
 	private String des;
 	private String img;
+	
+	public void setBookname(String bookname) {
+		this.bookname = bookname;
+	}
+	
+	public String getBookname() {
+		return bookname;
+	}
 	
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
