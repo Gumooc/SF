@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class BookAudio {
 	private int id;
 	private int index;
-	private MultipartFile audio;
+	private String audio;
 	
 	public void setIndex(int index) {
 		this.index = index;
@@ -23,11 +23,11 @@ public class BookAudio {
 		return id;
 	}
 	
-	public void setAudio(MultipartFile audio) {
+	public void setAudio(String audio) {
 		this.audio = audio;
 	}
 	
-	public MultipartFile getAudio() {
+	public String getAudio() {
 		return audio;
 	}
 }
