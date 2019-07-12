@@ -1,5 +1,6 @@
 package com.run.control;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -187,7 +188,16 @@ public class BookController {
 	public JSONObject insaudio(@RequestParam(value="bid") int bid, @RequestParam(value="index") int index, @RequestParam(value="file", required = false) MultipartFile audio,HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
-		feedback = bookService.insaudio(bid, index, audio);
+
+		String data ="";
+		try {
+			data = new String(audio.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		feedback = bookService.insaudio(bid, index, data);
 		return feedback;
 	}
 	
