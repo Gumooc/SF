@@ -1,0 +1,23 @@
+/*栏目组件*/
+.bar-div-1{
+	padding: 0px;
+	height: 40px;
+	font-size:18px;
+}
+.bar-icon-1{
+	padding: 8px;
+	background:#007AFF;
+	color: white;
+	height: 100%;
+	width: 40px;
+	float: left;
+}
+.bar-info-1{
+	padding: 8px;
+	width:50%;
+	float: left;
+}
+.bar-switch-1{
+	float: right;
+	margin: 4px;
+}
