@@ -23,6 +23,9 @@
 	"bl-main.html": {
 		"refer": [
 			"bi.html"
+		],
+		"resources": [
+			"css/book.css"
 		]
 	},
 	"bp.html": {
@@ -61,6 +64,10 @@
 	"us-main.html": {
 		"refer": [
 			"ua-log.html"
+		],
+		"resources": [
+			"css/user.css",
+			"css/bar.css"
 		]
 	},
 	"us-collect.html": {
@@ -81,7 +88,8 @@
 			"bm-main.html",
 			"bm-cur.html",
 			"bm-new.html",
-			"bm-edit.html"
+			"bm-edit.html",
+			"bm-serial.html"
 		]
 	},
 	"bm-main.html": {
@@ -97,6 +105,16 @@
 	"ua-log.html": {
 		"refer": [
 			"ua-reg.html"
+		]
+	},
+	"us-work.html": {
+		"refer": [
+			"bi.html"
+		]
+	},
+	"bm-edit.html": {
+		"resources": [
+			"css/section.css"
 		]
 	}
 }

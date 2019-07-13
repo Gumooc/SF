@@ -6,17 +6,25 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		.bm-header-1{
+			font-size: 20px;
+			font-weight: bolder;
+			color: #007AFF;
+		}
+	</style>
 </head>
 
 <body>
-	<header class="mui-bar mui-bar-nav">
+	<header class="mui-bar mui-bar-nav bm-header-1">
+		<icon class='mui-icon mui-icon-compose'></icon>
 		编辑我的有声书
 	</header>
 	
 	<script src="js/mui.min.js"></script>
 	<script type="text/javascript">
 		var src='bm-main.html';
-		var sub=['bm-main.html','bm-new.html','bm-cur.html','bm-edit.html'];
+		var sub=['bm-main.html','bm-new.html','bm-cur.html','bm-edit.html','bm-serial.html'];
 		var sub_style={top:'51px',bottom:'0px'};
 		
 		mui.init();

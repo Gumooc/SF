@@ -6,12 +6,33 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		.bm-main-btn-1{
+			position: absolute;
+			left: 5%;
+			top:200px;
+			width: 40%;
+			height: 220px;
+			float: left;
+			color: gray;
+		}
+		.bm-main-btn-3{
+			position: absolute;
+			right: 8%;
+			top:200px;
+			width: 40%;
+			height: 220px;
+			float: left;
+			color: gray;
+		}
+
+	</style>
 </head>
 
 <body>
 	
 	<div class="mui-content">
-		
+		...
 	</div>
 	
 	<script src="js/mui.min.js"></script>
@@ -50,6 +71,7 @@
    		
    		//监听事件，返回个人页面
 		window.addEventListener('self',function(event){
+			
 	    	var ustr=plus.storage.getItem('uid');
 	    	uid=parseInt(ustr);
 	    	var html="";

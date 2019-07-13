@@ -10,46 +10,119 @@
 		body{
 			padding: 0px;
 			margin: 0px;
+			color: #007AFF;
 		}
-		.bi-div-1,.bi-div-2,.bi-div-3,.bi-div-5{
-			margin: 5px 0px 5px 0px;
-			background: gray;
+		.bi-div-5{
+			border-radius: 10px;
 		}
-		.bi-div-4{
-			background: whitesmoke;
-			margin: 5px 5px 5px 5px;
+		.bi-btn-1{
+			margin: 1px 0px;
+			width: 50px;
+		}
+		.bi-btn-4{
+			position: absolute;
+			right:10px;
+			bottom: 70px;
+		}
+		.bi-btn-5{
+			position: absolute;
+			right:10px;
+			top: 90px;
+		}
+		.bi-btn-6{
+			position: absolute;
+			right: 10px;
+			bottom: 10px;
+		}
+		.bi-btn-2{
+			position: absolute;
+			right:10px;
+			bottom: 10px;
+		}
+		.bi-info-1{
+			height: 160px;
+			width:35%;
+			float: left;
+			border-radius:10px;
+			/*文字居中*/
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.bi-info-2{
+			height: 160px;
+			width: 56%;
+			margin-left: 0px;
+			float: left;
+			border-radius:10px;
+		}
+		.bi-info-3{
+			height: 150px;
+			width: 52%;
+			float: left;
+			border-radius:10px;
+		}
+		.bi-info-5{
+			height: 50px;
+			width: 94%;
+			margin-top: 0px;
+			border-radius: 10px;
+		}
+		.bi-info-6{
+			height: 80px;
+			width: 80px;
+			border-radius: 100%;
+			float: left;
+		}
+		.bi-info-7{
+			margin: 10px 5px;
+			width: 80%;
 		}
 	</style>
 </head>
 
 <body>
 	
+	<header class="mui-bar mui-bar-nav">
+		<button class='mui-btn mui-btn-primary mui-action-back'><span class="mui-icon mui-icon-undo"></span></button>
+	</header>
+	 
 	<div class="mui-content">
-		<button class='mui-btn mui-btn-danger mui-action-back'>关闭</button>
-		<div class='bi-div-1'>
-			有声书信息
+		<div class='mui-card bi-div-1'>
+			<div class="mui-card bi-info-1" >
+				...
+			</div>
+			<div class="bi-info-2" >
+				...
+			</div>
+			<div class="mui-card bi-info-5">
+				...
+			</div>
 		</div>
-			<button class='bi-btn-4'>收藏</button>	
-			<button type="button" class="mui-btn mui-btn-primary bi-btn-4">取消收藏</button>
-		<div class='bi-div-2'>
-			作者信息
+		<div class='mui-card bi-div-2'>
+			...
 		</div>
-			<button class='bi-btn-2'>关注</button>
-			<button class='bi-btn-3'>查看</button>
-		<div class='bi-div-5'>
-			选集
+			
+		<div class="mui-card bi-div-4">
+			<div>分集情况</div>
+			<button type="button" class="mui-btn mui-btn-primary bi-btn-6"><span class="mui-icon mui-icon-bars"></span></button>
+			<div class='bi-info-7'>
+				<button class='bi-btn-1'>p1</button>
+				<button class='bi-btn-1'>p2</button>
+			</div>
 		</div>
-		<button class='bi-btn-1'>播放</button>
-		<textarea placeholder="添加评论" id='cmt'></textarea>
-		<button class='bi-btn-5'>评论</button>
-		<div class='bi-div-3'>
-			评论信息
+		
+		<div class='mui-card bi-div-3'>
+			...
+			<div class="mui-card bi-div-5">
+				...
+			</div>
 		</div>
 	</div>
 	
 	<script src="js/mui.min.js"></script>
 	<script type="text/javascript">
-		var item={book:{},author:{},cmt:[]};
+		var item={book:{},author:{},cmt:[],chapter:[]};
 		var self;
 		var opener;
 		
@@ -71,7 +144,11 @@
 		});
 		//点击事件，播放音频
 		mui('body').on('tap','.bi-btn-1',function(e){
-			mui.fire(self,'play',{});
+			var ele=document.getElementsByClassName('bi-btn-1');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	
+			mui.fire(self,'play',{sid:cnt});
 	    });
 	    //点击事件，收藏作品
 	    mui('body').on('tap','.bi-btn-4',function(e){
@@ -145,15 +222,21 @@
 				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 					item.book=data.body;
+					item.chapter=JSON.parse(item.book.chapter).body;
 					var html='';
-					html+="<div>作者"+item.book.bookname+"</div>";
-					html+="<div>播放次数"+item.book.playtime+'</div>';
-					html+="<div>创作时间"+item.book.lst+"</div>";
-					html+="<div>更新时间"+item.book.lst+"</div>";
-					html+="<div>分类"+item.book.kind+"</div>";
-					html+="<div>简介"+item.book.des+"</div>";
-					html+="<div><img height='80px' width='80px' src='data:image/jpg;base64,"+item.book.img+"'/></div>";
-					document.getElementsByClassName("bi-div-1")[0].innerHTML=html;
+					html+="<div class='bi-info-4'>书名"+item.book.bookname+"</div>";
+					html+="<div class='bi-info-4'>播放次数"+item.book.playtime+'</div>';
+					html+="<div class='bi-info-4'>创作时间"+item.book.lst+"</div>";
+					html+="<div class='bi-info-4'>更新时间"+item.book.lst+"</div>";
+					html+="<button type='button' class='mui-btn mui-btn-primary bi-btn-4'><span class='mui-icon mui-icon-star'></span></button>";
+					document.getElementsByClassName("bi-info-2")[0].innerHTML=html;
+					document.getElementsByClassName('bi-info-1')[0].innerHTML="<img height='80%' width='80%' src='data:image/jpg;base64,"+item.book.img+"'/>"
+					document.getElementsByClassName('bi-info-5')[0].innerHTML="简介";
+					html='';
+					for(var i=0;i<item.chapter.length;i++){
+						html+="<button class='bi-btn-1'>p"+i+"</button>";
+					}
+					document.getElementsByClassName('bi-info-7')[0].innerHTML=html;
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
@@ -168,9 +251,10 @@
 					item.author=data.body;
 					var html='';
 					html+="<div>作者姓名"+item.author.nickname+"</div>";
+					html+="<div class='mui-card bi-info-6 bi-btn-3'><img width='100%' height='100%' src='data:image/jpg;base64,"+item.author.img+"'/></div>";
 					html+="<div>作者介绍</div>";
-					html+="<div><img height='80px' width='80px' src='data:image/jpg;base64,"+item.author.img+"'/></div>";
-					document.getElementsByClassName("bi-div-2")[0].innerHTML=html;
+					html+="<button type='button' class='mui-btn mui-btn-primary bi-btn-2'><span class='mui-icon mui-icon-star'></span></button>";
+					document.getElementsByClassName("bi-div-2")[0].innerHTML=html;	
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
@@ -184,12 +268,15 @@
 				success:function(data){
 					item.cmt=data.body;
 					var html='';
+					html+="<div>评论信息</div>";
+					html+="<textarea placeholder='添加评论' id='cmt'></textarea>";
+					html+="<button type='button' class='mui-btn mui-btn-primary bi-btn-5'><span class='mui-icon mui-icon-bars'></span></button>";
+					html+="<div style='height:30px'></div>"
 					for(var i=0;i<item.cmt.length;i++){
-						html+="<div class='bi-div-4'>";
-						html+="<div>"+item.cmt[i].nickname+"</div>";
+						html+="<div class='mui-card bi-div-5'>";
+						html+="<div class='mui-card bi-info-6 '><img width='100%' height='100%' src='data:image/jpg;base64,"+item.cmt[i].img+"'/></div>";
+						html+="<div>"+item.cmt[i].nickname+"<font color='darkgray'>"+item.cmt[i].lst+"</font></div>"
 						html+="<div>"+item.cmt[i].des+"</div>";
-						html+="<div><img height='80px' width='80px' src='data:image/jpg;base64,"+item.cmt[i].img+"'/></div>";
-						html+="<button class='bi-btn-5'>查看</button>";
 						html+="</div>";
 					}
 					document.getElementsByClassName("bi-div-3")[0].innerHTML=html;
@@ -199,10 +286,11 @@
 		});
 		//监听事件，播放音频
 		window.addEventListener('play',function(event){
+			var sid=event.detail.sid;
 			var index=plus.webview.getLaunchWebview();
 			mui.fire(index,'jump',{dst:'bp.html'});
 			var bp=plus.webview.getWebviewById('bp.html');
-			mui.fire(bp,'play',{bid:item.book.bid,sec:1});
+			mui.fire(bp,'play',{bid:item.book.bid,sid:sid});
 			self.close();
 		});
 		

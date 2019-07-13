@@ -6,22 +6,92 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/bar.css" rel="stylesheet" />
 	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<style>
+		.bm-new-div-2{
+			padding:5px;
+			height: 50px;
+			border-radius:10px;
+		}
+		.bm-new-input-2{
+			border-radius: 10px;
+		}
+		.bm-new-div-5{
+			height: 150px;
+		}
+		.bm-new-div-3{
+			border-radius: 10px;
+		}
+		.bm-new-radio-1{
+			float: left;
+			width: 29%;
+			margin: 6px;
+			padding: 0px;
+			height: 40px;
+			border: 1px solid #007AFF;
+			border-radius: 10px;
+		}
+		.bm-new-btn-2{
+			float: right;
+			position: absolute;
+			right: 10px;
+		}
+		
+	</style>
 </head>
 
 <body>
 	<div class="mui-content">
 		<button class='bm-new-btn-1'>返回</button>
 		<div class="bm-new-div-1">
-			标题
-			<textarea placeholder="有声书标题" id="name"></textarea>
-			封面
-			<br/><input type="file" id='img'/><br/>
-			描述
-			<textarea placeholder="有声书描述" id="des"></textarea>
-			分类
-			<br/>暂无分类<br/>
-			<button class='bm-new-btn-2'>提交</button>
+			<div class="mui-card bm-new-div-2">
+				<input style="width:90%;border-radius:10px;" id='name' placeholder="标题" type="text"/>
+			</div>
+			
+			<div style="width:94%;margin-left:3%;">
+				<textarea class="bm-new-input-2" placeholder="描述" id="des"></textarea>
+			</div>
+			
+			<div class="mui-card bar-div-1">
+				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+				<div class='bar-info-1'> 封面</div>
+			</div>
+			<div class="mui-card bm-new-div-5"><input type="file" id='img'/></div>
+			
+			<div class="mui-card bar-div-1">
+				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+				<div class='bar-info-1'> 分类</div>
+			</div>
+			
+			<div class="mui-card bm-new-div-3">
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>科幻</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>科幻</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>科幻</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>科幻</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+			</div>
+			
+			<button class='mui-btn mui-btn-primary bm-new-btn-2'>提交</button>
 		</div>
 	</div>
 	

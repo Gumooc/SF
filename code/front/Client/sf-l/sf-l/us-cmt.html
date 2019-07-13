@@ -6,14 +6,63 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/bar.css" rel="stylesheet" />
+	<link href="css/user.css" rel="stylesheet" />
+	<style>
+		body{
+			margin: 0px;
+			padding: 0px;
+			color: #007AFF;
+		}
+		.us-cmt-div-1{
+			height: 100px;
+			padding: 5px 0px ;
+		}
+		.us-cmt-info-1{
+			padding-left: 10px;
+			width: 50%;
+			float: left;
+		}
+		.us-cmt-info-3{
+			text-align: right;
+			padding-right: 10px;
+			width: 40%;
+			float: right;
+			color: gray;
+		}
+		.us-cmt-info-2{
+			color: gray;
+			padding-left: 20px;
+			float: left;
+		}
+	</style>
 </head>
 
 <body>
 	
 	<div class="mui-content">
+		<div class='mui-bar mui-bar-nav user-header-1'>
+			<div class="mui-card user-info-1">??</div>
+			<div class='user-info-2'>尚未登录</div>
+			<div class='user-info-3'></div>
+		</div>
+		<div style="margin-top:230px;"></div>
+		
 		<button class='us-univ-btn-1'>返回</button>
 		<button class='us-univ-btn-1'>刷新</button>
-		<div class='us-univ-div-1'>信息</div>
+		
+		<div class='mui-card bar-div-1'>
+			<div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div>
+			<div class='bar-info-1'>评论记录</div>
+		</div>
+		
+		<div class='us-univ-div-1'>
+			<div class='mui-card us-cmt-div-1'>
+				<div class='us-cmt-info-1'>象拔蚌大战小青龙</div>
+				<div class='us-cmt-info-3'>2019-07-12</div>
+				<div class='us-cmt-info-2'>感谢大家的支持</div>
+			</div>
+		</div>
 	</div>
 	
 	<script src="js/mui.min.js"></script>
@@ -41,6 +90,21 @@
 		//监听事件，加载信息
 		window.addEventListener('get',function(event){
 			uid=event.detail.uid;
+			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					user=data.body;
+					document.getElementsByClassName('user-info-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+user.img+"'/>";
+					document.getElementsByClassName('user-info-2')[0].innerHTML=user.nickname;
+					document.getElementsByClassName('user-info-3')[0].innerHTML='个性签名';
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
 	    	var html="";
 	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/comment',{
 				data:{uid:uid},
@@ -54,10 +118,10 @@
 					if(!cmt.length){html+="<div>暂无评论记录</div>";}
 					else{
 						for(var i=0;i<cmt.length;i++){
-							html+="<div>";
-							html+="<div>评论书名"+cmt[i].bid+"</div>";
-							html+="<div>评论内容"+cmt[i].des+"</div>";
-							html+="<div>评论时间"+cmt[i].lst+"</div>";
+							html+="<div class='mui-card us-cmt-div-1'>";
+							html+="<div class='us-cmt-info-1'>"+cmt[i].bookname+"</div>";
+							html+="<div class='us-cmt-info-3'>"+cmt[i].lst+"</div>";
+							html+="<div class='us-cmt-info-2'>"+cmt[i].des+"</div>";
 							html+="</div>";
 						}
 					}

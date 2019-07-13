@@ -150,7 +150,9 @@
 				"priority": 0
 			},
 			"bl-main.html": {
-				"resources": [],
+				"resources": [
+					"css/book.css"
+				],
 				"refer": [
 					"bi.html"
 				],
@@ -193,7 +195,10 @@
 				"priority": 0
 			},
 			"us-main.html": {
-				"resources": [],
+				"resources": [
+					"css/user.css",
+					"css/bar.css"
+				],
 				"refer": [
 					"ua-log.html"
 				],
@@ -214,7 +219,9 @@
 					"bm-edit.html",
 					"bm-cur.html"
 				],
-				"refer": [],
+				"refer": [
+					"bm-serial.html"
+				],
 				"priority": 0
 			},
 			"bm-main.html": {
@@ -236,6 +243,20 @@
 				"refer": [
 					"ua-reg.html"
 				],
+				"priority": 0
+			},
+			"us-work.html": {
+				"resources": [],
+				"refer": [
+					"bi.html"
+				],
+				"priority": 0
+			},
+			"bm-edit.html": {
+				"resources": [
+					"css/section.css"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

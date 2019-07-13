@@ -6,6 +6,7 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/book.css" rel="stylesheet" />
 	<style>
 		body{
 			margin: 0px;
@@ -15,8 +16,6 @@
 			margin: 5px 0px 5px 0px; 
 			background: gray;
 		}
-		.bl-main-btn-1{
-		}
 	</style>
 </head>
 
@@ -24,10 +23,11 @@
 	
 	<div class="mui-content">
 		<div class="bl-main-div-1">
-			内容
+			...
 		</div>
 		<button class="bl-main-btn-2">刷新</button>
 	</div>
+	
 	
 	
 	<script src="js/mui.min.js"></script>
@@ -70,12 +70,12 @@
 				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 					list=data.body;
-					var html="";
+					//console.log("length"+list.length);
+					var html='';
 					for(var i=0;i<list.length;i++){
-						html+="<div class='bl-main-div-2'>"
-						html+="<div>"+list[i].bookname+"</div>";
-						html+="<div><img height='80px' width='80px' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
-						html+="<button class='bl-main-btn-1'>详情</button>"
+						html+="<div class='mui-card book-div-1'>";
+						html+="<div class='mui-card-content book-info-1 bl-main-btn-1'><img height='80%' width='80%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+						html+="<div class='mui-card-footer'>"+list[i].bookname+"</div>";
 						html+="</div>";
 					}
 					document.getElementsByClassName("bl-main-div-1")[0].innerHTML=html;

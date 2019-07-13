@@ -6,17 +6,29 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/user.css" rel="stylesheet" />
+	<link href="css/bar.css" rel="stylesheet" />
 </head>
 
 <body>
+	
 	<div class="mui-content">
-		check
+		<div class='mui-bar mui-bar-nav user-header-1'>
+			<div class="mui-card user-info-1">??</div>
+			<div class='user-info-2'>尚未登录</div>
+			<div class='user-info-3'></div>
+		</div>
+		<div style="margin-top:230px;"></div>
+		<div class='ua-acc-div-1'>
+			...
+		</div>
 	</div>
 	
 	
 	<script src="js/mui.min.js"></script>
 	<script type="text/javascript">
 		var self;
+		var user;
 		
 		mui.init();
 		mui.plusReady(function(){
@@ -34,6 +46,9 @@
 		//按钮事件，登出
 		mui('body').on('tap','.ua-acc-btn-2',function(e){	
 	    	plus.storage.removeItem('uid');
+	    	document.getElementsByClassName('user-info-1')[0].innerHTML='??';
+			document.getElementsByClassName('user-info-2')[0].innerHTML='尚未登录';
+			document.getElementsByClassName('user-info-3')[0].innerHTML='';
 	    	var us_main=plus.webview.getWebviewById('us-main.html');
 	    	var us=plus.webview.getWebviewById('us.html');
 	    	mui.fire(us_main,'self',{});
@@ -43,6 +58,7 @@
 	    	mui.fire(bm_main,'self',{});
 	    	mui.fire(bm,'jump',{dst:'bm-main.html'});
 	    	mui.fire(self,'check',{});
+
 		});
 		
 	    
@@ -51,16 +67,28 @@
 	    	var uid=plus.storage.getItem('uid');
 	    	var html="";
 	    	if(uid==null){
-	    		html+="尚未登录";
-				html+="<button class='ua-acc-btn-1'>登录</button>"
+				html+="<div class='mui-card bar-div-1 ua-acc-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>登录账号</div></div>";
 	    	}
 	    	else{
-	    		html+=uid;
-	    		html+="<button class='ua-acc-btn-2'>登出</button>";
-	    		html+="<button class='ua-acc-btn-3'>更改密码</button>";
-	    		html+="<button class='ua-acc-btn-4'>信息管理</button>";
+	    		mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						user=data.body;
+						document.getElementsByClassName('user-info-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+user.img+"'/>";
+						document.getElementsByClassName('user-info-2')[0].innerHTML=user.nickname;
+						document.getElementsByClassName('user-info-3')[0].innerHTML='个性签名';
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+				html+="<div class='mui-card bar-div-1 ua-acc-btn-2'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>登出账户</div></div>";
+				html+="<div class='mui-card bar-div-1 ua-acc-btn-3'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>修改密码</div></div>";
 	    	}
-	    	document.getElementsByClassName('mui-content')[0].innerHTML=html;
+	    	document.getElementsByClassName('ua-acc-div-1')[0].innerHTML=html;
 	    });
 
 		
