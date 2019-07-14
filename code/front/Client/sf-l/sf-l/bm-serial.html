@@ -6,6 +6,7 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="css/mui.min.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 	<link href="css/bar.css" rel="stylesheet" />
 	<link href="css/section.css" rel="stylesheet" />
 	<style>
@@ -89,33 +90,40 @@
 				mui.fire(bm_edit,'item',{bid:bid});
 				
 				//添加章节音频
+				console.log(jarray.length);
 				var f=document.getElementById('text').files[0];
 				var formData=new FormData();
-				var info={
+				var info=JSON.stringify({
 					bid:bid,
-					chapter:jarray.length-1,
+					chapter:jarray.length,
 					spd:'3',
 					pit:'3',
 					vol:'5',
 					per:'3'
-				}
+				});
 				formData.append('info',info);
     			formData.append('file',f); 
-				mui.ajax('http://49.234.77.32:8080/sfbook/createbook/bytext',{
-					data:formData,
-					dataType:'json',
-					type:'post',
-					async:false,
-					timeout:10000,
-					headers:{'Content-Type':'application/json'},	              
-					success:function(data){
-						console.log("成功合成音频");
-					},
-					error:function(xhr,type,errorThrown){console.log(type);return;}
-				});
+    			$.ajax({
+			        url:'http://49.234.77.32:8080/sfbook/createbook/bytext',
+			        type:'post',
+			        dataType:'text',
+			        cache: false,
+			        processData: false,
+			        contentType: false,
+			        async:false,
+			        data:formData,
+			        success:function(list){  
+			           console.log("成功合成音频");
+			           mui.fire(opener,'jump',{dst:'bm-edit.html'});
+						mui.fire(self,'clear',{});
+			        },
+			        error:function(){
+			        	console.log("音频导入失败");
+			        	mui.toast('音频导入失败',{ duration:'long', type:'div' });
+			        }
+	    		});
 				
-				mui.fire(opener,'jump',{dst:'bm-edit.html'});
-				mui.fire(self,'clear',{});
+				
    			}
    		})
 		//监听事件，加载章节
