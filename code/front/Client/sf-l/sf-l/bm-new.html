@@ -111,7 +111,9 @@
    		mui('body').on('tap','.bm-new-btn-1',function(e){
    			mui.fire(opener,'jump',{dst:'bm-main.html'});
    		})
+   		//按钮事件，提交新书
    		mui('body').on('tap','.bm-new-btn-2',function(e){
+   			var succ=0;
    			var item={};
    			item.bookname=document.getElementById('name').value;
    			item.lst=getdt();
@@ -120,6 +122,14 @@
    			item.playtime=0;
    			item.kind="";
    			item.shared=false;
+   			var des=document.getElementById('des').value;
+			var img=document.getElementById('img').files[0];
+   			//最先检查资料完整性
+   			if(!item.bookname){ mui.toast('请为书籍添加书名',{ duration:'long', type:'div' });return; }
+   			if(!des){ mui.toast('请为书籍添加简介',{ duration:'long', type:'div' });return; }
+   			if(!img){ mui.toast('请为书籍添加图片',{ duration:'long', type:'div' });return; }
+   			
+   			//然后试图新建书籍本体
    			//console.log('book='+item.bookname+item.lst+item.uid+item.playtime+item.kind+item.shared);
    			var bid;
    			mui.ajax('http://49.234.77.32:8080/sfbook/book/insertbook',{
@@ -133,12 +143,35 @@
 					if(data.resp=='s'){
 						console.log("成功创建图书");
 						bid=data.body.bid;
+						succ=1;
 					}
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
-			var des=document.getElementById('des').value;
-			var img=document.getElementById('img').files[0];
+			//创建书籍失败，返回
+			if(succ==0){
+				 mui.toast('创建图书失败',{ duration:'long', type:'div'});
+				 return;
+			}
+			//试图创建书籍的其他信息,出错则撤回
+			var jarray=[];
+   			var j={body:jarray};
+   			var chapter=JSON.stringify(j);
+   			mui.ajax('http://49.234.77.32:8080/sfbook/book/chapter',{
+				data:{bid:bid,chapter:chapter},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					console.log("成功更新章节");
+				},
+				error:function(xhr,type,errorThrown){
+					console.log(type);
+				}
+			});
+			
 			var formData=new FormData();
 			formData.append('bid',bid);
     		formData.append('file',img); 
@@ -168,6 +201,11 @@
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
+			
+			 mui.toast('创建图书成功',{ duration:'long', type:'div' });
+			//mui.fire(opener,'jump',{dst:'bm-cur.html'});
+			 var bm_cur=plus.webview.getWebviewById('bm-cur.html');
+			 mui.fire(bm_cur,'get',{uid:parseInt(plus.storage.getItem('uid'))});
    		});
    		
    		
@@ -180,7 +218,13 @@
 		    var stamp=year+'-'+mon+'-'+day;
 		    return stamp;
 		}
-   		
+   		//监听事件，返回个人页面
+		window.addEventListener('clear',function(event){
+			console.log('清空残余信息');
+			document.getElementById('des').value='';
+			document.getElementById('name').value='';
+			document.getElementsByClassName('bm-new-div-5')[0].innerHTML="<input type='file' id='img'/>";
+		});
 	</script>
 </body>
 

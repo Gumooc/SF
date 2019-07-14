@@ -98,11 +98,12 @@
 		window.addEventListener('play',function(event){ 
 			if(s) s.stop();
 			bid=event.detail.bid;
-			sid=event.detail.sid;
+			sid=event.detail.sid+1;
 			console.log('尝试获取播放章节音频bid='+bid+'sid='+sid);
 			var url;
+			/*
 			mui.ajax('http://49.234.77.32:8080/sfbook/book/askaudio',{
-				data:{bid:bid,index:sid}, 
+				data:{bid:bid,index:sid+1}, 
 				dataType:'json', 
 				type:'post',
 				async:false,
@@ -113,7 +114,9 @@
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
-			s= plus.audio.createPlayer(url);
+			*/
+			s= plus.audio.createPlayer('http://49.234.77.32/audio/'+bid+'_'+sid+'-f-v.mp3');
+			console.log('http://49.234.77.32'+url);
 		    var num=s.getDuration();
 		    setTimeout(function(){num = s.getDuration();},100);
 		    var id=setInterval(function(){
@@ -126,7 +129,7 @@
 					clearInterval(id);
 				}
 		    },1000);
-		    s.play(function(){console.log("播放音频文件(bid:"+bid+",sec:"+sec+")");},
+		    s.play(function(){console.log("播放音频文件(bid:"+bid+",sid:"+sid+")");},
 		    	function(e){console.log("error");}
 		    );
 		});

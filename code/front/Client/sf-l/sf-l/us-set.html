@@ -75,7 +75,7 @@
 			</div>
 			<div class='us-set-div-1'>
 	    		<div class='us-set-info-2'><icon class="mui-icon mui-icon-person "></icon>头像</div>
-		    	<input style='width:70%;float:right;' type='file' id='img'/>
+		    	<div class="us-set-input-2"><input style='width:70%;float:right;' type='file' id='img'/></div>
 			</div>
 		</div>
 
@@ -124,7 +124,8 @@
 				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 					if(data.resp=='s'){
-						console.log("成功更新用户");
+						console.log("成功更新基本信息");
+						 mui.toast('成功更新基本信息',{ duration:'long', type:'div' }) 
 						var us_main=plus.webview.getWebviewById('us-main.html');
     					mui.fire(us_main,'head',{});
     					mui.fire(self,'head',{});
@@ -150,6 +151,7 @@
 		        data:formData,
 		        success:function(list){  
 		            console.log('成功导入头像');
+		             mui.toast('成功导入头像',{ duration:'long', type:'div' }) 
 		        	var us_main=plus.webview.getWebviewById('us-main.html');
 		    		mui.fire(us_main,'head',{});
 		    		mui.fire(self,'head',{});
@@ -164,6 +166,7 @@
    		});
    		//点击事件，加载个人信息
 		window.addEventListener('self',function(event){
+			mui.fire(self,'head',{});
 			var bid=event.detail.bid;
 			var uid=parseInt(plus.storage.getItem('uid'));
 			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
@@ -198,6 +201,16 @@
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
+		});
+		//监听事件，清空记录
+		window.addEventListener('head',function(event){
+			document.getElementById('nick').value='';
+			document.getElementById('birth').value='';
+			document.getElementById('phone').value='';
+			document.getElementsByClassName('us-set-input-2')[0].innerHTML="<input style='width:70%;float:right;' type='file' id='img'/>";
+			document.getElementById('birth').placeholder=old.birth;
+			document.getElementById('nick').placeholder=old.nickname;
+			document.getElementById('phone').placeholder=old.phone;
 		});
 	</script>
 </body>
