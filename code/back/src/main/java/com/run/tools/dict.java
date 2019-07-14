@@ -5,7 +5,9 @@ import net.sf.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,19 +17,19 @@ public class dict {
     public static List<String> dict=new ArrayList<String>();
     public static List<String> init(){
         List<String> res=new ArrayList<String>();
-        String path = "D:\\index\\RenWuPeiYin.txt";
+        String path = "/usr/music/index/RenWuPeiYin.txt";
         File newfile = new File(path);
         List<String> list = new ArrayList<String>();
         list = getFileContext(path);
         for (int i=0;i<list.size();i++)
         res.add(list.get(i));
-        path = "D:\\index\\RiChangShengHuo.txt";
+        path = "/usr/music/index/RiChangShengHuo.txt";
         newfile = new File(path);
         list = new ArrayList<String>();
         list = getFileContext(path);
         for (int i=0;i<list.size();i++)
             res.add(list.get(i));
-        path = "D:\\index\\TianQiYinXiao.txt";
+        path = "/usr/music/index/TianQiYinXiao.txt";
         newfile = new File(path);
         list = new ArrayList<String>();
         list = getFileContext(path);
@@ -53,8 +55,10 @@ public class dict {
         String str = "";
         try {
             Charset charset = Charset.forName("GBK");
-        fileReader = new FileReader(path,charset);
-        bufferedReader = new BufferedReader( fileReader );
+        //fileReader = new FileReader(path,charset);
+        //bufferedReader = new BufferedReader( fileReader );
+          bufferedReader=new BufferedReader(new InputStreamReader(new FileInputStream(path),"GBK"));  //或者将"UTF-8"改成"GB2312"
+
         while( (str = bufferedReader.readLine()) != null ) {
         if( str.trim().length() > 2 ) {
         }
@@ -62,15 +66,17 @@ public class dict {
         str=str.substring(2,str.length()-2);
         //str.replace("","");
         str = str.replaceAll(regexp, "");
-        regexp =" ";
-        str = str.replaceAll(regexp,"");
+        //regexp =" ";
+        //str = str.replaceAll(regexp,"");
         //System.out.println(str);
         list= new ArrayList(Arrays.asList(str.split(",")));
+        List<String> ret=new ArrayList<>();
         for (int i=0;i<list.size();i++)
-            list.get(i);
-            for (int i=0;i<list.size();i++)
-                list.get(i);
-        return list;
+        {
+        	String tmp=list.get(i);
+        	ret.add(tmp.substring(1,tmp.length()));
+        }
+        return ret;
     }
     } catch ( Exception e ) {
         e.printStackTrace();
