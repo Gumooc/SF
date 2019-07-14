@@ -42,7 +42,13 @@ public class Createbook {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
 		JSONObject infojs = JSONObject.fromObject(info);
-		JSONObject urljs = createBookService.bytext(infojs, txt);
+		JSONObject urljs = new JSONObject();
+		try {
+			urljs = createBookService.bytext(infojs, txt);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		bookService.insaudio(infojs.getInt("bid"), infojs.getInt("chapter"), urljs.getString("audiopath"));
 		feedback.put("resp", "s");
 		feedback.put("body", urljs.getString("audiopath"));
