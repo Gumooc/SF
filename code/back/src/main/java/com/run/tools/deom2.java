@@ -7,40 +7,40 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * FFMPEG ����ز���
+ * FFMPEG 锟斤拷锟斤拷夭锟斤拷锟�
  *
  * @author Administrator
  */
 public class deom2{
-        //Windows�� ffmpeg.exe��·��
-        private static String ffmpegEXE = "D:\\ffmpeg\\bin\\ffmpeg.exe";
-        //Linux��mac��  ffmpeg��·��
+        //Windows锟斤拷 ffmpeg.exe锟斤拷路锟斤拷
+        private static String ffmpegEXE = "/usr/local/ffmpeg/bin/ffmpeg";
+        //Linux锟斤拷mac锟斤拷  ffmpeg锟斤拷路锟斤拷
         //private static String ffmpegEXE = "/developer/ffmpeg-4.0/bin/ffmpeg";
         public static void main(String[] args) {
-            String m1 = "E:\\123.mp3";
-            String m2 = "D:\\index\\handle\\大自然\\大自然mf.mp3";
-            String m3 = "E:\\FINAL.mp3";
+            //String m1 = "E:\\123.mp3";
+            //String m2 = "D:\\index\\handle\\澶ц嚜鐒禱\澶ц嚜鐒秏f.mp3";
+            //String m3 = "E:\\FINAL.mp3";
                 try {
                     //addsoundeffect(m1,m2,m3,10000.0,10000.0);
                    // System.out.println(processFLV(m2));
-                    //String finalPath= "D:\\index\\handle\\大自然\\大自然";
+                    //String finalPath= "D:\\index\\handle\\澶ц嚜鐒禱\澶ц嚜鐒�";
                     //System.out.println(-30.0-processFLV(finalPath+".mp3"));
                     //ystem.out.println(processFLV("E:\\123-1.mp3"));
                     /*List<String> list=new ArrayList<>();
-                    String s1="D:\\index\\handle\\大自然\\大自然mf.mp3";
-                    String s2="D:\\index\\handle\\大浪来袭\\大浪来袭mf.mp3";
+                    String s1="D:\\index\\handle\\澶ц嚜鐒禱\澶ц嚜鐒秏f.mp3";
+                    String s2="D:\\index\\handle\\澶ф氮鏉ヨ\\澶ф氮鏉ヨmf.mp3";
                     list.add(s1);
                     list.add(s2);
                     List<Double> time=new ArrayList<>();
                     time.add(10.0*1000);
                     time.add(20.0*1000);
                     addsoundeffects("E:\\123-0.mp3",list,"E:\\FINAL.mp3",time);*/
-                    mofidyvoice("E:\\123-f.mp3","E:\\123-f''.mp3",-11-processFLV("E:\\123-f.mp3"));
-                    merge("E:\\123-f''.mp3","E:\\BGM\\2\\出羽良彰 - Silent express.mp3","E:\\123-f.mp3"+"-f-v.mp3");
+                    //mofidyvoice("E:\\123-f.mp3","E:\\123-f''.mp3",-11-processFLV("E:\\123-f.mp3"));
+                    //merge("E:\\123-f''.mp3","E:\\BGM\\2\\鍑虹窘鑹桨 - Silent express.mp3","E:\\123-f.mp3"+"-f-v.mp3");
                     //mofidyvoice("E:\\123-2.mp3","E:\\123-22.mp3",-16-processFLV("E:\\123-2.mp3"));
-                    //mofidyvoice("D:\\index\\handle\\大浪来袭\\大浪来袭mf.mp3","D:\\index\\handle\\大浪来袭\\大浪来袭mf.mp3",-30.0-ffmpegx.processFLV(finalPath));
-                    //System.out.println(processFLV("D:\\index\\handle\\大浪来袭\\大浪来袭mf.mp3"));
-                    //utmusic("D:\\index\\handle\\夏日蝉鸣\\夏日蝉鸣mf.mp3","D:\\index\\handle\\夏日蝉鸣\\夏日蝉鸣10mf.mp3",0.0,10.0);
+                    //mofidyvoice("D:\\index\\handle\\澶ф氮鏉ヨ\\澶ф氮鏉ヨmf.mp3","D:\\index\\handle\\澶ф氮鏉ヨ\\澶ф氮鏉ヨmf.mp3",-30.0-ffmpegx.processFLV(finalPath));
+                    //System.out.println(processFLV("D:\\index\\handle\\澶ф氮鏉ヨ\\澶ф氮鏉ヨmf.mp3"));
+                    //utmusic("D:\\index\\handle\\澶忔棩铦夐福\\澶忔棩铦夐福mf.mp3","D:\\index\\handle\\澶忔棩铦夐福\\澶忔棩铦夐福10mf.mp3",0.0,10.0);
                 } catch (Exception e) {
            e.printStackTrace();
             }
@@ -61,11 +61,13 @@ public class deom2{
                 }
                 music2=tmpx;
             }
+            //String str = new String(music2.getBytes("gbk"),"utf-8");
+            String str = music2;
             command.add(ffmpegEXE);
             command.add("-i");
             command.add(music1);
             command.add("-i");
-            command.add(music2);
+            command.add(str);
             command.add("-filter_complex");
             command.add("[1:a]aloop=loop=-1:size=2e+09[out];[out][0:a]amix=inputs=2:duration=first:dropout_transition=2");
             command.add("-f");
@@ -95,7 +97,7 @@ public class deom2{
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            // ʹ�����ַ�ʽ����˲���������CPU���ڴ��ϵͳ��Դ����������������Ҫ�������д���
+            // 使锟斤拷锟斤拷锟街凤拷式锟斤拷锟斤拷瞬锟斤拷锟斤拷锟斤拷锟斤拷锟紺PU锟斤拷锟节达拷锟较低筹拷锟皆达拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟揭拷锟斤拷锟斤拷锟斤拷写锟斤拷锟�
             InputStream errorStream = process.getErrorStream();
             InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
             BufferedReader br = new BufferedReader(inputStreamReader);
@@ -114,6 +116,7 @@ public class deom2{
         }
         public static Double processFLV(String inputPath) throws Exception{
             List<String> command = new ArrayList<String>();
+            //inputPath=new String(inputPath.getBytes("GBK"),"UTF-8");
             command.add(ffmpegEXE);
             command.add("-i");
             command.add(inputPath);
@@ -148,7 +151,7 @@ public class deom2{
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            // ʹ�����ַ�ʽ����˲���������CPU���ڴ��ϵͳ��Դ����������������Ҫ�������д���
+            // 使锟斤拷锟斤拷锟街凤拷式锟斤拷锟斤拷瞬锟斤拷锟斤拷锟斤拷锟斤拷锟紺PU锟斤拷锟节达拷锟较低筹拷锟皆达拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟揭拷锟斤拷锟斤拷锟斤拷写锟斤拷锟�
             InputStream errorStream = process.getErrorStream();
             InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
             BufferedReader br = new BufferedReader(inputStreamReader);
@@ -168,6 +171,7 @@ public class deom2{
         }
         public static Double processFLT(String inputPath) throws Exception{
             List<String> commands = new ArrayList<>();
+            //inputPath=new String(inputPath.getBytes("GBK"),"UTF-8");
             commands.add(ffmpegEXE);
             commands.add("-i");
             commands.add(inputPath);
@@ -176,7 +180,7 @@ public class deom2{
                 ProcessBuilder builder = new ProcessBuilder();
                 builder.command(commands);
                 Process p = builder.start();
-                //���������ж�ȡ��Ƶ��Ϣ
+                //锟斤拷锟斤拷锟斤拷锟斤拷锟叫讹拷取锟斤拷频锟斤拷息
                 BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream()));
                 StringBuilder stringBuilder = new StringBuilder();
                 String line = "";
@@ -184,7 +188,7 @@ public class deom2{
                     stringBuilder.append(line);
                 }
                 br.close();
-                //����Ƶ��Ϣ�н���ʱ��
+                //锟斤拷锟斤拷频锟斤拷息锟叫斤拷锟斤拷时锟斤拷
                 String regexDuration = "Duration: (.*?), start: (.*?), bitrate: (\\d*) kb\\/s";
                 Pattern pattern = Pattern.compile(regexDuration);
                 Matcher m = pattern.matcher(stringBuilder.toString());
@@ -200,6 +204,8 @@ public class deom2{
         public static void mofidyvoice(String inputPath, String outputPath, Double modification)
                 throws Exception {
             List<String> command = new ArrayList<String>();
+            //inputPath=new String(inputPath.getBytes("GBK"),"UTF-8");
+            //outputPath=new String(outputPath.getBytes("GBK"),"UTF-8");
             command.add(ffmpegEXE);
             command.add("-i");
             command.add(inputPath);
@@ -227,7 +233,7 @@ public class deom2{
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            // ʹ�����ַ�ʽ����˲���������CPU���ڴ��ϵͳ��Դ����������������Ҫ�������д���
+            // 使锟斤拷锟斤拷锟街凤拷式锟斤拷锟斤拷瞬锟斤拷锟斤拷锟斤拷锟斤拷锟紺PU锟斤拷锟节达拷锟较低筹拷锟皆达拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟揭拷锟斤拷锟斤拷锟斤拷写锟斤拷锟�
             InputStream errorStream = process.getErrorStream();
             InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
             BufferedReader br = new BufferedReader(inputStreamReader);
@@ -248,7 +254,7 @@ public class deom2{
             Double min = 0.0;
             String strs[] = timelen.split(":");
             if (strs[0].compareTo("0") > 0) {
-                // ��
+                // 锟斤拷
                 min += Double.valueOf(strs[0]) * 60 * 60;
             }
             if (strs[1].compareTo("0") > 0) {
@@ -300,7 +306,7 @@ public class deom2{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // ʹ�����ַ�ʽ����˲���������CPU���ڴ��ϵͳ��Դ����������������Ҫ�������д���
+        // 使锟斤拷锟斤拷锟街凤拷式锟斤拷锟斤拷瞬锟斤拷锟斤拷锟斤拷锟斤拷锟紺PU锟斤拷锟节达拷锟较低筹拷锟皆达拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟揭拷锟斤拷锟斤拷锟斤拷写锟斤拷锟�
         InputStream errorStream = process.getErrorStream();
         InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
         BufferedReader br = new BufferedReader(inputStreamReader);
@@ -337,10 +343,11 @@ public class deom2{
                     cutmusic(tmp,tmpx,0.0,10.0);
             }
             command.add("-i");
+            //tmpx=new String(tmpx.getBytes("GBK"),"UTF-8");
             command.add(tmpx);
         }
         command.add("-filter_complex");
-        String delay="\"";
+        String delay="";
         for (Integer i=0;i<lasttime.size();i++) {
             Integer tmp=i+1;
             delay += "[" + String.valueOf(tmp)+ "]adelay=" +lasttime.get(i).toString()+"|"+lasttime.get(i).toString()+"[del"+String.valueOf(tmp)+"];";
@@ -351,7 +358,7 @@ public class deom2{
             delay += "[del"+String.valueOf(tmp)+"]";
         }
         Integer tmp=musicset.size()+1;
-        delay+="amix=inputs="+tmp.toString()+":duration=first:dropout_transition=2\"";
+        delay+="amix=inputs="+tmp.toString()+":duration=first:dropout_transition=2";
         command.add(delay);
         command.add("-f");
         command.add("mp3");
@@ -381,7 +388,7 @@ public class deom2{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // ʹ�����ַ�ʽ����˲���������CPU���ڴ��ϵͳ��Դ����������������Ҫ�������д���
+        // 使锟斤拷锟斤拷锟街凤拷式锟斤拷锟斤拷瞬锟斤拷锟斤拷锟斤拷锟斤拷锟紺PU锟斤拷锟节达拷锟较低筹拷锟皆达拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟揭拷锟斤拷锟斤拷锟斤拷写锟斤拷锟�
         InputStream errorStream = process.getErrorStream();
         InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
         BufferedReader br = new BufferedReader(inputStreamReader);
@@ -431,7 +438,7 @@ public class deom2{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // ʹ�����ַ�ʽ����˲���������CPU���ڴ��ϵͳ��Դ����������������Ҫ�������д���
+        // 使锟斤拷锟斤拷锟街凤拷式锟斤拷锟斤拷瞬锟斤拷锟斤拷锟斤拷锟斤拷锟紺PU锟斤拷锟节达拷锟较低筹拷锟皆达拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟揭拷锟斤拷锟斤拷锟斤拷写锟斤拷锟�
         InputStream errorStream = process.getErrorStream();
         InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
         BufferedReader br = new BufferedReader(inputStreamReader);
