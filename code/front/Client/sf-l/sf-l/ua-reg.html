@@ -38,7 +38,7 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<a class="mui-icon mui-icon-left-nav mui-pull-left" id="iduck-reg-header-icon-1"></a>
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
 			<h1 class="mui-title">注册</h1>
 		</header>
 		<div class="mui-content">
@@ -177,6 +177,7 @@
 						}
 						else if(resp=='s'){
 							mui.toast('注册成功 请前往邮箱激活',{ duration:1000,type:'div'});
+							plus.webview.currentWebview().close();
 						}
 						else{
 							console.log("connectError");

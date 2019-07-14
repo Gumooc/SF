@@ -107,8 +107,9 @@
 			<div>分集情况</div>
 			<button type="button" class="mui-btn mui-btn-primary bi-btn-6"><span class="mui-icon mui-icon-bars"></span></button>
 			<div class='bi-info-7'>
-				<button class='bi-btn-1'>p1</button>
-				<button class='bi-btn-1'>p2</button>
+				...
+				<!--<button class='bi-btn-1'>p1</button>
+				<button class='bi-btn-1'>p2</button>-->
 			</div>
 		</div>
 		
@@ -147,13 +148,13 @@
 			var ele=document.getElementsByClassName('bi-btn-1');
 	    	var cnt=0;
 	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
-	    	
 			mui.fire(self,'play',{sid:cnt});
 	    });
 	    //点击事件，收藏作品
 	    mui('body').on('tap','.bi-btn-4',function(e){
 			var ustr=plus.storage.getItem('uid');
 			if(ustr==null){ 
+				mui.toast('尚未登录无法收藏',{ duration:'long', type:'div' });
 				console.log("尚未登录无法收藏");
 				return;
 			}
@@ -171,6 +172,7 @@
 					var resp=data.resp;
 					if(resp=='s'){
 						console.log("添加图书至收藏夹");
+						mui.toast('添加图书至收藏夹',{ duration:'long', type:'div' });
 						var us_collect=plus.webview.getWebviewById('us-collect.html');
 					}
 				},
@@ -182,28 +184,28 @@
 			var ustr=plus.storage.getItem('uid');
 			if(ustr==null){
 				console.log("尚未登录无法评论");
+				mui.toast('尚未登录无法评论',{ duration:'long', type:'div' });
 				return;
 			}
 			var uid=parseInt(ustr);
 			
 			var cmt=document.getElementById('cmt').value;
-			console.log(cmt);
 			mui.ajax('http://49.234.77.32:8080/sfbook/comment/insert',{
 				data:{uid:uid,bid:item.book.bid,des:cmt},
 				dataType:'json',
 				type:'post',
 				async:false,
 				timeout:10000,
-				headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},	              
+				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 					if(data.resp=='s'){
 						console.log('成功发布评论');
+						mui.toast('成功发布评论',{ duration:'long', type:'div' });
 						mui.fire(self,'item',{bid:item.book.bid});
 					}
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
-			
 	    });
 		
 		//监听事件，加载详情
@@ -234,7 +236,7 @@
 					document.getElementsByClassName('bi-info-5')[0].innerHTML="简介";
 					html='';
 					for(var i=0;i<item.chapter.length;i++){
-						html+="<button class='bi-btn-1'>p"+i+"</button>";
+						html+="<button class='bi-btn-1'>p"+(i+1)+"</button>";
 					}
 					document.getElementsByClassName('bi-info-7')[0].innerHTML=html;
 				},
