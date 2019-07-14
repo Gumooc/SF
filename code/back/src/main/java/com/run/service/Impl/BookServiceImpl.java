@@ -183,7 +183,7 @@ public class BookServiceImpl implements BookService {
 			feedback.put("body", "");
 		} else {
 			feedback.put("resp", "s");
-			feedback.put("body", result);
+			feedback.put("body", result.getAudio());
 		}
 		return feedback;
 	}
