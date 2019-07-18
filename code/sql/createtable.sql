@@ -13,7 +13,7 @@ create table user(
     activation bool,
     adm bool,
     primary key(uid),
-    forbidden bool
+    forbidden bool not null default false
 );
 /*
 drop table if exists book;
@@ -25,7 +25,8 @@ create table book(
     lst Date,
     shared bool,
     playtime int,
-    primary key (bid)
+    primary key (bid),
+    forbidden bool not null default false
 );*/
 /*
 drop table if exists collector;
