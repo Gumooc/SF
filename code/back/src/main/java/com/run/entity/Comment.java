@@ -73,4 +73,9 @@ public class Comment {
 	public void setLst(String lst) {
 		this.lst = lst;
 	}
+
+	@Override
+	public String toString() {
+		return "Comment = ["+"cid="+cid+"uid="+uid+",bid="+bid+",bookname="+bookname+",lst="+lst+"]";
+	}
 }
