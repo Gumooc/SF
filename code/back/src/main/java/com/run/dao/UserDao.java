@@ -26,5 +26,11 @@ public interface UserDao {
 	List<Book> askworks(int uid);
 	List<Book> askselfworks(int uid); 
 	User askuser(int uid);
+	
+	User askuserallinfo(int uid);
+	void mdfypassword(User user);
+	
+	boolean checkforbidden(int uid);
+	
 	int getmaxid();
 }
