@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.run.entity.Book;
+import com.run.entity.UserbookItem;
 import com.run.service.BookService;
+import com.run.service.HistoryService;
 
 import net.sf.json.JSONObject;
 
@@ -24,6 +26,8 @@ import net.sf.json.JSONObject;
 public class BookController {
 	@Autowired
 	private BookService bookService;
+	@Autowired
+	private HistoryService historyService;
 	
 	private void setRHeader(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("application/json;charset=utf-8");
@@ -68,6 +72,19 @@ public class BookController {
 		return feedback;
 	}
 
+	@ResponseBody
+	@RequestMapping("/bookpage")
+	public JSONObject bookpage(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int pagenum = JSONObject.fromObject(liString).getInt("pagenum");
+		int kind = JSONObject.fromObject(liString).getInt("kind");
+		List<Book> bookpage = bookService.askbookpage(request.getSession(), pagenum, kind);
+		feedback.put("resp", "s");
+		feedback.put("body", bookpage);
+		return feedback;
+	}
+	
 	@ResponseBody
 	@RequestMapping("/chapter")
 	public JSONObject chapter(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
@@ -221,4 +238,29 @@ public class BookController {
 		feedback = bookService.askDes(bid);
 		return feedback;
 	}
+
+	@ResponseBody
+	@RequestMapping("/playbook")
+	public JSONObject playbook(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		JSONObject hisjs = JSONObject.fromObject(liString);
+		UserbookItem ubi = (UserbookItem) JSONObject.toBean(hisjs,UserbookItem.class);
+		bookService.playbook(ubi.getBid());
+		feedback = historyService.insert(ubi);
+		return feedback;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/setkind")
+	public JSONObject setkind(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int bid = JSONObject.fromObject(liString).getInt("bid");
+		String kind = JSONObject.fromObject(liString).getString("kind");
+		feedback.put("body", bookService.setkind(bid, kind));
+		feedback.put("resp", "s");
+		return feedback;
+	}
+	
 }
