@@ -1,8 +1,22 @@
 package com.run.service.Impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
+import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
+import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefUserBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
+import org.apache.mahout.cf.taste.impl.similarity.EuclideanDistanceSimilarity;
+import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.model.JDBCDataModel;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+import org.apache.mahout.cf.taste.recommender.Recommender;
+import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.druid.util.Base64;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import com.run.dao.BookDao;
 import com.run.dao.UserDao;
 import com.run.entity.Book;
@@ -33,21 +48,41 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private BookDao bookMapper;
 	
+	
+	@Override
+	public JSONObject mdfypassword(int uid, String oldp, String newp) {
+		JSONObject feedbody = new JSONObject();
+		
+		User user = userMapper.askuserallinfo(uid);
+		
+		if (user.getPassword().equals(oldp)) {
+			user.setPassword(newp);
+			userMapper.mdfypassword(user);
+		}
+		return feedbody;
+	}
+	
 	@Override
 	public JSONObject logincheck(User user) {
 		JSONObject feedback = new JSONObject();
 		feedback.put("body", "");
 		User ans = userMapper.logincheck(user);
 		if (ans!=null) {
-			if (ans.getActivation()) {
-				JSONObject uidjs = new JSONObject();
-				uidjs.put("uid", ans.getUid());
-				feedback.put("resp", "s");
-				feedback.put("body", uidjs);
-				System.out.println(ans+"ÒÑµÇÂ¼");
+			boolean forbidden = userMapper.checkforbidden(ans.getUid());
+			if (forbidden) {
+				feedback.put("resp", "b");
+				System.out.println("µÇÂ¼Ê§°Ü");
 			} else {
-				feedback.put("resp", "na");
-				System.out.println(ans+"Çë¼¤»î");
+				if (ans.getActivation()) {
+					JSONObject uidjs = new JSONObject();
+					uidjs.put("uid", ans.getUid());
+					feedback.put("resp", "s");
+					feedback.put("body", uidjs);
+					System.out.println(ans+"ÒÑµÇÂ¼");
+				} else {
+					feedback.put("resp", "na");
+					System.out.println(ans+"Çë¼¤»î");
+				}
 			}
 		} else {
 			feedback.put("resp", "f");
