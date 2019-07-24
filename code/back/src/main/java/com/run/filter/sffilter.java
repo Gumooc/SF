@@ -2,6 +2,7 @@ package com.run.filter;
 
 import java.io.IOException;
 
+import javax.mail.Session;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class sffilter implements Filter {
 
@@ -30,9 +32,8 @@ public class sffilter implements Filter {
 		response.setHeader("Access-Control-Allow-Methods", "*");
 		response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 		response.setHeader("Access-Control-Allow-Credentials","true");
-		//System.out.println("doFilter");
+		/*
 		boolean flag = false;
-		//System.out.println(request.getSession().getId());
 		Cookie[] cookies = request.getCookies();
 		if (cookies!=null) {
 			for (Cookie cookie:cookies) {
@@ -41,7 +42,9 @@ public class sffilter implements Filter {
 					flag = true;
 				}
 			}
-		}
+		}*/
+		HttpSession session = request.getSession();
+		
 		arg2.doFilter(arg0, arg1);
 	}
 
