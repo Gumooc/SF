@@ -18,6 +18,11 @@ public interface BookDao {
 	
 	Book collectcheck(UserbookItem ubi);
 	
+	void playbook(int bid);
+	
+	void setkind(Book book);
+	String getauthor(int uid);
+	
 	int getmaxid();
 	
 }
