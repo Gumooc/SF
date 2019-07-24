@@ -2,6 +2,8 @@ package com.run.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.run.entity.Book;
@@ -9,7 +11,14 @@ import net.sf.json.JSONObject;
 
 public interface BookService {
 	Book askbookinfo(int bid);
+	
+	JSONObject setkind(int bid, String kind);
+	
 	List<Book> askbooklist();
+	
+	List<Book> askbookpage(HttpSession session, int pagenum, int kind);
+	
+	
 	List<Book> searchbytitle(String bookname);
 	JSONObject askcomment(int bid); 
 	
@@ -27,6 +36,8 @@ public interface BookService {
 	JSONObject askDes(int bid);
 	
 	JSONObject updatechapter(int bid, String chapter);
+	
+	JSONObject playbook(int bid);
 	
 	boolean collectcheck(int uid, int bid);
 	
