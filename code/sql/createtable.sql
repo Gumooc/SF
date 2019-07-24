@@ -1,4 +1,4 @@
-
+/*
 drop table if exists user;
 create table user(
 	uid int,
@@ -14,7 +14,7 @@ create table user(
     adm bool default false,
     primary key(uid),
     forbidden bool not null default false
-);
+);*/
 /*
 drop table if exists book;
 create table book(
@@ -42,6 +42,8 @@ create table history(
 	uid int,
     bid int,
     lst date not null default "0000-01-01",
+    kind varchar(20) default 0,
+    prc varchar(1) default 0;
     primary key (uid,bid)
 )
 */
