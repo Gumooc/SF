@@ -1,7 +1,10 @@
 package com.run.service.Impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -25,6 +28,7 @@ import com.run.entity.UserDetl;
 import com.run.entity.UserbookItem;
 import com.run.service.BookService;
 
+import net.sf.cglib.transform.impl.AddDelegateTransformer;
 import net.sf.json.JSONObject;
 
 @Service
@@ -35,6 +39,94 @@ public class BookServiceImpl implements BookService {
 	private UserDao userMapper;
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	
+	@Override
+	public JSONObject setkind(int bid, String kind) {
+		JSONObject feedbody = new JSONObject();
+		Book book = new Book();
+		book.setBid(bid);
+		book.setKind(kind);
+		bookMapper.setkind(book);
+		return feedbody;
+	}
+	
+	@Override
+	public List<Book> askbookpage(HttpSession session, int pagenum, int kind){
+		//System.out.println("bookpageService");
+		int pagesize = 8;
+		List<Book> booklist = (List<Book>) session.getAttribute("booklist");
+		List<List<Integer>> kindlist = (List<List<Integer>>) session.getAttribute("kindlist");
+		List<Book> feedbody = new ArrayList<Book>();
+		if (booklist == null||pagenum == 1) {
+			booklist = bookMapper.askbooklist();
+			//kindlist = new ArrayList<Integer>() {{add(0);add(0);add(0);add(0);add(0);add(0);add(0);add(0);add(0);add(0);add(0);}};
+			kindlist = new ArrayList<List<Integer>>();
+			//System.out.println("Initial");
+			for (int i = 0; i <= 10; i++) {
+				List<Integer> list = new ArrayList<Integer>() {{add(1);add(0);}};
+				kindlist.add(list);
+			}
+			
+	        //session.setAttribute("booklist", booklist);
+		}
+		/*
+		for (Book book:booklist) {
+			System.out.println(book);
+		}
+		for (List<Integer> i:kindlist) {
+		
+			System.out.println("list"+i+":");
+			for (Integer j:i){
+				System.out.println("j:"+j);
+			}
+		}*/
+		//System.out.println("Start");
+		List<Integer> indexlist = new ArrayList<Integer>();
+		int j = 0;
+		List<Integer> pagelist = kindlist.get(kind);
+		int pageindex = pagelist.get(0);
+		int start = pagelist.get(pagenum<=pageindex? pagenum:pageindex);
+		for (int i = start;j<pagesize&&i<booklist.size(); i++ ) {
+			//System.out.println(i);
+			if (kind<10) {
+				//System.out.println("i:"+i+";");
+				//System.out.println(booklist.get(i));
+				Book book = booklist.get(i);
+				int bookkind = Integer.parseInt(booklist.get(i).getKind());
+				//System.out.println("bookkind:"+booklist.get(i).getKind()+";");
+				//System.out.println("judge:"+(bookkind&(1<<kind))+";");
+				
+				if ((bookkind&(1<<kind))>0) {
+					indexlist.add(i);
+					j++;
+				}
+			} else {
+				indexlist.add(i);
+				j++;
+			}
+		}
+		//System.out.println(indexlist.size());
+		if (indexlist.size()>0) {
+			pagelist.add(indexlist.get(indexlist.size()-1)+1);
+			pagelist.set(0, pageindex+1);
+		}
+		
+		for (int i = 1; i <= indexlist.size(); i++) {
+			int index = indexlist.get(i-1);
+			Book book = booklist.get(index);
+			Query query = new Query(Criteria.where("id").is(book.getBid()));
+			BookImg result=mongoTemplate.findOne(query, BookImg.class, "bookimg");
+			if (result != null) {
+				book.setImg(result.getImg());
+			}
+			feedbody.add(book);
+		}
+		
+		session.setAttribute("kindlist", kindlist);
+		session.setAttribute("booklist", booklist);
+		return feedbody;
+	}
+	
 	
 	@Override 
 	public boolean collectcheck(int uid, int bid) {
@@ -63,7 +155,8 @@ public class BookServiceImpl implements BookService {
 		}
 		//System.out.println(chapter.toString());
 		book.setChapter(chapter.toString());
-		
+
+		book.setNickname(bookMapper.getauthor(book.getUid()));
 		return book;
 	}
 	
@@ -76,6 +169,7 @@ public class BookServiceImpl implements BookService {
 			if (result != null) {
 				book.setImg(result.getImg());
 			}
+			book.setNickname(bookMapper.getauthor(book.getUid()));
 		}
 		return booklist;
 	}
@@ -245,6 +339,12 @@ public class BookServiceImpl implements BookService {
 		bookChapter.setChapter(chapter);
 		mongoTemplate.save(bookChapter, "bookchapter");
 		return feedback;
+	}
+	
+	@Override
+	public JSONObject playbook(int bid) {
+		bookMapper.playbook(bid);
+		return null;
 	}
 	
 	
