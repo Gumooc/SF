@@ -50,9 +50,10 @@ public class CommentServiceImpl implements CommentService {
 	public JSONObject delete(Comment comment) {
 		JSONObject feedback = new JSONObject();
 		feedback.put("resp", "f");
-
-		Query query = new Query(Criteria.where("id").is(comment.getCid()));
-		mongoTemplate.remove(query, CommentDes.class);
+		
+		System.out.println(comment);
+		Query query = new Query(Criteria.where("_id").is(comment.getCid()));
+		mongoTemplate.remove(query, "comment");
 		commentMapper.delete(comment);
 
 		feedback.put("resp", "s");
