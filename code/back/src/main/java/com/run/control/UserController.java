@@ -1,8 +1,12 @@
 package com.run.control;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.mahout.cf.taste.common.TasteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.run.entity.User;
 import com.run.service.EmailService;
+import com.run.service.RecommendService;
 import com.run.service.UserService;
 
 import net.sf.json.JSONObject;
@@ -24,6 +29,8 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private EmailService emailService;
+	@Autowired
+	private RecommendService recommendService;
 	
 	private void setRHeader(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("application/json;charset=utf-8");
@@ -31,6 +38,37 @@ public class UserController {
 		response.setHeader("Access-Control-Allow-Methods", "*");
 		response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 		response.setHeader("Access-Control-Allow-Credentials","true");
+	}
+
+	@ResponseBody
+	@RequestMapping("/recommend")
+	public JSONObject recommend(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		try {
+			recommendService.recommend(0);
+		} catch (TasteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		feedback.put("resp", "s");
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/mdfypassword")
+	public JSONObject mdfypassword(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int uid = JSONObject.fromObject(liString).getInt("uid");
+		String oldp = JSONObject.fromObject(liString).getString("oldp");
+		String newp = JSONObject.fromObject(liString).getString("newp");
+		userService.mdfypassword(uid, oldp, newp);
+		feedback.put("resp", "s");
+		return feedback;
 	}
 	
 	@ResponseBody
@@ -151,6 +189,17 @@ public class UserController {
 		JSONObject feedback = new JSONObject();
 		User user = (User) JSONObject.toBean(JSONObject.fromObject(liString), User.class);
 		feedback = userService.updateuser(user);
+		return feedback;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/logout")
+	public JSONObject logout(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		HttpSession session = request.getSession();
+		session.invalidate();
+		feedback.put("resp", "s");
 		return feedback;
 	}
 }
