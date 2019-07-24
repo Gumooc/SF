@@ -22,14 +22,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from user where username=#{username};
     </select>
     
+	<select id="checkforbidden" parameterType="Integer" resultType="boolean">
+        select forbidden from user where uid = #{uid};
+    </select>
+    
 	<select id="askuser" parameterType="Integer" resultType="com.run.entity.User">
         select nickname,lst,rgt,male,phone,email,activation from user where uid=#{uid};
     </select>
     
+	<select id="askuserallinfo" parameterType="Integer" resultType="com.run.entity.User">
+        select * from user where uid=#{uid};
+    </select>
+    
+	<update id="mdfypassword" parameterType="com.run.entity.User">
+        update user
+        	set password = #{password}
+        where uid = #{uid};
+    </update>
     
     <update id="updateuser" parameterType="com.run.entity.User">
     	update user 
-    		set nickname=#{nickname}, lst=#{lst}, male=#{male}, phone=#{phone}, email=#{email}
+    		set nickname=#{nickname}, lst=#{lst}, male=#{male}, phone=#{phone}, email=#{email}, birth=#{birth}
     	where uid=#{uid};
     </update>
     
@@ -39,8 +52,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     
     <insert id="register" parameterType="com.run.entity.User">
-    	insert into user(uid,username,password,nickname,lst,rgt,male,phone,email,activation,adm) 
-    		values(#{uid},#{username},#{password},#{nickname},#{lst},#{rgt},#{male},#{phone},#{email},#{activation},#{adm});
+    	insert into user(uid,username,password,nickname,lst,rgt,male,phone,email,activation,adm,forbidden) 
+    		values(#{uid},#{username},#{password},#{nickname},#{lst},#{rgt},#{male},#{phone},#{email},#{activation},#{adm},false);
     </insert>
     
     
