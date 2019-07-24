@@ -125,7 +125,13 @@
 		    <groupId>com.hankcs</groupId>
 		    <artifactId>hanlp</artifactId>
 		    <version>portable-1.7.4</version>
-		</dependency>
+		</dependency> 
+		<!-- mahout -->
+		<dependency>
+            <groupId>org.apache.mahout</groupId>
+            <artifactId>mahout-integration</artifactId>
+            <version>0.9</version>
+        </dependency>
   </dependencies>
   
   <build>
