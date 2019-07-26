@@ -1,0 +1,27 @@
+/*章节组件*/
+.section-div-1{
+	height: 35px;
+	width:100%;
+	font-size:18px;	
+	padding: 0px;
+}
+.section-info-1{
+	width:40px;
+	float:left;
+	color: white;
+	background: #007AFF;
+	margin: 0px;
+	height: 35px;
+	padding: 8px;
+}
+.section-info-2{
+	padding: 8px;
+	width:60%;
+	float: left;
+}
+.section-btn-1{
+	float: right;	
+	padding: 0px;
+	font-size: 25px;
+	width: 40px;
+}

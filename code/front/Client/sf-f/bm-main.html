@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/book.css" rel="stylesheet" />
+		<link href="css/bar.css" rel="stylesheet" />
+		<style>
+			.mui-table-view-cell{margin: 0px;padding: 0px;}
+			.mui-title{color: #007AFF;font-weight: bolder;}
+			.mui-bar-nav{height: 200px;background: url(image/design.jpg);background-size: 100% 100%;color: white;text-align: center;}
+			.bm-main-div-1{font-size: 25px;font-weight: bolder;margin-top:30px;}
+			.bm-main-div-2{margin-top:5px;}
+			.bm-main-div-3{border:1px solid white; padding-left:10px;padding-right:10px;border-radius:10px; position: absolute;right: 20px;font-weight: bolder;font-size: 20px;margin-top:20px;}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class='bm-main-div-1'>
+				创建我的有声书
+			</div>
+			<div class='bm-main-div-2'>
+				通过语音合成或人工录制创作作品
+			</div>
+			<div class='bm-main-div-3'>
+				<span class="mui-icon mui-icon-compose"></span>
+				新建作品
+			</div>
+		</header>
+		
+		<div class="mui-content" style="margin-top:150px;">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<div class='book-div-1'>
+						<div class='book-info-1'>
+							<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
+						</div>
+						<div class='book-info-2'>
+							xbbdzxql
+						</div>
+						<div class='book-info-4'>
+							<span class="mui-icon mui-icon-contact"></span>
+							2019-07-07
+						</div>
+						<div class='book-info-3'>
+							<span class="mui-icon mui-icon-contact"></span>
+							已发布
+						</div>
+						<div class='book-info-5'>
+							<span class="mui-icon mui-icon-contact"></span>
+							320
+						</div>
+					</div>
+				</li> 
+			</ul>
+			
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			var self;
+			var opener;
+			var uid;
+			
+			mui.init();
+			mui.plusReady(function(){
+				self=plus.webview.currentWebview();
+				opener=self.opener();
+				uid=plus.storage.getItem('uid');
+				if(uid==null) return;
+				mui.fire(self,'get',{uid:uid});
+			})
+			
+			//按钮事件，显示详情
+			mui('body').on('tap','.bl-main-btn-1',function(e){	
+		    	mui.openWindow({
+		    		url:'bm-edit.html',
+		    		id:'bm-edit.html',
+		    	});
+		    	var bm=plus.webview.getWebviewById('bm-edit.html');
+		    	var bid=parseInt(this.getAttribute("id"));
+		    	mui.fire(bm,'item',{bid:bid});
+			});
+			//按钮事件，新建书籍
+			mui('body').on('tap','.bm-main-div-3',function(e){	
+		    	mui.openWindow({
+		    		url:'bm-new.html',
+		    		id:'bm-new.html',
+		    	});
+			});
+			
+			//监听事件，加载作品清单
+			window.addEventListener('get',function(event){
+				uid=event.detail.uid;
+				plus.nativeUI.showWaiting();
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/selfworks',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var list=data.body;
+						var html='';
+						for(var i=0;i<list.length;i++){
+							var str='已发布';
+							if(list[i].shared==false)str='未发布';
+							html+="<li class='mui-table-view-cell'>";
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon mui-icon-contact'></span>";
+							html+=list[i].lst;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon mui-icon-contact'></span>";
+							html+=str;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon mui-icon-contact'></span>"	;
+							html+=list[i].playtime;		
+							html+="</div>";
+							html+="</div>";
+							html+="</li>";
+						}
+						document.getElementsByClassName("mui-table-view")[0].innerHTML=html;
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+				plus.nativeUI.closeWaiting();
+			});
+		</script>
+	</body>
+
+</html>
