@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/user.css" rel="stylesheet" />
+	<style>
+		.user-set-1{
+			position: absolute;
+			left: 10px;
+			top:10px;
+			z-index: 100;
+			font-size: 30px;
+			color: white;
+		}
+	</style>
+</head>
+
+<body>
+	<a class="mui-icon mui-icon-gear user-set-1"></a>
+	<div class='mui-bar mui-bar-nav user-header-1'>
+		<div class="mui-card user-info-1"></div>
+		<div class='user-info-2'>尚未登录</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var src='us-main.html';
+		var sub=['us-main.html','ua-acc.html'];
+		var sub_style={top:'200px',bottom:'0px'};
+		var self;
+		var us_main;
+		
+	    mui.init();
+	    mui.plusReady(function(){
+	    	self = plus.webview.currentWebview();
+            for(var i=0;i<sub.length;i++){
+                var page = plus.webview.create(sub[i], sub[i], sub_style);
+				page.hide();
+                self.append(page);
+            }
+            us_main=plus.webview.getWebviewById('us-main.html');
+            plus.webview.show(src);
+            mui.fire(self,'self',{});
+	    });
+	    //按钮事件，账号管理
+   		mui('body').on('tap','.user-set-1',function(e){
+   			var uid=plus.storage.getItem('uid');
+   			if(uid==null){
+   				console.log("尚未登录");
+   				var ua_acc=plus.webview.getWebviewById('ua-acc.html');
+   				mui.fire(ua_acc,'toast',{toast:'请先登录'});	 
+   				return;
+   			}
+   			
+   			
+   			if(src=='us-main.html'){
+   				mui.fire(self,'jump',{dst:'ua-acc.html'});
+   			}
+   			else mui.fire(self,'jump',{dst:'us-main.html'});
+   		})
+		//监听事件，加载信息
+		window.addEventListener('self',function(event){
+			var uid=plus.storage.getItem('uid');
+			if(uid==null){
+				document.getElementsByClassName('user-info-1')[0].innerHTML='';
+				document.getElementsByClassName('user-info-2')[0].innerHTML='尚未登录';
+				mui.fire(self,'jump',{dst:'ua-acc.html'});
+			}
+			else{
+				plus.nativeUI.showWaiting();
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var user=data.body;
+						document.getElementsByClassName('user-info-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+user.img+"'/>";
+						document.getElementsByClassName('user-info-2')[0].innerHTML=user.nickname;	
+						mui.fire(us_main,'login',{uid:uid});
+						mui.fire(self,'jump',{dst:'us-main.html'});
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+				plus.nativeUI.closeWaiting();
+			}
+		});
+		
+		//监听事件，导航跳转 
+	    window.addEventListener('jump',function(event){
+	    	var dst=event.detail.dst;
+	    	if(dst==src)return;
+	    	plus.webview.show(dst);
+	    	plus.webview.hide(src);
+	    	src=dst;
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+/*用户导航组件*/
+.user-header-1{
+	height:200px;
+	text-align: center;
+	background-repeat: no-repeat;
+	background: url(../image/sky.jpg);
+	background-size: 100% 100%;
+	color: white;
+}
+.user-info-1{
+	height: 120px;
+	width: 120px;
+	margin: 20px auto;
+	border-radius: 100%;
+	color: white;
+}
+.user-info-2{
+	color: white;
+	font-weight: bolder;
+}
