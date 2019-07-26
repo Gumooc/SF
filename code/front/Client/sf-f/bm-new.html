@@ -1,0 +1,271 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/bar.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<style>
+		.bm-new-div-2{
+			padding:5px;
+			height: 50px;
+			border-radius:10px;
+		}
+		.bm-new-input-2{
+			border-radius: 10px;
+		}
+		.bm-new-div-5{
+			height: 150px;
+		}
+		.bm-new-div-3{
+			border-radius: 10px;
+			background: white;
+			height: 210px;
+		}
+		.bm-new-radio-1{
+			float: left;
+			width: 29%;
+			margin: 6px;
+			padding: 0px;
+			height: 40px;
+			border-radius: 10px;
+		}
+		.bm-new-btn-2{
+			float: right;
+			position: absolute;
+			right: 10px;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+		<h1 class="mui-title" style="color: #007AFF;">修改/更新章节</h1>
+	</header>
+	<div class="mui-content">
+		
+		<div class="bm-new-div-1" style="background: white;">
+			<div class="bm-new-div-2">
+				<input style="width:100%;border-radius:10px;" id='name' placeholder="标题" type="text"/>
+			</div>
+			
+			
+			<textarea style="margin:5px;" class="bm-new-input-2" placeholder="描述" id="des"></textarea>
+				
+			<div class=" bar-div-1">
+				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+				<div class='bar-info-1'> 封面</div>
+			</div>
+			<div class="bm-new-div-5"><input type="file" id='img'/></div>
+			
+			<div class=" bar-div-1">
+				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+				<div class='bar-info-1'> 分类</div>
+			</div>
+			
+			<div class="bm-new-div-3">
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>武侠</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>悬疑</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>小说</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>生活</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>经典</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>教育</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>社科</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>经管</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>历史</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>其他</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+			</div>
+			
+			<button class='mui-btn mui-btn-primary bm-new-btn-2'>提交</button>
+		</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		
+		mui.init();
+		mui.plusReady(function(){
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+       		mui.fire(self,'self',{});
+   		});
+   		
+		//按钮事件，返回页面
+   		mui('body').on('tap','.bm-new-btn-1',function(e){
+   			mui.fire(opener,'jump',{dst:'bm-main.html'});
+   		})
+   		//按钮事件，提交新书
+   		mui('body').on('tap','.bm-new-btn-2',function(e){
+   			var succ=0;
+   			var item={};
+   			item.bookname=document.getElementById('name').value;
+   			item.lst=getdt();
+   			var ustr=plus.storage.getItem('uid');
+   			item.uid=parseInt(ustr);
+   			item.playtime=0;
+   			item.kind="";
+   			item.shared=false;
+   			var des=document.getElementById('des').value;
+			var img=document.getElementById('img').files[0];
+   			//最先检查资料完整性
+   			if(!item.bookname){ mui.toast('请为书籍添加书名',{ duration:'long', type:'div' });return; }
+   			if(!des){ mui.toast('请为书籍添加简介',{ duration:'long', type:'div' });return; }
+   			if(!img){ mui.toast('请为书籍添加图片',{ duration:'long', type:'div' });return; }
+   			
+   			//然后试图新建书籍本体
+   			//console.log('book='+item.bookname+item.lst+item.uid+item.playtime+item.kind+item.shared);
+   			var bid;
+   			mui.ajax('http://49.234.77.32:8080/sfbook/book/insertbook',{
+				data:item,
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='s'){
+						console.log("成功创建图书");
+						bid=data.body.bid;
+						succ=1;
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			//创建书籍失败，返回
+			if(succ==0){
+				 mui.toast('创建图书失败',{ duration:'long', type:'div'});
+				 return;
+			}
+			//试图创建书籍的其他信息,出错则撤回
+			var jarray=[];
+   			var j={body:jarray};
+   			var chapter=JSON.stringify(j);
+   			mui.ajax('http://49.234.77.32:8080/sfbook/book/chapter',{
+				data:{bid:bid,chapter:chapter},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					console.log("成功更新章节");
+				},
+				error:function(xhr,type,errorThrown){
+					console.log(type);
+				}
+			});
+			
+			var formData=new FormData();
+			formData.append('bid',bid);
+    		formData.append('file',img); 
+			$.ajax({
+		        url:'http://49.234.77.32:8080/sfbook/book/setImg',
+		        type:'post',
+		        dataType:'text',
+		        cache: false,     //上传文件无需缓存
+		        processData: false, //用于对data参数进行序列化处理 这里必须false
+		        contentType: false, //必须 
+		        async:false,
+		        data:formData,
+		        success:function(list){  
+		           console.log('成功导入图片');
+		        },
+		        error:function(){console.log("保存失败");}
+    		});
+    		mui.ajax('http://49.234.77.32:8080/sfbook/book/insbookdes',{
+				data:{des:des,bid:bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					console.log("成功导入简介");
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			
+			 mui.toast('创建图书成功',{ duration:'long', type:'div' });
+			//mui.fire(opener,'jump',{dst:'bm-cur.html'});
+			 var bm_cur=plus.webview.getWebviewById('bm-cur.html');
+			 mui.fire(bm_cur,'get',{uid:parseInt(plus.storage.getItem('uid'))});
+   		});
+   		
+   		
+   		//应用函数，获取时间
+		function getdt(){
+			var date=new Date(); 
+			var year=date.getFullYear(); 
+			var mon=date.getMonth()+1; 
+		    var day=date.getDate();
+		    var stamp=year+'-'+mon+'-'+day;
+		    return stamp;
+		}
+   		//监听事件，返回个人页面
+		window.addEventListener('clear',function(event){
+			console.log('清空残余信息');
+			document.getElementById('des').value='';
+			document.getElementById('name').value='';
+			document.getElementsByClassName('bm-new-div-5')[0].innerHTML="<input type='file' id='img'/>";
+		});
+	</script>
+</body>
+
+</html>

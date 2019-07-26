@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/user.css" rel="stylesheet" />
+	<link href="css/bar.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="ua-acc-div-1"></div>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var user;
+		
+		mui.init();
+		mui.plusReady(function(){
+	    	self = plus.webview.currentWebview();
+	    	mui.fire(self,'check',{});
+	    });
+	    
+	    //监听事件，登录
+	    mui('body').on('tap','.ua-acc-btn-1',function(e){	
+	    	mui.openWindow({
+	    		url:'ua-log.html',
+	    		id:'ua-log.html',
+	    	});
+		});
+		//监听事件，登录
+	    mui('body').on('tap','.ua-acc-btn-4',function(e){	
+	    	mui.openWindow({
+	    		url:'us-set.html',
+	    		id:'us-set.html',
+	    	});
+		});
+		//按钮事件，登出
+		mui('body').on('tap','.ua-acc-btn-2',function(e){	
+	    	plus.storage.removeItem('uid');
+	    	
+	    	var us_head=plus.webview.getWebviewById('us-head.html');
+	    	mui.fire(us_head,'self',{});
+	    	
+	    	var bm_main=plus.webview.getWebviewById('bm-main.html');
+	    	var bm=plus.webview.getWebviewById('bm.html');
+	    	mui.fire(bm_main,'self',{});
+	    	
+	    	mui.fire(self,'check',{});
+		});
+		
+	    //监听事件，检查登录状态
+	    window.addEventListener('check',function(event){   	
+	    	var uid=plus.storage.getItem('uid');
+	    	var html="";
+	    	if(uid==null){
+				html+="<div class='mui-card bar-div-1 ua-acc-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>登录账号</div></div>";
+	    	}
+	    	else{
+	    		mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						user=data.body;
+						html+="<div class='bar-div-1 ua-acc-btn-2'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>登出账户</div></div>";
+						html+="<div class='bar-div-1 ua-acc-btn-3'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>修改密码</div></div>";
+						html+="<div class='bar-div-1 ua-acc-btn-3'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>修改个人信息</div></div>";
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+	    	}
+	    	document.getElementsByClassName('ua-acc-div-1')[0].innerHTML=html;
+	    });
+	    //监听事件，检查登录状态
+	    window.addEventListener('toast',function(event){   	
+	    	var toast=event.detail.toast;
+	    	 mui.toast(toast,{ duration:'long', type:'div' }) ;
+	    });
+
+		
+	</script>
+</body>
+
+</html>

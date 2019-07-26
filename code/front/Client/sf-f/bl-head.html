@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-search{width:87%;float:right;margin 3px;position: absolute;right:10px;}
+			.mui-bar{background:url(image/2.png);height:50px;background-size:500px 50px;}
+			.bl-head-img-1{width:5%;float: left;margin-top:5px;color: white;}
+			.mui-search{margin-top:5px;}
+		</style>
+	</head>
+
+	<body>
+		<header  class="mui-bar mui-bar-nav">
+			<div class='bl-head-img-1'>
+				<span class="mui-icon mui-icon-weixin"></span>
+			</div>
+			<div class="mui-input-row mui-search">
+			    <input type="search" class="mui-input-clear" placeholder="搜索匹配的有声书" style="background:whitesmoke;">
+			</div>
+		</header>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				subpages:[{
+					url:'bl-main.html',
+					id:'bl-main.html',
+					styles:{top:'50px',bottom:'0px'}
+				}]
+			});
+		</script>
+	</body>
+
+</html>

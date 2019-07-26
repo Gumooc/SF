@@ -1,0 +1,364 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/bar.css" rel="stylesheet" />
+	<link href="css/section.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<style>
+		body{
+			padding: 0px;
+			margin: 0px ;
+			color: #007AFF;
+		}
+		.bm-edit-div-2{
+			padding:5px;
+			height: 50px;
+			border-radius:10px;
+		}
+		.bm-edit-input-2{
+			width: 100%;
+			height: 90px;
+			margin: 0px;
+			border-radius: 10px;
+		}
+		.bm-edit-btn-5{
+			font-size: 20px;
+			padding: 5px 10px;
+			float: right;
+		}
+		.bm-edit-btn-2{
+			float: right;
+			position: absolute;
+			right: 10px;
+		}
+		.bm-edit-div-3{
+			border-radius: 10px;
+			height: 210px;
+		}
+		.bm-edit-div-4{
+			padding-bottom: 5px;
+		}
+		.bm-edit-div-5{
+			height: 150px;
+		}
+		.bm-edit-radio-1{
+			float: left;
+			width: 29%;
+			margin: 6px;
+			padding: 0px;
+			height: 40px;
+			border: 1px solid #007AFF;
+			border-radius: 10px;
+
+		}
+		.bm-edit-radio-2{
+			background: yellowgreen;
+		}
+		.bm-new-radio-1{
+			float: left;
+			width: 29%;
+			margin: 6px;
+			padding: 0px;
+			height: 40px;
+			border-radius: 10px;
+		}
+		.mui-title{
+			color: #007AFF;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+			<div class='mui-title'>编辑我的有声书</div>
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+	</header>
+	
+	<div class="mui-content">
+		<div class="bm-edit-div-1" style="background: white;">
+			<div class="bm-edit-div-2">
+				<input style="width:80%;border-radius:10px;" id='name' placeholder="标题" type="text"/>
+				<button class='mui-btn mui-btn-primary bm-edit-btn-5'>
+					<icon class="mui-icon mui-icon-trash"></icon>
+				</button>
+			</div>
+			
+			<div style="width:94%;margin-left:3%;">
+				<textarea class="bm-edit-input-2" placeholder="描述" id="des"></textarea>
+			</div>
+			
+			<div class="bar-div-2">
+				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+				<div class='bar-info-1'> 发布状态</div>
+				<div class="mui-switch mui-switch-blue bar-switch-1 mui-active" id='share'>
+				  	<div class="mui-switch-handle"></div>
+				</div>			
+			</div>
+			<div class="bar-div-1">
+				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+				<div class='bar-info-1'> 封面</div>
+			</div>
+			<div class=" bm-edit-div-5"><input type="file" id='img'/></div>
+			
+			<div class="bar-div-1">
+				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+				<div class='bar-info-1'> 分类</div>
+			</div>
+			<div class="bm-edit-div-3">
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>武侠</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>悬疑</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>小说</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>生活</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>经典</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>教育</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>社科</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>经管</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>历史</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>其他</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+			</div>
+			
+			<div class=" bar-div-1">
+				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+				<div class='bar-info-1'>分集</div>
+			</div>
+			<div class='bm-edit-div-4'> 
+				<div class='mui-card section-div-1 bm-edit-btn-6'>
+					<div class='section-info-1'>1</div>
+					<div class='section-info-2'>前世恩怨</div>
+					<button class='mui-btn mui-btn-primary section-btn-1'><icon class="mui-icon mui-icon-trash"></icon></button>
+				</div>
+				<div class='mui-card section-div-1 bm-edit-btn-7'>
+					<div class='section-info-1'>2</div>
+					<div class='section-info-2'>添加章节</div>
+					<button class='mui-btn mui-btn-primary section-btn-1'><icon class="mui-icon mui-icon-plus"></icon></button>
+				</div>
+			</div>
+				
+			<button class='mui-btn mui-btn-primary bm-edit-btn-2'>提交</button>
+		</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var item={};
+		var jarray;
+		
+		mui.init();
+		mui.plusReady(function(){
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+   		});
+   		
+   		//按钮事件，更新章节
+   		mui('body').on('tap','.bm-edit-btn-6',function(e){
+   			var ele=document.getElementsByClassName('bm-edit-btn-6');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	
+	    	mui.openWindow({
+	    		url:'bm-serial.html',
+	    		id:'bm-serial.html',
+	    	});
+	    	var bm_serial=plus.webview.getWebviewById('bm-serial.html');
+   			mui.fire(bm_serial,'get',{bid:item.bid,sid:cnt});
+   		})
+   		//按钮事件,添加章节
+   		mui('body').on('tap','.bm-edit-btn-7',function(e){
+   			mui.openWindow({
+	    		url:'bm-serial.html',
+	    		id:'bm-serial.html',
+	    	});
+	    	var bm_serial=plus.webview.getWebviewById('bm-serial.html');
+   			mui.fire(bm_serial,'get',{bid:item.bid,sid:-1});
+   		})
+   		//按钮事件，提交修改
+   		mui('body').on('tap','.bm-edit-btn-2',function(e){
+   			var nitem={};
+   			//可以修改的信息+图片+描述
+   			nitem.bookname=document.getElementById('name').value;
+   			nitem.shared=document.getElementById("share").classList.contains("mui-active");
+   			//不可修改的信息
+   			nitem.bid=item.bid;
+   			nitem.playtime=item.playtime;
+   			nitem.lst=getdt();
+   			nitem.uid=parseInt(plus.storage.getItem('uid'));
+   			nitem.kind="";
+
+   			//未修改的信息
+   			if(!nitem.bookname){nitem.bookname=item.bookname};
+   			
+   			mui.ajax('http://49.234.77.32:8080/sfbook/book/updatebook',{
+				data:nitem,
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='s'){
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			var des=document.getElementById('des').value;
+			var img=document.getElementById('img').files[0];
+			if(!img){
+				console.log('成功更新图书');
+				mui.fire(opener,'jump',{dst:'bm-cur.html'});
+				mui.fire(self,'clear',{});
+				return;
+			}
+			
+			var formData=new FormData();
+			formData.append('bid',item.bid);
+    		formData.append('file',img); 
+			$.ajax({
+		        url:'http://49.234.77.32:8080/sfbook/book/setImg',
+		        type:'post',
+		        dataType:'text',
+		        cache: false,
+		        processData: false,
+		        contentType: false,
+		        async:false,
+		        data:formData,
+		        success:function(list){  
+		        },
+		        error:function(){console.log("保存失败");}
+    		});
+    		
+    		if(!des){
+    			console.log('成功更新图书');
+				mui.fire(opener,'jump',{dst:'bm-cur.html'});
+				mui.fire(self,'clear',{});
+    			return;
+    		}
+    		mui.ajax('http://49.234.77.32:8080/sfbook/book/insbookdes',{
+				data:{des:des,bid:item.bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			
+			console.log('成功更新图书');
+			mui.fire(opener,'jump',{dst:'bm-cur.html'});
+			mui.fire(self,'clear',{});
+			return;
+   		})
+		
+		//监听事件，加载图书信息
+		window.addEventListener('item',function(event){
+			var bid=event.detail.bid;
+			var ustr=plus.storage.getItem('uid');
+			var uid=parseInt(ustr);
+			
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/bookinfo',{
+				data:{bid:event.detail.bid,uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					item=data.body;
+					document.getElementById('name').placeholder=item.bookname;
+					var html='';
+					var j=JSON.parse(item.chapter);
+					jarray=j.body;
+					var i;
+					for(i=0;i<jarray.length;i++){
+						html+="<div class='mui-card section-div-1 bm-edit-btn-6'>";
+						html+="<div class='section-info-1'>"+(i+1)+"</div>";
+						html+="<div class='section-info-2'>"+jarray[i].name+"</div>";
+						html+="<button class='mui-btn mui-btn-primary section-btn-1'><icon class='mui-icon mui-icon-trash'></icon></button>";
+						html+="</div>";
+					}
+					html+="<div class='mui-card section-div-1 bm-edit-btn-7'>";
+					html+="<div class='section-info-1'>"+(i+1)+"</div>";
+					html+="<div class='section-info-2'>"+'添加章节'+"</div>";
+					html+="<button class='mui-btn mui-btn-primary section-btn-1'><icon class='mui-icon mui-icon-plus'></icon></button>";
+					html+="</div>";
+					document.getElementsByClassName('bm-edit-div-4')[0].innerHTML=html;
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+		});
+		window.addEventListener('clear',function(event){
+			document.getElementById('name').value='';
+			document.getElementById('des').value='';
+		});
+		
+   		//应用函数，获取时间
+		function getdt(){
+			var date=new Date(); 
+			var year=date.getFullYear(); 
+			var mon=date.getMonth()+1; 
+		    var day=date.getDate();
+		    var stamp=year+'-'+mon+'-'+day;
+		    return stamp;
+		}
+	</script>
+</body>
+
+</html>
