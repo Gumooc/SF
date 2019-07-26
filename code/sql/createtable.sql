@@ -1,3 +1,10 @@
+drop table if exists tp;
+create table tp(
+	uid int,
+    openid varchar(16),
+    primary key(openid)
+);
+
 /*
 drop table if exists user;
 create table user(
@@ -15,10 +22,10 @@ create table user(
     primary key(uid),
     forbidden bool not null default false
 );*/
-/*
+
 drop table if exists book;
 create table book(
-	bid int,
+	bid int default 0 auto_increment,
     uid int,
     bookname varchar(40),
     kind varchar(20) default 0,
@@ -27,7 +34,7 @@ create table book(
     playtime int,
     primary key (bid),
     forbidden bool not null default false
-);*/
+);
 /*
 drop table if exists collector;
 create table collector(
