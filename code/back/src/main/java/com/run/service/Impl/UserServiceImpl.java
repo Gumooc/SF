@@ -1,22 +1,8 @@
 package com.run.service.Impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
-import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
-import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
-import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefUserBasedRecommender;
-import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
-import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
-import org.apache.mahout.cf.taste.impl.similarity.EuclideanDistanceSimilarity;
-import org.apache.mahout.cf.taste.model.DataModel;
-import org.apache.mahout.cf.taste.model.JDBCDataModel;
-import org.apache.mahout.cf.taste.recommender.RecommendedItem;
-import org.apache.mahout.cf.taste.recommender.Recommender;
-import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -25,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.druid.util.Base64;
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import com.run.dao.BookDao;
 import com.run.dao.UserDao;
 import com.run.entity.Book;
@@ -33,6 +18,7 @@ import com.run.entity.BookImg;
 import com.run.entity.Collector;
 import com.run.entity.Comment;
 import com.run.entity.CommentDes;
+import com.run.entity.TpUser;
 import com.run.entity.User;
 import com.run.entity.UserDetl;
 import com.run.service.UserService;
@@ -50,10 +36,11 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public int tplogin(JSONObject info) {
+		System.out.println(info);
 		String openid = info.getString("openid");
-		int uid = userMapper.tpcheck(openid);
-
-		if (uid > 0) return uid;
+		TpUser tpUser = userMapper.tpcheck(openid);
+		
+		if (tpUser != null) return tpUser.getUid();
 		
 		String nickname = info.getString("nickname");
 		boolean male = info.getString("gender").equals("m");
@@ -67,6 +54,7 @@ public class UserServiceImpl implements UserService {
 		user.setActivation(true);
 		user.setAdm(false);
 		userMapper.register(user);
+		userMapper.tp(user.getUid(), openid);
 		return user.getUid();
 		
 	}
@@ -146,8 +134,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public JSONObject updateuser(User user) {
-		System.out.println("update_Service");
-		System.out.println(user);
+		//System.out.println("update_Service");
+		//System.out.println(user);
 		JSONObject feedback = new JSONObject();
 		userMapper.updateuser(user);
 		feedback.put("resp", "s");
@@ -164,7 +152,10 @@ public class UserServiceImpl implements UserService {
 			for (Book book:bookl.getBooks()) {
 				Query query = new Query(Criteria.where("id").is(book.getBid()));
 				BookImg bookImg = mongoTemplate.findOne(query, BookImg.class, "bookimg");
-				book.setImg(bookImg.getImg());
+				if (bookImg != null) {
+					book.setImg(bookImg.getImg());
+				}
+				book.setNickname(bookMapper.getauthor(book.getUid()));
 			}
 			feedback.put("body", bookl.getBooks());
 		}
@@ -185,6 +176,7 @@ public class UserServiceImpl implements UserService {
 				if (bookImg != null) {
 					book.setImg(bookImg.getImg());
 				}
+				book.setNickname(bookMapper.getauthor(book.getUid()));
 			}
 			feedback.put("body", bookl.getBooks());
 		}
@@ -235,6 +227,7 @@ public class UserServiceImpl implements UserService {
 				if (bookImg != null) {
 					book.setImg(bookImg.getImg());
 				}
+				book.setNickname(bookMapper.getauthor(book.getUid()));
 			}
 			feedback.put("body", bookl);
 		}
@@ -255,6 +248,7 @@ public class UserServiceImpl implements UserService {
 				if (bookImg != null) {
 					book.setImg(bookImg.getImg());
 				}
+				book.setNickname(bookMapper.getauthor(book.getUid()));
 			}
 			feedback.put("body", bookl);
 		}
@@ -274,7 +268,6 @@ public class UserServiceImpl implements UserService {
 			if (result == null) {
 			} else {
 				user.setImg(result.getImg());
-				user.setBirth(result.getBirth()==null? "0000-00-00":result.getBirth());
 			}
 			feedback.put("resp", "s");
 			feedback.put("body", user);
