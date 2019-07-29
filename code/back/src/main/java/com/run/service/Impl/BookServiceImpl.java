@@ -183,6 +183,7 @@ public class BookServiceImpl implements BookService {
 			if (result != null) {
 				book.setImg(result.getImg());
 			}
+			book.setNickname(bookMapper.getauthor(book.getUid()));
 		}
 		return booklist;
 	}
@@ -216,13 +217,10 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public JSONObject insertBook(Book book) {
 		JSONObject feedback = new JSONObject();
-		int bid = bookMapper.getmaxid()+1;
-		book.setBid(bid);
-		System.out.println(book);
 		bookMapper.insertbook(book);
 		feedback.put("resp", "s");
 		JSONObject bidjs = new JSONObject();
-		bidjs.put("bid", bid);
+		bidjs.put("bid", book.getBid());
 		feedback.put("body",bidjs);
 		return feedback;
 	}
