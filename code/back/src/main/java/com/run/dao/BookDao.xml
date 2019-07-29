@@ -3,6 +3,10 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.run.dao.BookDao">
+    <select id="asklatest"  parameterType="Integer" resultType="com.run.entity.Book">
+		select * from book order by lst desc limit #{num};
+    </select>
+    
     <select id="collectcheck" parameterType="com.run.entity.UserbookItem" resultType="com.run.entity.Book">
     	select * from collector where uid=#{uid} and bid=#{bid};
     </select>
@@ -23,9 +27,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	select * from book where bookname like "%"#{bookname}"%";
     </select>
     
-    <insert id="insertbook" parameterType="com.run.entity.Book">
-    	insert into book(bid, uid, bookname, kind, lst, shared, playtime, forbidden) 
-    		values(#{bid}, #{uid}, #{bookname}, #{kind}, #{lst}, #{shared}, #{playtime}, false);
+    <insert id="insertbook" parameterType="com.run.entity.Book" useGeneratedKeys="true" keyProperty="bid">
+    	insert into book(uid, bookname, kind, lst, shared, playtime, forbidden) 
+    		values(#{uid}, #{bookname}, #{kind}, #{lst}, #{shared}, #{playtime}, false);
     </insert>
     
     <delete id="deletebook" parameterType="Integer">
@@ -54,7 +58,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	where bid = #{bid};
     </update>
     
-    <select id="getmaxid" resultType="Integer">
-    	select max(bid) from book;
-    </select>
 </mapper>
