@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id = "updatelst">
 		update user set lst = #{lst} where uid = #{uid};
 	</update>
-	<select id="tpcheck" parameterType="String" resultType="Integer">
-		select uid from tp where openid = #{openid};
+	<select id="tpcheck" parameterType="String" resultType="com.run.entity.TpUser">
+		select * from tp where openid = #{openid};
 	</select>
 	<insert id="tp">
 		insert into tp(uid, openid) values(#{uid}, #{openid});
@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
 	<select id="askuser" parameterType="Integer" resultType="com.run.entity.User">
-        select username, nickname,lst,rgt,male,phone,email,activation from user where uid=#{uid};
+        select username, nickname,lst,rgt,male,phone,email,activation,birth from user where uid=#{uid};
     </select>
     
 	<select id="askuserallinfo" parameterType="Integer" resultType="com.run.entity.User">
@@ -92,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="askhistory" parameterType="Integer" resultMap="collectormap">
         select history.uid,book.* from history,book 
 		<where>
-			history.bid = book.bid and history.uid=#{uid}
+			history.bid = book.bid and history.uid=#{uid} and prc = 0;
 		</where> 
     </select>
     
