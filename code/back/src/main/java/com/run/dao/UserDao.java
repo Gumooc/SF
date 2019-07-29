@@ -2,6 +2,7 @@ package com.run.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.run.entity.Book;
@@ -32,5 +33,8 @@ public interface UserDao {
 	
 	boolean checkforbidden(int uid);
 	
-	int getmaxid();
+	int tpcheck(String openid);
+	void tp(@Param("uid") int uid, @Param("openid") String openid);
+	void updatelst(@Param("uid") int uid, @Param("lst") String lst);
+	
 }
