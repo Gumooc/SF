@@ -16,19 +16,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 @Service
 public class CreateBookServiceImpl implements CreateBookService {
     private deom2 ffmpegx;
     private static List<String> dictc= dict.init();
     
     @Override
-    public JSONObject bysound(JSONObject info, MultipartFile sound) {
+    public JSONObject bysound(HttpSession session, JSONObject info, MultipartFile sound) {
     	return null;
     }
     
     
     @Override
-    public JSONObject bytext(JSONObject info, MultipartFile txt) throws Exception{
+    public JSONObject bytext(HttpSession session, JSONObject info, MultipartFile txt) throws Exception{
         AipSpeech aipSpeech = new AipSpeech("16720362","drYw1Ut4GQRAeZSC2FMqbNEg", "36Oz5GXBqYWIMC6QfG9GG4AGrVqO0CUI");
         AipNlp client = new AipNlp("16720362","drYw1Ut4GQRAeZSC2FMqbNEg", "36Oz5GXBqYWIMC6QfG9GG4AGrVqO0CUI");
         byte bb[] = null;
