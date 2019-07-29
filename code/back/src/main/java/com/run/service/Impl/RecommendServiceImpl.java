@@ -1,12 +1,11 @@
 package com.run.service.Impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefUserBasedRecommender;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import com.run.dao.BookDao;
+import com.run.dao.RecommendDao;
 import com.run.entity.Book;
 import com.run.entity.BookImg;
 import com.run.service.RecommendService;
@@ -31,6 +31,8 @@ import net.sf.json.JSONObject;
 
 @Service
 public class RecommendServiceImpl implements RecommendService {
+	@Autowired
+	private RecommendDao recommendMapper;
 	@Autowired
 	private BookDao bookMapper;
 	@Autowired
@@ -46,10 +48,20 @@ public class RecommendServiceImpl implements RecommendService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(recommendlist);
 		List<Book> latestlist = getlatest();
+		System.out.println(latestlist);
 		List<Book> hottestlist = gethottest();
+		System.out.println(hottestlist);
+		
+		int index = 0;
+		while (recommendlist.size()<3) {
+			recommendlist.add(latestlist.get(index));
+			index++;
+		}
 		feedbody.put("recommend", recommendlist);
 		feedbody.put("latest", latestlist);
+		feedbody.put("hottest", hottestlist);
 		return feedbody;
 	}
 	
@@ -68,41 +80,71 @@ public class RecommendServiceImpl implements RecommendService {
 		dataSource.setUser(userName);
 		dataSource.setPassword(password);
 		
-		//String file = "G:/test.csv";
-	    //DataModel model = new FileDataModel(new File(file));
 		JDBCDataModel model = new MySQLJDBCDataModel(dataSource, "history", "uid", "kind", "prc", "date");
 	    UserSimilarity user = new EuclideanDistanceSimilarity(model);
 	    NearestNUserNeighborhood neighbor = new NearestNUserNeighborhood(2, user, model);
-	    //Recommender r = new GenericUserBasedRecommender(model, neighbor, user);
 	    Recommender r = new GenericBooleanPrefUserBasedRecommender(model, neighbor, user);
 	    
 	    List<Book> booklist = new ArrayList<Book>();
 	    
 	    List<RecommendedItem> list = r.recommend(uid, 3);
-		for (RecommendedItem ritem : list) {
-	    	int bid = (int) ritem.getItemID();
-	    	Book book = bookMapper.askbookinfo(bid);
-	    	if (book == null) continue;
-			Query query = new Query(Criteria.where("id").is(bid));
-			BookImg result=mongoTemplate.findOne(query, BookImg.class, "bookimg");
-			if (result != null) {
-				book.setImg(result.getImg());
-			}
-			book.setNickname(bookMapper.getauthor(book.getUid()));
-			booklist.add(book);
+	    
+	    List<Book> datalist = bookMapper.askbooklist(); 
+	    
+	    
+	    for (final RecommendedItem rItem : list) {
+		    Collections.sort(datalist,new Comparator<Book>() {
+		    	private int kind = (int) rItem.getItemID();
+				@Override
+				public int compare(Book o1, Book o2) {
+					int k1 = Integer.parseInt(o1.getKind());
+					int k2 = Integer.parseInt(o2.getKind());
+					if ((k1&kind) > (k2&kind)) return 1;
+					else  return 0;
+				}
+		    });
+		    int index = 0;
+		    while (booklist.size()<3) {
+		    	Book book = datalist.get(index);
+		    	Query query = new Query(Criteria.where("id").is(book.getBid()));
+				BookImg result=mongoTemplate.findOne(query, BookImg.class, "bookimg");
+				if (result != null) {
+					book.setImg(result.getImg());
+				}
+				book.setNickname(bookMapper.getauthor(book.getUid()));
+				booklist.add(book);
+				index++;
+		    }
+		    break;
 	    }
 		    
 		return booklist;
 	}
 	
 	private List<Book> getlatest() {
-		List<Book> booklist = bookMapper.asklatest(3);
+		List<Book> booklist = recommendMapper.asklatest(3);
+		for (Book book:booklist) {
+			Query query = new Query(Criteria.where("id").is(book.getBid()));
+			BookImg result=mongoTemplate.findOne(query, BookImg.class, "bookimg");
+			if (result != null) {
+				book.setImg(result.getImg());
+			}
+			book.setNickname(bookMapper.getauthor(book.getUid()));
+		}
 		return booklist;
 	}
 	
 	private List<Book> gethottest() {
-		List<Book> booklist;
-		return null; 
+		List<Book> booklist = recommendMapper.askhottest(3);
+		for (Book book:booklist) {
+			Query query = new Query(Criteria.where("id").is(book.getBid()));
+			BookImg result=mongoTemplate.findOne(query, BookImg.class, "bookimg");
+			if (result != null) {
+				book.setImg(result.getImg());
+			}
+			book.setNickname(bookMapper.getauthor(book.getUid()));
+		}
+		return booklist; 
 	}
 
 }
