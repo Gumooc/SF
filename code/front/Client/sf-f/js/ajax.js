@@ -2,12 +2,12 @@
   	function myAjax(url,postData,success,error){
             // 此种方式不会 中文乱码,
             var type = postData.type;
-            var timeout = postData.timeout;
+            //var timeout = postData.timeout;
             var data = postData.data;
-            var xhr = new plus.net.XMLHttpRequest();
-            if(timeout&&timeout>0) xhr.timeout = timeout;
+            var xhr = new XMLHttpRequest();
+            //if(timeout&&timeout>0) xhr.timeout = timeout;
             xhr.onreadystatechange = function () {
-                switch ( xhr.readyState ) {
+                switch(xhr.readyState){
                     case 0:
                     break;
                     case 1:
@@ -17,9 +17,9 @@
                     case 3:
                         break;
                     case 4:
-                        if ( xhr.status == 200 ) {
+                        if( xhr.status == 200 ) {
                             success(eval('('+xhr.responseText+')'));
-                        } else {
+                        }else {
                             error(xhr.readyState,xhr);
                         }
                         break;
@@ -29,7 +29,8 @@
             }
             if(data){
                 if(type=='post'||type=='get'){
-                    xhr.open( type||"GET", url );
+                	
+                    xhr.open(type||"GET",url,false);
                     xhr.send(JSON.stringify(data));
                 }else{
                     throw new Error("type is undefined !")
@@ -38,7 +39,7 @@
                 if(type!='post'&&type!='get'){
                     throw new Error("type is undefined !")
                 }
-                xhr.open( type||"GET", url );
+                xhr.open( type||"GET", url,false);
                 xhr.send();
             }
         }

@@ -8,12 +8,13 @@
 	<link href="css/mui.min.css" rel="stylesheet" />
 	<link href="css/bar.css" rel="stylesheet" />
 	<link href="css/section.css" rel="stylesheet" />
+	<script src='js/ajax.js'></script>
 	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 	<style>
 		body{
 			padding: 0px;
 			margin: 0px ;
-			color: #007AFF;
+			
 		}
 		.bm-edit-div-2{
 			padding:5px;
@@ -112,19 +113,13 @@
 			<div class="bm-edit-div-3">
 				<div class='mui-card bm-new-radio-1'>
 					<div class="mui-input-row mui-checkbox" >
-					  <label>武侠</label>
+					  <label>其他</label>
 					  <input name="checkbox1" type="checkbox" >
 					</div>
 				</div>
 				<div class='mui-card bm-new-radio-1'>
 					<div class="mui-input-row mui-checkbox" >
 					  <label>悬疑</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>小说</label>
 					  <input name="checkbox1" type="checkbox" >
 					</div>
 				</div>
@@ -137,6 +132,12 @@
 				<div class='mui-card bm-new-radio-1'>
 					<div class="mui-input-row mui-checkbox" >
 					  <label>经典</label>
+					  <input name="checkbox1" type="checkbox" >
+					</div>
+				</div>
+				<div class='mui-card bm-new-radio-1'>
+					<div class="mui-input-row mui-checkbox" >
+					  <label>武侠</label>
 					  <input name="checkbox1" type="checkbox" >
 					</div>
 				</div>
@@ -166,7 +167,7 @@
 				</div>
 				<div class='mui-card bm-new-radio-1'>
 					<div class="mui-input-row mui-checkbox" >
-					  <label>其他</label>
+					  <label>小说</label>
 					  <input name="checkbox1" type="checkbox" >
 					</div>
 				</div>
@@ -199,13 +200,41 @@
 		var opener;
 		var item={};
 		var jarray;
+		var bid;
+		var bm_main;
+		var uid;
 		
 		mui.init();
 		mui.plusReady(function(){
        		self=plus.webview.currentWebview();
        		opener=self.opener();
+       		bm_main=plus.webview.getWebviewById('bm-main.html');
+       		uid=plus.storage.getItem('uid');
+       		mui.myAjax=myAjax;
    		});
    		
+   		
+   		mui('body').on('tap','.bm-edit-btn-5',function(e){
+   			mui.ajax('http://49.234.77.32:8080/sfbook/book/deletebook',{
+				data:{bid:bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='s'){
+						console.log('删除图书成功！');
+						mui.fire(bm_main,'get',{});
+						self.close();
+						
+					}
+				},
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
+			});
+   		});
    		//按钮事件，更新章节
    		mui('body').on('tap','.bm-edit-btn-6',function(e){
    			var ele=document.getElementsByClassName('bm-edit-btn-6');
@@ -218,7 +247,7 @@
 	    	});
 	    	var bm_serial=plus.webview.getWebviewById('bm-serial.html');
    			mui.fire(bm_serial,'get',{bid:item.bid,sid:cnt});
-   		})
+   		});
    		//按钮事件,添加章节
    		mui('body').on('tap','.bm-edit-btn-7',function(e){
    			mui.openWindow({
@@ -231,6 +260,7 @@
    		//按钮事件，提交修改
    		mui('body').on('tap','.bm-edit-btn-2',function(e){
    			var nitem={};
+   			var bm_main=plus.webview.getWebviewById('bm-main.html');
    			//可以修改的信息+图片+描述
    			nitem.bookname=document.getElementById('name').value;
    			nitem.shared=document.getElementById("share").classList.contains("mui-active");
@@ -239,11 +269,34 @@
    			nitem.playtime=item.playtime;
    			nitem.lst=getdt();
    			nitem.uid=parseInt(plus.storage.getItem('uid'));
-   			nitem.kind="";
+   			nitem.kind=0;
+   			var cb=document.getElementsByName('checkbox1');
+   			for(var i=0;i<10;i++){
+   				if(cb[i].checked){
+   					var kid=(1<<i);
+   					nitem.kind+=kid;
+   				}
+   			}
+   			console.log('分类标签：'+nitem.kind);
 
    			//未修改的信息
    			if(!nitem.bookname){nitem.bookname=item.bookname};
-   			
+   			mui.myAjax('http://49.234.77.32:8080/sfbook/book/updatebook',{
+                        type:'post',
+                        async:false,
+                        timeout:5000,
+                        headers:{'Content-Type':'application/json'},	
+                        dataType:'json',
+                        data:nitem
+                    },
+                function(data){
+                    
+                },function(state,xhr){
+                    console.log(state);
+                    mui.toast('连接到服务器出错',{ duration:'long', type:'div' }) 
+                }
+            );
+   			/*
    			mui.ajax('http://49.234.77.32:8080/sfbook/book/updatebook',{
 				data:nitem,
 				dataType:'json',
@@ -257,12 +310,14 @@
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
+			*/
 			var des=document.getElementById('des').value;
 			var img=document.getElementById('img').files[0];
 			if(!img){
 				console.log('成功更新图书');
-				mui.fire(opener,'jump',{dst:'bm-cur.html'});
-				mui.fire(self,'clear',{});
+				mui.toast('成功更新图书',{ duration:'long', type:'div'});
+				self.close();
+				mui.fire(bm_main,'get',{});
 				return;
 			}
 			
@@ -280,15 +335,34 @@
 		        data:formData,
 		        success:function(list){  
 		        },
-		        error:function(){console.log("保存失败");}
+		        error:function(){
+		        	mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+		        	console.log("保存失败");}
+		        
     		});
     		
     		if(!des){
     			console.log('成功更新图书');
-				mui.fire(opener,'jump',{dst:'bm-cur.html'});
-				mui.fire(self,'clear',{});
-    			return;
+				mui.toast('成功更新图书',{ duration:'long', type:'div'});
+				mui.fire(bm_main,'get',{});
+				self.close();
     		}
+    		mui.myAjax('http://49.234.77.32:8080/sfbook/book/insbookdes',{
+                        type:'post',
+                        async:false,
+                        timeout:5000,
+                        headers:{'Content-Type':'application/json'},	
+                        dataType:'json',
+                        data:{des:des,bid:item.bid}
+                    },
+                function(data){
+                    
+                },function(state,xhr){
+                    console.log(state);
+                    mui.toast('连接到服务器出错',{ duration:'long', type:'div' }) 
+                }
+            );
+            /*
     		mui.ajax('http://49.234.77.32:8080/sfbook/book/insbookdes',{
 				data:{des:des,bid:item.bid},
 				dataType:'json',
@@ -298,18 +372,21 @@
 				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 				},
-				error:function(xhr,type,errorThrown){console.log(type);}
-			});
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
+			});*/
 			
 			console.log('成功更新图书');
-			mui.fire(opener,'jump',{dst:'bm-cur.html'});
-			mui.fire(self,'clear',{});
+			mui.toast('成功更新图书',{ duration:'long', type:'div'});
+			mui.fire(bm_main,'get',{});
+			self.close();
 			return;
    		})
 		
 		//监听事件，加载图书信息
 		window.addEventListener('item',function(event){
-			var bid=event.detail.bid;
+			bid=event.detail.bid;
 			var ustr=plus.storage.getItem('uid');
 			var uid=parseInt(ustr);
 			
@@ -341,9 +418,11 @@
 					html+="</div>";
 					document.getElementsByClassName('bm-edit-div-4')[0].innerHTML=html;
 				},
-				error:function(xhr,type,errorThrown){console.log(type);}
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
 			});
-		});
+		}); 
 		window.addEventListener('clear',function(event){
 			document.getElementById('name').value='';
 			document.getElementById('des').value='';

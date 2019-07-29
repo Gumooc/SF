@@ -20,7 +20,7 @@
 				<span class="mui-icon mui-icon-weixin"></span>
 			</div>
 			<div class="mui-input-row mui-search">
-			    <input type="search" class="mui-input-clear" placeholder="搜索匹配的有声书" style="background:whitesmoke;">
+			    <input type="search" class="mui-input-clear" id='search' placeholder="搜索匹配的有声书" style="background:whitesmoke;">
 			</div>
 		</header>
 		
@@ -33,6 +33,12 @@
 					styles:{top:'50px',bottom:'0px'}
 				}]
 			});
+			function enterSearch(event){
+            	if(event.keyCode == 13) {//用户点击回车的事件号为13
+	            	var keyword = document.getElementById('search').value;
+	                alert('send '+keyword+' to bbong.');
+	            }
+	        }
 		</script>
 	</body>
 

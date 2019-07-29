@@ -80,6 +80,8 @@
 			background-color: #ddd;
 		}
 	</style>
+	<script type="text/javascript" src="../js/common.js"></script>
+	<script type="text/javascript" src="../js/immersed.js" ></script>
 </head>
 
 <body>
@@ -101,6 +103,7 @@
 		</form>
 		<div class="mui-content-padded" >
 			<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+			<button id='ologin' class="mui-btn mui-btn-block mui-btn-primary" >通过新浪微博登录</button>
 			<div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='passfgt'>忘记密码</a>
 			</div>
 		</div>
@@ -113,11 +116,60 @@
 	<script src="js/app.js"></script>
 	<script>
 		var self;
-	
-		mui.init();
-		mui.plusReady(function(){
+	 	var auth;
+	 	function plusReady(){
+			// 获取登录认证通道
+			plus.oauth.getServices(function(services){
+				var ol=document.getElementById('ologin');
+				var service=services[2];
+				console.log(service.id+": "+service.authResult+", "+service.userInfo);
+				auth=service;
+				ol.setAttribute('onclick','login()');
+			},function(e){
+				console.log("获取登录认证失败："+e.message);
+			});
 			self=plus.webview.currentWebview();
-		});
+		}
+		mui.init();
+		document.addEventListener('plusready',plusReady,false);
+		function login(){
+			if(auth){
+				var w=null;
+				if(plus.os.name=="Android"){
+					w=plus.nativeUI.showWaiting();
+				}
+				document.addEventListener("pause",function(){
+					setTimeout(function(){
+						w&&w.close();w=null;
+					},2000);
+				}, false );
+				auth.login(function(){
+					w&&w.close();w=null;
+					console.log("登录认证成功：");
+					console.log(JSON.stringify(auth.authResult));
+					userinfo(auth);
+				},function(e){
+					w&&w.close();w=null;
+					console.log("登录认证失败：");
+					console.log("["+e.code+"]："+e.message);
+					plus.nativeUI.alert("详情错误信息请参考授权登录(OAuth)规范文档：http://www.html5plus.org/#specification#/specification/OAuth.html",null,"登录失败["+e.code+"]："+e.message);
+				});
+			}else{
+				console.log("无效的登录认证通道！");
+				plus.nativeUI.alert("无效的登录认证通道！",null,"登录");
+			}
+		}
+		function userinfo(a){
+			a.getUserInfo(function(){
+				var nickname=a.userInfo.nickname||a.userInfo.name||a.userInfo.miliaoNick;
+				plus.nativeUI.alert("欢迎“"+nickname+"”登录！");
+			},function(e){
+				console.log("获取用户信息失败：");
+				console.log("["+e.code+"]："+e.message);
+				plus.nativeUI.alert("获取用户信息失败！",null,"登录");
+			});
+		}
+		
 		mui("body").on("tap","#login",function(){
 			var username=document.getElementById("account").value;
 			var password=document.getElementById("password").value;
@@ -147,7 +199,7 @@
 						var bm=plus.webview.getWebviewById('bm-main.html');
 						mui.fire(ua,'check',{});
 						mui.fire(us,'self',{});
-						mui.fire(bm,'self',{});
+						mui.fire(bm,'get',{});
 					}
 					else if(data.resp=='f'){
 						mui.toast('登录失败 账号密码未匹配',{duration:1000,type:'div'}) ;
@@ -168,6 +220,7 @@
 		mui("body").on("tap","#passfgt",function(){
 			
 		});
+		
 		window.addEventListener('reg',function(event){
 			mui.toast('注册成功 请前往邮箱激活',{ duration:1000,type:'div'});
 		});	
