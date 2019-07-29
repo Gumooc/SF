@@ -36,7 +36,6 @@ public class CommentController {
 		JSONObject commentinfo = JSONObject.fromObject(liString);
 		Comment comment = (Comment) JSONObject.toBean(commentinfo,Comment.class);
 		feedback = commentService.insert(comment);
-		System.out.println(feedback);
 		return feedback;
 	}
 	
