@@ -1,12 +1,9 @@
 package com.run.control;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.mahout.cf.taste.common.TasteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.run.entity.User;
 import com.run.service.EmailService;
-import com.run.service.RecommendService;
 import com.run.service.UserService;
 
 import net.sf.json.JSONObject;
@@ -29,8 +25,6 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private EmailService emailService;
-	@Autowired
-	private RecommendService recommendService;
 	
 	private void setRHeader(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("application/json;charset=utf-8");
@@ -41,23 +35,18 @@ public class UserController {
 	}
 
 	@ResponseBody
-	@RequestMapping("/recommend")
-	public JSONObject recommend(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping("/tplogin")
+	public JSONObject tplogin(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
-		try {
-			recommendService.recommend(0);
-		} catch (TasteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		feedback.put("resp", "s");
+		JSONObject userjs = JSONObject.fromObject(liString);
+		String openid = userjs.getString("openid");
+		String nickname = userjs.getString("nickname");
+		boolean male = userjs.getString("gender").equals("m");
+		
 		return feedback;
 	}
-
+	
 	@ResponseBody
 	@RequestMapping("/mdfypassword")
 	public JSONObject mdfypassword(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
@@ -187,7 +176,10 @@ public class UserController {
 	public JSONObject updateuser(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
+		System.out.println(liString);
 		User user = (User) JSONObject.toBean(JSONObject.fromObject(liString), User.class);
+		System.out.println("update_controller");
+		System.out.println(user);
 		feedback = userService.updateuser(user);
 		return feedback;
 	}
