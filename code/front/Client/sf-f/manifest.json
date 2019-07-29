@@ -168,7 +168,8 @@
 			"ua-acc.html": {
 				"resources": [],
 				"refer": [
-					"ua-log.html"
+					"ua-log.html",
+					"us-set.html"
 				],
 				"priority": 0
 			},
@@ -208,6 +209,13 @@
 					"os-main.html"
 				],
 				"refer": [],
+				"priority": 0
+			},
+			"ua-log.html": {
+				"resources": [],
+				"refer": [
+					"ua-reg.html"
+				],
 				"priority": 0
 			}
 		},

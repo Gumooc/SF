@@ -34,7 +34,7 @@
 		
 		<div class="mui-content" style="margin-top:150px;">
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
+				<!--<li class="mui-table-view-cell">
 					<div class='book-div-1'>
 						<div class='book-info-1'>
 							<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
@@ -55,7 +55,7 @@
 							320
 						</div>
 					</div>
-				</li> 
+				</li>-->
 			</ul>
 			
 		</div>
@@ -71,7 +71,7 @@
 				opener=self.opener();
 				uid=plus.storage.getItem('uid');
 				if(uid==null) return;
-				mui.fire(self,'get',{uid:uid});
+				mui.fire(self,'get',{});
 			})
 			
 			//按钮事件，显示详情
@@ -86,15 +86,24 @@
 			});
 			//按钮事件，新建书籍
 			mui('body').on('tap','.bm-main-div-3',function(e){	
+				var uid=plus.storage.getItem('uid');
+				if(uid==null){
+					mui.toast('登录后创建有声书',{ duration:'long', type:'div' });
+					return;
+				}
 		    	mui.openWindow({
 		    		url:'bm-new.html',
 		    		id:'bm-new.html',
 		    	});
 			});
-			
+			//监听事件，加载作品清单
+			window.addEventListener('toast',function(event){
+				 mui.toast('创建作品成功',{ duration:'long', type:'div' }) ;
+			});
 			//监听事件，加载作品清单
 			window.addEventListener('get',function(event){
-				uid=event.detail.uid;
+				uid=plus.storage.getItem('uid');
+				//uid=event.detail.uid;
 				plus.nativeUI.showWaiting();
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/selfworks',{
 					data:{uid:uid},
@@ -134,7 +143,9 @@
 						}
 						document.getElementsByClassName("mui-table-view")[0].innerHTML=html;
 					},
-					error:function(xhr,type,errorThrown){console.log(type);}
+					error:function(xhr,type,errorThrown){
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);}
 				});
 				plus.nativeUI.closeWaiting();
 			});

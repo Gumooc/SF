@@ -132,9 +132,10 @@
 			});
 			*/
 			s= plus.audio.createPlayer('http://49.234.77.32/audio/'+bid+'_'+sid+'-f-v.mp3');
-			console.log('http://49.234.77.32'+url);
+			//console.log('http://49.234.77.32'+url);
 		    var num=s.getDuration();
 		    setTimeout(function(){num = s.getDuration();},100);
+		    /*
 		    var id=setInterval(function(){
 		    	var tmp=(s.getPosition()/s.getDuration())*100;
 				if(tmp>0){
@@ -145,8 +146,11 @@
 					clearInterval(id);
 				}
 		    },1000);
+		    */
 		    s.play(function(){console.log("播放音频文件(bid:"+bid+",sid:"+sid+")");},
-		    	function(e){console.log("error");}
+		    	function(e){
+		    		mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+		    		console.log("error");}
 		    );
 		});
 		//监听事件，暂停播放

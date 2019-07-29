@@ -38,7 +38,8 @@
 	},
 	"ua-acc.html": {
 		"refer": [
-			"ua-log.html"
+			"ua-log.html",
+			"us-set.html"
 		]
 	},
 	"bi.html": {
@@ -71,6 +72,11 @@
 		],
 		"refer": [
 			"os-main.html"
+		]
+	},
+	"ua-log.html": {
+		"refer": [
+			"ua-reg.html"
 		]
 	}
 }

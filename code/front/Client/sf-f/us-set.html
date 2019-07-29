@@ -9,6 +9,7 @@
 	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 	<link href="css/bar.css" rel="stylesheet" />
 	<link href="css/user.css" rel="stylesheet" />
+	<script src='js/ajax.js'></script>
 	<style>
 		.us-set-info-1{
 			width: 67%;
@@ -92,9 +93,9 @@
 		mui.init();
 		mui.plusReady(function(){
 			self=plus.webview.currentWebview();
-			
 			opener=self.opener();
-			mui.fire(self,'head',{});
+			mui.myAjax=myAjax;
+			mui.fire(self,'self',{});
 		});
 		
 		//点击事件，上传个人信息
@@ -111,9 +112,34 @@
    			nuser.uid=parseInt(plus.storage.getItem('uid'));
    			//过滤未修改的信息
    			if(!nuser.nickname){nuser.nickname=old.nickname;}
-   			if(!nuser.birth){console.log('未选择生日');nuser.birth=old.birth;}
+   			if(!nuser.birth){nuser.birth=old.birth;}
    			if(!nuser.phone){nuser.phone=old.phone;}
+   			console.log(nuser.phone+nuser.birth+nuser.nickname+nuser.male);
    			//更新用户信息
+   			
+   			mui.myAjax('http://49.234.77.32:8080/sfbook/user/updateuser',{
+                        type:'post',
+                        async:false,
+                        timeout:5000,
+                        headers:{'Content-Type':'application/json'},	
+                        dataType:'json',
+                        data:nuser
+                    },
+                function(data){
+                    if(data.resp=='s'){
+						console.log("成功更新基本信息");
+						mui.toast('成功更新基本信息',{ duration:'long', type:'div' }) 
+						var us_head=plus.webview.getWebviewById('us-head.html');
+		        		mui.fire(us_head,'self',{});
+    					var us_main=plus.webview.getWebviewById('us-main.html');
+    					mui.fire(us_head,'info',{uid:old.uid});
+					}
+                },function(state,xhr){
+                    console.log(state);
+                    mui.toast('连接到服务器出错',{ duration:'long', type:'div' }) 
+                }
+            );
+   			/*
    			mui.ajax('http://49.234.77.32:8080/sfbook/user/updateuser',{
 				data:nuser,
 				dataType:'json',
@@ -130,11 +156,11 @@
     					mui.fire(self,'head',{});
 					}
 				},
-				error:function(xhr,type,errorThrown){console.log(type);}
+				error:function(xhr,type,errorThrown){console.log('??');}
 			});
-			
+			*/
 			var img=document.getElementById('img').files[0];
-			if(!img){return;}
+			if(!img){self.close();return;}
 			
 			var formData=new FormData();
 			formData.append('uid',nuser.uid);
@@ -150,10 +176,10 @@
 		        data:formData,
 		        success:function(list){  
 		            console.log('成功导入头像');
-		             mui.toast('成功导入头像',{ duration:'long', type:'div' }) 
-		        	var us_main=plus.webview.getWebviewById('us-main.html');
-		    		mui.fire(us_main,'head',{});
-		    		mui.fire(self,'head',{});
+		            mui.toast('成功导入头像',{ duration:'long', type:'div' })
+		            var us_head=plus.webview.getWebviewById('us-head.html');
+		        	mui.fire(us_head,'self',{});
+		    		self.close();
 		        },
 		        error:function(){console.log("头像导入失败");}
     		});
@@ -165,8 +191,6 @@
    		});
    		//点击事件，加载个人信息
 		window.addEventListener('self',function(event){
-			mui.fire(self,'head',{});
-			var bid=event.detail.bid;
 			var uid=parseInt(plus.storage.getItem('uid'));
 			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
 				data:{uid:uid},
@@ -182,9 +206,11 @@
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
 		});
+		/*
 		//监听事件，加载头像
 		window.addEventListener('head',function(event){
 			var uid=parseInt(plus.storage.getItem('uid'));
+			console.log('uid='+uid);
 			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
 				data:{uid:uid},
 				dataType:'json',
@@ -194,13 +220,10 @@
 				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 					var user=data.body;
-					document.getElementsByClassName('user-info-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+user.img+"'/>";
-					document.getElementsByClassName('user-info-2')[0].innerHTML=user.nickname;
-					document.getElementsByClassName('user-info-3')[0].innerHTML='个性签名';
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
-		});
+		});*/
 		//监听事件，清空记录
 		window.addEventListener('clear',function(event){
 			document.getElementById('nick').value='';

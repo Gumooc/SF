@@ -35,6 +35,7 @@
 	    	mui.openWindow({
 	    		url:'us-set.html',
 	    		id:'us-set.html',
+	    		styles:{top:'200px',bottom:'0px'}
 	    	});
 		});
 		//按钮事件，登出
@@ -56,7 +57,7 @@
 	    	var uid=plus.storage.getItem('uid');
 	    	var html="";
 	    	if(uid==null){
-				html+="<div class='mui-card bar-div-1 ua-acc-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>登录账号</div></div>";
+				html+="<div class=' bar-div-1 ua-acc-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>登录账号</div></div>";
 	    	}
 	    	else{
 	    		mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
@@ -70,7 +71,7 @@
 						user=data.body;
 						html+="<div class='bar-div-1 ua-acc-btn-2'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>登出账户</div></div>";
 						html+="<div class='bar-div-1 ua-acc-btn-3'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>修改密码</div></div>";
-						html+="<div class='bar-div-1 ua-acc-btn-3'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>修改个人信息</div></div>";
+						html+="<div class='bar-div-1 ua-acc-btn-4'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>修改个人信息</div></div>";
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}
 				});
