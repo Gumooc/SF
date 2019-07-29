@@ -39,11 +39,11 @@ public class UserController {
 	public JSONObject tplogin(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
-		JSONObject userjs = JSONObject.fromObject(liString);
+		JSONObject userjs = JSONObject.fromObject(liString);/*
 		String openid = userjs.getString("openid");
 		String nickname = userjs.getString("nickname");
-		boolean male = userjs.getString("gender").equals("m");
-		
+		boolean male = userjs.getString("gender").equals("m");*/
+		feedback.put("uid", userService.tplogin(userjs));
 		return feedback;
 	}
 	
@@ -95,9 +95,9 @@ public class UserController {
 	public String handleactivation(HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		int uid = Integer.valueOf(request.getParameter("uid"));
-		String active = request.getParameter("active");
-		JSONObject feedback = new JSONObject();
-		feedback = userService.useractive(uid);
+		//String active = request.getParameter("active");
+		//JSONObject feedback = new JSONObject();
+		userService.useractive(uid);
 		
 		return "activation";
 	}
@@ -176,10 +176,10 @@ public class UserController {
 	public JSONObject updateuser(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
-		System.out.println(liString);
+		//System.out.println(liString);
 		User user = (User) JSONObject.toBean(JSONObject.fromObject(liString), User.class);
-		System.out.println("update_controller");
-		System.out.println(user);
+		//System.out.println("update_controller");
+		//System.out.println(user);
 		feedback = userService.updateuser(user);
 		return feedback;
 	}
