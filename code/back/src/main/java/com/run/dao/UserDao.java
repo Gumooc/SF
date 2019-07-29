@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.run.entity.Book;
 import com.run.entity.Collector;
 import com.run.entity.Comment;
+import com.run.entity.TpUser;
 import com.run.entity.User;
 
 @Repository
@@ -33,7 +34,7 @@ public interface UserDao {
 	
 	boolean checkforbidden(int uid);
 	
-	int tpcheck(String openid);
+	TpUser tpcheck(String openid);
 	void tp(@Param("uid") int uid, @Param("openid") String openid);
 	void updatelst(@Param("uid") int uid, @Param("lst") String lst);
 	
