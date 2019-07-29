@@ -23,6 +23,7 @@ public interface BookDao {
 	void setkind(Book book);
 	String getauthor(int uid);
 	
-	int getmaxid();
+	List<Book> asklatest(int num); 
+	List<Book> askhottest(int num); 
 	
 }
