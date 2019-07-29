@@ -48,7 +48,28 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private BookDao bookMapper;
 	
-	
+	@Override
+	public int tplogin(JSONObject info) {
+		String openid = info.getString("openid");
+		int uid = userMapper.tpcheck(openid);
+
+		if (uid > 0) return uid;
+		
+		String nickname = info.getString("nickname");
+		boolean male = info.getString("gender").equals("m");
+		User user = new User();
+		user.setNickname(nickname);
+		user.setUsername("sina"+openid);
+		user.setPassword(openid);
+		user.setMale(male);
+		user.setLst(info.getString("lst"));
+		user.setRgt(info.getString("lst"));
+		user.setActivation(true);
+		user.setAdm(false);
+		userMapper.register(user);
+		return user.getUid();
+		
+	}
 	@Override
 	public JSONObject mdfypassword(int uid, String oldp, String newp) {
 		JSONObject feedbody = new JSONObject();
@@ -101,14 +122,14 @@ public class UserServiceImpl implements UserService {
 	    		if (userMapper.registercheck(user)!=null) {
 	    			feedback.put("resp", "ov");
 	    		} else {
-		    	    int uid = userMapper.getmaxid()+1;
-		    	    user.setUid(uid);
+		    	    //int uid = userMapper.getmaxid()+1;
+		    	    //user.setUid(uid);
 		    	    user.setActivation(false);
 		    	    user.setAdm(false);
 		            userMapper.register(user);
 		            feedback.put("resp", "s");
 		            JSONObject temp = new JSONObject();
-		            temp.put("uid", uid);
+		            temp.put("uid", user.getUid());
 		            feedback.put("body", temp);
 	    		}
 	        }
@@ -125,6 +146,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public JSONObject updateuser(User user) {
+		System.out.println("update_Service");
+		System.out.println(user);
 		JSONObject feedback = new JSONObject();
 		userMapper.updateuser(user);
 		feedback.put("resp", "s");
