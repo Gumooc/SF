@@ -18,6 +18,7 @@ import com.run.entity.Book;
 import com.run.entity.UserbookItem;
 import com.run.service.BookService;
 import com.run.service.HistoryService;
+import com.run.service.RecommendService;
 
 import net.sf.json.JSONObject;
 
@@ -28,6 +29,8 @@ public class BookController {
 	private BookService bookService;
 	@Autowired
 	private HistoryService historyService;
+	@Autowired
+	private RecommendService recommendService;
 	
 	private void setRHeader(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("application/json;charset=utf-8");
@@ -35,6 +38,17 @@ public class BookController {
 		response.setHeader("Access-Control-Allow-Methods", "*");
 		response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 		response.setHeader("Access-Control-Allow-Credentials","true");
+	}
+
+	@ResponseBody
+	@RequestMapping("/recommend")
+	public JSONObject recommend(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		JSONObject booklist = recommendService.recommend(JSONObject.fromObject(liString).getInt("uid"));
+		feedback.put("resp", "s");
+		feedback.put("body", booklist);
+		return feedback;
 	}
 	
 	@ResponseBody
