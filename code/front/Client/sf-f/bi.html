@@ -13,7 +13,6 @@
 	<style>
 		.bi-div-5{border-radius: 10px;}
 		.bi-btn-4{position: absolute;right:10px;bottom: 70px;}
-		
 		.bi-btn-2{position: absolute;right:10px;bottom: 10px;}
 		.bi-info-1{height: 150px;width:150px;background:indianred;float: left;
 			/*文字居中*/
@@ -24,10 +23,7 @@
 		.bi-info-2{height: 150px;width:100%;margin-left: 0px;float: left;background:blue;}
 		.bi-info-3{height: 150px;width: 52%;float: left;border-radius:10px;}
 		.bi-info-5{height: 50px;width: 94%;margin-top: 0px;border-radius: 10px;background:orange;}
-		
-		
 		.bi-div-1{background: white;border-bottom:1px solid #007AFF;}
-
 		body{padding: 0px;margin: 0px;color: #007AFF;}
 		.bi-btn-7{width:10px;position: absolute;top:0px;color: darkgray;font-weight: bolder;}
 		.bi-font-1{padding-top:10px;width:100%;text-align:center;font-size:18px;}
@@ -35,9 +31,9 @@
 		.bi-div-2{background: white;padding-bottom:10px;}
 		.bi-div-4{background: white;padding-bottom:10px;}
 		.bi-title-1{height:25px;font-weight:bolder;padding:10px;}
-		.bi-btn-6{float: right;margin-right:3%;margin-top:10px;}\n
+		.bi-btn-6{float: right;margin-right:3%;margin-top:10px;}
 		.bi-info-7{margin: 10px 10px;width:80%;}
-		.bi-btn-1{margin: 1px 3px;width: 50px;}
+		.bi-btn-1{width: 50px;margin:3px;}
 		.bi-info-6{height: 80px;width: 80px;border-radius: 100%;float: left;margin:20px 10px 10px 20px;}
 		.bi-info-8{height:25px;padding-top:10px;font-size:18px;font-weight:bolder;}
 		.bi-info-9{height:25px;padding-top:10px;font-size:14px;color:darkgray;font-weight:bolder;}
@@ -45,9 +41,9 @@
 		.bi-btn-8{position: absolute;right:60px;bottom: 100px;}
 		.bi-input-1{width: 85%;margin-left:3%;margin-top: 10px;} 
 		.bi-btn-5{position: absolute;right:20px;top: 70px;}
-		.bi-info-10{height: 70px;width: 70px;border-radius: 100%;float: left;margin:20px 20px 10px 20px;}
-		.bi-info-11{height:25px;padding-top:10px;font-size:18px;font-weight:bolder;}
-		.bi-info-13{width:100px;float: right;margin-right:20px;color: darkgray;}
+		.bi-info-10{height: 70px;width: 70px;border-radius: 100%;float: left;margin:20px 20px 10px 20px;box-shadow:0 0 0 #000000 inset;}
+		.bi-info-11{height:25px;padding-top:10px;font-size:16px;font-weight:bolder;}
+		.bi-info-13{width:100px;float: right;margin-right:20px;color: darkgray;font-size:16px;}
 		.bi-info-12{height:25px;padding-top:10px;font-size:14px;color:darkgray;font-weight:bolder;}
 		.bi-div-6{width: 100%;float:left;}
 		.bi-div-8{width: 100%;float:left;border-bottom: 1px solid darkgray;}
@@ -178,11 +174,11 @@
 		mui('body').on('tap','.bi-btn-1',function(e){
 			console.log('tapsec');
 			var ustr=plus.storage.getItem('uid');
-			var uid;
+			var uid=parseInt(ustr);
 			if(ustr==null){ 
 				uid=0;
 			}
-			uid=parseInt(ustr);
+			
 			var ele=document.getElementsByClassName('bi-btn-1');
 	    	var cnt=0;
 	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
@@ -452,7 +448,7 @@
 		window.addEventListener('play',function(event){
 			var sid=event.detail.sid;
 			var bp=plus.webview.getWebviewById('bp.html');
-			mui.fire(bp,'play',{bid:item.book.bid,sid:sid});
+			mui.fire(bp,'play',{bid:item.book.bid,sid:sid,img:item.book.img});
 			mui.toast('添加至播放任务',{ duration:'long', type:'div' });
 		});
 		

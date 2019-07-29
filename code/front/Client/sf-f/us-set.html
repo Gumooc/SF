@@ -202,6 +202,12 @@
 				success:function(data){
 					old=data.body;
 					console.log('加载个人信息');
+					document.getElementById('nickname').placeholder=old.nickname;
+					document.getElementById('birth').placeholder=old.birth;
+					document.getElementById('phone').placeholder=old.phone;
+					if(old.male=true){
+						mui("#male").switch().toggle();
+					}
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});

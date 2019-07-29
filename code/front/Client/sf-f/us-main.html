@@ -128,6 +128,10 @@
 			font-size: 20px;
 			border: 0px;
 		}
+		#deltrack{
+			border-radius: 3px;
+			margin-top:10px;
+		}
 		</style>
 	</head>
 
@@ -341,6 +345,24 @@
 		    	var bid=parseInt(this.getAttribute("id"));
 		    	mui.fire(bi,'item',{bid:bid});
 	   		});
+	   		mui('#item5mobile').on('tap','#deltrack',function(e){
+	   			mui.ajax('http://49.234.77.32:8080/sfbook/history/clear',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						mui.toast('成功删除历史',{ duration:'long', type:'div' }) 
+						mui.fire(self,'track',{uid:uid});
+						
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);}
+				});
+
+	   		});
 	   		mui('#item4mobile').on('tap','.us-cmt-btn-1',function(e){
 	   			var ele=document.getElementsByClassName('us-cmt-div-1');
 		    	var cnt=0;
@@ -491,8 +513,9 @@
 							html+="</div>";
 							html+="</div>";
 							html+="</li>";
-							load[2]=1;
+							
 						}
+						load[2]=1;
 						document.getElementsByClassName("mui-table-view")[2].innerHTML=html;
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}
@@ -510,11 +533,13 @@
 					type:'post',
 					async:false,
 					timeout:10000,
+					
 					headers:{'Content-Type':'application/json'},	              
 					success:function(data){
 						var list=data.body;
 						var html='';
 						for(var i=0;i<list.length;i++){
+							
 							html+="<li class='mui-table-view-cell us-main-bli-1'>";
 							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
 							html+="<div class='book-info-1'>";
@@ -537,8 +562,14 @@
 							html+="</div>";
 							html+="</div>";
 							html+="</li>";
-							load[4]=1;
+							if(i==list.length-1){
+								html+="<li class='mui-table-view-cell' style='height:50px;background: whitesmoke;'>";
+								html+="<button class='mui-btn mui-btn-primary' id='deltrack'>清空历史记录</button>";
+								html+="</li>"
+							}
+							
 						}
+						load[4]=1;
 						document.getElementsByClassName("mui-table-view")[4].innerHTML=html;
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}
@@ -571,8 +602,9 @@
 								html+="</button>";
 							html+="</div>";
 							html+="</li>";
-							load[3]=1;
+							
 						}
+						load[3]=1;
 						document.getElementsByClassName("mui-table-view")[3].innerHTML=html;
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}

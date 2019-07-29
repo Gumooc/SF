@@ -18,7 +18,8 @@
 			"bl-main.html"
 		],
 		"refer": [
-			"bl-main.html"
+			"bl-main.html",
+			"bl-search.html"
 		]
 	},
 	"us-head.html": {
@@ -64,6 +65,9 @@
 	"us-main.html": {
 		"refer": [
 			"bi.html"
+		],
+		"resources": [
+			"image/bg.jpg"
 		]
 	},
 	"os-head.html": {
