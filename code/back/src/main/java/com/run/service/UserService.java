@@ -27,5 +27,6 @@ public interface UserService {
 	JSONObject askuser(int uid);
 	JSONObject setImg(int uid, MultipartFile file);
 	
-
+	int tplogin(JSONObject info);
+	
 }
