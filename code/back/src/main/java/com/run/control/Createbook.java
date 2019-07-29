@@ -44,7 +44,26 @@ public class Createbook {
 		JSONObject infojs = JSONObject.fromObject(info);
 		JSONObject urljs = new JSONObject();
 		try {
-			urljs = createBookService.bytext(infojs, txt);
+			urljs = createBookService.bytext(request.getSession(), infojs, txt);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bookService.insaudio(infojs.getInt("bid"), infojs.getInt("chapter"), urljs.getString("audiopath"));
+		feedback.put("resp", "s");
+		feedback.put("body", urljs.getString("audiopath"));
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/bysound")
+	public JSONObject bysound(@RequestParam(value="info") String info, @RequestParam(value="file", required = false) MultipartFile txt,HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		JSONObject infojs = JSONObject.fromObject(info);
+		JSONObject urljs = new JSONObject();
+		try {
+			urljs = createBookService.bysound(request.getSession(), infojs, txt);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
