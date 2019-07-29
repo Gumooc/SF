@@ -28,7 +28,6 @@ import com.run.entity.UserDetl;
 import com.run.entity.UserbookItem;
 import com.run.service.BookService;
 
-import net.sf.cglib.transform.impl.AddDelegateTransformer;
 import net.sf.json.JSONObject;
 
 @Service
@@ -67,34 +66,16 @@ public class BookServiceImpl implements BookService {
 				kindlist.add(list);
 			}
 			
-	        //session.setAttribute("booklist", booklist);
 		}
-		/*
-		for (Book book:booklist) {
-			System.out.println(book);
-		}
-		for (List<Integer> i:kindlist) {
-		
-			System.out.println("list"+i+":");
-			for (Integer j:i){
-				System.out.println("j:"+j);
-			}
-		}*/
-		//System.out.println("Start");
 		List<Integer> indexlist = new ArrayList<Integer>();
 		int j = 0;
 		List<Integer> pagelist = kindlist.get(kind);
 		int pageindex = pagelist.get(0);
 		int start = pagelist.get(pagenum<=pageindex? pagenum:pageindex);
 		for (int i = start;j<pagesize&&i<booklist.size(); i++ ) {
-			//System.out.println(i);
 			if (kind<10) {
-				//System.out.println("i:"+i+";");
-				//System.out.println(booklist.get(i));
 				Book book = booklist.get(i);
-				int bookkind = Integer.parseInt(booklist.get(i).getKind());
-				//System.out.println("bookkind:"+booklist.get(i).getKind()+";");
-				//System.out.println("judge:"+(bookkind&(1<<kind))+";");
+				int bookkind = Integer.parseInt(book.getKind());
 				
 				if ((bookkind&(1<<kind))>0) {
 					indexlist.add(i);
@@ -105,7 +86,6 @@ public class BookServiceImpl implements BookService {
 				j++;
 			}
 		}
-		//System.out.println(indexlist.size());
 		if (indexlist.size()>0) {
 			pagelist.add(indexlist.get(indexlist.size()-1)+1);
 			pagelist.set(0, pageindex+1);
@@ -119,6 +99,7 @@ public class BookServiceImpl implements BookService {
 			if (result != null) {
 				book.setImg(result.getImg());
 			}
+			book.setNickname(bookMapper.getauthor(book.getUid()));
 			feedbody.add(book);
 		}
 		
