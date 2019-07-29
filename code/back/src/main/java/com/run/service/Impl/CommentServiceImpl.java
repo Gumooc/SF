@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.run.dao.CommentDao;
 import com.run.entity.Comment;
 import com.run.entity.CommentDes;
-import com.run.entity.DBindex;
 import com.run.service.CommentService;
 
 import net.sf.json.JSONObject;
@@ -40,7 +39,6 @@ public class CommentServiceImpl implements CommentService {
 		JSONObject feedback = new JSONObject();
 		feedback.put("resp", "f");
 		
-		System.out.println(comment);
 		Query query = new Query(Criteria.where("_id").is(comment.getCid()));
 		mongoTemplate.remove(query, "comment");
 		commentMapper.delete(comment);
