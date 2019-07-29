@@ -25,23 +25,12 @@ public class CommentServiceImpl implements CommentService {
 	public JSONObject insert(Comment comment) {
 		JSONObject feedback = new JSONObject();
 		feedback.put("resp", "f");
+		commentMapper.insert(comment);
 		CommentDes commentDes = new CommentDes();
-		Query query = new Query(Criteria.where("id").is("commentIndex"));
-		DBindex result=mongoTemplate.findOne(query, DBindex.class, "comment");
-		if (result == null ) {
-			result = new DBindex();
-			result.setId("commentIndex");
-			result.setValue(10);
-		}
-		System.out.println(result);
-		int index = result.getValue()+1;
-		comment.setCid(index);
+		comment.setCid(comment.getCid());
 		commentDes.setId(comment.getCid());
 		commentDes.setDes(comment.getDes());
-		commentMapper.insert(comment);
 		mongoTemplate.save(commentDes,"comment");
-		result.setValue(index);
-		mongoTemplate.save(result,"comment");
 		feedback.put("resp", "s");
 		return feedback;
 	}
