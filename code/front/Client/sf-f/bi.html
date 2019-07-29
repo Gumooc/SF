@@ -35,16 +35,16 @@
 		.bi-div-2{background: white;padding-bottom:10px;}
 		.bi-div-4{background: white;padding-bottom:10px;}
 		.bi-title-1{height:25px;font-weight:bolder;padding:10px;}
-		.bi-btn-6{float: right;margin-right:3%;margin-top:10px;}
+		.bi-btn-6{float: right;margin-right:3%;margin-top:10px;}\n
 		.bi-info-7{margin: 10px 10px;width:80%;}
 		.bi-btn-1{margin: 1px 3px;width: 50px;}
 		.bi-info-6{height: 80px;width: 80px;border-radius: 100%;float: left;margin:20px 10px 10px 20px;}
-		.bi-info-8{height:25px;padding-top:10px;font-size:20px;font-weight:bolder;}
-		.bi-info-9{height:25px;padding-top:10px;font-size:16px;color:darkgray;font-weight:bolder;}
-		.bi-btn-4{position: absolute;right:10px;bottom: 100px;}
+		.bi-info-8{height:25px;padding-top:10px;font-size:18px;font-weight:bolder;}
+		.bi-info-9{height:25px;padding-top:10px;font-size:14px;color:darkgray;font-weight:bolder;}
+		.bi-btn-4{position: absolute;right:20px;top: 20px;}
 		.bi-btn-8{position: absolute;right:60px;bottom: 100px;}
-		.bi-input-1{width: 90%;margin-left:5%;margin-top: 10px;}
-		.bi-btn-5{position: absolute;right:10px;bottom: 10px;}
+		.bi-input-1{width: 85%;margin-left:3%;margin-top: 10px;} 
+		.bi-btn-5{position: absolute;right:20px;top: 70px;}
 		.bi-info-10{height: 70px;width: 70px;border-radius: 100%;float: left;margin:20px 20px 10px 20px;}
 		.bi-info-11{height:25px;padding-top:10px;font-size:18px;font-weight:bolder;}
 		.bi-info-13{width:100px;float: right;margin-right:20px;color: darkgray;}
@@ -57,33 +57,36 @@
 <body>
 	
 	<header class="mui-bar mui-bar-nav">
-			<div class='mui-title'>xbbdzxqls</div>
+			<div class='mui-title' style="color: #007AFF;">xbbdzxqls</div>
 			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
 	</header>
 	 
 	<div class="mui-content">
 		<div class='mui-card book-div-2'>
-			<div class='book-info-1'>
+			<div class='book-info-10'>
 				<div class='book-info-6'>?</div>
 			</div>
-			<div style='height:20px'></div>
-			<div class='book-info-3'>
-				<span class="mui-icon mui-icon-contact"></span>
+		
+			<div class='book-info-2'>
+				XBBDZXQL
+			</div>
+			<div class='book-info-3'> 
+				<span class="mui-icon mui-icon-contact book-icon-2"></span>
 				name
 			</div>
 			<div class='book-info-4'>
-				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-icon mui-icon-contact book-icon-2"></span>
 				分类：
 			</div>
 			<div class='book-info-4'>
-				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-icon mui-icon-contact book-icon-2"></span>
 				release
 			</div>
 			<div class='book-info-7'>
-				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-icon mui-icon-contact book-icon-2"></span>
 				playtime
 			</div>
-			<button type='button' class='mui-btn mui-btn-primary bi-btn-4'><span class='mui-icon mui-icon-star'></span></button>
+			<span class='mui-icon mui-icon-star bi-btn-4'></span>
 			<div class='book-info-8'>
 				有声书简介
 			</div>
@@ -95,7 +98,7 @@
 			</div>
 			<!--<button type="button" class="mui-btn mui-btn-primary bi-btn-6"><span class="mui-icon mui-icon-bars"></span></button>-->
 			<div class='bi-info-7'>
-				<button class='bi-btn-1'>p1</button>
+				
 			</div>
 		</div>
 		<div class='mui-card bi-div-2'>
@@ -111,16 +114,16 @@
 					<span class="mui-icon mui-icon-contact"></span>
 					email
 				</div>
-				<button type='button' class='mui-btn mui-btn-primary bi-btn-2'><span class='mui-icon mui-icon-star'></span></button>
+
 			</div>
 		</div>
 		<div class='mui-card bi-div-3'>
-			<div class="mui-card" style="height:150px;">
+			<div class="mui-card" style="height:120px;">
 				<div class='bi-title-1'>
 					评论信息
 				</div>
 				<textarea class='bi-input-1' placeholder='添加评论' id='cmt'></textarea>
-				<button type='button' class='mui-btn mui-btn-primary bi-btn-5'><span class='mui-icon mui-icon-bars'></span></button>
+				<span class='mui-icon mui-icon-bars bi-btn-5'></span>
 			</div>
 			<div class='bi-div-7'>
 				<div class='bi-div-8'>
@@ -173,10 +176,34 @@
 		});
 		//点击事件，播放音频
 		mui('body').on('tap','.bi-btn-1',function(e){
+			console.log('tapsec');
+			var ustr=plus.storage.getItem('uid');
+			var uid;
+			if(ustr==null){ 
+				uid=0;
+			}
+			uid=parseInt(ustr);
 			var ele=document.getElementsByClassName('bi-btn-1');
 	    	var cnt=0;
 	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
-			mui.fire(self,'play',{sid:cnt});
+	    	plus.nativeUI.showWaiting();
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/playbook',{
+				data:{uid:uid,bid:item.book.bid,lst:getdt()},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					mui.fire(self,'play',{sid:cnt});
+				},
+				error:function(xhr,type,errorThrown){
+					plus.nativeUI.closeWaiting();
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);
+				}
+			});
+			plus.nativeUI.closeWaiting();	
 	    });
 	    //点击事件，收藏作品
 	    mui('body').on('tap','.bi-btn-4',function(e){
@@ -205,7 +232,9 @@
 						var us_collect=plus.webview.getWebviewById('us-collect.html');
 					}
 				},
-				error:function(xhr,type,errorThrown){console.log(type);}
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
 			});
 			plus.nativeUI.closeWaiting();
 	    });
@@ -235,6 +264,7 @@
 					mui.toast('成功发布评论',{ duration:'long', type:'div' });
 					mui.fire(self,'cmt',{bid:bookid});
                 },function(state,xhr){
+                	mui.toast('连接服务器出错',{ duration:'long', type:'div' });
                     console.log(state)
                 }
             );
@@ -285,7 +315,9 @@
 					}
 					document.getElementsByClassName("bi-div-7")[0].innerHTML=html;
 				},
-				error:function(xhr,type,errorThrown){console.log(type);}
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
 			});
 			plus.nativeUI.closeWaiting();
 	
@@ -316,31 +348,29 @@
 						if(item.book.kind&(1<<i)){cate+=tagname[i];}
 					}
 					var html='';
-					html+="<div class='book-info-1'>";
-					html+="<div class='mui-card book-info-6'><img width='96px' height='96px' src='data:image/jpg;base64,"+item.book.img+"'/></div>";
+					html+="<div class='book-info-10'>";
+					html+="<div class='mui-card book-info-6'><img width='128px' height='128px' src='data:image/jpg;base64,"+item.book.img+"'/></div>";
 					html+="</div>"; 
-					/* 
 					html+="<div class='book-info-2'>";
 					html+=item.book.bookname;
-					html+="</div>";*/
-					html+="<div style='height:20px'></div>";
+					html+="</div>";
 					html+="<div class='book-info-3'>";
-					html+="<span class='mui-icon mui-icon-contact'></span>";
+					html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
 					html+=item.book.nickname;
 					html+="</div>";
 					html+="<div class='book-info-4'>";
-					html+="<span class='mui-icon mui-icon-contact'></span>";
+					html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
 					html+=cate;		
 					html+="</div>";		
 					html+="<div class='book-info-4'>";
-					html+="<span class='mui-icon mui-icon-contact'></span>";
+					html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
 					html+=item.book.lst;		
 					html+="</div>";		
 					html+="<div class='book-info-7'>";
-					html+="<span class='mui-icon mui-icon-contact'></span>"	;
+					html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
 					html+=item.book.playtime;		
 					html+="</div>";
-					html+="<button type='button' class='mui-btn mui-btn-primary bi-btn-4'><span class='mui-icon mui-icon-star'></span></button>";
+					html+="<span class='mui-icon mui-icon-star bi-btn-4'></span>";
 					html+="<div class='book-info-8'>"+"简介"+"</div>"; 
 					document.getElementsByClassName("book-div-2")[0].innerHTML=html;
 					html='';
@@ -350,7 +380,9 @@
 					document.getElementsByClassName('bi-info-7')[0].innerHTML=html;
 					document.getElementsByClassName('mui-title')[0].innerHTML=item.book.bookname;
 				},
-				error:function(xhr,type,errorThrown){console.log(type);}
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
 			});
 			mui.ajax('http://49.234.77.32:8080/sfbook/book/askbookdes',{
 				data:{bid:event.detail.bid},
@@ -362,7 +394,9 @@
 				success:function(data){
 					document.getElementsByClassName("book-info-8")[0].innerHTML=data.body.des;				
 				},
-				error:function(xhr,type,errorThrown){console.log(type);}
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
 			});
 			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
 				data:{uid:item.book.uid},
@@ -408,18 +442,18 @@
 					}
 					document.getElementsByClassName("bi-div-7")[0].innerHTML=html;
 				},
-				error:function(xhr,type,errorThrown){console.log(type);}
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
 			});
 			plus.nativeUI.closeWaiting();
 		});
 		//监听事件，播放音频
 		window.addEventListener('play',function(event){
 			var sid=event.detail.sid;
-			var index=plus.webview.getLaunchWebview();
-			mui.fire(index,'jump',{dst:'bp.html'});
 			var bp=plus.webview.getWebviewById('bp.html');
 			mui.fire(bp,'play',{bid:item.book.bid,sid:sid});
-			self.close();
+			mui.toast('添加至播放任务',{ duration:'long', type:'div' });
 		});
 		
 		//应用函数，获取时间
