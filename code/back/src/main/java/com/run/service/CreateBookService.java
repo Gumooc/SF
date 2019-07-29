@@ -1,12 +1,14 @@
 package com.run.service;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.json.JSONObject;
 
 public interface CreateBookService {
 
-	JSONObject bytext(JSONObject info, MultipartFile txt) throws Exception;
-	JSONObject bysound(JSONObject info, MultipartFile sound);
+	JSONObject bytext(HttpSession session, JSONObject info, MultipartFile txt) throws Exception;
+	JSONObject bysound(HttpSession session, JSONObject info, MultipartFile sound) throws Exception;
 	
 }
