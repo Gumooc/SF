@@ -1,7 +1,5 @@
 package com.run.entity;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class BookAudio {
 	private int id;
 	private int index;
