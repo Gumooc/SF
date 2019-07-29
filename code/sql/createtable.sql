@@ -8,7 +8,7 @@ create table tp(
 /*
 drop table if exists user;
 create table user(
-	uid int,
+	uid int auto_increment,
     username varchar(16),
     password varchar(16),
     nickname varchar(16) default "user???",
@@ -25,7 +25,7 @@ create table user(
 
 drop table if exists book;
 create table book(
-	bid int default 0 auto_increment,
+	bid int auto_increment,
     uid int,
     bookname varchar(40),
     kind varchar(20) default 0,
