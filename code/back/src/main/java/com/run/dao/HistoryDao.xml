@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insert" parameterType="com.run.entity.UserbookItem">
     	replace into history(uid, bid, lst, kind) values(#{uid}, #{bid}, #{lst}, #{kind});
     </insert>
-    <delete id="clear" parameterType="com.run.entity.UserbookItem">
-    	delete from history where uid=#{uid};
-    </delete>
+    <update id="clear" parameterType="com.run.entity.UserbookItem">
+    	update history set prc = 1 where uid=#{uid};
+    </update>
 </mapper>
