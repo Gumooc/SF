@@ -26,6 +26,7 @@
 			margin: 0 auto;
 			
 			border-radius: 100%;
+			box-shadow: 0;
 		}
 		.bp-disc-2{
 			margin-top: 50px;
@@ -59,10 +60,10 @@
 		
 		<div class='bp-div-1'>
 			<div class='bp-disc-2'>
-				<div class='bp-disc-1'></div>
+				<div class='mui-card bp-disc-1'></div>
 			</div>
-			<audio class="bp-btn-2" id="music" controls="controls" autoplay="" loop="loop" preload="auto">
-			      <source src="http://49.234.77.32/audio/1_1-f-v.mp" type='audio/mp3' /> 
+			<audio class="bp-btn-2" id="music" controls="controls" preload="auto">
+			    
 			</audio>
 		</div>
 	
@@ -110,6 +111,24 @@
 			mui.fire(self,'pause',{});
 	   	});
 		
+		
+		window.addEventListener('play',function(event){ 
+			
+			var disc=document.getElementById('music');
+			disc.pause();
+			bid=event.detail.bid;
+			var img=event.detail.img;
+			document.getElementsByClassName('bp-disc-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+img+"'/>";
+			
+			sid=event.detail.sid+1;
+			console.log('尝试获取播放章节音频??bid='+bid+'sid='+sid);
+			//document.getElementById('music').innerHTML="<source src='http://49.234.77.32/audio/1_1-f-v.mp' type='audio/mp3'/>"
+			document.getElementById('music').innerHTML="<source src='http://49.234.77.32/audio/"+bid+"_"+sid+"-f-v.mp3' type='audio/mp3'/>";
+			disc.play();
+		});
+		
+		
+		/*
 		//监听事件，播放音频
 		window.addEventListener('play',function(event){ 
 			if(s) s.stop();
@@ -117,42 +136,19 @@
 			sid=event.detail.sid+1;
 			console.log('尝试获取播放章节音频bid='+bid+'sid='+sid);
 			var url;
-			/*
-			mui.ajax('http://49.234.77.32:8080/sfbook/book/askaudio',{
-				data:{bid:bid,index:sid+1}, 
-				dataType:'json', 
-				type:'post',
-				async:false,
-				timeout:10000,
-				headers:{'Content-Type':'application/json'},	              
-				success:function(data){
-					url=data.body;
-				},
-				error:function(xhr,type,errorThrown){console.log(type);}
-			});
-			*/
 			s= plus.audio.createPlayer('http://49.234.77.32/audio/'+bid+'_'+sid+'-f-v.mp3');
 			//console.log('http://49.234.77.32'+url);
 		    var num=s.getDuration();
 		    setTimeout(function(){num = s.getDuration();},100);
-		    /*
-		    var id=setInterval(function(){
-		    	var tmp=(s.getPosition()/s.getDuration())*100;
-				if(tmp>0){
-					mui("#pro").progressbar().setProgress(tmp);
-				}
-				else{
-					mui("#pro").progressbar().setProgress(100);
-					clearInterval(id);
-				}
-		    },1000);
-		    */
 		    s.play(function(){console.log("播放音频文件(bid:"+bid+",sid:"+sid+")");},
 		    	function(e){
 		    		mui.toast('连接服务器出错',{ duration:'long', type:'div' });
-		    		console.log("error");}
+		    		console.log("error");
+		    	}
 		    );
 		});
+		*/
+		
 		//监听事件，暂停播放
 		window.addEventListener('pause',function(event){
 			if(pause==true){
