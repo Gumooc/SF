@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var src='ua-acc.html';
+		var sub=['ua-acc.html'];
+		var sub_style={top:'0px',bottom:'0px'};
+		
+		mui.init();
+		mui.plusReady(function(){
+	    	var self = plus.webview.currentWebview();
+            for(var i=0;i<sub.length;i++){
+                var page = plus.webview.create(sub[i], sub[i], sub_style);
+				page.hide();
+                self.append(page);
+            }
+            plus.webview.show(src);
+	    });
+	    
+	    
+	</script>
+</body>
+
+</html>

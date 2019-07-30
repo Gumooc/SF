@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iduck.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav"> 	
+			<div>
+				<icon class="mui-icon mui-icon-redo" id="iduck-bookMake-navi-backBtn">
+			</div>
+		</header> 
+		<div class="mui-content">
+			<div class="mui-card" id="iduck-bookMake-title">
+				<div><icon class="mui-icon mui-icon-navigate" id="iduck-bookMake-navi-broadBtn"></div>
+				<div><icon class="mui-icon mui-icon-trash" id="iduck-bookMake-navi-trashBtn"></div>
+				<input type="text" class="mui-input-clear" id="iduck-bookMake-edit-title" placeholder="象拔蚌大战小青龙">
+			</div>
+			
+			<textarea type="text" class="mui-input-clear" id="iduck-bookMake-edit-detail" placeholder="图书简介" ></textarea>
+			
+			<div class="mui-card" id="iduck-bookMake-deco"></div>
+			<div class="mui-card" id="iduck-bookMake-section">
+				发布状态
+				<div class="mui-switch mui-btn-primary mui-switch-blue" id="iduck-bookMake-edit-share">
+				<div class="mui-switch-handle "></div>
+				</div>
+			</div>
+			<div class="mui-card" id="iduck-bookMake-deco"></div>
+			<div class="mui-card" id="iduck-bookMake-section">
+				更新状态
+				<div class="mui-switch mui-btn-primary mui-switch-blue" id="iduck-bookMake-edit-share">
+				<div class="mui-switch-handle "></div>
+				</div>
+			</div>
+			
+			<div class="mui-card" id="iduck-bookMake-edit-tags">
+			<div>书籍标签</div>
+			<div id="iduck-bookMake-edit-tag">
+				<div class="mui-input-row mui-checkbox" >
+				  <label id="iduck-bookMake-edit-taglable">武侠</label>
+				  <input name="checkbox1" value="Item 1"  id="iduck-bookMake-edit-tagcheck" type="checkbox" checked>
+				</div>
+			</div>
+			<div id="iduck-bookMake-edit-tag">
+				<div class="mui-input-row mui-checkbox" >
+				  <label id="iduck-bookMake-edit-taglable">爱情</label>
+				  <input name="checkbox1" value="Item 1"  id="iduck-bookMake-edit-tagcheck" type="checkbox" checked>
+				</div>
+			</div>
+			<div id="iduck-bookMake-edit-tag">
+				<div class="mui-input-row mui-checkbox" >
+				  <label id="iduck-bookMake-edit-taglable">教育</label>
+				  <input name="checkbox1" value="Item 1"  id="iduck-bookMake-edit-tagcheck" type="checkbox" >
+				</div>
+			</div>
+			</div>
+			
+			<button type="button" class="mui-btn mui-btn-primary"" id="iduck-bookMake-submit">提交修改</button>
+			<button type="button" class="mui-btn mui-btn-primary"" id="iduck-bookMake-submit">试听作品</button>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui("body").on("tap","#iduck-bookMake-navi-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookEdit.html','bookMake/bookSort.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			mui("body").on("tap","#iduck-bookMake-submit",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookEdit.html','bookMake/bookSort.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+		</script>
+	</body>
+
+</html>

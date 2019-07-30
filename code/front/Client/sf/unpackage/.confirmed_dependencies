@@ -1,0 +1,53 @@
+{
+	"index.html": {
+		"resources": [
+			"bookList/bookList.html"
+		],
+		"refer": [
+			"bookRead/bookRead.html",
+			"bookList/bookList.html",
+			"bookMake/bookMake.html",
+			"userSpace/userSpace.html",
+			"userSpace/userInfo.html",
+			"bookMake/bookTranscribe.html",
+			"userSpace/userCollect.html",
+			"bookMake/bookEdit.html",
+			"login.html",
+			"userSpace/userWork.html",
+			"reg.html",
+			"bookMake/bookSort.html",
+			"userSpace/userFollow.html",
+			"userSpace/userTrack.html",
+			"userSpace/userSet.html",
+			"bookList/bookItem.html",
+			"bookMake/bookNew.html",
+			"bookMake/bookWork.html",
+			"userSpace/userCmt.html",
+			"forget_password.html"
+		]
+	},
+	"bookList/bookList.html": {
+		"refer": [
+			"bookList/bookItem.html",
+			"bookList/bookRoman.html",
+			"bookList/bookEdu.html"
+		],
+		"resources": [
+			"bookList/bookRoman.html"
+		]
+	},
+	"bookList/bookItem.html": {
+		"resources": [
+			"images/hzt.jpg",
+			"images/cdw.jpg",
+			"images/cyt.jpg",
+			"images/xbb.jpg",
+			"fonts/iconfont.ttf"
+		]
+	},
+	"reg.html": {
+		"resources": [
+			"css/style.css"
+		]
+	}
+}

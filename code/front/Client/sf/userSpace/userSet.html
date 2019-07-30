@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iduck.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header>
+			<div class="mui-card" id="iduck-userSpace-userAbs">
+				<div><icon class="mui-icon mui-icon-redo" id="iduck-userSpace-backBtn"></div>
+				<div class="mui-card" id="iduck-userSpace-img">:(</div>
+				<div id="iduck-userSpace-name">柴迤天</div>
+				<div id="iduck-userSpace-motto">邪恶象拔蚌的化身,将被推翻的组长</div>
+			</div>
+			<div class="mui-content">
+				<div class="mui-card" id="iduck-userSpace-deco"></div>
+				<div class="mui-card" id="iduck-userSpace-userLog">
+					用户信息
+				</div>
+				
+				<form class="mui-input-group" id="iduck-userSpace-infoset">
+					<div class="mui-input-row">
+						<label>昵称</label>
+						<input id='password' type="password"   class="mui-input-clear mui-input" placeholder="象拔蚌">
+					</div>
+					<div class="mui-input-row">
+						<label>地址</label>
+						<input id='password' type="password"   class="mui-input-clear mui-input" placeholder="慈溪市">
+					</div>
+					<div class="mui-input-row">
+						<label>生日</label>
+						<input id='password' type="password"   class="mui-input-clear mui-input" placeholder="1999.4.26">
+					</div>
+					<div class="mui-input-row">
+						<label>签名</label>
+						<input id='password' type="password"   class="mui-input-clear mui-input" placeholder="邪恶象拔蚌的化身">
+					</div>
+					<div class="mui-input-row">
+						<label>性别</label>
+						<div class="mui-switch mui-switch-blue" >
+						  <div class="mui-switch-handle"></div>
+						</div>
+					</div>
+				</form>
+				
+				<div class="mui-card" id="iduck-userSpace-deco"></div>
+				<div class="mui-card" id="iduck-userSpace-userLog">
+					用户隐私
+				</div>
+				<form class="mui-input-group" id="iduck-userSpace-infoset">
+					<div class="mui-input-row">
+						<label>用户信息</label>
+						<div class="mui-switch mui-switch-blue">
+						  <div class="mui-switch-handle"></div>
+						</div>
+					</div>
+					<div class="mui-input-row">
+						<label>用户收藏</label>
+						<div class="mui-switch mui-switch-blue">
+						  <div class="mui-switch-handle"></div>
+						</div>
+					</div>
+					<div class="mui-input-row">
+						<label>作品列表</label>
+						<div class="mui-switch mui-switch-blue">
+						  <div class="mui-switch-handle"></div>
+						</div>
+					</div>
+					<div class="mui-input-row">
+						<label>浏览历史</label>
+						<div class="mui-switch mui-switch-blue">
+						  <div class="mui-switch-handle"></div>
+						</div>
+					</div>
+					<div class="mui-input-row">
+						<label>评论记录</label>
+						<div class="mui-switch mui-switch-blue">
+						  <div class="mui-switch-handle"></div>
+						</div>
+					</div>
+					<div class="mui-input-row">
+						<label>关注用户</label>
+						<div class="mui-switch mui-switch-blue">
+						  <div class="mui-switch-handle"></div>
+						</div>
+					</div>
+				</form>
+				
+				<button type="button" class="mui-btn mui-btn-primary"" id="iduck-bookMake-submit">提交修改</button>
+				<button type="button" class="mui-btn mui-btn-primary"" id="iduck-bookMake-submit">清空修改</button>
+				<div style="height:50px;width: 100%;float: right;"></div>
+				
+			</div>
+		</header>
+		
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui(".mui-content").on("tap","#iduck-userSpace-userlog-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userSet.html','userSpace/userSpace.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+		</script>
+	</body>
+
+</html>

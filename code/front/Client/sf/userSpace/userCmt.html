@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iduck.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header>
+			<div class="mui-card" id="iduck-userSpace-userAbs">
+				<div><icon class="mui-icon mui-icon-gear" id="iduck-userSpace-setBtn"></div>
+				<div><icon class="mui-icon mui-icon-redo" id="iduck-userSpace-backBtn"></div>
+				<div><icon class="mui-icon mui-icon-contact" id="iduck-userSpace-selfBtn"></div>
+				<div class="mui-card" id="iduck-userSpace-img">:(</div>
+				<div id="iduck-userSpace-name">柴迤天</div>
+				<div id="iduck-userSpace-motto">邪恶象拔蚌的化身,将被推翻的组长</div>
+			</div>
+		</header>
+		<div class="mui-content">
+			<div class="mui-card" id="iduck-userSpace-deco"></div>
+			<div class="mui-card" id="iduck-userSpace-userLog">
+				<div><icon class="mui-icon mui-icon-redo" id="iduck-userSpace-userlog-backBtn"></div>
+				评论记录
+			</div>
+			<div id="iduck-userCmt-div-1">
+				<div class="mui-card" id="iduck-userSpace-userCmt">
+					<div  id="iduck-userSpace-userCmt-title">
+						象拔蚌大战小青龙
+					</div>
+					<div id="iduck-userSpace-userCmt-comment">
+						感谢大家的支持！
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			var comment=[];
+			mui.init();
+			mui(".mui-content").on("tap","#iduck-userSpace-userlog-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userCmt.html','userSpace/userSpace.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			mui.plusReady(function(){
+				loadCmt();
+			});
+			function loadCmt(){
+				mui.ajax('http://49.234.77.32:8080/sfbook/user/comment',{
+					data:{
+						uid:2
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					async:false,
+					timeout:10000,//超时时间设置为10秒；
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						comment=data.body;
+						var html="";
+						for(var i=0;i<comment.length;i++){
+							html+="<div class='mui-card' id='iduck-userSpace-userCmt'>";
+							html+="<div  id='iduck-userSpace-userCmt-title'>";
+							html+=comment[i].bid;
+							html+="</div>";
+							html+="<div id='iduck-userSpace-userCmt-comment'>"
+							html+=comment[i].des;
+							html+="</div></div>"
+						}
+						document.getElementById("iduck-userCmt-div-1").innerHTML=html;
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

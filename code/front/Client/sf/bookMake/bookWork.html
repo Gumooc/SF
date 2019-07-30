@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iduck.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav"> 	
+			<div class="mui-input-row mui-search" id="iduck-bookList-navi">
+				<input type="search" class="iduck-searchBar" placeholder="搜索有声书" readonly="readonly" >
+			</div> 
+			<div>
+				<icon class="mui-icon mui-icon-redo" id="iduck-bookMake-navi-backBtn">
+			</div>
+		</header> 
+		<div class="mui-content">
+			<div class="mui-card" id="iduck-bookMake-deco"></div>
+			<div class="mui-card" id="iduck-bookMake-type">
+				发布的有声书
+			</div>
+			<div class="mui-card" id="iduck-bookList-bookEntry">
+				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">
+					有声书图片
+				</div>
+				<div class="mui-card-footer">象拔蚌大战小青龙</div>
+			</div>
+			</div>
+			<div id="iduck-bookMake-blank"></div>
+			<div class="mui-card" id="iduck-bookMake-deco"></div>
+			<div class="mui-card" id="iduck-bookMake-type">
+				尚未发布的有声书
+			</div>
+			<div class="mui-card" id="iduck-bookList-bookEntry">
+				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">
+					有声书图片
+				</div>
+				<div class="mui-card-footer">象拔蚌二战小青龙</div>
+			</div>
+			</div>
+			<div class="mui-card" id="iduck-bookList-bookEntry">
+				<div class="mui-card-content" id="iduck-bookList-bookEntry-img">
+					有声书图片
+				</div>
+				<div class="mui-card-footer">象拔蚌三战小青龙</div>
+			</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui("body").on("tap","#iduck-bookList-bookEntry",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookWork.html','bookMake/bookSort.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			mui("body").on("tap","#iduck-bookMake-navi-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookWork.html','bookMake/bookMake.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			
+		</script>
+	</body>
+
+</html>

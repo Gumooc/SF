@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iduck.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav"> 	
+			<div>
+				<icon class="mui-icon mui-icon-redo" id="iduck-bookMake-navi-backBtn">
+			</div>
+		</header> 
+		<div class="mui-content">
+			<div class="mui-card" id="iduck-bookMake-title">
+				<div><icon class="mui-icon mui-icon-trash" id="iduck-bookMake-navi-trashBtn"></div>
+				象拔蚌大战小青龙
+			</div>
+			<div class="mui-card" id="iduck-bookMake-deco"></div>
+			<div class="mui-card" id="iduck-bookMake-section">
+				<div><icon class="mui-icon mui-icon-trash" id="iduck-bookMake-navi-trashBtn"></div>
+				P1: 前世恩怨
+			</div>
+			<div class="mui-card" id="iduck-bookMake-deco"></div>
+			<div class="mui-card" id="iduck-bookMake-section">
+				<div><icon class="mui-icon mui-icon-trash" id="iduck-bookMake-navi-trashBtn"></div>
+				P2: 狭路相逢
+			</div>
+			<div class="mui-card" id="iduck-bookMake-deco"></div>
+			<div class="mui-card" id="iduck-bookMake-section">
+				<div><icon class="mui-icon mui-icon-trash" id="iduck-bookMake-navi-trashBtn"></div>
+				P3: 由恨生爱
+			</div>
+			<div class="mui-card" id="iduck-bookMake-deco"></div>
+			<div class="mui-card" id="iduck-bookMake-section">
+				<div><icon class="mui-icon mui-icon-trash" id="iduck-bookMake-navi-trashBtn"></div>
+				P4: 二人幸终
+			</div>
+			<div class="mui-card" id="iduck-bookMake-deco"></div>
+			<div class="mui-card" id="iduck-bookMake-section" style="color:darkgray;">
+				<div><icon class="mui-icon mui-icon-plus" id="iduck-bookMake-navi-trashBtn"></div>
+				添加新的章节
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui("body").on("tap","#iduck-bookMake-section",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookSort.html','bookMake/bookTranscribe.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			mui("body").on("tap","#iduck-bookMake-navi-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookSort.html','bookMake/bookWork.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			mui("body").on("tap","#iduck-bookMake-title",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookSort.html','bookMake/bookEdit.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 22%;
+			}
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+				</div>
+				<div class="mui-input-row">
+					<label>确认</label>
+					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
+				</div>
+				<div class="mui-input-row">
+					<label>邮箱</label>
+					<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
+			</div>
+			
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			mui.init();
+			mui.plusReady(function(){
+				
+			});
+			function checkInput(type,val){
+				var reg = /^[0-9a-zA-Z]+$/;
+				var reg2 = /^[a-zA-Z]+$/;
+				var reg3 = /^[0-9]+$/;
+				var reg4 = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+			  	var len=val.length;
+			  	console.log("input type="+type+",length="+len+";");
+			  	if(type=="account"){
+			  		if(!reg.test(val))return -1;
+			  		if(len>16)return -2;
+			  		else return 1;
+			  	}
+			  	if(type=="password"){
+			  		if(!reg.test(val))return -1;
+			  		if(len>16) return -2;
+			  		if(len<6) return -3;
+			  		if(reg2.test(val))return -4;
+			  		if(reg3.test(val))return -5;
+			  		else return 1;
+			  	}
+			  	if(type=="email"){
+			  		if(!reg4.test(val)) return -1;
+			  		else return 1;
+			  	}
+			  	return -5;
+			}
+			mui("header").on("tap","#iduck-reg-header-icon-1",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('reg.html','login.html')");
+			});
+			mui("body").on("tap","#reg",function(){
+				var username=document.getElementById("account").value;
+				var password=document.getElementById("password").value;
+				var passconf=document.getElementById("password_confirm").value;
+				var email=document.getElementById("email").value;
+				
+				if(username==""){
+					mui.toast('请输入账号名',{ duration:1000,type:'div'}) ;
+					return;
+				}
+				else if(checkInput("account",username)<0){
+					mui.toast('账号长度应为1~16字节字母或数字',{ duration:1000,type:'div'}) ;
+					return;
+				}
+				/*账号输入验证*/
+				else if(password==""){
+					mui.toast('请输入密码',{ duration:1000,type:'div'}) ;
+					return;
+				}
+				else if(checkInput("password",password)<-3){
+					mui.toast('密码组成不应为纯字母或纯数字',{ duration:1000,type:'div'}) ;
+					return;
+				}
+				else if(checkInput("password",password)<0){
+					mui.toast('密码长度应在6~16字节字母或数字',{ duration:1000,type:'div'}) ;
+					return;
+				}
+				
+				/*密码输入验证*/
+				else if(passconf==""){
+					mui.toast('请确认密码',{ duration:1000,type:'div'}) ;
+					return;
+				}
+				else if(passconf!=password){
+					mui.toast('两次密码输入未匹配',{ duration:1000,type:'div'}) ;
+					return;
+				}
+				/*密码确认验证*/
+				else if(email==""){
+					mui.toast('请输入邮箱',{ duration:1000,type:'div'}) ;
+					return;
+				}
+				else if(checkInput("email",email)<0){
+					mui.toast('请输入正确的邮箱格式',{ duration:1000,type:'div'}) ;
+					return;
+				}
+				
+				/*邮箱格式验证*/
+				var timestamp = Date.parse(new Date());
+				console.log("reg--username="+username+",password="+password+",email="+email+";");
+				mui.ajax('http://49.234.77.32:8080/sfbook/user/register',{
+					data:{
+						username:username,
+						password:password,
+						email:email,
+						lst:getdt(),
+						rgt:getdt()
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						console.log(data.resp);
+						var resp=data.resp;
+						if(resp=="ov"){
+							mui.toast('注册邮箱已被占用',{ duration:1000,type:'div'});
+						}
+						else if(resp=='f'){
+							mui.toast('账号名称已被占用',{ duration:1000,type:'div'});
+						}
+						else if(resp=='s'){
+							mui.toast('注册成功 请前往邮箱激活',{ duration:1000,type:'div'});
+							plus.webview.currentWebview().close();
+						}
+						else{
+							console.log("connectError");
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+			});
+			
+			//应用函数，获取时间
+			function getdt(){
+				var date=new Date(); 
+				var year=date.getFullYear(); 
+				var mon=date.getMonth()+1; 
+			    var day=date.getDate();
+			    var stamp=year+'-'+mon+'-'+day;
+			    return stamp;
+			}
+		</script>
+	</body>
+
+</html>

@@ -125,5 +125,87 @@
 				}
 			}
 		}
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [
+					"bookList/bookList.html"
+				],
+				"refer": [
+					"bookRead/bookRead.html",
+					"bookMake/bookMake.html",
+					"userSpace/userSpace.html",
+					"userSpace/userInfo.html",
+					"bookMake/bookTranscribe.html",
+					"userSpace/userCollect.html",
+					"bookMake/bookEdit.html",
+					"login.html",
+					"userSpace/userWork.html",
+					"reg.html",
+					"bookMake/bookSort.html",
+					"userSpace/userFollow.html",
+					"userSpace/userTrack.html",
+					"userSpace/userSet.html",
+					"bookList/bookItem.html",
+					"bookMake/bookNew.html",
+					"bookMake/bookWork.html",
+					"userSpace/userCmt.html",
+					"forget_password.html",
+					null
+				],
+				"priority": 0
+			},
+			"bookList/bookList.html": {
+				"resources": [
+					"bookList/bookRoman.html"
+				],
+				"refer": [
+					"bookList/bookItem.html",
+					"bookList/bookEdu.html"
+				],
+				"priority": 0
+			},
+			"bookList/bookItem.html": {
+				"resources": [
+					"images/hzt.jpg",
+					"images/cdw.jpg",
+					"images/cyt.jpg",
+					"images/xbb.jpg",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"reg.html": {
+				"resources": [
+					"css/style.css"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"images/weixin.png",
+				"images/qq.png",
+				"images/iconfont-tianjia.png",
+				"css/iduck.css",
+				"register.html",
+				"js/mui.min.js",
+				"images/sinaweibo.png",
+				"images/qihoo.png",
+				"js/mui.js",
+				"README.md",
+				"js/app.js",
+				"fonts/mui.ttf",
+				"css/mui.css",
+				"js/mui.enterfocus.js",
+				"unlock.html",
+				"css/mui.min.css",
+				"js/mui.locker.js",
+				"images/user-photo.png"
+			]
+		}
 	}
 }

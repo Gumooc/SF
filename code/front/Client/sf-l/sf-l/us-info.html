@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/bar.css" rel="stylesheet" />
+	<link href="css/user.css" rel="stylesheet" />
+	<style>
+		body{
+			color: #007AFF;
+		}
+		.us-info-info-1{
+			width: 67%;
+			float: right;
+			padding:8px;
+			font-size: 16px;
+		}
+		.us-info-info-2{
+			width: 30%;
+			height: 100%;
+			float: left;
+			padding:8px;
+			margin: 0px;
+			color: white;
+			background: #007AFF;
+		}
+		.us-info-div-1{
+			margin-top: 5px;
+			background: white;
+			height: 40px;
+		}
+		.us-univ-div-1{
+			width: 94%;
+			margin-left: 3%;
+		}
+	</style>
+</head>
+
+<body>
+	
+	<div class="mui-content">
+		<div class='mui-bar mui-bar-nav user-header-1'>
+			<div class="mui-card user-info-1">??</div>
+			<div class='user-info-2'>尚未登录</div>
+			<div class='user-info-3'></div>
+		</div>
+		<div style="margin-top:230px;"></div>
+		<button class='us-univ-btn-1'>返回</button>
+		<div class="mui-card bar-div-1">
+			<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+			<div class='bar-info-1'> 个人信息</div>	
+		</div>
+		
+		<div class='us-univ-div-1'>
+    		<div class='us-info-div-1'>
+        		<div class='us-info-info-2'><icon class="mui-icon mui-icon-person "></icon>用户名</div>
+        		<div class='us-info-info-1'>chaiyit</div>
+		    </div>
+		    <div class='us-info-div-1'>
+        		<div class='us-info-info-2'><icon class="mui-icon mui-icon-person "></icon>用户名</div>
+        		<div class='us-info-info-1'>chaiyit</div>
+		    </div>
+
+
+		</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var uid;
+		var user={};
+		
+		mui.init();
+		mui.plusReady(function(){
+    	var self = plus.webview.currentWebview();
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+   		});
+   		
+   		
+   		mui('body').on('tap','.us-univ-btn-1',function(e){
+	    	mui.fire(opener,'jump',{dst:'us-main.html'});
+   		})
+		
+		//监听事件，加载信息
+		window.addEventListener('get',function(event){
+			uid=event.detail.uid;
+	    	var html="";
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					user=data.body;
+					document.getElementsByClassName('user-info-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+user.img+"'/>";
+					document.getElementsByClassName('user-info-2')[0].innerHTML=user.nickname;
+					document.getElementsByClassName('user-info-3')[0].innerHTML='个性签名';
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					user=data.body;
+					var male='男';
+					if(user.male==false){male='女';}
+					html+="<div class='mui-input-row us-info-div-1'><div class='us-info-info-2'><icon class='mui-icon mui-icon-person'></icon>姓名</div><div class='us-info-info-1'>"+user.nickname+"</div></div>";
+					html+="<div class='mui-input-row us-info-div-1'><div class='us-info-info-2'><icon class='mui-icon mui-icon-person'></icon>性别</div><div class='us-info-info-1'>"+male+"</div></div>";
+					html+="<div class='mui-input-row us-info-div-1'><div class='us-info-info-2'><icon class='mui-icon mui-icon-person'></icon>电话</div><div class='us-info-info-1'>"+user.phone+"</div></div>";
+					html+="<div class='mui-input-row us-info-div-1'><div class='us-info-info-2'><icon class='mui-icon mui-icon-person'></icon>邮箱</div><div class='us-info-info-1'>"+user.email+"</div></div>";
+					html+="<div class='mui-input-row us-info-div-1'><div class='us-info-info-2'><icon class='mui-icon mui-icon-person'></icon>生日</div><div class='us-info-info-1'>"+user.birth+"</div></div>";
+					html+="<div class='mui-input-row us-info-div-1'><div class='us-info-info-2'><icon class='mui-icon mui-icon-person'></icon>书龄</div><div class='us-info-info-1'>"+user.rgt+"</div></div>";
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+	    	document.getElementsByClassName('us-univ-div-1')[0].innerHTML=html;
+		});
+		
+	</script>
+</body>
+
+</html>

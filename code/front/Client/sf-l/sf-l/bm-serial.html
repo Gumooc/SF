@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<link href="css/bar.css" rel="stylesheet" />
+	<link href="css/section.css" rel="stylesheet" />
+	<style>
+		body{
+			color: #007AFF;
+		}
+		.bm-serial-div-1{
+			height: 150px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="mui-content">
+		<button class='bm-serial-btn-1'>返回</button>
+		<div class="mui-card bar-div-1">
+			<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+			<div class='bar-info-1'>bookname</div>
+		</div>
+		
+		<div class="mui-card">
+			<div class='mui-card section-div-1'>
+				<div class='section-info-1'>1</div>
+				<input class='mui-input' style="width:70%;height:30px;border-radius:10px;" 
+					placeholder="章节名" id='secname' type="text" 
+				/>
+				<button class='mui-btn mui-btn-primary section-btn-1'><icon class="mui-icon mui-icon-trash"></icon></button>
+			</div>
+			通过文本添加
+			<div class="mui-card bm-serial-div-1">
+				<input type="file" accept="text/plain" id='text'/>
+			</div>
+			通过音频添加
+			<div class="mui-card bm-serial-div-1"><input type="file" id='sound'/></div>
+			<button class='bm-serial-btn-2'>提交</button>
+		</div>
+		
+		
+	</div>
+	
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var bid;
+		var sid;
+		var jarray;
+		
+		mui.init();
+		mui.plusReady(function(){
+			self=plus.webview.currentWebview();
+			opener=self.opener();
+		});
+		
+		//按钮事件，返回页面
+   		mui('body').on('tap','.bm-serial-btn-1',function(e){
+   			mui.fire(opener,'jump',{dst:'bm-edit.html'});
+   		})
+		//按钮事件，添加章节
+   		mui('body').on('tap','.bm-serial-btn-2',function(e){
+   			if(sid==-1){
+   				var newsec={name:document.getElementById('secname').value};
+   				jarray.push(newsec);
+   				var j={body:jarray};
+	   			var chapter=JSON.stringify(j);
+	   			mui.ajax('http://49.234.77.32:8080/sfbook/book/chapter',{
+					data:{bid:bid,chapter:chapter},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						console.log("成功更新章节");
+					},
+					error:function(xhr,type,errorThrown){console.log(type);return;}
+				});
+				var bm_edit=plus.webview.getWebviewById('bm-edit.html');
+				mui.fire(bm_edit,'item',{bid:bid});
+				
+				//添加章节音频
+				console.log(jarray.length);
+				var f=document.getElementById('text').files[0];
+				var formData=new FormData();
+				var info=JSON.stringify({
+					bid:bid,
+					chapter:jarray.length,
+					spd:'3',
+					pit:'3',
+					vol:'5',
+					per:'3'
+				});
+				formData.append('info',info);
+    			formData.append('file',f); 
+    			$.ajax({
+			        url:'http://49.234.77.32:8080/sfbook/createbook/bytext',
+			        type:'post',
+			        dataType:'text',
+			        cache: false,
+			        processData: false,
+			        contentType: false,
+			        async:false,
+			        data:formData,
+			        success:function(list){  
+			           console.log("成功合成音频");
+			           mui.fire(opener,'jump',{dst:'bm-edit.html'});
+						mui.fire(self,'clear',{});
+			        },
+			        error:function(){
+			        	console.log("音频导入失败");
+			        	mui.toast('音频导入失败',{ duration:'long', type:'div' });
+			        }
+	    		});
+				
+				
+   			}
+   		})
+		//监听事件，加载章节
+		window.addEventListener('get',function(event){
+			bid=event.detail.bid;
+			sid=event.detail.sid;
+			//console.log(bid+"+"+sid);
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/bookinfo',{
+				data:{bid:bid,uid:parseInt(plus.storage.getItem('uid'))},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					var item=data.body;
+					var j=JSON.parse(item.chapter);
+					jarray=j.body;
+					document.getElementsByClassName('bar-info-1')[0].innerHTML=item.bookname;
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			if(sid==-1){
+				//console.log('添加新的章节');
+			}
+		});
+		//监听事件，清空信息
+		window.addEventListener('get',function(event){
+			document.getElementById('secname').value='';
+		});
+		
+	</script>
+</body>
+
+</html>

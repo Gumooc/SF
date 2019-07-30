@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/user.css" rel="stylesheet" />
+	<link href="css/bar.css" rel="stylesheet" />
+</head>
+
+<body>
+	
+	<div class="mui-content">
+		<div class='mui-bar mui-bar-nav user-header-1'>
+			<div class="mui-card user-info-1">??</div>
+			<div class='user-info-2'>尚未登录</div>
+			<div class='user-info-3'></div>
+		</div>
+		<div style="margin-top:230px;"></div>
+		
+		<div class="us-main-div-2">
+			
+		</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var sub=['us-info.html','us-collect.html','us-track.html','us-follow.html','us-work.html','us-cmt.html'];
+		var self;
+		var opener;
+		var uid;
+		
+		mui.init();
+		mui.plusReady(function(){
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+       		mui.fire(self,'self',{});
+   		});
+   		
+   		//按钮事件，界面跳转
+   		mui('body').on('tap','.us-main-btn-1',function(e){
+   			var ele=document.getElementsByClassName('us-main-btn-1');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	mui.fire(opener,'jump',{dst:sub[cnt]});
+	    	var dst=plus.webview.getWebviewById(sub[cnt]);
+	    	mui.fire(dst,'get',{uid:uid});
+   		})
+   		//按钮事件，登录
+   		mui('body').on('tap','.us-main-btn-2',function(e){
+   			mui.openWindow({
+	    		url:'ua-log.html',
+	    		id:'ua-log.html',
+	    	});
+   		})
+   		//按钮事件，修改个人信息
+   		mui('body').on('tap','.us-main-btn-3',function(e){
+   			mui.fire(opener,'jump',{dst:'us-set.html'});
+   			var us_set=plus.webview.getWebviewById('us-set.html');
+   			mui.fire(us_set,'self',{});
+   			mui.fire(us_set,'clear',{});
+   		})
+   		//按钮事件，返回个人空间
+   		mui('body').on('tap','.us-main-btn-4',function(e){
+   			mui.fire(self,'self',{});
+   		})
+   		
+   		//监听事件,返回他人页面
+   		window.addEventListener('else',function(event){
+	    	uid=event.detail.uid;
+	    	var html="";
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					user=data.body;
+					document.getElementsByClassName('user-info-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+user.img+"'/>";
+					document.getElementsByClassName('user-info-2')[0].innerHTML=user.nickname;
+					document.getElementsByClassName('user-info-3')[0].innerHTML='个性签名';
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+			html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>个人信息</div></div>";
+			html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>用户收藏</div></div>";
+			html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>浏览历史</div></div>";
+			html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>关注用户</div></div>";
+			html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>用户作品</div></div>";
+			html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>评论记录</div></div>";
+			html+="<div class='mui-card bar-div-1 us-main-btn-4'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>我的空间</div></div>";	    	
+	    	document.getElementsByClassName('us-main-div-2')[0].innerHTML=html;
+		});
+   		
+		//监听事件，返回个人页面
+		window.addEventListener('self',function(event){
+	    	var ustr=plus.storage.getItem('uid');
+	    	uid=parseInt(ustr);
+	    	var html="";
+	    	if(ustr==null){
+	    		html+="尚未登录";
+				html+="<button class='us-main-btn-2'>登录</button>"
+				document.getElementsByClassName('user-info-1')[0].innerHTML='??';
+				document.getElementsByClassName('user-info-2')[0].innerHTML='尚未登录';
+				document.getElementsByClassName('user-info-3')[0].innerHTML='';
+	    	}
+	    	else{
+	    		mui.fire(self,'head',{});
+				html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>个人信息</div></div>";
+				html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>用户收藏</div></div>";
+				html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>浏览历史</div></div>";
+				html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>关注用户</div></div>";
+				html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>用户作品</div></div>";
+				html+="<div class='mui-card bar-div-1 us-main-btn-1'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>评论记录</div></div>";
+				html+="<div class='mui-card bar-div-1 us-main-btn-3'><div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div><div class='bar-info-1'>修改信息</div></div>";	
+	    	}
+	    	document.getElementsByClassName('us-main-div-2')[0].innerHTML=html;
+		});
+		//监听事件，加载个人头像
+		window.addEventListener('head',function(event){
+			var uid=parseInt(plus.storage.getItem('uid'));
+			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					var user=data.body;
+					document.getElementsByClassName('user-info-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+user.img+"'/>";
+					document.getElementsByClassName('user-info-2')[0].innerHTML=user.nickname;
+					document.getElementsByClassName('user-info-3')[0].innerHTML='个性签名';
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+		});
+	</script>
+</body>
+
+</html>

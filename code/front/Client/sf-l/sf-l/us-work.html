@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/user.css" rel="stylesheet" />
+	<link href="css/book.css" rel="stylesheet" />
+	<link href="css/bar.css" rel="stylesheet" />
+</head>
+
+<body>
+	
+	<div class="mui-content">
+		<div class='mui-bar mui-bar-nav user-header-1'>
+			<div class="mui-card user-info-1">??</div>
+			<div class='user-info-2'>尚未登录</div>
+			<div class='user-info-3'></div>
+		</div>
+		<div style="margin-top:230px;"></div>
+		
+		<button class='us-univ-btn-1'>返回</button>
+		<button class='us-univ-btn-2'>刷新</button>
+		
+		
+		<div class='mui-card bar-div-1'>
+			<div class='bar-icon-1'><span class='mui-icon mui-icon-image'></span></div>
+			<div class='bar-info-1'>用户作品</div>
+		</div>
+		
+		<div class='us-univ-div-1'>信息</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var uid;
+		var list=[];
+		
+		mui.init();
+		mui.plusReady(function(){
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+   		});
+   		
+   		//按钮事件，刷新页面
+   		mui('body').on('tap','.us-univ-btn-2',function(e){
+	    	mui.fire(self,'get',{uid:uid});
+   		}); 
+   		mui('body').on('tap','.us-univ-btn-1',function(e){
+	    	mui.fire(opener,'jump',{dst:'us-main.html'});
+   		})
+   		//按钮事件，显示详情
+   		mui('body').on('tap','.us-work-btn-1',function(e){
+	    	var ele=document.getElementsByClassName('us-work-btn-1');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	
+	    	mui.openWindow({
+	    		url:'bi.html',
+	    		id:'bi.html',
+	    	});
+	    	
+	    	var bi=plus.webview.getWebviewById('bi.html');
+	    	mui.fire(bi,'item',{bid:list[cnt].bid});
+   		})
+   		//按钮事件，加载详情
+   		mui('body').on('tap','.us-work-btn-1',function(e){
+	    	var ele=document.getElementsByClassName('us-work-btn-1');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	
+	    	mui.openWindow({
+	    		url:'bi.html',
+	    		id:'bi.html',
+	    	});
+	    	
+	    	var bi=plus.webview.getWebviewById('bi.html');
+	    	mui.fire(bi,'item',{bid:list[cnt].bid});
+   		})
+ 
+		
+		//监听事件，加载信息
+		window.addEventListener('get',function(event){
+			uid=event.detail.uid;
+	    	var html="";
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					user=data.body;
+					document.getElementsByClassName('user-info-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+user.img+"'/>";
+					document.getElementsByClassName('user-info-2')[0].innerHTML=user.nickname;
+					document.getElementsByClassName('user-info-3')[0].innerHTML='个性签名';
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/works',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					list=data.body;
+					if(!list.length){html+="<div>暂无收藏记录</div>";}
+					else{
+						for(var i=0;i<list.length;i++){
+							html+="<div class='mui-card book-div-1'>";
+							html+="<div class='mui-card-content book-info-1 us-work-btn-1'><img height='80%' width='80%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="<div class='mui-card-footer'>"+list[i].bookname+"</div>";
+							html+="</div>";
+						}
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+	    	document.getElementsByClassName('us-univ-div-1')[0].innerHTML=html;
+		});
+		
+	</script>
+</body>
+
+</html>

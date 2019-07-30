@@ -1,6 +1,6 @@
 #iduck-bookList-navi
 {
-	width:80%;
+	width:90%;
 	float:left;
 	text-align:left;
 }
@@ -10,12 +10,16 @@
 }
 #iduck-bookList-bookEntry{
 	margin: 17px;
-	width: 40%;
-	height:180px;
+	width: 42%;
+	height:220px;
 	float: left;
+	margin-bottom: 0px;
+	border-radius: 10px;
+	margin-left:24px;
+	margin-right: 0px;
 }
 #iduck-bookList-bookEntry-img{
-	height:130px;
+	height:180px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -24,29 +28,95 @@
 	height: auto;
 }
 #iduck-bookList-bookItem-img{
-	height: 180px;
+	height: 150px;
 	width:35%;
 	float: left;
 	margin: 10px;
 	margin-right:0px ;
+	border-radius:10px;
 }
 #iduck-bookList-bookItem-abs{
-	height: 180px;
+	height: 150px;
 	width: 55%;
 	float: left;
+	border-radius:10px;
+}
+#iduck-bookItem-icon-1{
+	font-size: 40px;
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	color: #007AFF;
+	font-weight:bold;
+}
+#iduck-bookItem-icon-2{
+	font-size: 30px;
+	color: #007AFF;
+	position: absolute;
+	right: 10px;
+	bottom: 12px;
+}
+#iduck-bookItem-div-2{
+	//background: red;
+	width: 88%;
+	height: auto;
+	float: left;
+	color: darkgray;
+	padding:3px;
+	padding-left: 8px;
 }
 #iduck-bookList-bookItem-dtl{
 	height: 50px;
 	width: 94%;
 	float: left;
 	margin-top: 0px;
+	border-radius: 10px;
+}
+#iduck-bookItem-icon-3{
+	margin-right: 10px;
+	color: #007AFF;
+	position: absolute;
+	right: 0px;
+	height: 50px;
+	display: none;
+	font-size: 33px;
+}
+#iduck-bookItem-div-4{
+	width:90%;
+	height: auto;
+}
+#iduck-bookItem-icon-4{
+	position: absolute;
+	right:10px;
+	top: 10px;
+	font-size: 30px;
+	font-weight: bolder;
 }
 #iduck-bookList-bookitem-moreBtn{
-	float: right;
 	margin-right: 10px;
+	color: #007AFF;
+	position: absolute;
+	right:0px;
+	display: block;
+	font-size: 33px;
+}
+#iduck-bookItem-div-3{
+	height: auto;
+	width: 94%;
+	float: left;
+	margin-top: 0px;
+	border-radius: 10px;
+}
+#iduck-bookItem-div-5{
+	width: 90%;
+	padding:3px;
+	margin:3px;
+	height:40px;
+	padding-left: 20px;
+	padding-top:10px;
 }
 #iduck-bookList-section{
-	height: 80px;
+	height: auto;
 	padding-left: 10px;
 	padding-top:5px;
 	font-size: 16px;
@@ -157,23 +227,58 @@
 	background-color:whitesmoke ;
 }
 #iduck-bookRead-broadcast-img{
-	height: 250px;
-	width: 250px;
+	height: 350px;
+	width:76%;
 	float: left;
-	border-radius: 200px;
+	border-radius: 300px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-left:16%;
-	margin-right: 13%;
+	margin-left:12%;
+	margin-right: 12%;
 	margin-top:60px;
+	background-color: whitesmoke;
 }
 #iduck-bookRead-broadcast-setBtn{
-	color: white;
+	color: whitesmoke;
 	float: left;
-	font-size:30px;
-	margin-top: 7%;
-	margin-left: 19%;
+	font-size:40px;
+	font-weight:bolder;
+	margin-left:5%;
+	margin-right:5%;
+}
+#iduck-bookRead-option{
+	float:left;
+	width:60%;
+	height:100px;
+	margin-left:20%;
+	margin-right:20%;
+	margin-top:10px;
+	text-align: center;
+}
+#iduck-bookRead-collectBtn{
+	float: left;
+	position: absolute;
+	left: 10%;
+	top:53%;
+	border-radius: 100px;
+	width: 100px;
+	height:100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#iduck-bookRead-downBtn{
+	float: left;
+	position: absolute;
+	left: 72%;
+	top:53%;
+	border-radius: 100px;
+	width: 100px;
+	height:100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 #iduck-bookRead-broadcast-iconName{
 	float: left;
@@ -183,40 +288,53 @@
 }
 #iduck-bookRead-broadcast-progress{
 	float: left;
-	width: 70%;
+	width: 80%;
 	height: 5px;
-	margin-left: 15% ;
-	margin-top: 60px;
+	margin-left: 10% ;
+	margin-right: 10%;
+	margin-top: 100px;
 }
-#iduck-bookRead-broadcast-proBtn{
+#iduck-bookRead-broadcast-proBox{
 	float: left;
 	width: 60%;
-	margin-left: 24%;
+	margin-left: 23%;
+	margin-right: 20%;
 	margin-top: 10px;
 }
-#iduck-bookRead-broadcast-proIcon{
-	color: white;
-	float: left;
-	font-size:50px;
-	margin-right: 20px;
-}
-#iduck-userSpace-userAbs{
-	height: 250px;
+#iduck-bookRead-broadcast-proBtn{
 	margin: 0px;
-	text-align: center;
-	
-}
-#iduck-userSpace-img{
-	height: 120px;
-	width: 30%;
-	margin: 0px;
-	margin-top: 30px;
-	margin-left: 35%;
+	padding: 0px;
+	width:33%;
 	float: left;
-	border-radius: 100px;
+	height: 100px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	border-radius: 100px;
+}
+#iduck-bookRead-broadcast-proIcon{
+	color: whitesmoke;
+	float: left;
+	font-size:80px;
+	margin-right: 20px;
+}
+#iduck-userSpace-userAbs{
+	height: 280px;
+	margin: 0px;
+	text-align: center;
+}
+#iduck-userSpace-img{
+	height: 150px;
+	width: 30%;
+	margin-top: 0px;
+	float: left;
+	border-radius: 100px;
+	/*文字居中*/
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 35%;
+	margin-right:35%;
 }
 #iduck-userSpace-name{
 	width: 50%;
@@ -232,10 +350,16 @@
 	color: darkgray;	
 	/*mark:单行溢出*/
 	overflow:hidden;
- 	 text-overflow:ellipsis;
+ 	text-overflow:ellipsis;
   	white-space:nowrap;
 }
-#iduck-userSpace-userLog{
+#iduck-userSpace-userLog,
+#iduck-userSpace-userLog1,
+#iduck-userSpace-userLog2,
+#iduck-userSpace-userLog3,
+#iduck-userSpace-userLog4,
+#iduck-userSpace-userLog5,
+#iduck-userSpace-userLog6{
 	float: left;
 	width: 85%;
 	height: 40px;
@@ -244,16 +368,367 @@
 	margin-bottom: 0px;
 	font-size: 20px;
 	color: #007AFF;
+	margin:0px;
+	margin-left: 10px;
+	margin-top:10px;
 }
 #iduck-userSpace-deco{
 	float: left;
-	width: 4%;
+	width: 5%;
 	height: 40px;
 	margin-right:0px;
 	margin-bottom: 0px;
 	background-color: #007AFF;
+	margin: 0px;
+	margin-left: 10px;
+	margin-top: 10px;
 }
 #iduck-userSpace-setBtn{
 	float: right;
 	font-size: 35px;
+	margin-top:5px;
+	margin-right: 5px;
+}
+#iduck-userSpace-backBtn{
+	float: left;
+	font-size: 35px;
+	margin-top:5px;
+	margin-left: 5px;
+}
+#iduck-userSpace-userInfo-attr{
+	float: left;
+	margin-left: 10px;
+	margin-top:10px;
+	width: 33%;
+}
+#iduck-userSpace-userInfo-val{
+	float: left;
+	margin-left: 10px;
+	margin-top:10px;
+	width: 57%;
+}
+#iduck-userSpace-userlog-backBtn{
+	float: right;
+}
+#iduck-userSpace-userCmt{
+	float: left;
+	width: 93%;
+	height: auto;
+	margin-top: 15px;
+	margin-bottom: 0px;
+}
+#iduck-userSpace-userCmt-title{
+	display:inline-block;
+	width: auto;
+	height: 40px;
+	font-size: 16px;
+	color: #007AFF;
+	margin-left: 5px;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	padding: 10px;
+}
+#iduck-userSpace-userCmt-comment{
+	width: 90%;
+	height: 40px;
+	font-size: 14px;
+	color: darkgray;
+	margin-left: 5px;
+	margin-top: 0px;
+	padding: 10px;
+}
+#iduck-userSpace-follow{
+	height: 120px;
+	padding-left: 10px;
+	padding-top:5px;
+	font-size: 16px;
+	color: #007AFF;
+	float: left;
+	width: 93%;
+}
+#iduck-userSpace-follow-img{
+	height: 80px;
+	width: 80px;
+	margin: 5px;
+	float: left;
+	border-radius: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 10px;
+}
+#iduck-userSpace-follow-motto{
+	margin: 0px;
+	box-shadow: 0 0 0 #000000 inset;
+	color: darkgray;
+}
+#iduck-userSpace-follow-name{
+	box-shadow:0 0 0px #000000 inset;
+	color: #000000;
+	margin: 0px;
+	margin-top: 5px;
+}
+#iduck-bookMake-welcome{
+	float: left;
+	width:auto;
+	height: 80px;
+	padding: 7px;
+	font-size: 25px;
+	margin-left: 25%;
+	margin-right: 20%;
+	margin-top: 35%;
+	background-color: rgba(0,0,0,0);
+	box-shadow: 0 0 0 #000000 inset;
+	color: #007AFF;
+	font-weight: bolder;
+}
+#iduck-bookMake-create,
+#iduck-bookMake-edit{
+	background-color: rgba(0,0,0,0);
+	width:36%;
+	margin:0px;
+	margin-left:10%;
+	margin-top: 20px;
+	float: left;
+	font-weight: bolder;
+}
+#iduck-bookMake-choiceIcon{
+	height: 120px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#iduck-bookMake-navi-backBtn{
+	float:right;
+}
+#iduck-bookMake-setBtn{
+	margin-right: 5px;
+	position: absolute;
+	left: 120px;
+	top:02px;
+	font-size: 30px;
+}
+#iduck-bookMake-deco{
+	float: left;
+	width: 5%;
+	height: 40px;
+	margin-right:0px;
+	margin-bottom: 0px;
+	background-color: #007AFF;
+	margin: 0px;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+#iduck-bookMake-type{
+	float: left;
+	width: 85%;
+	height: 40px;
+	padding: 5px;
+	padding-left: 20px;
+	margin-bottom: 0px;
+	font-size: 20px;
+	color: #007AFF;
+	margin:0px;
+	margin-left: 10px;
+	margin-top:10px;
+}
+#iduck-bookMake-blank{
+	float: left;
+	width: 100%;
+	margin-top: 15px;
+}
+#iduck-bookMake-title{
+	float: left;
+	width: 94%;
+	height: 40px;
+	padding: 5px;
+	padding-left: 20px;
+	margin-bottom: 0px;
+	font-size: 20px;
+	color: #007AFF;
+	margin:0px;
+	margin-left: 10px;
+	margin-top:10px;
+}
+#iduck-bookMake-section{
+	float: left;
+	width: 86%;
+	height: 40px;
+	padding: 5px;
+	padding-left: 10px;
+	margin-bottom: 0px;
+	font-size: 18px;
+	color: #007AFF;
+	margin:0px;
+	margin-left: 10px;
+	margin-top:10px;
+
+}
+#iduck-bookMake-navi-trashBtn{
+	float:right;
+}
+#iduck-bookMake-edit-title{
+	float: left;
+	width: 70%;
+	height: 30px;
+	margin-left:5px ;
+}
+#iduck-bookMake-edit-detail{
+	width: 94%;
+	margin-left: 3%;
+	margin-top:5%;
+	height: 150px;
+	vertical-align: top;
+	padding-top: 10px;
+}
+#iduck-bookMake-edit-share{
+	float: right;
+}
+#iduck-bookMake-edit-tag{
+	float: left;
+	width: 30%;
+	margin:1px;
+	height: 40px;
+	border: 1px solid #007AFF;
+	border-radius: 10px;
+	margin-top:10px;
+	margin-right: 10px;
+}
+#iduck-bookMake-edit-tags{
+	margin-top: 30px;
+	float: left;
+	width:94%;
+	padding-left: 5px;
+	padding-top: 5px;
+	font-size: 16px;
+	color: #007AFF;
+	padding-bottom: 10px;
+}
+#iduck-bookMake-edit-tagcheck{
+	//background-color: red;
+	margin-right: 0px;
+	/*浮动*/
+	position: absolute;
+	right: 10px;
+	top:5px
+}
+#iduck-bookMake-edit-taglable{
+	//background-color: blue;
+	padding-right:0px;
+}
+#iduck-bookMake-submit{
+	float: right;
+	margin-right: 3%;
+	width:30%;
+	margin-top:20px;
+	font-size: 20px;
+}
+#iduck-bookMake-edit-sectitle{
+	float: left;
+	width:60%;
+	height: 30px;
+}
+#iduck-bookMake-edit-seccode{
+	padding-left: 0px;
+	float: left;
+	padding-top: 5px;
+	margin-right:10px ;
+}
+#iduck-bookMake-navi-broadBtn{
+	float:right;
+	margin-left: 5px;
+}
+#iduck-bookMake-edit-uploadbox{
+	float: left;
+	width: 94%;
+	height: auto;
+	margin-bottom: 0px;
+	margin-top: 20px;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	font-size: 16px;
+	color: #007AFF;
+}
+#iduck-bookMake-edit-uploadBtn{
+	font-size: 80px;
+	float: left;
+	margin-right: 10px;
+	padding:10px;
+	margin:10px;
+	border: 1px solid #007AFF;
+	border-radius: 20px;
+}
+#iduck-bookMake-edit-uploadInput{
+	color: black;
+	float:left;
+	width: 40%;
+}
+#iduck-userSpace-infoset{
+	float: left;
+	width: 94%;
+	margin-top: 10px;
+	margin-left: 3%;
+}
+#iduck-bookList-header-div-1{
+	float: left;
+	width: 100%;
+	height:50px;
+	margin: 0px;
+	padding:0px;
+	background-color:rgba(0,0,0,0);
+}
+#iduck-bookList-header-div-2{
+	width: 1000px;
+	background-color:rgba(0,0,0,0);
+}
+#iduck-bookList-header{
+	height:100px;
+}
+#iduck-bookList-header-btn-1{
+	width: 70px;
+	height:40px;
+	float: left;
+	color: white;
+	background-color: lightgray;
+	border: white;
+	margin-right: 5px;
+}
+#iduck-bookList-header-btn-2{
+	width: 70px;
+	height:40px;
+	float: left;
+	color: white;
+	background-color: #007AFF;
+	border: white;
+	margin-right: 5px;
+}
+#iduck-bookList-header-scroll-1{
+	width: 800px;
+}
+#iduck-bookList-cabinet-div-1{
+	background-color: rgba(0,0,0,0);
+	box-shadow: 0 0 0 #000000 inset;
+	height: auto;
+	width: 375px;
+	margin:0px;
+	float: left;
+}
+#iduck-bookList-cabinet-scroll-1{
+	width: 300%;
+}
+#iduck-login-alarm-div-1{
+	color: darkgray;
+	margin-top: 30px;
+}
+#iduck-userSpace-selfBtn{
+	float: left;
+	font-size:60px;
+	margin-top:5px;
+	margin-left: 5px;
+	color: #007AFF;
+	position: absolute;
+	left: 55%;
+	top:48%;
+	z-index: 2;
 }

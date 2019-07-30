@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.run.dao.BookDao">
+    
+    <select id="collectcheck" parameterType="com.run.entity.UserbookItem" resultType="com.run.entity.Book">
+    	select * from collector where uid=#{uid} and bid=#{bid};
+    </select>
+    
+    <select id="askbookinfo" parameterType="Integer" resultType="com.run.entity.Book">
+    	select * from book where bid=#{bid};
+    </select>
+    
+    <select id="askbooklist"  resultType="com.run.entity.Book">
+    	select * from book where shared = true and forbidden = false;
+    </select>
+    
+    <select id="askcomment" parameterType="Integer" resultType="com.run.entity.Comment">
+    	select * from comment where bid=#{bid}
+    </select>
+    
+    <select id="searchbytitle" parameterType="String" resultType="com.run.entity.Book">
+    	select * from book where shared = true and forbidden = false and bookname like "%"#{bookname}"%";
+    </select>
+    
+    <insert id="insertbook" parameterType="com.run.entity.Book" useGeneratedKeys="true" keyProperty="bid">
+    	insert into book(uid, bookname, kind, lst, shared, playtime, forbidden) 
+    		values(#{uid}, #{bookname}, #{kind}, #{lst}, #{shared}, #{playtime}, false);
+    </insert>
+    
+    <delete id="deletebook" parameterType="Integer">
+    	delete from book where bid = #{bid};
+    </delete>
+    
+    <update id="updatebook" parameterType="com.run.entity.Book">
+    	update book 
+    		set uid=#{uid}, bookname=#{bookname}, kind=#{kind}, lst=#{lst}, shared=#{shared}
+    	where bid=#{bid};
+    </update>
+    
+    <update id="setkind" parameterType="com.run.entity.Book">
+    	update book 
+    		set kind=#{kind}
+    	where bid=#{bid};
+    </update>
+    
+    <select id="getauthor" parameterType="Integer" resultType="String">
+    	select nickname from user where uid=#{uid};
+    </select>
+    
+    <update id="playbook" parameterType="Integer">
+    	update book
+    		set playtime=playtime+1 
+    	where bid = #{bid};
+    </update>
+    
+</mapper>

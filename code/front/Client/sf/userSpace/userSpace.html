@@ -10,31 +10,84 @@
 	</head>
 
 	<body>
-		
-		<div class="mui-content">
+		<header>
 			<div class="mui-card" id="iduck-userSpace-userAbs">
 				<div><icon class="mui-icon mui-icon-gear" id="iduck-userSpace-setBtn"></div>
+				<div><icon class="mui-icon mui-icon-redo" id="iduck-userSpace-backBtn"></div>
+				<div><icon class="mui-icon mui-icon-contact" id="iduck-userSpace-selfBtn"></div>
 				<div class="mui-card" id="iduck-userSpace-img">:(</div>
 				<div id="iduck-userSpace-name">柴迤天</div>
 				<div id="iduck-userSpace-motto">邪恶象拔蚌的化身,将被推翻的组长</div>
 			</div>
+		</header>
+		
+		<div class="mui-content">
+			
 			<div class="mui-card" id="iduck-userSpace-deco"></div>
-			<div class="mui-card" id="iduck-userSpace-userLog">用户信息</div>
+			<div class="mui-card" id="iduck-userSpace-userLog1">用户信息</div>
 			<div class="mui-card" id="iduck-userSpace-deco"></div>
-			<div class="mui-card" id="iduck-userSpace-userLog">用户收藏</div>
+			<div class="mui-card" id="iduck-userSpace-userLog2">用户收藏</div>
 			<div class="mui-card" id="iduck-userSpace-deco"></div>
-			<div class="mui-card" id="iduck-userSpace-userLog">作品列表</div>
+			<div class="mui-card" id="iduck-userSpace-userLog3">作品列表</div>
 			<div class="mui-card" id="iduck-userSpace-deco"></div>
-			<div class="mui-card" id="iduck-userSpace-userLog">评论记录</div>
+			<div class="mui-card" id="iduck-userSpace-userLog4">评论记录</div>
 			<div class="mui-card" id="iduck-userSpace-deco"></div>
-			<div class="mui-card" id="iduck-userSpace-userLog">历史浏览</div>
+			<div class="mui-card" id="iduck-userSpace-userLog5">历史浏览</div>
 			<div class="mui-card" id="iduck-userSpace-deco"></div>
-			<div class="mui-card" id="iduck-userSpace-userLog">关注用户</div>
+			<div class="mui-card" id="iduck-userSpace-userLog6">关注用户</div>
 			
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init();
+			mui(".mui-content").on("tap","#iduck-userSpace-userLog1",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userSpace.html','userSpace/userInfo.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			mui(".mui-content").on("tap","#iduck-userSpace-userLog2",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userSpace.html','userSpace/userCollect.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			mui(".mui-content").on("tap","#iduck-userSpace-userLog3",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userSpace.html','userSpace/userWork.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			mui(".mui-content").on("tap","#iduck-userSpace-userLog4",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userSpace.html','userSpace/userCmt.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			mui(".mui-content").on("tap","#iduck-userSpace-userLog5",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userSpace.html','userSpace/userTrack.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			mui(".mui-content").on("tap","#iduck-userSpace-userLog6",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userSpace.html','userSpace/userFollow.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			mui("header").on("tap","#iduck-userSpace-setBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userSpace.html','userSpace/userSet.html')");
+				//opener.evalJS("changeNavi('iduck-Index-space')");
+			});
+			mui("header").on("tap","#iduck-userSpace-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('userSpace/userSpace.html','bookList/bookList.html')");
+				opener.evalJS("changeNavi('iduck-Index-home')");
+			});
 		</script>
 	</body>
 

@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iduck.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav"> 	
+			<div>
+				<icon class="mui-icon mui-icon-redo" id="iduck-bookMake-navi-backBtn">
+			</div>
+		</header> 
+		<div class="mui-content">
+			<div class="mui-card" id="iduck-bookMake-title">
+				<div><icon class="mui-icon mui-icon-trash" id="iduck-bookMake-navi-trashBtn"></div>
+				象拔蚌大战小青龙
+			</div>
+			<div class="mui-card" id="iduck-bookMake-deco"></div>
+			<div class="mui-card" id="iduck-bookMake-type">
+				<div id="iduck-bookMake-edit-seccode">P3: </div> 
+				<input type="text" class="mui-input-clear" id="iduck-bookMake-edit-sectitle" placeholder="因恨生爱">
+				<div><icon class="mui-icon mui-icon-trash" id="iduck-bookMake-navi-trashBtn"></div>
+			</div>
+		</div>
+		
+		<div>
+			<div class="mui-card" id="iduck-bookMake-edit-uploadbox">
+				提交音频文件
+				<div><icon class="mui-icon mui-icon-compose" id="iduck-bookMake-edit-uploadBtn"></div>
+				<input type="file" class="mui-input-clear"  id="iduck-bookMake-edit-uploadInput">
+			</div>
+			<div class="mui-card" id="iduck-bookMake-edit-uploadbox">
+				提交文本材料
+				<div><icon class="mui-icon mui-icon-mic" id="iduck-bookMake-edit-uploadBtn"></div>
+				<input type="file" class="mui-input-clear" id="iduck-bookMake-edit-uploadInput">
+			</div>
+		</div>
+		<button type="button" class="mui-btn mui-btn-primary"" id="iduck-bookMake-submit">提交修改</button>
+		<button type="button" class="mui-btn mui-btn-primary"" id="iduck-bookMake-submit">试听作品</button>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui("body").on("tap","#iduck-bookMake-navi-backBtn",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookTranscribe.html','bookMake/bookSort.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			mui("body").on("tap","#iduck-bookMake-submit",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookTranscribe.html','bookMake/bookSort.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+		</script>
+	</body>
+
+</html>

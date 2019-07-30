@@ -1,15 +1,85 @@
 package com.run.entity;
 
-import java.sql.Date;
-
 public class Book {
+	private String des;
 	private int bid;
+	private String nickname;
 	private int uid;
+	private int playtime;
+	private String bookname;
 	private String kind;
-	private String txt;
-	private String sound;
-	private String img;
-	private Date lst;
+	private String txt; //mongo
+	private String sound;//mongo
+	private String img;//mongo
+	private String lst;
+	private String chapter;
+	private boolean shared;
+	private boolean forbidden;
+	private boolean collected;
+	
+	public void setCollected(boolean collected) {
+		this.collected = collected;
+	}
+	
+	public boolean getCollected() {
+		return collected;
+	}
+	
+	public void setForbidden(boolean forbidden) {
+		this.forbidden = forbidden;
+	}
+	
+	public boolean getForbidden() {
+		return forbidden;
+	}
+	
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	
+	public String getNickname() {
+		return nickname;
+	}
+	
+	public void setChapter(String chapter) {
+		this.chapter =chapter;
+	}
+	
+	public String getChapter() {
+		return chapter;
+	}
+	
+	public void setDes(String des) {
+		this.des = des;
+	}
+	
+	public String getDes() {
+		return des;
+	}
+	
+	public void setPlaytime(int playtime) {
+		this.playtime = playtime;
+	}
+	
+	public int getPlaytime() {
+		return playtime;
+	}
+	
+	public void setShared(boolean shared) {
+		this.shared = shared;
+	}
+	
+	public boolean getShared() {
+		return shared;
+	}
+	
+	public void setBookname(String bookname) {
+		this.bookname = bookname;
+	}
+	
+	public String getBookname() {
+		return bookname;
+	}
 	
 	public int getBid() {
 		return this.bid;
@@ -60,16 +130,16 @@ public class Book {
 		this.img = img;
 	}
 	
-	public Date getLst() {
+	public String getLst() {
 		return this.lst;
 	}
 	
-	public void setLst(Date lst) {
+	public void setLst(String lst) {
 		this.lst = lst;
 	}
 	
 	@Override
 	public String toString() {
-		return "Book = ["+"bid="+bid+",uid="+uid+",lst="+lst+"]";
+		return "Book = ["+"bid="+bid+",uid="+uid+",bookname="+bookname+",lst="+lst+"]";
 	}
 }

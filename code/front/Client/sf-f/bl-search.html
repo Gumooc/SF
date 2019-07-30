@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/book.css" rel="stylesheet" />
+		<link href="css/recom.css" rel="stylesheet" />
+		<link href="css/bar.css" rel="stylesheet" />
+		<style>
+			.mui-table-view-cell{
+				padding: 0px;
+				margin: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class='mui-title' style="color: #007AFF;">搜索结果,根据</div>
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+		</header>
+		
+		<div clas='mui-content' style="margin-top:50px;">
+			<div class="mui-scroll">
+				<!--<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<div class='book-div-1'>
+							<div class='book-info-1'>
+								<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
+							</div>
+							<div class='book-info-2'>
+								xbbdzxql
+							</div>
+							<div class='book-info-3'>
+								<icon class="mui-icon mui-icon-contact"></icon>
+								xbb
+							</div>
+							<div class='book-info-4'>
+								<icon class="mui-icon mui-icon-contact"></icon>
+								2019-07-07
+							</div>
+							<div class='book-info-5'>
+								<icon class="mui-icon mui-icon-contact"></icon>
+								320
+							</div>
+						</div>
+					</li>-->
+				<!--<div class='search-div-2'>
+				 	<div class='search-img-1'>
+						hello
+					</div>
+					<div class='search-info-1'>
+						hello
+					</div>
+				</div>
+				<div class='search-div-2'>
+				 	<div class='search-img-1'>
+						hello
+					</div>
+					<div class='search-info-1'>
+						hello
+					</div>
+				</div>
+				<div class='search-div-2'>
+				 	<div class='search-img-1'>
+						hello
+					</div>
+					<div class='search-info-1'>
+						hello
+					</div>
+				</div>-->
+				</ul>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			var list;
+			mui.init();
+			//监听事件，上拉刷新
+			window.addEventListener('get',function(event){
+				list=event.detail.res;
+				html='';
+				for(var i=0;i<list.length;i++){
+					html+="<li class='mui-table-view-cell'>";
+					html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+					html+="<div class='book-info-1'>";
+					html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+					html+="</div>";
+					html+="<div class='book-info-2'>";
+					html+=list[i].bookname;
+					html+="</div>";
+					html+="<div class='book-info-3'>";
+					html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+					html+=list[i].nickname;
+					html+="</div>";
+					html+="<div class='book-info-4'>";
+					html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+					html+=list[i].lst;		
+					html+="</div>";		
+					html+="<div class='book-info-5'>";
+					html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+					html+=list[i].playtime;		
+					html+="</div>";
+					html+="</div>";
+					html+="</li>";
+				}
+				document.getElementsByClassName("mui-table-view")[0].innerHTML=html;
+			});
+		</script>
+	</body>
+
+</html>

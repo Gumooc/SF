@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<link href="css/bar.css" rel="stylesheet" />
+	<script src='js/ajax.js'></script>
+	<link href="css/section.css" rel="stylesheet" />
+	<style>
+		body{
+			color: #007AFF;
+		}
+		.bm-serial-div-1{
+			height: 150px;
+		}
+		.bm-edit-div-2{
+			padding:5px;
+			height: 50px;
+			border-radius:10px;
+		}
+		.bm-edit-input-2{
+			width: 100%;
+			height: 90px;
+			margin: 0px;
+			border-radius: 10px;
+		}
+		.bm-edit-btn-5{
+			font-size: 20px;
+			padding: 5px 10px;
+			float: right;
+		}
+		.bm-serial-btn-2{
+			float: right;
+			margin-right: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+		<h1 class="mui-title" style="color: #007AFF;">bookname P1</h1>
+	</header>
+
+	<div class="mui-content">
+		<div style="background: white;">
+			<div class="bm-edit-div-2">
+				<input style="width:80%;border-radius:10px;" id='secname' placeholder="标题" type="text"/>
+				<button class='mui-btn mui-btn-primary bm-edit-btn-5'>
+					<icon class="mui-icon mui-icon-trash"></icon>
+				</button>
+			</div>
+			<div class="bar-div-1">
+				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+				<div class='bar-info-1'>通过文本制作</div>
+			</div>
+			<div class="mui-card bm-serial-div-1">
+				<input type="file" accept="text/plain" id='text'/>
+			</div>
+			<div class="bar-div-1">
+				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
+				<div class='bar-info-1'>通过音频制作</div>
+			</div>
+			<div class="mui-card bm-serial-div-1"><input type="file" id='sound'/></div>
+			<button class='mui-btn-primary bm-serial-btn-2'>提交</button>
+		</div>
+		
+		
+	</div>
+	
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var bid;
+		var sid;
+		var jarray;
+		
+		mui.init();
+		mui.plusReady(function(){
+			self=plus.webview.currentWebview();
+			opener=self.opener();
+			mui.myAjax=myAjax;
+		});
+		
+		//按钮事件，返回页面
+   		mui('body').on('tap','.bm-serial-btn-1',function(e){
+   			mui.fire(opener,'jump',{dst:'bm-edit.html'});
+   		})
+		//按钮事件，添加章节
+   		mui('body').on('tap','.bm-serial-btn-2',function(e){
+   			if(sid==-1){
+   				var newsec={name:document.getElementById('secname').value};
+   				jarray.push(newsec);
+   				var j={body:jarray};
+	   			var chapter=JSON.stringify(j);
+	   			plus.nativeUI.showWaiting();
+	   			mui.myAjax('http://49.234.77.32:8080/sfbook/book/chapter',{
+	                        type:'post',
+	                        async:false,
+	                        timeout:5000,
+	                        headers:{'Content-Type':'application/json'},	
+	                        dataType:'json',
+	                        data:{bid:bid,chapter:chapter}
+	                    },
+	                function(data){
+	                    console.log("成功更新章节");
+						mui.toast('成功更新章节,请等待音频合成',{ duration:'long', type:'div' });
+	                },function(state,xhr){
+	                    console.log(state);
+	                    mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+	                }
+	            );
+	   			/*
+	   			mui.ajax('http://49.234.77.32:8080/sfbook/book/chapter',{
+					data:{bid:bid,chapter:chapter},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						console.log("成功更新章节");
+						mui.toast('成功更新章节,请等待音频合成',{ duration:'long', type:'div' });
+					},
+					error:function(xhr,type,errorThrown){console.log(type);return;}
+				});
+				*/
+				var bm_edit=plus.webview.getWebviewById('bm-edit.html');
+				mui.fire(bm_edit,'item',{bid:bid});
+				plus.nativeUI.closeWaiting();
+				//添加章节音频
+				console.log(jarray.length);
+				var f=document.getElementById('text').files[0];
+				var formData=new FormData();
+				var info=JSON.stringify({
+					bid:bid,
+					chapter:jarray.length,
+					spd:'3',
+					pit:'3',
+					vol:'5',
+					per:'3'
+				});
+				formData.append('info',info);
+    			formData.append('file',f); 
+    			$.ajax({
+			        url:'http://49.234.77.32:8080/sfbook/createbook/bytext',
+			        type:'post',
+			        dataType:'text',
+			        cache: false,
+			        processData: false,
+			        contentType: false,
+			        data:formData,
+			        success:function(list){  
+			            console.log("成功合成音频");
+						mui.toast('成功合成音频',{ duration:'long', type:'div' });
+			            self.close();
+			        },
+			        error:function(){
+			        	console.log("音频导入失败");
+			        	mui.toast('音频导入失败',{ duration:'long', type:'div' });
+			        }
+	    		});
+				
+				
+   			}
+   		})
+		//监听事件，加载章节
+		window.addEventListener('get',function(event){
+			bid=event.detail.bid;
+			sid=event.detail.sid;
+			//console.log(bid+"+"+sid);
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/bookinfo',{
+				data:{bid:bid,uid:parseInt(plus.storage.getItem('uid'))},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					var item=data.body;
+					var j=JSON.parse(item.chapter);
+					jarray=j.body;
+					document.getElementsByClassName('bar-info-1')[0].innerHTML=item.bookname;
+				},
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
+			});
+			if(sid==-1){
+				//console.log('添加新的章节');
+			}
+		});
+		//监听事件，清空信息
+		window.addEventListener('clear',function(event){
+			document.getElementById('secname').value='';
+		});
+		
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+{
+	"index.html": {
+		"resources": [
+			"bl.html",
+			"bl-head.html"
+		],
+		"refer": [
+			"bl.html",
+			"bl-head.html",
+			"us-head.html",
+			"bp.html",
+			"bm-main.html",
+			"ua-acc.html"
+		]
+	},
+	"bl-head.html": {
+		"resources": [
+			"bl-main.html"
+		],
+		"refer": [
+			"bl-main.html",
+			"bl-search.html"
+		]
+	},
+	"us-head.html": {
+		"resources": [
+			"us-main.html"
+		],
+		"refer": [
+			"us-main.html",
+			"us-logout.html",
+			"ua-acc.html"
+		]
+	},
+	"bl-main.html": {
+		"refer": [
+			"bi.html"
+		]
+	},
+	"ua-acc.html": {
+		"refer": [
+			"ua-log.html",
+			"us-set.html"
+		]
+	},
+	"bi.html": {
+		"refer": [
+			"os-head.html"
+		],
+		"resources": [
+			"fonts/mui.ttf"
+		]
+	},
+	"bm-main.html": {
+		"refer": [
+			"bm-edit.html",
+			"bm-new.html"
+		]
+	},
+	"bm-edit.html": {
+		"refer": [
+			"bm-serial.html"
+		]
+	},
+	"us-main.html": {
+		"refer": [
+			"bi.html"
+		],
+		"resources": [
+			"image/bg.jpg"
+		]
+	},
+	"os-head.html": {
+		"resources": [
+			"os-main.html"
+		],
+		"refer": [
+			"os-main.html"
+		]
+	},
+	"ua-log.html": {
+		"refer": [
+			"ua-reg.html"
+		]
+	}
+}

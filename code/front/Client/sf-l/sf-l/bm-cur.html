@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/book.css" rel="stylesheet" />
+	<style>
+		.bm-cur-btn-2{
+			position: absolute;
+			bottom: 10px;
+			right: 10px;
+		}
+		.bm-cur-btn-4{
+			position: absolute;
+			bottom: 10px;
+			right: 80px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="mui-content">
+		<div class="bm-cur-div-1">
+			
+		</div>
+		<button class='bm-cur-btn-1'>返回</button>
+	</div>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var list=[];
+		var uid;
+		
+		mui.init();
+		mui.plusReady(function(){
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+   		});
+   		
+		//按钮事件，返回页面
+   		mui('body').on('tap','.bm-cur-btn-1',function(e){
+   			mui.fire(opener,'jump',{dst:'bm-main.html'});
+   		});
+   		//按钮事件，编辑内容
+   		mui('body').on('tap','.bm-cur-btn-2',function(e){
+   			var ele=document.getElementsByClassName('bm-cur-btn-2');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+   			
+   			mui.fire(opener,'jump',{dst:'bm-edit.html'});
+   			var bm_edit=plus.webview.getWebviewById('bm-edit.html');
+   			mui.fire(bm_edit,'item',{bid:list[cnt].bid});
+   		});
+   		//按钮事件，显示详情
+   		mui('body').on('tap','.bm-cur-btn-3',function(e){
+   			var ele=document.getElementsByClassName('bm-cur-btn-3');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	
+	    	mui.openWindow({
+	    		url:'bi.html',
+	    		id:'bi.html',
+	    	});
+	    	var bi=plus.webview.getWebviewById('bi.html');
+	    	mui.fire(bi,'item',{bid:list[cnt].bid});
+   		});
+   		//按钮事件，删除图书
+   		mui('body').on('tap','.bm-cur-btn-4',function(e){
+   			var ele=document.getElementsByClassName('bm-cur-btn-4');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/book/deletebook',{
+				data:{bid:list[cnt].bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='s'){
+						console.log('删除图书成功！');
+						mui.fire(self,'get',{uid:uid});
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+   		})
+   		
+   		//监听事件，加载作品
+   		window.addEventListener('get',function(event){
+			uid=event.detail.uid;
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/user/selfworks',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					list=data.body;
+					var html='';
+					if(!list.length){html+="<div>暂无作品</div>";}
+					else{
+						for(var i=0;i<list.length;i++){
+							html+="<div class='mui-card book-div-1'>";
+							html+="<div class='mui-card-content book-info-1 bm-cur-btn-3'><img height='80%' width='80%' src='data:image/jpg;base64,"+list[i].img+"'/></div>"
+							html+="<div class='mui-card-footer'>"+list[i].bookname+list[i].shared+"</div>";
+							html+="<button class='bm-cur-btn-2'>编辑</button>";
+							html+="<button class='bm-cur-btn-4'>删除</button>";
+							html+="</div>";
+						}
+					}
+					document.getElementsByClassName('bm-cur-div-1')[0].innerHTML=html;
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+   		});
+	</script>
+</body>
+
+</html>

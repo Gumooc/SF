@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/iduck.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="mui-content" >
+			<div class="mui-card" id="iduck-bookMake-welcome">
+				制作自己的有声书
+			</div>
+			<div class="mui-card" id="iduck-bookMake-create">
+				<div class="mui-card-content" id="iduck-bookMake-choiceIcon">:icon</div>
+				<div class="mui-card-footer">创建新的有声书</div>
+			</div>
+			<div class="mui-card" id="iduck-bookMake-edit">
+				<div class="mui-card-content" id="iduck-bookMake-choiceIcon">:icon</div>
+				<div class="mui-card-footer">编辑当前有声书</div>
+			</div>
+			</div>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui("body").on("tap","#iduck-bookMake-create",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookMake.html','bookMake/bookNew.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+			mui("body").on("tap","#iduck-bookMake-edit",function(){
+				var self=plus.webview.currentWebview();
+				var opener=self.opener();
+				opener.evalJS("changeSub('bookMake/bookMake.html','bookMake/bookWork.html')");
+				//opener.evalJS("changeNavi('iduck-Index-home')");
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		.bm-main-btn-1{
+			position: absolute;
+			left: 5%;
+			top:200px;
+			width: 40%;
+			height: 220px;
+			float: left;
+			color: gray;
+		}
+		.bm-main-btn-3{
+			position: absolute;
+			right: 8%;
+			top:200px;
+			width: 40%;
+			height: 220px;
+			float: left;
+			color: gray;
+		}
+
+	</style>
+</head>
+
+<body>
+	
+	<div class="mui-content">
+		...
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var bm_new;
+		var bm_cur;
+		var uid;
+		
+		mui.init();
+		mui.plusReady(function(){
+       		self=plus.webview.currentWebview();
+       		opener=self.opener();
+       		bm_new=plus.webview.getWebviewById('bm-new.html');
+       		bm_cur=plus.webview.getWebviewById('bm-cur.html');
+       		mui.fire(self,'self',{});
+   		});
+   		
+   		//按钮事件，界面跳转
+   		mui('body').on('tap','.bm-main-btn-1',function(e){
+    		mui.fire(opener,'jump',{dst:'bm-cur.html'});
+    		mui.fire(bm_cur,'get',{uid:uid});
+   		});
+   		mui('body').on('tap','.bm-main-btn-3',function(e){
+   			mui.fire(opener,'jump',{dst:'bm-new.html'});
+   			mui.fire(bm_new,'clear',{});
+   		});
+   		
+   		//按钮事件，登录
+   		mui('body').on('tap','.bm-main-btn-2',function(e){
+   			mui.openWindow({
+	    		url:'ua-log.html',
+	    		id:'ua-log.html',
+	    	});
+   		})
+   		
+   		//监听事件，返回个人页面
+		window.addEventListener('self',function(event){
+			
+	    	var ustr=plus.storage.getItem('uid');
+	    	uid=parseInt(ustr);
+	    	var html="";
+	    	if(ustr==null){
+	    		html+="尚未登录";
+				html+="<button class='bm-main-btn-2'>登录</button>"
+	    	}
+	    	else{
+	    		html+="<div class='bm-main-div-1'>"+uid+"</div>";
+				html+="<button class='bm-main-btn-1'>我的有声书</button>";
+				html+="<button class='bm-main-btn-3'>新建有声书</button>";
+	    	}
+	    	document.getElementsByClassName('mui-content')[0].innerHTML=html;
+		});
+   		
+	</script>
+</body>
+
+</html>

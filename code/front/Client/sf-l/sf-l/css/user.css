@@ -1,0 +1,12 @@
+/*用户导航组件*/
+.user-header-1{
+	height:220px;
+	border-radius: 0px 0px 10px 10px;
+	text-align: center;
+}
+.user-info-1{
+	height: 120px;
+	width: 120px;
+	margin: 20px auto;
+	border-radius: 100%;
+}
