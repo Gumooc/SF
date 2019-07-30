@@ -133,7 +133,7 @@
 				*/
 				var bm_edit=plus.webview.getWebviewById('bm-edit.html');
 				mui.fire(bm_edit,'item',{bid:bid});
-				
+				plus.nativeUI.closeWaiting();
 				//添加章节音频
 				console.log(jarray.length);
 				var f=document.getElementById('text').files[0];
@@ -155,7 +155,6 @@
 			        cache: false,
 			        processData: false,
 			        contentType: false,
-			        async:false,
 			        data:formData,
 			        success:function(list){  
 			            console.log("成功合成音频");
@@ -167,7 +166,7 @@
 			        	mui.toast('音频导入失败',{ duration:'long', type:'div' });
 			        }
 	    		});
-				plus.nativeUI.closeWaiting();
+				
 				
    			}
    		})

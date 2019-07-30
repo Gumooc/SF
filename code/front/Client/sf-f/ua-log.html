@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<title></title>
 	<link href="css/mui.min.css" rel="stylesheet" />
+	<script src='js/ajax.js'></script>
 	<style>
 		.ui-page-login,
 		body {
@@ -129,6 +130,7 @@
 				console.log("获取登录认证失败："+e.message);
 			});
 			self=plus.webview.currentWebview();
+			mui.myAjax=myAjax;
 		}
 		mui.init();
 		document.addEventListener('plusready',plusReady,false);
@@ -162,7 +164,52 @@
 		function userinfo(a){
 			a.getUserInfo(function(){
 				var nickname=a.userInfo.nickname||a.userInfo.name||a.userInfo.miliaoNick;
-				plus.nativeUI.alert("欢迎“"+nickname+"”登录！");
+				console.log(a.userInfo.openid+a.userInfo.gender+a.userInfo.nickname);
+				mui.myAjax('http://49.234.77.32:8080/sfbook/user/tplogin',{
+	                        type:'post',
+	                        async:false,
+	                        timeout:5000,
+	                        headers:{'Content-Type':'application/json'},	
+	                        dataType:'json',
+							data:{openid:a.userInfo.openid,gender:a.userInfo.gender,nickname:a.userInfo.nickname,lst:getdt()}
+	                    },
+	                function(data){
+	                    mui.toast('登录成功',{duration:1000,type:'div'}) ;
+						plus.storage.setItem('uid',''+data.uid+'');
+						
+						var ua=plus.webview.getWebviewById('ua-acc.html');
+						var us=plus.webview.getWebviewById('us-head.html');
+						var bm=plus.webview.getWebviewById('bm-main.html');
+						mui.fire(ua,'check',{});
+						mui.fire(us,'self',{});
+						mui.fire(bm,'get',{});
+						self.close();
+	                },function(state,xhr){
+	                    console.log(state);
+	                    mui.toast('连接到服务器出错',{ duration:'long', type:'div' }) 
+	                }
+	            );
+				/*mui.ajax('http://49.234.77.32:8080/sfbook/user/tplogin',{
+					data:{openid:a.userInfo.openid,gender:a.userInfo.gender,nickname:a.userInfo.nickname,lst:getdt()},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						mui.toast('登录成功',{duration:1000,type:'div'}) ;
+						plus.storage.setItem('uid',''+data.body.uid+'');
+						self.close();
+						var ua=plus.webview.getWebviewById('ua-acc.html');
+						var us=plus.webview.getWebviewById('us-head.html');
+						var bm=plus.webview.getWebviewById('bm-main.html');
+						mui.fire(ua,'check',{});
+						mui.fire(us,'self',{});
+						mui.fire(bm,'get',{});
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});*/
+				
 			},function(e){
 				console.log("获取用户信息失败：");
 				console.log("["+e.code+"]："+e.message);
@@ -182,7 +229,7 @@
 				return;
 			}
 			mui.ajax('http://49.234.77.32:8080/sfbook/user/login',{
-				data:{username:username,password:password},
+				data:{username:username,password:password,lst:getdt()},
 				dataType:'json',
 				type:'post',
 				async:false,
@@ -220,7 +267,15 @@
 		mui("body").on("tap","#passfgt",function(){
 			
 		});
-		
+		//应用函数，获取时间
+		function getdt(){
+			var date=new Date(); 
+			var year=date.getFullYear(); 
+			var mon=date.getMonth()+1; 
+		    var day=date.getDate();
+		    var stamp=year+'-'+mon+'-'+day;
+		    return stamp;
+		}
 		window.addEventListener('reg',function(event){
 			mui.toast('注册成功 请前往邮箱激活',{ duration:1000,type:'div'});
 		});	

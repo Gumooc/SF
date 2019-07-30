@@ -37,7 +37,6 @@
 		
 	    mui.init();
 	    mui.plusReady(function(){
-	    	plus.storage.removeItem('uid');
 	    	self = plus.webview.currentWebview();
             for(var i=0;i<sub.length;i++){
                 var page = plus.webview.create(sub[i], sub[i], sub_style);
@@ -66,6 +65,9 @@
 	    	plus.webview.hide(src);
 	    	src=dst;
 		});
+		
+		
+		
 	</script>
 	
 </body>
