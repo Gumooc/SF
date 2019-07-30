@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.run.dao.BookDao">
+    <select id="askbookinfo" parameterType="Integer" resultType="com.run.entity.Book">
+    	select * from book where bid=#{bid};
+    </select>
+    
+    <select id="askbooklist"  resultType="com.run.entity.Book">
+    	select * from book;
+    </select>
+    
+    <select id="askcomment" parameterType="Integer" resultType="com.run.entity.Comment">
+    	select * from comment where bid=#{bid}
+    </select>
+    
+    <select id="searchbytitle" parameterType="String" resultType="com.run.entity.Book">
+    	select * from book where bookname like '%${bookname}%';
+    </select>
+    
+    <insert id="insertbook" parameterType="com.run.entity.Book">
+    	insert into book(bid, uid, bookname, kind, lst, shared, playtime) values(#{bid}, #{uid}, #{bookname}, #{kind}, #{lst}, #{shared}, #{playtime});
+    </insert>
+    
+    <delete id="deletebook" parameterType="Integer">
+    	delete from book where bid = #{bid};
+    </delete>
+    
+</mapper>

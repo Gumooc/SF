@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.run.dao.UserDao">
+	<select id="logincheck" parameterType="com.run.entity.User" resultType="com.run.entity.User">
+        select * from user
+        <where>
+			<if test="username != null and username != ''">
+				and username = #{username}
+			</if>
+			<if test="password != null and password != ''">
+				and password = #{password}
+			</if>
+		</where>
+    </select>
+	<select id="registercheck" parameterType="com.run.entity.User" resultType="com.run.entity.User">
+        select * from user where email=#{email};
+    </select>
+    
+	<select id="usercheck" parameterType="com.run.entity.User" resultType="com.run.entity.User">
+        select * from user where username=#{username};
+    </select>
+    
+	<select id="askuser" parameterType="Integer" resultType="com.run.entity.User">
+        select nickname,lst,rgt,male,phone,email from user where uid=#{uid};
+    </select>
+    
+    
+    <update id="active" parameterType="Integer">
+    	update user set activation = true where uid = #{uid}
+    </update>
+    
+    
+    <insert id="register" parameterType="com.run.entity.User">
+    	insert into user(uid,username,password,nickname,lst,rgt,male,phone,email,activation,adm) 
+    		values(#{uid},#{username},#{password},#{nickname},#{lst},#{rgt},#{male},#{phone},#{email},#{activation},#{adm});
+    </insert>
+    
+    
+    <select id="getmaxid" resultType="Integer">
+    	select max(uid) from user;
+    </select>
+    
+    
+     <resultMap id="collectormap" type="com.run.entity.Collector">
+    	<result column="uid" property="uid"></result>
+    	<collection property="books" ofType="com.run.entity.Book"  fetchType="eager">
+    		<id column="bid" property="bid"></id>
+    		<result column="uid" property="uid"></result>
+    		<result column="bookname" property="bookname"></result>
+    		<result column="kind" property="kind"></result>
+    		<result column="lst" property="lst"></result>
+    		<result column="shared" property="shared"></result>
+    	</collection>
+    </resultMap>
+    
+    
+	<select id="askcollector" parameterType="Integer" resultMap="collectormap">
+        select collector.uid,book.* from collector,book 
+		<where>
+			collector.bid = book.bid and collector.uid=#{uid}
+		</where> 
+    </select>
+    
+    
+	<select id="askhistory" parameterType="Integer" resultMap="collectormap">
+        select history.uid,book.* from history,book 
+		<where>
+			history.bid = book.bid and history.uid=#{uid}
+		</where> 
+    </select>
+    
+    <select id="askcomment" parameterType="Integer" resultType="com.run.entity.Comment">
+    	select * from comment where uid=#{uid}
+    </select>
+    
+    <select id="askworks" parameterType="Integer" resultType="com.run.entity.Book">
+    	select * from book where uid=#{uid}
+    </select>
+    
+    
+</mapper>

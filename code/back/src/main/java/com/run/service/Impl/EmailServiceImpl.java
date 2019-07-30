@@ -12,7 +12,6 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.stereotype.Service;
 
-import com.run.entity.Email;
 import com.run.entity.User;
 import com.run.service.EmailService;
 import com.sun.mail.util.MailSSLSocketFactory;
@@ -58,8 +57,8 @@ public class EmailServiceImpl implements EmailService {
             // 2.3设置邮件主题
             message.setSubject("账号激活");
             // 2.4设置邮件内容
-            String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://localhost:8080/sfbook/user/activation?"
-                    +"123456789" + "'>http://localhost:8080/RegisterDemo/ActiveServlet?code=" + "123456789"
+            String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://localhost:8080/sfbook/user/activation?uid="
+                    +user.getUid()+"&active="+"1" + "'>http://49.234.77.32:8080/sfbook(2)/user/activation?uid=" +user.getUid() +"&active="+"1"
                     + "</href></h3></body></html>";
             message.setContent(content, "text/html;charset=UTF-8");
             // 3.发送邮件

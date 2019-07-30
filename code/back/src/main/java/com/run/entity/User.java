@@ -1,17 +1,51 @@
 package com.run.entity;
 
-import java.sql.Date;
-
 public class User {
 	private int uid;
 	private String username;
 	private String password;
-	private Date lst;
+	private String nickname;
+	private String lst;
+	private String rgt;
+	private String birth;
 	private String img;
-	private Boolean male;
+	private boolean male;
 	private String phone;
 	private String email;
 	private boolean activation;
+	private boolean adm;
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+	
+	public String getBirth() {
+		return birth;
+	}
+	
+	public void setAdm(boolean adm) {
+		this.adm = adm;
+	}
+	
+	public boolean getAdm() {
+		return adm;
+	}
+	
+	public void setRgt(String rgt) {
+		this.rgt = rgt;
+	}
+	
+	public String getRgt() {
+		return this.rgt;
+	}
 	
 	public void setActivation(boolean activation) {
 		this.activation = activation;
@@ -53,11 +87,11 @@ public class User {
 		return this.img;
 	}
 	
-	public void setLst(Date lst) {
+	public void setLst(String lst) {
 		this.lst = lst;
 	}
 	
-	public Date getLst() {
+	public String getLst() {
 		return this.lst;
 	}
 	
@@ -87,6 +121,6 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User = ["+"uid="+uid+",username="+username+",password="+password+",lst="+lst+"]";
+		return "User = ["+"uid="+uid+",username="+username+",password="+password+"email="+email+",lst="+lst+"]";
 	}
 }

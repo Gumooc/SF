@@ -1,12 +1,19 @@
 package com.run.entity;
 
-import java.sql.Date;
-//弱实体类、主键（bid、cid）
 public class Comment {
 	private int bid;
 	private int cid; 
 	private int uid;
-	private Date lst;
+	private String lst;
+	private String des;
+	
+	public void setDes(String des) {
+		this.des = des;
+	}
+	
+	public String getDes() {
+		return des;
+	}
 	
 	public void setBid(int bid) {
 		this.bid = bid;
@@ -32,11 +39,11 @@ public class Comment {
 		return uid;
 	}
 
-	public Date getLst() {
+	public String getLst() {
 		return this.lst;
 	}
 	
-	public void setLst(Date lst) {
+	public void setLst(String lst) {
 		this.lst = lst;
 	}
 }
