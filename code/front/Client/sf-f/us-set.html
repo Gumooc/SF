@@ -9,6 +9,10 @@
 	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 	<link href="css/bar.css" rel="stylesheet" />
 	<link href="css/user.css" rel="stylesheet" />
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.picker.all.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+
 	<script src='js/ajax.js'></script>
 	<style>
 		.us-set-info-1{
@@ -42,6 +46,15 @@
 			margin-top: 20px;
 			float: right;
 		}
+		.mui-btn {
+			padding: 10px;
+		}
+		.us-set-btn-3{
+			position: absolute;
+			right: 0;
+			font-size: 16px;
+			border:0;
+		}
 	</style>
 </head>
 
@@ -52,45 +65,71 @@
 			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
 	</header>
 	<div class="mui-content">
-		
-		<div class="us-set-div-2">
-			<div class='us-set-div-1'>
-	    		<div class='us-set-info-2'><icon class="mui-icon mui-icon-person "></icon>姓名</div>
-	    		<input class='us-set-input-1' style="width:70%;" type="text" id='nick' placeholder="真实姓名" />
-		    </div>
-		    <div class='us-set-div-1'>
-	    		<div class='us-set-info-2'><icon class="mui-icon mui-icon-person "></icon>生日</div>
-	    		<input class='us-set-input-1' style="width:70%;" type="text" id='birth' placeholder="生日" />
-		    </div>
-		    <div class='us-set-div-1'>
-	    		<div class='us-set-info-2'><icon class="mui-icon mui-icon-person "></icon>电话</div>
-	    		<input class='us-set-input-1' style="width:70%;" type="text" id='phone' placeholder="电话" />
-		    </div>
-			<div class='us-set-div-1'>
-	    		<div class='us-set-info-2'><icon class="mui-icon mui-icon-person "></icon>性别</div>
-		    	<div class="mui-switch mui-switch-blue bar-switch-1" id='male'>
-				  	<div class="mui-switch-handle"></div>
-				</div>	
+		<form id='login-form' class="mui-input-group">
+			<div class="mui-input-row">
+				<label>姓名</label>
+	    		<input class='us-set-input-1' type="text" id='nick' placeholder="真实姓名" />
 			</div>
-			<div class='us-set-div-1'>
-	    		<div class='us-set-info-2'><icon class="mui-icon mui-icon-person "></icon>头像</div>
-		    	<div class="us-set-input-2"><input style='width:70%;float:right;' type='file' id='img'/></div>
+			<div class="mui-input-row">
+				<label>生日</label>
+				<input disabled="disabled" class='us-set-input-1' type="text" id='birth' placeholder="生日" />
+				<button id='starttime' class="mui-btn us-set-btn-3" type='button'>
+					<span class="mui-icon mui-icon-bars" style="color: #007AFF;font-size: 22px;"></span>
+				</button>
 			</div>
+			<div class="mui-input-row">
+				<label>电话</label>
+				<input class='us-set-input-1' type="text" id='phone' placeholder="电话" />
+			</div>
+			<div class="mui-input-row">
+				<label>性别</label>
+				<input class='us-set-input-1' type='text' id='male' placeholder="性别" disabled="disabled"/>
+				<button id='showUserPicker' class="mui-btn us-set-btn-3" type='button'>
+					<span class="mui-icon mui-icon-bars" style="color: #007AFF;font-size: 22px;"></span>
+				</button>
+			</div>
+		</form>
+		<div class="mui-content-padded" >
+			<button class="mui-btn mui-btn-block mui-btn-primary us-set-btn-1">提交修改</button>
 		</div>
-
 		
-		
-		<button class='mui-btn mui-btn-primary us-set-btn-1'>提交</button>
-		<button class="mui-btn mui-btn-primary us-set-btn-2">清空</button>
 	</div>
 	
 	<script src="js/mui.min.js"></script>
+	<script src="js/mui.picker.all.js"></script>
+	<script src="js/mui.picker.js"></script>
+	<script src="js/mui.poppicker.js"></script>
 	<script type="text/javascript">
 		var self;
 		var opener;
 		var old={};
 		
-		mui.init();
+		(function($, doc) {
+			$.init();
+			$.ready(function() {
+				//普通示例
+				var userPicker = new $.PopPicker();
+				userPicker.setData([{
+					value: 'male',
+					text: '男'
+				}, {
+					value: 'female', 
+					text: '女'
+				}]);
+				var showUserPickerButton = doc.getElementById('showUserPicker');
+				var userResult = doc.getElementById('male');
+				showUserPickerButton.addEventListener('tap', function(event) {
+					userPicker.show(function(items) {
+						userResult.placeholder=items[0].text;
+					});
+				}, false);
+
+			});
+		})(mui, document);
+		
+		
+		
+		
 		mui.plusReady(function(){
 			self=plus.webview.currentWebview();
 			opener=self.opener();
@@ -98,13 +137,24 @@
 			mui.fire(self,'self',{});
 		});
 		
+		document.getElementById('starttime').addEventListener('tap', function(){
+		    option={"type":"date","beginYear":"1930","endYear":"2019"};
+		     var picker = new mui.DtPicker(option);
+		     picker.show(function(rs) {
+		        console.log(rs.text);
+		        document.getElementById('birth').placeholder = rs.text;
+		     }); 
+		},false);
+		
 		//点击事件，上传个人信息
 		mui('body').on('tap','.us-set-btn-1',function(e){
     		var nuser={};
    			nuser.nickname=document.getElementById('nick').value;
    			nuser.birth=document.getElementById('birth').value;
    			nuser.phone=document.getElementById('phone').value;
-   			nuser.male=document.getElementById("male").classList.contains("mui-active");
+   			var m=document.getElementById("male").value;
+   			if(m=='男'){nuser.male=true;}
+   			else{nuser.male=false;}
    			//不能修改的信息
    			nuser.lst=old.lst;
    			nuser.rgt=old.rgt;
@@ -139,51 +189,6 @@
                     mui.toast('连接到服务器出错',{ duration:'long', type:'div' }) 
                 }
             );
-   			/*
-   			mui.ajax('http://49.234.77.32:8080/sfbook/user/updateuser',{
-				data:nuser,
-				dataType:'json',
-				type:'post',
-				async:false,
-				timeout:10000,
-				headers:{'Content-Type':'application/json'},	              
-				success:function(data){
-					if(data.resp=='s'){
-						console.log("成功更新基本信息");
-						 mui.toast('成功更新基本信息',{ duration:'long', type:'div' }) 
-						var us_main=plus.webview.getWebviewById('us-main.html');
-    					mui.fire(us_main,'head',{});
-    					mui.fire(self,'head',{});
-					}
-				},
-				error:function(xhr,type,errorThrown){console.log('??');}
-			});
-			*/
-			var img=document.getElementById('img').files[0];
-			if(!img){self.close();return;}
-			
-			var formData=new FormData();
-			formData.append('uid',nuser.uid);
-    		formData.append('file',img); 
-			$.ajax({
-		        url:'http://49.234.77.32:8080/sfbook/user/setImg',
-		        type:'post',
-		        dataType:'text',
-		        cache: false,
-		        processData: false,
-		        contentType: false,
-		        async:false,
-		        data:formData,
-		        success:function(list){  
-		            console.log('成功导入头像');
-		            mui.toast('成功导入头像',{ duration:'long', type:'div' })
-		            var us_head=plus.webview.getWebviewById('us-head.html');
-		        	mui.fire(us_head,'self',{});
-		    		self.close();
-		        },
-		        error:function(){console.log("头像导入失败");}
-    		});
-    		
    		});
    		//点击事件，清空
 		mui('body').on('tap','.us-set-btn-2',function(e){
@@ -202,34 +207,19 @@
 				success:function(data){
 					old=data.body;
 					console.log('加载个人信息');
-					document.getElementById('nickname').placeholder=old.nickname;
+					document.getElementById('nick').placeholder=old.nickname;
 					document.getElementById('birth').placeholder=old.birth;
 					document.getElementById('phone').placeholder=old.phone;
 					if(old.male=true){
-						mui("#male").switch().toggle();
+						document.getElementById('male').placeholder='男';
+					}
+					else{
+						document.getElementById('male').placeholder='女';
 					}
 				},
 				error:function(xhr,type,errorThrown){console.log(type);}
 			});
 		});
-		/*
-		//监听事件，加载头像
-		window.addEventListener('head',function(event){
-			var uid=parseInt(plus.storage.getItem('uid'));
-			console.log('uid='+uid);
-			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
-				data:{uid:uid},
-				dataType:'json',
-				type:'post',
-				async:false,
-				timeout:10000,
-				headers:{'Content-Type':'application/json'},	              
-				success:function(data){
-					var user=data.body;
-				},
-				error:function(xhr,type,errorThrown){console.log(type);}
-			});
-		});*/
 		//监听事件，清空记录
 		window.addEventListener('clear',function(event){
 			document.getElementById('nick').value='';
@@ -240,6 +230,8 @@
 			document.getElementById('nick').placeholder=old.nickname;
 			document.getElementById('phone').placeholder=old.phone;
 		});
+
+
 	</script>
 </body>
 

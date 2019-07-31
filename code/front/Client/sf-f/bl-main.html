@@ -125,7 +125,11 @@
 									<div class='book-div-1'>
 										<div class='book-info-1'>
 											<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
+											<div class='book-reco-1'>
+											</div>
+											<icon class="mui-icon mui-icon-weixin book-icon-3"></icon>
 										</div>
+										
 										<div class='book-info-2'>
 											xbbdzxql
 										</div>
@@ -142,7 +146,34 @@
 											320
 										</div>
 									</div>
-								</li> -->
+								</li>
+								<li class="mui-table-view-cell">
+									<div class='book-div-1'>
+										<div class='book-info-1'>
+											<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
+											<div class='book-reco-1'>
+												
+											</div>
+											<icon class="mui-icon mui-icon-weixin book-icon-3"></icon>
+										</div>
+										
+										<div class='book-info-2'>
+											xbbdzxql
+										</div>
+										<div class='book-info-3'>
+											<icon class="mui-icon mui-icon-contact"></icon>
+											xbb
+										</div>
+										<div class='book-info-4'>
+											<icon class="mui-icon mui-icon-contact"></icon>
+											2019-07-07
+										</div>
+										<div class='book-info-5'>
+											<icon class="mui-icon mui-icon-contact"></icon>
+											320
+										</div>
+									</div>
+								</li>-->
 							</ul>
 						</div>
 					</div>
@@ -282,7 +313,7 @@
 								var s=plus.webview.currentWebview();
 								var ul = self.element.querySelector('.mui-table-view');
 								createFragment2(ul, index, 5);
-								console.log('iduck-test-01');
+								//console.log('iduck-test-01');
 								setTimeout(function() {
 									self.endPullDownToRefresh();
 								}, 1000);
@@ -310,7 +341,6 @@
 				var tid=index;
 				var rid=req[tid];
 				if(tid==0){
-					console.log("下拉刷新");
 					mui.fire(self,'get',{tid:0});
 					return;
 				};
@@ -430,7 +460,7 @@
 			var rid=req[tid];
 			if(tid==0)return;
 			plus.nativeUI.showWaiting();
-			console.log(rid+"+"+tid);
+			//console.log(rid+"+"+tid);
 			mui.ajax('http://49.234.77.32:8080/sfbook/book/bookpage',{
 				data:{kind:req[tid],pagenum:1},
 				dataType:'json',
@@ -510,7 +540,7 @@
 			var uid=plus.storage.getItem('uid');
 			if(uid==null)uid='0';
 			plus.nativeUI.showWaiting();
-			console.log(rid+"+"+tid);
+			//console.log(rid+"+"+tid);
 			if(tid==0){
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/book/recommend',{
 					data:{uid:uid},
@@ -527,13 +557,17 @@
 						var html='';
 						list=latest;
 						for(var i=0;i<list.length;i++){
+							
 							html+="<li class='mui-table-view-cell'>";
 							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
 							html+="<div class='book-info-1'>";
 							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
 							html+="</div>";
+							html+="<icon class='mui-icon mui-icon-weixin book-icon-3'></icon>";
+							html+="</div>";
 							html+="<div class='book-info-2'>";
 							html+=list[i].bookname;
+							html+="<div class='book-reco-1'>";
 							html+="</div>";
 							html+="<div class='book-info-3'>";
 							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
@@ -556,6 +590,9 @@
 							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
 							html+="<div class='book-info-1'>";
 							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="<div class='book-reco-1'>";
+							html+="</div>";
+							html+="<icon class='mui-icon mui-icon-weixin book-icon-3'></icon>";
 							html+="</div>";
 							html+="<div class='book-info-2'>";
 							html+=list[i].bookname;
@@ -581,6 +618,9 @@
 							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
 							html+="<div class='book-info-1'>";
 							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="<div class='book-reco-1'>";
+							html+="</div>";
+							html+="<icon class='mui-icon mui-icon-weixin book-icon-3'></icon>";
 							html+="</div>";
 							html+="<div class='book-info-2'>";
 							html+=list[i].bookname;

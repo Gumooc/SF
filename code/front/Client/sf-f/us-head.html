@@ -16,20 +16,100 @@
 			font-size: 30px;
 			color: white;
 		}
+		.mui-plus .plus{
+			display: inline;
+		}
+		
+		.plus{
+			display: none;
+		}
+		
+		#topPopover {
+			position: fixed;
+			top: 16px;
+			right: 6px;
+		}
+		#topPopover .mui-popover-arrow {
+			left: auto;
+			right: 6px;
+		}
+		p {
+			text-indent: 22px;
+		}
+		span.mui-icon {
+			font-size: 14px;
+			color: #007aff;
+			margin-left: -15px;
+			padding-right: 10px;
+		}
+		.mui-popover {
+			height: 140px;
+			width:100px
+		}
+		.us-head-btn-1{
+			margin-top: 0px;
+			background: rgba(0,0,0,0);
+			color: darkgray;
+			width: 150px;
+			border-radius: 10px;
+			font-size: 20px;
+		}
+		.us-head-div-1{text-align: center;}
+		.us-head-div-2{
+			margin: 0 auto;
+			margin-top: 80px;
+			width: 200px;
+			height: 200px;
+			background: indianred;
+			background:url(image/und.png);
+			background-size: 100% 100%;
+			
+		}
 	</style>
 </head>
 
 <body>
-	<a class="mui-icon mui-icon-gear user-set-1"></a>
+	<!--右上角弹出菜单-->
+	
+	<a id="menu" class="mui-action-menu mui-icon mui-icon-bars user-set-1" href="#topPopover"></a>
 	<div class='mui-bar mui-bar-nav user-header-1'>
 		<div class="mui-card user-info-1"></div>
 		<div class='user-info-2'>尚未登录</div>
 	</div>
 	
+	<div id="topPopover" class="mui-popover">
+		<div class="mui-popover-arrow"></div> 
+		<div class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell" id='logout'>
+						登出账户
+					</li>
+					<li class="mui-table-view-cell" id='pass'>
+						修改密码
+					</li>
+					<li class="mui-table-view-cell" id='info'>
+						信息管理
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="mui-content" style="margin-top:150px;">
+		<div class='us-head-div-1'>
+			<div class="us-head-div-2"></div>
+			<button class="us-head-btn-1">登录</button>
+		</div>
+		
+	</div>
+	
+	
+	
 	<script src="js/mui.min.js"></script>
 	<script type="text/javascript">
 		var src='us-main.html';
-		var sub=['us-main.html','ua-acc.html'];
+		var sub=['us-main.html'];
 		var sub_style={top:'200px',bottom:'0px'};
 		var self;
 		var us_main;
@@ -46,29 +126,56 @@
             plus.webview.show(src);
             mui.fire(self,'self',{});
 	    });
-	    //按钮事件，账号管理
-   		mui('body').on('tap','.user-set-1',function(e){
-   			var uid=plus.storage.getItem('uid');
-   			if(uid==null){
-   				console.log("尚未登录");
-   				var ua_acc=plus.webview.getWebviewById('ua-acc.html');
-   				mui.fire(ua_acc,'toast',{toast:'请先登录'});	 
-   				return;
-   			}
-   			
-   			
-   			if(src=='us-main.html'){
-   				mui.fire(self,'jump',{dst:'ua-acc.html'});
-   			}
-   			else mui.fire(self,'jump',{dst:'us-main.html'});
-   		})
-		//监听事件，加载信息
+	    //监听事件，登录
+	    mui('body').on('tap','.us-head-btn-1',function(e){	
+	    	mui.openWindow({
+	    		url:'ua-log.html',
+	    		id:'ua-log.html',
+	    	});
+		});
+		//按钮事件，登出
+		mui('body').on('tap','#logout',function(e){	
+			var uid=plus.storage.getItem('uid');
+			if(uid==null){
+				mui.toast('请先登录',{ duration:'long', type:'div' }) ;
+				return;
+			}
+	    	plus.storage.removeItem('uid');
+	    	mui.fire(self,'self',{});
+	    	var bm_main=plus.webview.getWebviewById('bm-main.html');
+	    	mui.fire(bm_main,'self',{});
+		});
+		//按钮事件，修改密码
+		 mui('body').on('tap','#pass',function(e){	
+		 	var uid=plus.storage.getItem('uid');
+			if(uid==null){
+				mui.toast('请先登录',{ duration:'long', type:'div' }) ;
+				return;
+			}
+	    	mui.openWindow({
+	    		url:'ua-chgpass.html',
+	    		id:'ua-chgpass.html',
+	    	});
+		});
+		//监听事件，登录
+	    mui('body').on('tap','#info',function(e){	
+	    	var uid=plus.storage.getItem('uid');
+			if(uid==null){
+				mui.toast('请先登录',{ duration:'long', type:'div' }) ;
+				return;
+			}
+	    	mui.openWindow({
+	    		url:'us-set.html',
+	    		id:'us-set.html',
+	    	});
+		});
+		//监听事件，检查登录状态
 		window.addEventListener('self',function(event){
 			var uid=plus.storage.getItem('uid');
 			if(uid==null){
 				document.getElementsByClassName('user-info-1')[0].innerHTML='';
 				document.getElementsByClassName('user-info-2')[0].innerHTML='尚未登录';
-				mui.fire(self,'jump',{dst:'ua-acc.html'});
+				plus.webview.hide(src);
 			}
 			else{
 				plus.nativeUI.showWaiting();
@@ -84,21 +191,24 @@
 						document.getElementsByClassName('user-info-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+user.img+"'/>";
 						document.getElementsByClassName('user-info-2')[0].innerHTML=user.nickname;	
 						mui.fire(us_main,'login',{uid:uid});
-						mui.fire(self,'jump',{dst:'us-main.html'});
+						plus.webview.show(src);
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}
 				});
 				plus.nativeUI.closeWaiting();
 			}
 		});
-		
-		//监听事件，导航跳转 
-	    window.addEventListener('jump',function(event){
-	    	var dst=event.detail.dst;
-	    	if(dst==src)return;
-	    	plus.webview.show(dst);
-	    	plus.webview.hide(src);
-	    	src=dst;
+		//进入头像修改界面
+		 mui('body').on('tap','.user-info-1',function(e){	
+		 	var uid=plus.storage.getItem('uid');
+			if(uid==null){
+				mui.toast('请先登录',{ duration:'long', type:'div' }) ;
+				return;
+			}
+	    	mui.openWindow({
+	    		url:'us-img.html',
+	    		id:'us-img.html',
+	    	});
 		});
 	</script>
 </body>
