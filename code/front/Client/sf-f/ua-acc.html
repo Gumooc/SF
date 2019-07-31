@@ -22,7 +22,13 @@
 	    	self = plus.webview.currentWebview();
 	    	mui.fire(self,'check',{});
 	    });
-	    
+	    //监听事件，登录
+	    mui('body').on('tap','.ua-acc-btn-3',function(e){	
+	    	mui.openWindow({
+	    		url:'ua-chgpass.html',
+	    		id:'ua-chgpass.html',
+	    	});
+		});
 	    //监听事件，登录
 	    mui('body').on('tap','.ua-acc-btn-1',function(e){	
 	    	mui.openWindow({
@@ -35,7 +41,6 @@
 	    	mui.openWindow({
 	    		url:'us-set.html',
 	    		id:'us-set.html',
-	    		styles:{top:'200px',bottom:'0px'}
 	    	});
 		});
 		//按钮事件，登出

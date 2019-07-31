@@ -35,9 +35,8 @@
 			border-radius: 10px;
 		}
 		.bm-new-btn-2{
-			float: right;
-			position: absolute;
-			right: 10px;
+			height: 40px;
+			padding: 0px;
 		}
 		
 	</style>
@@ -46,29 +45,18 @@
 <body>
 	<header class="mui-bar mui-bar-nav">
 		<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
-		<h1 class="mui-title" style="color: #007AFF;">修改/更新章节</h1>
+		<h1 class="mui-title" style="color: #007AFF;">新建有声书</h1>
 	</header>
 	<div class="mui-content">
 		
 		<div class="bm-new-div-1" style="background: white;">
-			<div class="bm-new-div-2">
-				<input style="width:100%;border-radius:10px;" id='name' placeholder="标题" type="text"/>
-			</div>
-			
-			
-			<textarea style="margin:5px;" class="bm-new-input-2" placeholder="描述" id="des"></textarea>
-				
-			<div class=" bar-div-1">
-				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
-				<div class='bar-info-1'> 封面</div>
-			</div>
+			<div class="bar-new-div-1">添加标题</div>
+			<input style="width:100%;border-radius:0px;margin: 0px;" id='name' placeholder="标题" type="text"/>
+			<div class="bar-new-div-1">添加简介</div> 
+			<textarea style="border-radius:0px;margin:0px" class="bm-new-input-2" placeholder="描述" id="des"></textarea>
+			<div class="bar-new-div-1">添加封面</div> 	
 			<div class="bm-new-div-5"><input type="file" id='img'/></div>
-			
-			<div class=" bar-div-1">
-				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
-				<div class='bar-info-1'> 分类</div>
-			</div>
-			
+			<div class="bar-new-div-1">设置分类</div>
 			<div class="bm-new-div-3">
 				<div class='mui-card bm-new-radio-1'>
 					<div class="mui-input-row mui-checkbox" >
@@ -132,7 +120,10 @@
 				</div>
 			</div>
 			
-			<button class='mui-btn mui-btn-primary bm-new-btn-2'>提交</button>
+			<div class="mui-content-padded" style="height:60px;">
+				<button  class="mui-btn mui-btn-block mui-btn-primary bm-new-btn-2">新建有声书</button>
+			</div>
+			
 		</div>
 	</div>
 	

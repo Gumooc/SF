@@ -8,18 +8,83 @@
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/book.css" rel="stylesheet" />
 		<link href="css/bar.css" rel="stylesheet" />
+		<link href="css/user.css" rel="stylesheet" />
 		<style>
-			.mui-table-view-cell{margin: 0px;padding: 0px;}
+			.bm-main-div-4{margin:0px;padding:0px;}
+			.bm-main-div-5{margin: 0px;padding: 0px;}
 			.mui-title{color: #007AFF;font-weight: bolder;}
 			.mui-bar-nav{height: 200px;background: url(image/design.jpg);background-size: 100% 100%;color: white;text-align: center;}
 			.bm-main-div-1{font-size: 25px;font-weight: bolder;margin-top:30px;}
 			.bm-main-div-2{margin-top:5px;}
 			.bm-main-div-3{border:1px solid white; padding-left:10px;padding-right:10px;border-radius:10px; position: absolute;right: 20px;font-weight: bolder;font-size: 20px;margin-top:20px;}
+			.mui-plus .plus{
+				display: inline;
+			}
+			
+			.plus{
+				display: none;
+			}
+			
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			
+			.mui-popover {
+				height: 100px;
+			}
+			.mui-content {
+				
+			}
+			.user-set-1{
+				position: absolute;
+				left: 10px;
+				top:10px;
+				z-index: 100;
+				font-size: 30px;
+				color: white;
+			}
+			.us-head-btn-1{
+				margin-top: 0px;
+				background: rgba(0,0,0,0);
+				color: darkgray;
+				width: 150px;
+				border-radius: 10px;
+				font-size: 20px;
+			}
+			.us-head-div-1{
+				display: none;
+				position: absolute;
+				top:199px;
+				left: 0px;
+				width: 100%;
+				//background: indianred;
+				text-align: center;}
+			.us-head-div-2{
+				margin: 0 auto;
+				margin-top: 80px;
+				width: 200px;
+				height: 200px;
+				//background: indianred;
+				background:url(image/und.png);
+				background-size: 100% 100%;
+				
+			}
 		</style>
 	</head>
 
 	<body>
+		<a id="menu" class="mui-action-menu mui-icon mui-icon-bars mui-pull-right user-set-1" href="#topPopover"></a>
 		<header class="mui-bar mui-bar-nav">
+
 			<div class='bm-main-div-1'>
 				创建我的有声书
 			</div>
@@ -30,11 +95,28 @@
 				<span class="mui-icon mui-icon-compose"></span>
 				新建作品
 			</div>
+			
 		</header>
+	
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view" id='process'>
+						<li>hello</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
 		
-		<div class="mui-content" style="margin-top:150px;">
-			<ul class="mui-table-view">
-				<!--<li class="mui-table-view-cell">
+		<div class="mui-content" style="margin-top:150px;background: red;">
+			<div class='us-head-div-1'>
+				<div class="us-head-div-2"></div>
+				<button class="us-head-btn-1">登录</button>
+			</div>
+			<ul class="mui-table-view bm-main-div-4 " id='works'>
+				<!--<li class="mui-table-view-cell bm-main-div-5" >
 					<div class='book-div-1'>
 						<div class='book-info-1'>
 							<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
@@ -43,15 +125,15 @@
 							xbbdzxql
 						</div>
 						<div class='book-info-4'>
-							<span class="mui-icon mui-icon-contact"></span>
+							<span class="mui-icon mui-icon-contact book-icon-2"></span>
 							2019-07-07
 						</div>
 						<div class='book-info-3'>
-							<span class="mui-icon mui-icon-contact"></span>
+							<span class="mui-icon mui-icon-contact book-icon-2"></span>
 							已发布
 						</div>
 						<div class='book-info-5'>
-							<span class="mui-icon mui-icon-contact"></span>
+							<span class="mui-icon mui-icon-contact book-icon-2"></span>
 							320
 						</div>
 					</div>
@@ -59,20 +141,28 @@
 			</ul>
 			
 		</div>
+		
+		
+		
+		
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript">
 			var self;
-			var opener;
 			var uid;
-			
+			//监听事件，登录
+		    mui('body').on('tap','.us-head-btn-1',function(e){	
+		    	mui.openWindow({
+		    		url:'ua-log.html',
+		    		id:'ua-log.html',
+		    	});
+			});
 			mui.init();
 			mui.plusReady(function(){
 				self=plus.webview.currentWebview();
-				opener=self.opener();
-				uid=plus.storage.getItem('uid');
-				if(uid==null) return;
-				mui.fire(self,'get',{});
+				mui.fire(self,'self',{});
 			})
+			
+			
 			
 			//按钮事件，显示详情
 			mui('body').on('tap','.bl-main-btn-1',function(e){	
@@ -98,11 +188,26 @@
 			});
 			//监听事件，加载作品清单
 			window.addEventListener('toast',function(event){
-				 mui.toast('创建作品成功',{ duration:'long', type:'div' }) ;
+				mui.toast('创建作品成功',{ duration:'long', type:'div' }) ;
+			});
+			window.addEventListener('self',function(event){
+				uid=plus.storage.getItem('uid');
+				
+				var login=document.getElementsByClassName('us-head-div-1')[0];
+				var works=document.getElementsByClassName('mui-table-view')[0];
+				if(uid==null){
+					login.style.display='block';
+					works.innerHTML='';
+				}
+				else{
+					login.style.display='none';
+					mui.fire(self,'get',{uid:uid});
+				}
 			});
 			//监听事件，加载作品清单
 			window.addEventListener('get',function(event){
 				uid=plus.storage.getItem('uid');
+				
 				//uid=event.detail.uid;
 				plus.nativeUI.showWaiting();
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/selfworks',{
@@ -118,7 +223,7 @@
 						for(var i=0;i<list.length;i++){
 							var str='已发布';
 							if(list[i].shared==false)str='未发布';
-							html+="<li class='mui-table-view-cell'>";
+							html+="<li class='mui-table-view-cell bm-main-div-5'>";
 							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
 							html+="<div class='book-info-1'>";
 							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
@@ -127,21 +232,21 @@
 							html+=list[i].bookname;
 							html+="</div>";
 							html+="<div class='book-info-3'>";
-							html+="<span class='mui-icon mui-icon-contact'></span>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
 							html+=list[i].lst;
 							html+="</div>";
 							html+="<div class='book-info-4'>";
-							html+="<span class='mui-icon mui-icon-contact'></span>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
 							html+=str;		
 							html+="</div>";		
 							html+="<div class='book-info-5'>";
-							html+="<span class='mui-icon mui-icon-contact'></span>"	;
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
 							html+=list[i].playtime;		
 							html+="</div>";
 							html+="</div>";
 							html+="</li>";
 						}
-						document.getElementsByClassName("mui-table-view")[0].innerHTML=html;
+						document.getElementById('works').innerHTML=html;
 					},
 					error:function(xhr,type,errorThrown){
 						mui.toast('连接服务器出错',{ duration:'long', type:'div' });

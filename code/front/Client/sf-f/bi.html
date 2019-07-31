@@ -53,7 +53,7 @@
 <body>
 	
 	<header class="mui-bar mui-bar-nav">
-			<div class='mui-title' style="color: #007AFF;">xbbdzxqls</div>
+			<div class='mui-title' style="color: #007AFF;">--</div>
 			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
 	</header>
 	 
@@ -64,7 +64,7 @@
 			</div>
 		
 			<div class='book-info-2'>
-				XBBDZXQL
+				--
 			</div>
 			<div class='book-info-3'> 
 				<span class="mui-icon mui-icon-contact book-icon-2"></span>
@@ -82,7 +82,6 @@
 				<span class="mui-icon mui-icon-contact book-icon-2"></span>
 				playtime
 			</div>
-			<span class='mui-icon mui-icon-star bi-btn-4'></span>
 			<div class='book-info-8'>
 				有声书简介
 			</div>
@@ -203,37 +202,63 @@
 	    });
 	    //点击事件，收藏作品
 	    mui('body').on('tap','.bi-btn-4',function(e){
-			var ustr=plus.storage.getItem('uid');
-			if(ustr==null){ 
-				mui.toast('尚未登录无法收藏',{ duration:'long', type:'div' });
-				console.log("尚未登录无法收藏");
-				return;
-			}
-			var uid=parseInt(ustr);
+			
+			var uid=plus.storage.getItem('uid');
 			var bid=item.book.bid;
 			var stamp=getdt(); 
-			plus.nativeUI.showWaiting();
-			mui.ajax('http://49.234.77.32:8080/sfbook/collector/insert',{
-				data:{uid:uid,bid:item.book.bid,lst:stamp},
-				dataType:'json',
-				type:'post',
-				async:false,
-				timeout:10000,
-				headers:{'Content-Type':'application/json'},	              
-				success:function(data){
-					var resp=data.resp;
-					if(resp=='s'){
-						console.log("添加图书至收藏夹");
-						mui.toast('添加图书至收藏夹',{ duration:'long', type:'div' });
-						var us_collect=plus.webview.getWebviewById('us-collect.html');
-					}
-				},
-				error:function(xhr,type,errorThrown){
-					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
-					console.log(type);}
-			});
-			plus.nativeUI.closeWaiting();
+			if(!item.book.collected){
+				plus.nativeUI.showWaiting();
+				mui.ajax('http://49.234.77.32:8080/sfbook/collector/insert',{
+					data:{uid:uid,bid:item.book.bid,lst:stamp},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var resp=data.resp;
+						if(resp=='s'){
+							item.book.collected=true;
+							console.log("添加图书至收藏夹");
+							mui.toast('添加图书至收藏夹',{ duration:'long', type:'div' });
+							var us_collect=plus.webview.getWebviewById('us-collect.html');
+							
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.closeWaiting();
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);}
+				});
+				plus.nativeUI.closeWaiting();
+			}
+			else{
+				plus.nativeUI.showWaiting();
+				mui.ajax('http://49.234.77.32:8080/sfbook/collector/delete',{
+					data:{uid:uid,bid:item.book.bid,lst:stamp},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var resp=data.resp;
+						if(resp=='s'){
+							item.book.collected=false;
+							console.log("从图书收藏夹移除");
+							mui.toast('从图书收藏夹移除',{ duration:'long', type:'div' });
+							var us_collect=plus.webview.getWebviewById('us-collect.html');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.closeWaiting();
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);}
+				});
+				plus.nativeUI.closeWaiting();
+			}
 	    });
+	    
 		//点击事件，发布评论
 		mui('body').on('tap','.bi-btn-5',function(e){
 			var ustr=plus.storage.getItem('uid');
@@ -264,27 +289,10 @@
                     console.log(state)
                 }
             );
-            /*
-			mui.ajax('http://49.234.77.32:8080/sfbook/comment/insert',{
-				data:{uid:uid,bid:item.book.bid,des:cmt,lst:getdt()},
-				dataType:'json',
-				type:'post',
-				async:false,
-				timeout:10000,
-				headers:{'Content-Type':'application/json'},	              
-				success:function(data){
-					if(data.resp=='s'){
-						console.log('成功发布评论');
-						mui.toast('成功发布评论',{ duration:'long', type:'div' });
-						mui.fire(self,'item',{bid:item.book.bid});
-					}
-				},
-				error:function(xhr,type,errorThrown){console.log(type);}
-			});
-			*/
 			plus.nativeUI.closeWaiting();
 	    });
 	    
+	    //监听事件，加载评论
 	    window.addEventListener('cmt',function(event){
 	    	var bid=event.detail.bid;
 	    	//console.log(bid);
@@ -321,12 +329,10 @@
 		
 		//监听事件，加载详情
 		window.addEventListener('item',function(event){
-			var ustr=plus.storage.getItem('uid');
-			var uid=0; 
+			var uid=plus.storage.getItem('uid');
+			if(uid==null)uid=='0';
 			bookid=event.detail.bid;
-			if(ustr!=null){uid=parseInt(ustr);}
 			
-			console.log("加载图书详情");
 			plus.nativeUI.showWaiting();
 			mui.ajax('http://49.234.77.32:8080/sfbook/book/bookinfo',{
 				data:{bid:event.detail.bid,uid:uid},
@@ -338,7 +344,7 @@
 				success:function(data){ 
 					item.book=data.body;
 					item.chapter=JSON.parse(item.book.chapter).body;
-					var tagname=['其他 ','悬疑 ','生活  ','经典  ','武侠 ','童书 ','社科 ','经管 ','历史 ','小说 '];
+					var tagname=['其他 ','悬疑 ','生活  ','经典  ','武侠 ','教育','社科 ','经管 ','历史 ','小说 '];
 					var cate='';
 					for(var i=0;i<10;i++){
 						if(item.book.kind&(1<<i)){cate+=tagname[i];}
@@ -366,7 +372,15 @@
 					html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
 					html+=item.book.playtime;		
 					html+="</div>";
-					html+="<span class='mui-icon mui-icon-star bi-btn-4'></span>";
+					if(uid==0){
+						//do nothing
+					}
+					else if(item.book.collected==true){
+						html+="<span class='mui-icon mui-icon-star bi-btn-4'></span>";
+					}
+					else{
+						html+="<span class='mui-icon mui-icon-star bi-btn-4'></span>";
+					}
 					html+="<div class='book-info-8'>"+"简介"+"</div>"; 
 					document.getElementsByClassName("book-div-2")[0].innerHTML=html;
 					html='';
@@ -377,6 +391,7 @@
 					document.getElementsByClassName('mui-title')[0].innerHTML=item.book.bookname;
 				},
 				error:function(xhr,type,errorThrown){
+					plus.nativeUI.closeWaiting();
 					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
 					console.log(type);}
 			});
@@ -391,6 +406,7 @@
 					document.getElementsByClassName("book-info-8")[0].innerHTML=data.body.des;				
 				},
 				error:function(xhr,type,errorThrown){
+					plus.nativeUI.closeWaiting();
 					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
 					console.log(type);}
 			});
@@ -414,7 +430,9 @@
 					html+="</div>";
 					document.getElementsByClassName("bi-div-6")[0].innerHTML=html;				
 				},
-				error:function(xhr,type,errorThrown){console.log(type);}
+				error:function(xhr,type,errorThrown){
+					plus.nativeUI.closeWaiting();
+					console.log(type);}
 			});
 			mui.ajax('http://49.234.77.32:8080/sfbook/book/comment',{
 				data:{bid:event.detail.bid},
@@ -439,6 +457,7 @@
 					document.getElementsByClassName("bi-div-7")[0].innerHTML=html;
 				},
 				error:function(xhr,type,errorThrown){
+					plus.nativeUI.closeWaiting();
 					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
 					console.log(type);}
 			});

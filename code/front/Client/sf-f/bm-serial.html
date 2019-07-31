@@ -12,10 +12,19 @@
 	<link href="css/section.css" rel="stylesheet" />
 	<style>
 		body{
-			color: #007AFF;
+			
 		}
 		.bm-serial-div-1{
 			height: 150px;
+			width:100%;
+			
+		}
+		.bm-serial-file-1{
+			position: absolute;
+			background: #007AFF;
+			width: 150px;
+			height: 150px;
+			right:0px;
 		}
 		.bm-edit-div-2{
 			padding:5px;
@@ -37,6 +46,12 @@
 			float: right;
 			margin-right: 10px;
 		}
+		.bm-serial-div-2{
+			width:50%;
+			float: left;
+			height:35px;
+		}
+		
 	</style>
 </head>
 
@@ -59,7 +74,23 @@
 				<div class='bar-info-1'>通过文本制作</div>
 			</div>
 			<div class="mui-card bm-serial-div-1">
-				<input type="file" accept="text/plain" id='text'/>
+				<div class="mui-input-row bm-serial-div-2">
+					<label>语速</label>
+					<input id='spd' type="number" class="mui-input-clear mui-input"  placeholder="5:默认">
+				</div>	
+				<div class="mui-input-row bm-serial-div-2">
+					<label>音调</label>
+					<input id='pit' type="number" class="mui-input-clear mui-input"  placeholder="5:默认">
+				</div>
+				<div class="mui-input-row bm-serial-div-2">
+					<label>音量</label>
+					<input id='vol' type="number" class="mui-input-clear mui-input"  placeholder="5:默认">
+				</div>
+				<div class="mui-input-row bm-serial-div-2">
+					<label>性别</label>
+					<input id='per' type="number" class="mui-input-clear mui-input"  placeholder="3:男性;4:女性">
+				</div>
+				<input class='bm-serial-file-1' type="file" accept="text/plain" id='text'/>
 			</div>
 			<div class="bar-div-1">
 				<div class="bar-icon-1"><span class='mui-icon mui-icon-image'></span></div>
@@ -95,6 +126,23 @@
 		//按钮事件，添加章节
    		mui('body').on('tap','.bm-serial-btn-2',function(e){
    			if(sid==-1){
+   				var f=document.getElementById('text').files[0];
+				var formData=new FormData();
+				var info=JSON.stringify({
+					bid:bid,
+					chapter:jarray.length,
+					spd:spd,
+					pit:pid,
+					vol:vol,
+					per:per
+				});
+				formData.append('info',info);
+    			formData.append('file',f); 
+    			if(!f){
+    				mui.toast('请添加文本后提交',{ duration:'long', type:'div'});
+    				return;
+    			}
+    			
    				var newsec={name:document.getElementById('secname').value};
    				jarray.push(newsec);
    				var j={body:jarray};
@@ -132,22 +180,20 @@
 				});
 				*/
 				var bm_edit=plus.webview.getWebviewById('bm-edit.html');
+				var spd=document.getElementById('spd').value;
+				if(spd==0)spd=5;
+				var pit=document.getElementById('pit').value;
+				if(pid==0)pid=5;
+				var vol=document.getElementById('vol').value;
+				if(vol==0)vol=5;
+				var per=document.getElementById('per').value;
+				if(per==0)per=5;
+				console.log(spd+pid+vol+per);
 				mui.fire(bm_edit,'item',{bid:bid});
 				plus.nativeUI.closeWaiting();
 				//添加章节音频
 				console.log(jarray.length);
-				var f=document.getElementById('text').files[0];
-				var formData=new FormData();
-				var info=JSON.stringify({
-					bid:bid,
-					chapter:jarray.length,
-					spd:'3',
-					pit:'3',
-					vol:'5',
-					per:'3'
-				});
-				formData.append('info',info);
-    			formData.append('file',f); 
+				
     			$.ajax({
 			        url:'http://49.234.77.32:8080/sfbook/createbook/bytext',
 			        type:'post',
