@@ -177,12 +177,10 @@
 	                    mui.toast('登录成功',{duration:1000,type:'div'}) ;
 						plus.storage.setItem('uid',''+data.uid+'');
 						
-						var ua=plus.webview.getWebviewById('ua-acc.html');
 						var us=plus.webview.getWebviewById('us-head.html');
 						var bm=plus.webview.getWebviewById('bm-main.html');
-						mui.fire(ua,'check',{});
 						mui.fire(us,'self',{});
-						mui.fire(bm,'get',{});
+						mui.fire(bm,'self',{});
 						self.close();
 	                },function(state,xhr){
 	                    console.log(state);
@@ -265,7 +263,10 @@
 			});
 		});
 		mui("body").on("tap","#passfgt",function(){
-			
+			mui.openWindow({
+				url:'ua-fgt.html',
+				id:'ua-fgt.html'
+			});
 		});
 		//应用函数，获取时间
 		function getdt(){

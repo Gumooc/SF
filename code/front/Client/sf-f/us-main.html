@@ -183,7 +183,7 @@
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<ul class="mui-table-view">
-									<li class="mui-table-view-cell  us-main-bli-1">
+									<!--<li class="mui-table-view-cell  us-main-bli-1">
 										<div class='book-div-1'>
 										<div class='book-info-1'>
 											<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
@@ -204,7 +204,7 @@
 											320
 										</div>
 									</div>
-									</li>
+									</li>-->
 								</ul>
 							</div>
 						</div>
@@ -406,7 +406,6 @@
 			//监听事件，加载信息
 			window.addEventListener('info',function(event){
 				var uid=event.detail.uid;
-				plus.nativeUI.showWaiting();
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
 					data:{uid:uid},
 					dataType:'json',
@@ -427,13 +426,11 @@
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}
 				});
-				plus.nativeUI.closeWaiting();
 			});
 			//监听事件，加载作品
 			window.addEventListener('work',function(event){
 				uid=event.detail.uid;
 		    	var html="";
-		    	plus.nativeUI.showWaiting();
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/works',{
 					data:{uid:uid},
 					dataType:'json',
@@ -473,13 +470,11 @@
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}
 				});
-				plus.nativeUI.closeWaiting();
 			});
 			//监听事件，加载收藏
 			window.addEventListener('coll',function(event){
 				uid=event.detail.uid;
 		    	var html="";
-		    	plus.nativeUI.showWaiting();
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/collector',{
 					data:{uid:uid},
 					dataType:'json',
@@ -513,20 +508,17 @@
 							html+="</div>";
 							html+="</div>";
 							html+="</li>";
-							
 						}
 						load[2]=1;
 						document.getElementsByClassName("mui-table-view")[2].innerHTML=html;
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}
 				});
-				plus.nativeUI.closeWaiting();
 			});
 			//监听事件，加载足迹
 			window.addEventListener('track',function(event){
 				uid=event.detail.uid;
 		    	var html="";
-		    	plus.nativeUI.showWaiting();
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/history',{
 					data:{uid:uid},
 					dataType:'json',
@@ -574,13 +566,11 @@
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}
 				});
-				plus.nativeUI.closeWaiting();
 			});
 			//监听事件，加载评论
 			window.addEventListener('cmt',function(event){
 				uid=event.detail.uid;
 		    	var html="";
-		    	plus.nativeUI.showWaiting();
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/comment',{
 					data:{uid:uid},
 					dataType:'json',
@@ -609,7 +599,6 @@
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}
 				});
-				plus.nativeUI.closeWaiting();
 			});
 			//监听事件，监听标签页切换及加载
 			var slider=mui("#slider").slider({interval:0});

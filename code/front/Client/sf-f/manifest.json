@@ -156,7 +156,10 @@
 				],
 				"refer": [
 					"us-logout.html",
-					"ua-acc.html"
+					"ua-acc.html",
+					"ua-log.html",
+					"us-set.html",
+					"us-img.html"
 				],
 				"priority": 0
 			},
@@ -171,7 +174,8 @@
 				"resources": [],
 				"refer": [
 					"ua-log.html",
-					"us-set.html"
+					"us-set.html",
+					"ua-chgpass.html"
 				],
 				"priority": 0
 			},
@@ -188,7 +192,8 @@
 				"resources": [],
 				"refer": [
 					"bm-edit.html",
-					"bm-new.html"
+					"bm-new.html",
+					"ua-log.html"
 				],
 				"priority": 0
 			},
@@ -218,7 +223,15 @@
 			"ua-log.html": {
 				"resources": [],
 				"refer": [
-					"ua-reg.html"
+					"ua-reg.html",
+					"ua-fgt.html"
+				],
+				"priority": 0
+			},
+			"ua-fgt.html": {
+				"resources": [],
+				"refer": [
+					"ua-fgt.html"
 				],
 				"priority": 0
 			}

@@ -29,7 +29,10 @@
 		"refer": [
 			"us-main.html",
 			"us-logout.html",
-			"ua-acc.html"
+			"ua-acc.html",
+			"ua-log.html",
+			"us-set.html",
+			"us-img.html"
 		]
 	},
 	"bl-main.html": {
@@ -40,7 +43,8 @@
 	"ua-acc.html": {
 		"refer": [
 			"ua-log.html",
-			"us-set.html"
+			"us-set.html",
+			"ua-chgpass.html"
 		]
 	},
 	"bi.html": {
@@ -54,7 +58,8 @@
 	"bm-main.html": {
 		"refer": [
 			"bm-edit.html",
-			"bm-new.html"
+			"bm-new.html",
+			"ua-log.html"
 		]
 	},
 	"bm-edit.html": {
@@ -80,7 +85,13 @@
 	},
 	"ua-log.html": {
 		"refer": [
-			"ua-reg.html"
+			"ua-reg.html",
+			"ua-fgt.html"
+		]
+	},
+	"ua-fgt.html": {
+		"refer": [
+			"ua-fgt.html"
 		]
 	}
 }

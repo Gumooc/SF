@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<script src='js/ajax.js'></script>
+	<style>
+		.ui-page-login,
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+		}
+		.mui-content{height: 100%;}
+		.area {
+			margin: 20px auto 0px auto;
+		}
+		.mui-input-group {
+			margin-top: 10px;
+		}
+		.mui-input-group:first-child {
+			margin-top: 20px;
+		}
+		.mui-input-group label {
+			width: 22%;
+		}
+		.mui-input-row label~input,
+		.mui-input-row label~select,
+		.mui-input-row label~textarea {
+			width: 78%;
+		}
+		
+		.mui-checkbox input[type=checkbox],
+		.mui-radio input[type=radio] {
+			top: 6px;
+		}
+		.mui-content-padded {
+			margin-top: 25px;
+		}
+		.mui-btn {
+			padding: 10px;
+		}
+		.link-area {
+			display: block;
+			margin-top: 25px;
+			text-align: center;
+		}
+		.spliter {
+			color: #bbb;
+			padding: 0px 8px;
+		}
+		.oauth-area {
+			position: absolute;
+			bottom: 20px;
+			left: 0px;
+			text-align: center;
+			width: 100%;
+			padding: 0px;
+			margin: 0px;
+		}
+		.oauth-area .oauth-btn {
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			background-size: 30px 30px;
+			background-position: center center;
+			background-repeat: no-repeat;
+			margin: 0px 20px;
+			/*-webkit-filter: grayscale(100%); */
+			border: solid 1px #ddd;
+			border-radius: 25px;
+		}
+		.oauth-area .oauth-btn:active {
+			border: solid 1px #aaa;
+		}
+		.oauth-area .oauth-btn.disabled {
+			background-color: #ddd;
+		}
+	</style>
+	<script type="text/javascript" src="../js/common.js"></script>
+	<script type="text/javascript" src="../js/immersed.js" ></script>
+</head>
+
+<body>
+	
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+		<h1 class="mui-title">修改密码</h1>
+	</header>
+	<div class="mui-content">
+		<form id='login-form' class="mui-input-group">
+			<div class="mui-input-row">
+				<label>原密码</label>
+				<input id='org_pass' type="password" class="mui-input-clear mui-input" min='0' max='16' placeholder="请输入密码">
+			</div>
+			<div class="mui-input-row">
+				<label>新密码</label>
+				<input id='new_pass' type="password" class="mui-input-clear mui-input" min='0' max='16' placeholder="请输入密码">
+			</div>
+			<div class="mui-input-row">
+				<label>确认</label>
+				<input id='conf_pass' type="password" class="mui-input-clear mui-input" min='0' max='16' placeholder="请输入密码">
+			</div>
+		</form>
+		<div class="mui-content-padded" >
+			<button id='pass' class="mui-btn mui-btn-block mui-btn-primary">修改密码</button>
+
+		</div>
+		<div class="mui-content-padded oauth-area">
+			
+		</div>
+	</div>
+	<script src="js/mui.min.js"></script>
+	<script src="js/mui.enterfocus.js"></script>
+	<script src="js/app.js"></script>
+	<script>
+		function checkInput(type,val){
+			var reg = /^[0-9a-zA-Z]+$/;
+			var reg2 = /^[a-zA-Z]+$/;
+			var reg3 = /^[0-9]+$/;
+			var reg4 = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+		  	var len=val.length;
+		  	console.log("input type="+type+",length="+len+";");
+		  	if(type=="account"){
+		  		if(!reg.test(val))return -1;
+		  		if(len>16)return -2;
+		  		else return 1;
+		  	}
+		  	if(type=="password"){
+		  		if(!reg.test(val))return -1;
+		  		if(len>16) return -2;
+		  		if(len<6) return -3;
+		  		if(reg2.test(val))return -4;
+		  		if(reg3.test(val))return -5;
+		  		else return 1;
+		  	}
+		  	if(type=="email"){
+		  		if(!reg4.test(val)) return -1;
+		  		else return 1;
+		  	}
+		  	return -5;
+		}
+		
+		var self;
+	 	var auth;
+	 	function plusReady(){
+			self=plus.webview.currentWebview();
+			mui.myAjax=myAjax;
+		}
+		mui.init();
+		document.addEventListener('plusready',plusReady,false);
+		
+		mui("body").on("tap","#pass",function(){
+			var org_pass=document.getElementById("org_pass").value;
+			var new_pass=document.getElementById("new_pass").value;
+			var conf_pass=document.getElementById("conf_pass").value;
+			
+			if(new_pass==""||org_pass==""){
+				mui.toast('请输入密码',{ duration:1000,type:'div'}) ;
+				return;
+			}
+			else if(checkInput("password",new_pass)<-3){
+				mui.toast('密码组成不应为纯字母或纯数字',{ duration:1000,type:'div'}) ;
+				return;
+			}
+			else if(checkInput("password",new_pass)<0){
+				mui.toast('密码长度应在6~16字节字母或数字',{ duration:1000,type:'div'}) ;
+				return;
+			}
+			else if(conf_pass==""){
+				mui.toast('请确认密码',{ duration:1000,type:'div'}) ;
+				return;
+			}
+			else if(conf_pass!=new_pass){
+				mui.toast('两次密码输入未匹配',{ duration:1000,type:'div'}) ;
+				return;
+			}
+			
+			mui.ajax('http://49.234.77.32:8080/sfbook/user/mdfypassword',{
+				data:{
+					uid:plus.storage.getItem('uid'),
+					oldp:org_pass,
+					newp:new_pass
+				},
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:10000,//超时时间设置为10秒；
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.resp=='w'){
+						mui.toast('原密码错误',{ duration:1000,type:'div'}) ;
+					}
+					else{
+						plus.storage.removeItem('uid');
+				    	var us_head=plus.webview.getWebviewById('us-head.html');
+				    	mui.fire(us_head,'self',{});
+				    	var bm_main=plus.webview.getWebviewById('bm-main.html');
+				    	var bm=plus.webview.getWebviewById('bm.html');
+				    	mui.fire(bm_main,'self',{});
+				    	var ua_acc=plus.webview.getWebviewById('ua-acc.html');
+				    	mui.fire(ua_acc,'toast',{toast:'密码修改成功，请重新登录'});
+				    	self.close();
+					}
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					mui.toast('连接服务器出错',{ duration:1000,type:'div'}) ;
+					console.log(type);
+				}
+			});
+		});
+		//应用函数，获取时间
+		function getdt(){
+			var date=new Date(); 
+			var year=date.getFullYear(); 
+			var mon=date.getMonth()+1; 
+		    var day=date.getDate();
+		    var stamp=year+'-'+mon+'-'+day;
+		    return stamp;
+		}
+	</script>
+</body>
+
+</html>

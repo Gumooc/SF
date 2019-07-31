@@ -48,3 +48,20 @@
 	float: right;
 	margin: 4px;
 }
+.bar-new-div-1{
+	background: #007AFF;
+	color: white;
+	height:40px;
+	padding: 10px;
+	//font-weight: bolder;
+	text-align: center;
+	margin: 0px; 
+}
+.bar-new-div-2{
+	position: absolute;
+	left: 0px;
+	height: 40px;
+	width: 40px;
+	background: white;
+	
+}
