@@ -150,9 +150,9 @@
 		mui('body').on('tap','.us-set-btn-1',function(e){
     		var nuser={};
    			nuser.nickname=document.getElementById('nick').value;
-   			nuser.birth=document.getElementById('birth').value;
+   			nuser.birth=document.getElementById('birth').placeholder;
    			nuser.phone=document.getElementById('phone').value;
-   			var m=document.getElementById("male").value;
+   			var m=document.getElementById("male").placeholder;
    			if(m=='男'){nuser.male=true;}
    			else{nuser.male=false;}
    			//不能修改的信息
@@ -162,9 +162,8 @@
    			nuser.uid=parseInt(plus.storage.getItem('uid'));
    			//过滤未修改的信息
    			if(!nuser.nickname){nuser.nickname=old.nickname;}
-   			if(!nuser.birth){nuser.birth=old.birth;}
    			if(!nuser.phone){nuser.phone=old.phone;}
-   			console.log(nuser.phone+nuser.birth+nuser.nickname+nuser.male);
+   			//console.log(nuser.phone+nuser.birth+nuser.nickname+nuser.male);
    			//更新用户信息
    			
    			mui.myAjax('http://49.234.77.32:8080/sfbook/user/updateuser',{

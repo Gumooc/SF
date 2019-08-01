@@ -32,7 +32,8 @@
 			"ua-acc.html",
 			"ua-log.html",
 			"us-set.html",
-			"us-img.html"
+			"us-img.html",
+			"ua-chgpass.html"
 		]
 	},
 	"bl-main.html": {
