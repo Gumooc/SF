@@ -143,7 +143,7 @@
 	    	plus.storage.removeItem('uid');
 	    	mui.fire(self,'self',{});
 	    	var bm_main=plus.webview.getWebviewById('bm-main.html');
-	    	mui.fire(bm_main,'self',{});
+	    	mui.fire(bm_main,'get',{});
 		});
 		//按钮事件，修改密码
 		 mui('body').on('tap','#pass',function(e){	

@@ -19,7 +19,9 @@
 			border-radius: 10px;
 		}
 		.bm-new-div-5{
-			height: 150px;
+			background: white;
+			height: 220px;
+			text-align: center;
 		}
 		.bm-new-div-3{
 			border-radius: 10px;
@@ -38,7 +40,17 @@
 			height: 40px;
 			padding: 0px;
 		}
-		
+		#show{
+			width: 150px;
+			height: 150px;
+			//background: indianred;
+			margin: 10px auto;
+			
+		}
+		#img{
+			width: 200px;
+			margin:0 auto;
+		}
 	</style>
 </head>
 
@@ -48,82 +60,82 @@
 		<h1 class="mui-title" style="color: #007AFF;">新建有声书</h1>
 	</header>
 	<div class="mui-content">
+		<div class="bar-new-div-1">添加标题</div>
+		<input style="width:100%;border-radius:0px;margin: 0px;" id='name' placeholder="标题" type="text"/>
+		<div class="bar-new-div-1">添加简介</div> 
+		<textarea style="border-radius:0px;margin:0px" class="bm-new-input-2" placeholder="描述" id="des"></textarea>
+		<div class="bar-new-div-1">添加封面</div> 	
+		<div class="bm-new-div-5">
+			<img id="show" class="headimg" src=''/>
+			<div></div>
+			<input type="file" id='img' onchange="hello()"/>
+		</div>
+		<div class="bar-new-div-1">设置分类</div>
+		<div class="bm-new-div-3">
+			<div class='mui-card bm-new-radio-1'>
+				<div class="mui-input-row mui-checkbox" >
+				  <label>其他</label>
+				  <input name="checkbox1" type="checkbox" >
+				</div>
+			</div>
+			<div class='mui-card bm-new-radio-1'>
+				<div class="mui-input-row mui-checkbox" >
+				  <label>悬疑</label>
+				  <input name="checkbox1" type="checkbox" >
+				</div>
+			</div>
+			<div class='mui-card bm-new-radio-1'>
+				<div class="mui-input-row mui-checkbox" >
+				  <label>生活</label>
+				  <input name="checkbox1" type="checkbox" >
+				</div>
+			</div>
+			<div class='mui-card bm-new-radio-1'>
+				<div class="mui-input-row mui-checkbox" >
+				  <label>经典</label>
+				  <input name="checkbox1" type="checkbox" >
+				</div>
+			</div>
+			<div class='mui-card bm-new-radio-1'>
+				<div class="mui-input-row mui-checkbox" >
+				  <label>武侠</label>
+				  <input name="checkbox1" type="checkbox" >
+				</div>
+			</div>
+			<div class='mui-card bm-new-radio-1'>
+				<div class="mui-input-row mui-checkbox" >
+				  <label>教育</label>
+				  <input name="checkbox1" type="checkbox" >
+				</div>
+			</div>
+			<div class='mui-card bm-new-radio-1'>
+				<div class="mui-input-row mui-checkbox" >
+				  <label>社科</label>
+				  <input name="checkbox1" type="checkbox" >
+				</div>
+			</div>
+			<div class='mui-card bm-new-radio-1'>
+				<div class="mui-input-row mui-checkbox" >
+				  <label>经管</label>
+				  <input name="checkbox1" type="checkbox" >
+				</div>
+			</div>
+			<div class='mui-card bm-new-radio-1'>
+				<div class="mui-input-row mui-checkbox" >
+				  <label>历史</label>
+				  <input name="checkbox1" type="checkbox" >
+				</div>
+			</div>
+			<div class='mui-card bm-new-radio-1'>
+				<div class="mui-input-row mui-checkbox" >
+				  <label>小说</label>
+				  <input name="checkbox1" type="checkbox" >
+				</div>
+			</div>
+		</div>
 		
-		<div class="bm-new-div-1" style="background: white;">
-			<div class="bar-new-div-1">添加标题</div>
-			<input style="width:100%;border-radius:0px;margin: 0px;" id='name' placeholder="标题" type="text"/>
-			<div class="bar-new-div-1">添加简介</div> 
-			<textarea style="border-radius:0px;margin:0px" class="bm-new-input-2" placeholder="描述" id="des"></textarea>
-			<div class="bar-new-div-1">添加封面</div> 	
-			<div class="bm-new-div-5"><input type="file" id='img'/></div>
-			<div class="bar-new-div-1">设置分类</div>
-			<div class="bm-new-div-3">
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>其他</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>悬疑</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>生活</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>经典</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>武侠</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>教育</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>社科</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>经管</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>历史</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-				<div class='mui-card bm-new-radio-1'>
-					<div class="mui-input-row mui-checkbox" >
-					  <label>小说</label>
-					  <input name="checkbox1" type="checkbox" >
-					</div>
-				</div>
-			</div>
-			
-			<div class="mui-content-padded" style="height:60px;">
-				<button  class="mui-btn mui-btn-block mui-btn-primary bm-new-btn-2">新建有声书</button>
-			</div>
-			
+		<div class="mui-content-padded" >
+			<button  class="mui-btn mui-btn-block mui-btn-primary bm-new-btn-2">新建有声书</button>
 		</div>
 	</div>
 	
@@ -146,6 +158,7 @@
    		})
    		//按钮事件，提交新书
    		mui('body').on('tap','.bm-new-btn-2',function(e){
+   			 var bm_main=plus.webview.getWebviewById('bm-main.html');
    			var succ=0;
    			var item={};
    			item.bookname=document.getElementById('name').value;
@@ -174,6 +187,7 @@
    			//然后试图新建书籍本体
    			//console.log('book='+item.bookname+item.lst+item.uid+item.playtime+item.kind+item.shared);
    			var bid;
+   			plus.nativeUI.showWaiting();
    			mui.myAjax('http://49.234.77.32:8080/sfbook/book/insertbook',{
                         type:'post',
                         async:false,
@@ -192,36 +206,18 @@
                     succ=-1;
                 }
             );
-			
-   			/*
-   			mui.ajax('http://49.234.77.32:8080/sfbook/book/insertbook',{
-				data:item,
-				dataType:'json',
-				type:'post',
-				async:false,
-				timeout:10000,
-				headers:{'Content-Type':'application/json'},	              
-				success:function(data){
-					if(data.resp=='s'){
-						console.log("成功创建图书");
-						bid=data.body.bid;
-						succ=1;
-					}
-				},
-				error:function(xhr,type,errorThrown){console.log(type);}
-			});
-			*/
-			
-			
+            plus.nativeUI.closeWaiting();
 			//创建书籍失败，返回
 			if(succ==-1){
-				mui.toast('创建图书失败',{ duration:'long', type:'div'});
+				mui.fire(bm_main,'toast',{toast:'创建图书失败'});self.close();
 				return;
 			}
 			//试图创建书籍的其他信息,出错则撤回
+			//章节，简介，图片
 			var jarray=[];
    			var j={body:jarray};
    			var chapter=JSON.stringify(j);
+   			plus.nativeUI.showWaiting();
    			mui.ajax('http://49.234.77.32:8080/sfbook/book/chapter',{
 				data:{bid:bid,chapter:chapter},
 				dataType:'json',
@@ -233,7 +229,6 @@
 					console.log("成功更新章节");
 				},
 				error:function(xhr,type,errorThrown){
-					
 					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
 					console.log('error');
 				}
@@ -242,6 +237,7 @@
 			var formData=new FormData();
 			formData.append('bid',bid);
     		formData.append('file',img); 
+    		
 			$.ajax({
 		        url:'http://49.234.77.32:8080/sfbook/book/setImg',
 		        type:'post',
@@ -273,28 +269,9 @@
                     console.log('error');
                 }
             );
-            
-    		/*
-    		mui.ajax('http://49.234.77.32:8080/sfbook/book/insbookdes',{
-				data:{des:des,bid:bid},
-				dataType:'json',
-				type:'post',
-				async:false,
-				timeout:10000,
-				headers:{'Content-Type':'application/json'},	              
-				success:function(data){
-					console.log("成功导入简介");
-				},
-				error:function(xhr,type,errorThrown){console.log(type);}
-			});
-			*/
-			
-			 
-			 var bm_main=plus.webview.getWebviewById('bm-main.html');
-			  
+ 			plus.nativeUI.closeWaiting();
 			 mui.fire(bm_main,'get',{uid:plus.storage.getItem('uid')});
-			 self.close();
-			 mui.fire(bm_main,'toast',{uid:plus.storage.getItem('uid')});
+			 mui.fire(bm_main,'toast',{toast:'创建图书成功'});self.close();
    		});
    		
    		
@@ -307,13 +284,19 @@
 		    var stamp=year+'-'+mon+'-'+day;
 		    return stamp;
 		}
-   		//监听事件，返回个人页面
-		window.addEventListener('clear',function(event){
-			console.log('清空残余信息');
-			document.getElementById('des').value='';
-			document.getElementById('name').value='';
-			document.getElementsByClassName('bm-new-div-5')[0].innerHTML="<input type='file' id='img'/>";
-		});
+		function hello(){
+			var f= document.getElementById('img').files[0];
+			if(window.FileReader) {
+				var fr = new FileReader();
+				
+				var showimg = document.getElementById('show');
+				fr.onloadend = function(e) {
+					showimg.src = e.target.result;
+				};
+				fr.readAsDataURL(f);
+				showimg.style.display = 'block';
+			}
+		}
 
 	</script>
 </body>

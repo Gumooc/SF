@@ -61,7 +61,7 @@
 				font-size: 20px;
 			}
 			.us-head-div-1{
-				display: none;
+				//display: none;
 				position: absolute;
 				top:199px;
 				left: 0px;
@@ -111,7 +111,7 @@
 		</div>
 		
 		<div class="mui-content" style="margin-top:150px;background: red;">
-			<div class='us-head-div-1'>
+			<div class='us-head-div-1' id='log'>
 				<div class="us-head-div-2"></div>
 				<button class="us-head-btn-1">登录</button>
 			</div>
@@ -207,9 +207,14 @@
 			//监听事件，加载作品清单
 			window.addEventListener('get',function(event){
 				uid=plus.storage.getItem('uid');
-				
 				//uid=event.detail.uid;
+				if(uid==null){
+					document.getElementById('works').innerHTML='';
+					document.getElementById('log').style.display='block';
+					return;
+				}
 				plus.nativeUI.showWaiting();
+				document.getElementById('log').style.display='none';
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/selfworks',{
 					data:{uid:uid},
 					dataType:'json',
@@ -221,6 +226,7 @@
 						var list=data.body;
 						var html='';
 						for(var i=0;i<list.length;i++){
+							
 							var str='已发布';
 							if(list[i].shared==false)str='未发布';
 							html+="<li class='mui-table-view-cell bm-main-div-5'>";
@@ -253,6 +259,11 @@
 						console.log(type);}
 				});
 				plus.nativeUI.closeWaiting();
+			});
+			//监听事件，toast
+			window.addEventListener('toast',function(event){
+				var toast=event.detail.toast;
+				mui.toast(toast,{ duration:'long', type:'div' });
 			});
 		</script>
 	</body>

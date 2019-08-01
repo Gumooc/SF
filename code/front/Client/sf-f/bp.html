@@ -111,7 +111,7 @@
 			mui.fire(self,'pause',{});
 	   	});
 		
-		
+		/*
 		window.addEventListener('play',function(event){ 
 			
 			var disc=document.getElementById('music');
@@ -121,14 +121,14 @@
 			document.getElementsByClassName('bp-disc-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+img+"'/>";
 			
 			sid=event.detail.sid+1;
-			console.log('尝试获取播放章节音频??bid='+bid+'sid='+sid);
+			console.log('尝试获取播放章节音频:bid='+bid+'sid='+sid);
 			//document.getElementById('music').innerHTML="<source src='http://49.234.77.32/audio/1_1-f-v.mp' type='audio/mp3'/>"
 			document.getElementById('music').innerHTML="<source src='http://49.234.77.32/audio/"+bid+"_"+sid+"-f-v.mp3' type='audio/mp3'/>";
 			disc.play();
 		});
+		*/
 		
 		
-		/*
 		//监听事件，播放音频
 		window.addEventListener('play',function(event){ 
 			if(s) s.stop();
@@ -147,7 +147,6 @@
 		    	}
 		    );
 		});
-		*/
 		
 		//监听事件，暂停播放
 		window.addEventListener('pause',function(event){
