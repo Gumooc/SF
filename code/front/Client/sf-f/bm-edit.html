@@ -86,13 +86,18 @@
 			text-align: center;
 		}
 		.mui-btn-block{height:40px;padding: 0px;}
+		.chpt-pro{
+			margin-left: 30px;
+			font-size: 14px;
+			color: #007AFF;
+		}
 	</style>
 </head>
 
 <body>
 	<header class="mui-bar mui-bar-nav">
-			<div class='mui-title'>编辑我的有声书</div>
-			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+		<div class='mui-title'>编辑我的有声书</div>
+		<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
 	</header>
 	
 	<div class="mui-content">
@@ -177,6 +182,7 @@
 					<div class='section-info-1'>1</div>
 					<div class='section-info-2'>前世恩怨</div>
 					<button class='mui-btn mui-btn-primary section-btn-1'><icon class="mui-icon mui-icon-trash"></icon></button>
+					<div class="pro-tip">hello</div>
 				</div>
 				<div class='mui-card section-div-1 bm-edit-btn-7'>
 					<div class='section-info-1'>2</div>
@@ -186,8 +192,10 @@
 			</div>
 			
 			<div class="mui-content-padded" >
+				<button  class="mui-btn mui-btn-block mui-btn-primary" id='preview' >预览作品</button>
 				<button  class="mui-btn mui-btn-block mui-btn-primary bm-edit-btn-2">保存修改</button>
 				<button  class="mui-btn mui-btn-block mui-btn-primary " id='pub'>发布作品</button>
+
 				<button  class="mui-btn mui-btn-block mui-btn-primary bm-edit-btn-5">删除作品</button>
 			</div>
 	</div>
@@ -202,6 +210,42 @@
 		var bm_main;
 		var uid;
 		
+		setInterval(clock,1000);
+		function clock(){
+			var chpt_ele=document.getElementsByClassName('chpt-pro');
+			for(var i=0;i<chpt_ele.length;i++){
+				chpt_ele[i].innerHTML='';
+			}
+			
+			//console.log('hello');
+		
+			mui.ajax('http://49.234.77.32:8080/sfbook/createbook/making',{
+				data:{},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					if(data.body!=null){
+						var p=data.body;
+						for(var i=0;i<p.length;i++){
+							if(p[i].status=='制作完成')continue;
+							if(p[i].bid!=bid)continue;
+							var str=p[i].status+p[i].start+'/'+p[i].end+'..';
+							var chpt_ele=document.getElementsByClassName('chpt-pro');
+							chpt_ele[p[i].chapter-1].innerHTML=str;
+							//console.log(p[i].chapter);
+						}
+					}
+				},
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);
+				}
+			});
+		}
+
 		mui.init();
 		mui.plusReady(function(){
        		self=plus.webview.currentWebview();
@@ -210,9 +254,18 @@
        		uid=plus.storage.getItem('uid');
        		mui.myAjax=myAjax;
    		});
+   		//监听事件，预览
+   		mui('body').on('tap','#preview',function(e){
+   			mui.openWindow({
+	    		url:'bi.html',
+	    		id:'bi.html',
+	    	});
+	    	var bi=plus.webview.getWebviewById('bi.html');
+	    	mui.fire(bi,'item',{bid:bid});
+   		});
 		//监听事件，删除有声书
    		mui('body').on('tap','.bm-edit-btn-5',function(e){
-   			var bm_main=plus.getWebviewById('bm-main.html');
+   			var bm_main=plus.webview.getWebviewById('bm-main.html');
    			plus.nativeUI.showWaiting();
    			mui.ajax('http://49.234.77.32:8080/sfbook/book/deletebook',{
 				data:{bid:bid},
@@ -244,10 +297,11 @@
 			j={body:jarray};
 			var len2=jarray.length;
 			
-			console.log(len+'？'+len2);
+			//console.log(len+'？'+len2);
 			
    			var chapter=JSON.stringify(j);
    			plus.nativeUI.showWaiting();
+   			/*
    			mui.ajax('http://49.234.77.32:8080/sfbook/book/chapter',{
 				data:{bid:bid,chapter:chapter},
 				dataType:'json',
@@ -264,6 +318,23 @@
 					console.log('error');
 				}
 			});
+			*/
+			mui.myAjax('http://49.234.77.32:8080/sfbook/book/chapter',{
+                        type:'post',
+                        async:false,
+                        timeout:5000,
+                        headers:{'Content-Type':'application/json'},	
+                        dataType:'json',
+                        data:{bid:bid,chapter:chapter},
+                    },
+                function(data){
+                	mui.toast('成功删除章节',{ duration:'long', type:'div' });
+					mui.fire(self,'item',{bid:bid});
+                },function(state,xhr){
+                    console.log(state);
+                    mui.toast('连接到服务器出错',{ duration:'long', type:'div' }) 
+                }
+            );
 			plus.nativeUI.closeWaiting();
    		});
    		//按钮事件,添加章节
@@ -444,7 +515,7 @@
 					for(i=0;i<jarray.length;i++){
 						html+="<div class='mui-card section-div-1 bm-edit-btn-6'>";
 						html+="<div class='section-info-1'>"+(i+1)+"</div>";
-						html+="<div class='section-info-2'>"+jarray[i].name+"</div>";
+						html+="<div class='section-info-2'>"+jarray[i].name+"<font class='chpt-pro'></font></div>";
 						if(i==jarray.length-1){
 							html+="<button class='mui-btn mui-btn-primary section-btn-1 bm-edit-del-1'><icon class='mui-icon mui-icon-trash'></icon></button>";
 						}
@@ -456,6 +527,8 @@
 					html+="<button class='mui-btn mui-btn-primary section-btn-1'><icon class='mui-icon mui-icon-plus'></icon></button>";
 					html+="</div>";
 					document.getElementsByClassName('bm-edit-div-4')[0].innerHTML=html;
+					var f= document.getElementById('show');
+					f.src='data:image/jpg;base64,'+item.img;
 				},
 				error:function(xhr,type,errorThrown){
 					mui.toast('连接服务器出错',{ duration:'long', type:'div' });

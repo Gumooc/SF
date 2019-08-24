@@ -187,26 +187,6 @@
 	                    mui.toast('连接到服务器出错',{ duration:'long', type:'div' }) 
 	                }
 	            );
-				/*mui.ajax('http://49.234.77.32:8080/sfbook/user/tplogin',{
-					data:{openid:a.userInfo.openid,gender:a.userInfo.gender,nickname:a.userInfo.nickname,lst:getdt()},
-					dataType:'json',
-					type:'post',
-					async:false,
-					timeout:10000,
-					headers:{'Content-Type':'application/json'},	              
-					success:function(data){
-						mui.toast('登录成功',{duration:1000,type:'div'}) ;
-						plus.storage.setItem('uid',''+data.body.uid+'');
-						self.close();
-						var ua=plus.webview.getWebviewById('ua-acc.html');
-						var us=plus.webview.getWebviewById('us-head.html');
-						var bm=plus.webview.getWebviewById('bm-main.html');
-						mui.fire(ua,'check',{});
-						mui.fire(us,'self',{});
-						mui.fire(bm,'get',{});
-					},
-					error:function(xhr,type,errorThrown){console.log(type);}
-				});*/
 				
 			},function(e){
 				console.log("获取用户信息失败：");
@@ -245,6 +225,8 @@
 						mui.fire(ua,'check',{});
 						mui.fire(us,'self',{});
 						mui.fire(bm,'get',{});
+						console.log(document.cookie.length);
+						//console.log(window.navigator.cookieEnabled);
 					}
 					else if(data.resp=='f'){
 						mui.toast('登录失败 账号密码未匹配',{duration:1000,type:'div'}) ;

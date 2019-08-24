@@ -137,7 +137,9 @@
 					"us-head.html",
 					"bp.html",
 					"bm-main.html",
-					"ua-acc.html"
+					"ua-acc.html",
+					"bp-tmp.html",
+					"welcome.html"
 				],
 				"priority": 0
 			},
@@ -201,7 +203,8 @@
 			"bm-edit.html": {
 				"resources": [],
 				"refer": [
-					"bm-serial.html"
+					"bm-serial.html",
+					"bi.html"
 				],
 				"priority": 0
 			},
@@ -233,6 +236,13 @@
 				"resources": [],
 				"refer": [
 					"ua-fgt.html"
+				],
+				"priority": 0
+			},
+			"bp.html": {
+				"resources": [],
+				"refer": [
+					"bi.html"
 				],
 				"priority": 0
 			}

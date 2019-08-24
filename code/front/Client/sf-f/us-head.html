@@ -1,4 +1,7 @@
 <!doctype html>
+<!--未完成的部分
+	无法通过评论打开页面
+-->
 <html>
 
 <head>
@@ -107,12 +110,17 @@
 	
 	
 	<script src="js/mui.min.js"></script>
+	<script src="js/mui.enterfocus.js"></script>
+	<script src="js/app.js"></script>
+	<script type="text/javascript" src="../js/common.js"></script>
+	<script type="text/javascript" src="../js/immersed.js" ></script>
 	<script type="text/javascript">
 		var src='us-main.html';
 		var sub=['us-main.html'];
 		var sub_style={top:'200px',bottom:'0px'};
 		var self;
 		var us_main;
+		var auth;
 		
 	    mui.init();
 	    mui.plusReady(function(){
@@ -125,6 +133,17 @@
             us_main=plus.webview.getWebviewById('us-main.html');
             plus.webview.show(src);
             mui.fire(self,'self',{});
+            
+            
+            plus.oauth.getServices(function(services){
+				var service=services[2];
+				console.log(service.id+": "+service.authResult+", "+service.userInfo);
+				auth=service;
+				console.log('获取登录认证成功');
+			},function(e){
+				console.log("获取登录认证失败："+e.message);
+			});
+            
 	    });
 	    //监听事件，登录
 	    mui('body').on('tap','.us-head-btn-1',function(e){	
@@ -135,15 +154,35 @@
 		});
 		//按钮事件，登出
 		mui('body').on('tap','#logout',function(e){	
-			var uid=plus.storage.getItem('uid');
-			if(uid==null){
-				mui.toast('请先登录',{ duration:'long', type:'div' }) ;
-				return;
-			}
-	    	plus.storage.removeItem('uid');
-	    	mui.fire(self,'self',{});
-	    	var bm_main=plus.webview.getWebviewById('bm-main.html');
-	    	mui.fire(bm_main,'get',{});
+			mui.ajax('http://49.234.77.32:8080/sfbook/user/logout',{
+				data:'bbsb',
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					var uid=plus.storage.getItem('uid');
+					if(uid==null){
+						mui.toast('请先登录',{ duration:'long', type:'div' }) ;
+						return;
+					}
+			    	plus.storage.removeItem('uid');
+			    	mui.fire(self,'self',{});
+			    	var bm_main=plus.webview.getWebviewById('bm-main.html');
+			    	mui.fire(bm_main,'get',{});
+			    	
+					auth.logout(function(){
+						console.log("注销\""+auth.description+"\"成功");
+					},function(e){
+						console.log("注销\""+auth.description+"\"失败："+e.message);
+					});
+				},
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' }) ;
+					console.log(type);
+				}
+			});
 		});
 		//按钮事件，修改密码
 		 mui('body').on('tap','#pass',function(e){	

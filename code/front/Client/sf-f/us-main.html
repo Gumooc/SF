@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		
+		<link href="css/iconfont.css" rel="stylesheet"/>  
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/user.css" rel="stylesheet" />
 		<link href="css/book.css" rel="stylesheet" />
@@ -39,7 +39,7 @@
 				display: block;
 				text-align: center;
 				background-color: #efeff4;
-				border: 1px solid #ddd;
+				border: 1px solid #ddd; 
 				border-radius: 25px;
 				background-clip: padding-box;
 				box-shadow: 0 4px 10px #bbb;
@@ -92,6 +92,12 @@
 				width: 80%;
 				height: 100%;
 			}
+			.empty{
+				height:120px;
+				text-align: center;
+				color:gray;
+				padding-top:10px;
+			}
 		</style>
 		<style>
 			.us-main-info-1{font-size:16px;}
@@ -123,14 +129,16 @@
 		.us-cmt-info-4{
 			color: #007AFF;
 			position: absolute;
-			right: 10px;
+			right: 5px;
 			bottom: 10px;
 			font-size: 20px;
 			border: 0px;
+			//background: green;
 		}
 		#deltrack{
 			border-radius: 3px;
 			margin-top:10px;
+		
 		}
 		</style>
 	</head>
@@ -156,7 +164,7 @@
 								<ul class="mui-table-view">
 									<li class="mui-table-view-cell">
 										<div class='us-main-tip-1'>姓名</div>
-										<div class='us-main-info-1'>cyt</div>
+										<div class='us-main-info-1'> </div>
 									</li> 
 									<li class="mui-table-view-cell">
 										<div class='us-main-tip-1'>性别</div>
@@ -164,15 +172,15 @@
 									</li> 
 									<li class="mui-table-view-cell">
 										<div class='us-main-tip-1'>生日</div>
-										<div class='us-main-info-1'>1999-09-09</div>
+										<div class='us-main-info-1'> </div>
 									</li> 
 									<li class="mui-table-view-cell">
 										<div class='us-main-tip-1'>电话</div>
-										<div class='us-main-info-1'>152019999998</div>
+										<div class='us-main-info-1'> </div>
 									</li> 
 									<li class="mui-table-view-cell">
 										<div class='us-main-tip-1'>邮箱</div>
-										<div class='us-main-info-1'>bbong@qq.com</div>
+										<div class='us-main-info-1'> </div>
 									</li> 
 									
 								</ul>
@@ -183,28 +191,9 @@
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<ul class="mui-table-view">
-									<!--<li class="mui-table-view-cell  us-main-bli-1">
-										<div class='book-div-1'>
-										<div class='book-info-1'>
-											<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
-										</div>
-										<div class='book-info-2'>
-											xbbdzxql
-										</div>
-										<div class='book-info-3'>
-											<span class="mui-icon mui-icon-contact"></span>
-											xbb
-										</div>
-										<div class='book-info-4'>
-											<span class="mui-icon mui-icon-contact"></span>
-											2019-07-07
-										</div>
-										<div class='book-info-5'>
-											<span class="mui-icon mui-icon-contact"></span>
-											320
-										</div>
-									</div>
-									</li>-->
+									<li class="mui-table-view-cell">
+										
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -213,9 +202,7 @@
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<ul class="mui-table-view">
-									<li class="mui-table-view-cell">
-										第3个选项卡子项-1
-									</li>
+									
 								</ul>
 							</div>
 						</div>
@@ -224,17 +211,7 @@
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<ul class="mui-table-view">
-									<li class="mui-table-view-cell">
-										<div class='us-cmt-div-1'>
-											<div class='us-cmt-btn-1'></div>
-											<div class='us-cmt-info-1'>象拔蚌大战小青龙</div>
-											<div class='us-cmt-info-3'>2019-07-12</div>
-											<div class='us-cmt-info-2'>感谢大家的支持</div>
-											<button class='us-cmt-info-4'>
-												<span class="mui-icon mui-icon-trash"></span>
-											</button>
-										</div>
-									</li>
+									
 								</ul>
 							</div>
 						</div>
@@ -243,9 +220,7 @@
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<ul class="mui-table-view">
-									<li class="mui-table-view-cell">
-										第5个选项卡子项-1
-									</li>
+									
 								</ul>
 							</div>
 						</div>
@@ -334,6 +309,16 @@
 		    	});
 		    	var bi=plus.webview.getWebviewById('bi.html');
 		    	var bid=parseInt(this.getAttribute("id"));
+		    	mui.fire(bi,'item',{bid:bid});
+	   		});
+	   		mui('#item4mobile').on('tap','.cmt-to-bi',function(e){
+	   			mui.openWindow({
+		    		url:'bi.html',
+		    		id:'bi.html',
+		    	});
+		    	var bi=plus.webview.getWebviewById('bi.html');
+		    	var bid=parseInt(this.getAttribute("id"));
+		    	console.log('bid='+bid);
 		    	mui.fire(bi,'item',{bid:bid});
 	   		});
 	   		mui('#item5mobile').on('tap','.bl-main-btn-1',function(e){
@@ -441,6 +426,15 @@
 					success:function(data){
 						var list=data.body;
 						var html='';
+						if(list.length==0){
+							
+							html+='<li class="mui-table-view-cell">';		
+							html+="<div class='empty'>";		
+							html+="<h3>尚无作品</h3>";		
+							html+="</br>";
+							html+='<h4>通过制作功能创建发布有声书</h4>';
+							html+='</div></li>';
+						}
 						for(var i=0;i<list.length;i++){
 							html+="<li class='mui-table-view-cell us-main-bli-1'>";
 							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
@@ -455,11 +449,11 @@
 							html+=list[i].nickname;
 							html+="</div>";
 							html+="<div class='book-info-4'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
 							html+=list[i].lst;		
 							html+="</div>";		
 							html+="<div class='book-info-5'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
 							html+=list[i].playtime;		
 							html+="</div>";
 							html+="</div>";
@@ -485,6 +479,15 @@
 					success:function(data){
 						var list=data.body;
 						var html='';
+						if(list.length==0){
+							
+							html+='<li class="mui-table-view-cell">';		
+							html+="<div class='empty'>";		
+							html+="<h3>尚无收藏</h3>";		
+							html+="</br>";
+							html+='<h4>在有声书页面收藏偏好的作品</h4>';
+							html+='</div></li>';
+						}
 						for(var i=0;i<list.length;i++){
 							html+="<li class='mui-table-view-cell us-main-bli-1'>";
 							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
@@ -499,12 +502,13 @@
 							html+=list[i].nickname;
 							html+="</div>";
 							html+="<div class='book-info-4'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin  book-icon-2'></span>";
 							html+=list[i].lst;		
 							html+="</div>";		
 							html+="<div class='book-info-5'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
-							html+=list[i].playtime;		
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
+							html+=list[i].playtime;	
+							
 							html+="</div>";
 							html+="</div>";
 							html+="</li>";
@@ -530,6 +534,15 @@
 					success:function(data){
 						var list=data.body;
 						var html='';
+						if(list.length==0){
+							
+							html+='<li class="mui-table-view-cell">';		
+							html+="<div class='empty'>";		
+							html+="<h3>尚无浏览记录</h3>";		
+							html+="</br>";
+							html+='<h4>在主页搜索有声书作品</h4>';
+							html+='</div></li>';
+						}
 						for(var i=0;i<list.length;i++){
 							
 							html+="<li class='mui-table-view-cell us-main-bli-1'>";
@@ -545,11 +558,11 @@
 							html+=list[i].nickname;
 							html+="</div>";
 							html+="<div class='book-info-4'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
 							html+=list[i].lst;		
 							html+="</div>";		
 							html+="<div class='book-info-5'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
 							html+=list[i].playtime;		
 							html+="</div>";
 							html+="</div>";
@@ -580,13 +593,25 @@
 					headers:{'Content-Type':'application/json'},	              
 					success:function(data){
 						cmt=data.body;
+						//console.log('cmt='+cmt.length);
 						var html='';
+						if(cmt.length==0){
+							
+							html+='<li class="mui-table-view-cell">';		
+							html+="<div class='empty'>";		
+							html+="<h3>尚未发布评论</h3>";		
+							html+="</br>";
+							html+='<h4>在有声书页面发布读书评论</h4>';
+							html+='</div></li>';
+						}
 						for(var i=0;i<cmt.length;i++){
 							html+="<li class='mui-table-view-cell'>";
 							html+="<div class='us-cmt-div-1' id='"+cmt[i].cid+"'>";
+							html+="<div class='cmt-to-bi' style='height:100%;width:90%;' id='"+cmt[i].bid+"'>";
 								html+="<div class='us-cmt-info-1'>"+cmt[i].bookname+"</div>";
 								html+="<div class='us-cmt-info-3'>"+cmt[i].lst+"</div>";
 								html+="<div class='us-cmt-info-2'>"+cmt[i].des+"</div>";
+							html+='</div>';
 								html+="<button class='us-cmt-info-4'>";
 								html+="<span class='mui-icon mui-icon-trash'></span>";
 								html+="</button>";

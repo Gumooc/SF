@@ -9,6 +9,7 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<link href="css/mui.min.css" rel="stylesheet" />
 	<link href="css/user.css" rel="stylesheet" />
+	<link href="css/iconfont.css" rel="stylesheet"/>  
 	<link href="css/book.css" rel="stylesheet" />
 	<!--模板自带的css-->	
 	<style>
@@ -90,7 +91,7 @@
 		.bl-main-scroll-1{
 			height: 600px;
 		}
-		
+	
 	</style>
 	<!--页面修改的css-->
 	<style>
@@ -127,7 +128,7 @@
 											<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
 											<div class='book-reco-1'>
 											</div>
-											<icon class="mui-icon mui-icon-weixin book-icon-3"></icon>
+											<icon class="mui-icon iconfont icon-aixin book-icon-3"></icon>
 										</div>
 										
 										<div class='book-info-2'>
@@ -341,7 +342,7 @@
 				var tid=index;
 				var rid=req[tid];
 				if(tid==0){
-					mui.fire(self,'get',{tid:0});
+					mui.fire(self,'get',{tid:0,waiting:'none'});
 					return;
 				};
 				mui.ajax('http://49.234.77.32:8080/sfbook/book/bookpage',{
@@ -370,15 +371,15 @@
 							html+=list[i].bookname;
 							html+="</div>";
 							html+="<div class='book-info-3'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon  mui-icon-contact book-icon-2'></span>";
 							html+=list[i].nickname;
 							html+="</div>";
 							html+="<div class='book-info-4'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
 							html+=list[i].lst;		
 							html+="</div>";		
 							html+="<div class='book-info-5'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+							html+="<span class='mui-icon  iconfont icon-popularity_value book-icon-2'></span>"	;
 							html+=list[i].playtime;		
 							html+="</div>";
 							html+="</div>";
@@ -430,11 +431,11 @@
 							html+=list[i].nickname;
 							html+="</div>";
 							html+="<div class='book-info-4'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
 							html+=list[i].lst;		
 							html+="</div>";		
 							html+="<div class='book-info-5'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
 							html+=list[i].playtime;		
 							html+="</div>";
 							html+="</div>";
@@ -459,6 +460,8 @@
 		mui.plusReady(function(){
 			self=plus.webview.currentWebview();
 			mui.fire(self,'get',{tid:0});
+			var lau=plus.webview.getLaunchWebview();
+			mui.fire(lau,'calcu',{});
 		});
 
 		//按钮事件，显示详情
@@ -478,7 +481,7 @@
 			var rid=req[tid];
 			var uid=plus.storage.getItem('uid');
 			if(uid==null)uid='0';
-			plus.nativeUI.showWaiting();
+			if(event.detail.waiting!='none'){plus.nativeUI.showWaiting();}
 			if(tid==0){
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/book/recommend',{
 					data:{uid:uid},
@@ -502,7 +505,7 @@
 							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
 							html+="<div class='book-reco-1'>";
 							html+="</div>";
-							html+="<icon class='mui-icon mui-icon-weixin book-icon-3'></icon>";
+							html+="<icon class='mui-icon iconfont icon-zuixingengxin book-icon-3'></icon>";
 							html+="</div>";
 							html+="<div class='book-info-2'>";
 							html+=list[i].bookname;
@@ -512,11 +515,11 @@
 							html+=list[i].nickname;
 							html+="</div>";
 							html+="<div class='book-info-4'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
 							html+=list[i].lst;		
 							html+="</div>";		
 							html+="<div class='book-info-5'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
 							html+=list[i].playtime;		
 							html+="</div>";
 							html+="</div>";
@@ -530,21 +533,24 @@
 							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
 							html+="<div class='book-reco-1'>";
 							html+="</div>";
-							html+="<icon class='mui-icon mui-icon-weixin book-icon-3'></icon>";
+							html+="<icon class='mui-icon iconfont icon-ego-hot book-icon-3'></icon>";
 							html+="</div>";
 							html+="<div class='book-info-2'>";
 							html+=list[i].bookname;
 							html+="</div>";
 							html+="<div class='book-info-3'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+
 							html+=list[i].nickname;
 							html+="</div>";
 							html+="<div class='book-info-4'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
+							
+
 							html+=list[i].lst;		
 							html+="</div>";		
 							html+="<div class='book-info-5'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>";
 							html+=list[i].playtime;		
 							html+="</div>";
 							html+="</div>";
@@ -558,7 +564,7 @@
 							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
 							html+="<div class='book-reco-1'>";
 							html+="</div>";
-							html+="<icon class='mui-icon mui-icon-weixin book-icon-3'></icon>";
+							html+="<icon class='mui-icon iconfont icon-aixin book-icon-3'></icon>";
 							html+="</div>";
 							html+="<div class='book-info-2'>";
 							html+=list[i].bookname;
@@ -568,11 +574,11 @@
 							html+=list[i].nickname;
 							html+="</div>";
 							html+="<div class='book-info-4'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
 							html+=list[i].lst;		
 							html+="</div>";		
 							html+="<div class='book-info-5'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
 							html+=list[i].playtime;		
 							html+="</div>";
 							html+="</div>";
@@ -615,11 +621,11 @@
 							html+=list[i].nickname;
 							html+="</div>";
 							html+="<div class='book-info-4'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
 							html+=list[i].lst;		
 							html+="</div>";		
 							html+="<div class='book-info-5'>";
-							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
 							html+=list[i].playtime;		
 							html+="</div>";
 							html+="</div>";
