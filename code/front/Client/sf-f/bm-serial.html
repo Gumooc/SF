@@ -1,4 +1,9 @@
-<!doctype html>
+<!doctype html>、
+<!--未完成的部分：
+	1.插入文本ui界面
+	2.添加中文名字文本存在问题，应使用原生ajax
+	3.进度显示
+-->
 <html>
 
 <head>
@@ -80,12 +85,17 @@
 				<label>性别</label>
 				<input id='per' type="number" class="mui-input-clear mui-input"  placeholder="3:男性;4:女性">
 			</div>
-			<input class='bm-serial-file-1' type="file" accept="text/plain" id='text'/>
+			<input class='bm-serial-file-1' type="file" accept="text/*"  id='text'/>
+		</div>
+		<div class="mui-content-padded" >
+			<button id='bytext' class="mui-btn mui-btn-block mui-btn-primary bm-serial-btn-2">更新章节</button>
 		</div>
 		<div class="bar-new-div-1">通过音频制作</div>
-		<div class="bm-serial-div-1"><input type="file" id='sound'/></div>
-		<div class="mui-content-padded" >
-			<button id='login' class="mui-btn mui-btn-block mui-btn-primary bm-serial-btn-2">更新章节</button>
+		<div class="bm-serial-div-1">
+			<input type="file" id='audio' accept="audio/*"/>
+		</div>
+		<div class="mui-content-padded">
+			<button id='byaudio' class="mui-btn mui-btn-block mui-btn-primary bm-serial-btn-2">更新章节</button>
 		</div>
 		
 		
@@ -112,7 +122,7 @@
    			mui.fire(opener,'jump',{dst:'bm-edit.html'});
    		})
 		//按钮事件，添加章节
-   		mui('body').on('tap','.bm-serial-btn-2',function(e){
+   		mui('body').on('tap','#bytext',function(e){
    			var spd=document.getElementById('spd').value;
 			if(spd==0)spd=3;
 			var pit=document.getElementById('pit').value;
@@ -131,7 +141,21 @@
 			});
 			//console.log('添加音频选项：'+spd+pit+vol+per);
 			var succ=1;
-			var f=document.getElementById('text').files[0];
+			var files=document.getElementById('text').files;
+			
+		
+			//var f=new FileReader();
+			//f.readAsText(files[0],'UTF-8');
+			
+            var f=document.getElementById('text').files[0];
+            
+            
+		 	console.log(f.name+f.size+f.type);
+		 	//console.log(document.getElementById('text').value+document.getElementById('text').files[0].size);
+			//return;
+			//var f=files[0];
+			//console.log(f.name+f.size+f.type);
+			
 			var formData=new FormData();
 			var edit=plus.webview.getWebviewById('bm-edit.html');
 			
@@ -139,8 +163,12 @@
 			if(secname==''){
 				secname=document.getElementById('secname').placeholder;
 			}
+			
 			formData.append('info',info);
-			formData.append('file',f); 
+            formData.append('file', files[0]);
+			//formData.append('file',f);
+			
+			
 			if(!f){
 				mui.toast('请添加文本后提交',{ duration:'long', type:'div'});
 				return;
@@ -186,7 +214,7 @@
 		        data:formData,
 		        success:function(list){  
 		            console.log("成功合成音频");
-		            alert('章节添加成功！');
+		            //alert('章节添加成功！');
 		        },
 		        error:function(){
 		        	console.log("音频导入失败");
@@ -195,6 +223,81 @@
     		self.close();
     		mui.fire(edit,'toast',{toast:'音频正在添加,请稍等片刻...'});
    		})
+   		//按钮事件，添加章节通过音频
+   		mui('body').on('tap','#byaudio',function(e){
+			var info=JSON.stringify({
+				bid:bid,
+				chapter:(jarray.length+1),
+			});
+			//console.log('添加音频选项：'+spd+pit+vol+per);
+			var succ=1;
+			var f=document.getElementById('audio').files[0];
+			console.log(f.name+f.size+f.type);
+			//return;
+			var formData=new FormData();
+			var edit=plus.webview.getWebviewById('bm-edit.html');
+			
+			var secname=document.getElementById('secname').value;
+			if(secname==''){
+				secname=document.getElementById('secname').placeholder;
+			}
+			formData.append('info',info);
+			formData.append('file',f); 
+			if(!f){
+				mui.toast('请添加音频后提交',{ duration:'long', type:'div'});
+				return;
+			}
+			
+			//开始执行章节的添加
+			var newsec={name:secname};
+			jarray.push(newsec);
+			var j={body:jarray};
+   			var chapter=JSON.stringify(j);
+   			mui.myAjax('http://49.234.77.32:8080/sfbook/book/chapter',{
+                        type:'post',
+                        timeout:5000,
+                        async:false,
+                        headers:{'Content-Type':'application/json'},	
+                        dataType:'json',
+                        data:{bid:bid,chapter:chapter}
+                    },
+                function(data){
+                	mui.fire(edit,'item',{bid:bid});
+                    console.log("成功更新章节");
+                   
+                },function(state,xhr){
+                	succ=-1;
+                    
+                }
+            );
+            if(succ==-1){
+            	mui.fire(edit,'toast',{toast:'章节添加失败，连接到服务器出错'})
+                self.close();
+            	return;
+            }
+			
+			
+			//添加章节音频
+			//console.log(jarray.length);
+			$.ajax({
+		        url:'http://49.234.77.32:8080/sfbook/createbook/bysound',
+		        type:'post',
+		        dataType:'text',
+		        cache: false,
+		        processData: false,
+		        contentType: false,
+		        data:formData,
+		        success:function(list){  
+		            console.log("成功合成音频");
+		            alert('章节添加成功！');
+		        },
+		        error:function(){
+		        	console.log("音频导入失败");
+		        }
+    		});
+    		self.close();
+    		mui.fire(edit,'toast',{toast:'音频正在添加,请稍等片刻...'});
+   		});
 		//监听事件，加载章节
 		window.addEventListener('get',function(event){
 			bid=event.detail.bid;

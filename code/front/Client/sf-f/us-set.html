@@ -1,4 +1,7 @@
 <!doctype html>
+<!--尚未完成的部分
+ 	当无内容的时候无法刷新更新信息，可添加一块面
+-->
 <html>
 
 <head>
@@ -182,6 +185,7 @@
 		        		mui.fire(us_head,'self',{});
     					var us_main=plus.webview.getWebviewById('us-main.html');
     					mui.fire(us_head,'info',{uid:old.uid});
+    					self.close();
 					}
                 },function(state,xhr){
                     console.log(state);
@@ -209,7 +213,7 @@
 					document.getElementById('nick').placeholder=old.nickname;
 					document.getElementById('birth').placeholder=old.birth;
 					document.getElementById('phone').placeholder=old.phone;
-					if(old.male=true){
+					if(old.male==true){
 						document.getElementById('male').placeholder='男';
 					}
 					else{

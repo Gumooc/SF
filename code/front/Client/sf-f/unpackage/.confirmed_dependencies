@@ -10,7 +10,9 @@
 			"us-head.html",
 			"bp.html",
 			"bm-main.html",
-			"ua-acc.html"
+			"ua-acc.html",
+			"bp-tmp.html",
+			"welcome.html"
 		]
 	},
 	"bl-head.html": {
@@ -65,7 +67,8 @@
 	},
 	"bm-edit.html": {
 		"refer": [
-			"bm-serial.html"
+			"bm-serial.html",
+			"bi.html"
 		]
 	},
 	"us-main.html": {
@@ -93,6 +96,11 @@
 	"ua-fgt.html": {
 		"refer": [
 			"ua-fgt.html"
+		]
+	},
+	"bp.html": {
+		"refer": [
+			"bi.html"
 		]
 	}
 }

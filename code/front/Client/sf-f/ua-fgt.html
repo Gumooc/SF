@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!--未完成的部分
+	忘记密码
+-->
 <html class="ui-page-login">
 
 	<head>
@@ -125,14 +128,12 @@
 					return;
 				}
 				/*邮箱格式验证*/
+				console.log(username+email);
 				mui.ajax('http://49.234.77.32:8080/sfbook/user/modify1',{
 					data:{
 						username:username,
 						email:email
 					},
-					xhrFields: {
-			            withCredentials: true // 发送Ajax时，Request header中会带上 Cookie 信息。
-			        },
 					dataType:'json',//服务器返回json格式数据
 					type:'post',//HTTP请求类型
 					timeout:10000,//超时时间设置为10秒；
@@ -206,7 +207,7 @@
 				}
 				
 				console.log(uid);
-				//console.log("reg--username="+username+",password="+password+",email="+email+";");
+				console.log("reg--username="+username+",password="+password+",email="+email+";");
 				mui.ajax('http://49.234.77.32:8080/sfbook/user/modify2',{
 					data:{
 						vcode:checkcode,
@@ -214,9 +215,6 @@
 						username:username,
 						email:email
 					},
-					xhrFields: {
-			            withCredentials: true // 发送Ajax时，Request header中会带上 Cookie 信息。
-			        },
 					dataType:'json',//服务器返回json格式数据
 					type:'post',//HTTP请求类型
 					timeout:10000,//超时时间设置为10秒；
