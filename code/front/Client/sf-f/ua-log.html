@@ -104,7 +104,7 @@
 		</form>
 		<div class="mui-content-padded" >
 			<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
-			<button id='ologin' class="mui-btn mui-btn-block mui-btn-primary" >通过新浪微博登录</button>
+			<button id='ologin' class="mui-btn mui-btn-block mui-btn-primary" >通过QQ登录</button>
 			<div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='passfgt'>忘记密码</a>
 			</div>
 		</div>
@@ -122,7 +122,18 @@
 			// 获取登录认证通道
 			plus.oauth.getServices(function(services){
 				var ol=document.getElementById('ologin');
-				var service=services[2];
+				var service;
+				for (var i = 0; i < services.length; i++){
+					//用这样的写法指定第三方，参照：
+					//[LOG] : xiaomi
+					//[LOG] : qq
+					//[LOG] : sinaweibo
+					//[LOG] : weixin
+					if (services[i].id == 'qq'){
+					 	service = services[i];
+					 	break; 
+					}
+				}
 				console.log(service.id+": "+service.authResult+", "+service.userInfo);
 				auth=service;
 				ol.setAttribute('onclick','login()');
@@ -152,9 +163,9 @@
 					userinfo(auth);
 				},function(e){
 					w&&w.close();w=null;
-					console.log("登录认证失败：");
+					console.log("登录认证失败");
 					console.log("["+e.code+"]："+e.message);
-					plus.nativeUI.alert("详情错误信息请参考授权登录(OAuth)规范文档：http://www.html5plus.org/#specification#/specification/OAuth.html",null,"登录失败["+e.code+"]："+e.message);
+					console.log("详情错误信息请参考授权登录(OAuth)规范文档：http://www.html5plus.org/#specification#/specification/OAuth.html",null,"登录失败["+e.code+"]："+e.message);
 				});
 			}else{
 				console.log("无效的登录认证通道！");
@@ -164,14 +175,16 @@
 		function userinfo(a){
 			a.getUserInfo(function(){
 				var nickname=a.userInfo.nickname||a.userInfo.name||a.userInfo.miliaoNick;
-				console.log(a.userInfo.openid+a.userInfo.gender+a.userInfo.nickname);
+				console.log(a.authResult.openid+a.userInfo.gender+a.userInfo.nickname);
+				var gen='m';
+				if(a.userInfo.gender=='女'){gen='f';}
 				mui.myAjax('http://49.234.77.32:8080/sfbook/user/tplogin',{
 	                        type:'post',
 	                        async:false,
 	                        timeout:5000,
 	                        headers:{'Content-Type':'application/json'},	
 	                        dataType:'json',
-							data:{openid:a.userInfo.openid,gender:a.userInfo.gender,nickname:a.userInfo.nickname,lst:getdt()}
+							data:{openid:a.authResult.openid,gender:gen,nickname:a.userInfo.nickname,lst:getdt()}
 	                    },
 	                function(data){
 	                    mui.toast('登录成功',{duration:1000,type:'div'}) ;
@@ -261,6 +274,9 @@
 		}
 		window.addEventListener('reg',function(event){
 			mui.toast('注册成功 请前往邮箱激活',{ duration:1000,type:'div'});
+		});	
+		window.addEventListener('toast',function(event){
+			mui.toast(event.detail.des,{ duration:1000,type:'div'});
 		});	
 	</script>
 </body>

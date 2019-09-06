@@ -164,8 +164,8 @@
 			var self;
 			var uid;
 			var list;
+			var interval;
 			
-			setInterval(clock,1000);
 			function clock(){
 				//console.log('hello?');
 				var progress_tips=document.getElementsByClassName('its-pro');
@@ -211,8 +211,10 @@
 			});
 			mui.init();
 			mui.plusReady(function(){
+				console.log('bm-main加载');
 				self=plus.webview.currentWebview();
 				mui.fire(self,'self',{});
+				console.log('bm-main加载end');
 			})
 			
 			/*
@@ -361,6 +363,13 @@
 			window.addEventListener('toast',function(event){
 				var toast=event.detail.toast;
 				mui.toast(toast,{ duration:'long', type:'div' });
+			});
+		
+			window.addEventListener('start',function(event){
+				interval=setInterval(clock,1000);
+			});
+			window.addEventListener('stop',function(event){
+				clearInterval(interval);
 			});
 		</script>
 	</body>

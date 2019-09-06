@@ -128,7 +128,8 @@
 					return;
 				}
 				/*邮箱格式验证*/
-				console.log(username+email);
+				//console.log(username+email);
+				plus.nativeUI.showWaiting();
 				mui.ajax('http://49.234.77.32:8080/sfbook/user/modify1',{
 					data:{
 						username:username,
@@ -140,10 +141,12 @@
 					headers:{'Content-Type':'application/json'},	              
 					success:function(data){
 						if(data.resp=='s'){
+							document.getElementById('checkcode').placeholder='请查收验证码';
 							uid=data.body.uid;
 							mui.toast('验证码正在发送',{ duration:1000,type:'div'}) ;
 						}
 						else if(data.resp=='ex'){
+							document.getElementById('checkcode').placeholder='请查收验证码';
 							mui.toast('验证码已经发送',{ duration:1000,type:'div'}) ;
 						}
 						else if(data.resp=='f'){
@@ -156,6 +159,7 @@
 						console.log(type);
 					}
 				});
+				plus.nativeUI.closeWaiting();
 			});
 			mui("body").on("tap","#fgt",function(){
 				var username=document.getElementById("username").value;
@@ -227,6 +231,8 @@
 							mui.toast('验证码输入有误',{ duration:1000,type:'div'}) ;
 						}
 						else{
+							var log=plus.webview.getWebviewById('ua-log.html');
+							mui.fire(log,toast,{des:'成功修改密码'})
 							self.close();
 						}
 					},

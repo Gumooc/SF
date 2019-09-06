@@ -8,6 +8,7 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link href="css/iconfont.css" rel="stylesheet"/>  
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="css/mui.min.css" rel="stylesheet" />
@@ -24,8 +25,43 @@
 			width:100%;
 			
 		}
+		.inputdiv{
+			position: absolute;
+			right: 0px;
+			float: right;
+			color:#007AFF;
+			width:150px;
+			height: 150px;
+		}
+		.inputdiv2{
+			//background: yellow;
+			position: absolute;
+			float: right;
+			color:#007AFF;
+			width: 100%;
+			height: 150px;
+			text-align: center;
+		}
+		.inputicon{
+			position: absolute;
+			font-size: 100px;
+			margin:25px;
+			margin-top: 15px;
+			margin-bottom: 10px;
+		}
 		.bm-serial-file-1{
-			
+			position: absolute;
+			left: 0px;
+			background: green;
+			opacity: 0;
+			width: 100%;
+			height: 100%;
+		}
+		.bm-serial-file-2{
+			margin: 0 auto;
+			left: 0px;
+			background: green;
+			opacity: 0;
 			width: 150px;
 			height: 150px;
 		}
@@ -54,7 +90,20 @@
 			float: left;
 			height:35px;
 		}
-		
+		.filename1{
+			position: absolute;
+			bottom: 15px;
+			width:100%;
+			text-align: center;
+			color:darkgray;
+		}
+		.filename2{
+			position: absolute;
+			bottom: 10px;
+			text-align: center;
+			width: 100%;
+			color:darkgray;
+		}
 	</style>
 </head>
 
@@ -85,14 +134,22 @@
 				<label>性别</label>
 				<input id='per' type="number" class="mui-input-clear mui-input"  placeholder="3:男性;4:女性">
 			</div>
-			<input class='bm-serial-file-1' type="file" accept="text/*"  id='text'/>
+			<div class='inputdiv'>
+				<icon class="mui-icon iconfont icon-wenben inputicon"></icon>
+				<div class='filename1'>请选择文本</div>
+				<input class='bm-serial-file-1' type="file" accept="text/plain"  id='text' onchange="changetxtname()"/>
+			</div>
 		</div>
 		<div class="mui-content-padded" >
 			<button id='bytext' class="mui-btn mui-btn-block mui-btn-primary bm-serial-btn-2">更新章节</button>
 		</div>
 		<div class="bar-new-div-1">通过音频制作</div>
 		<div class="bm-serial-div-1">
-			<input type="file" id='audio' accept="audio/*"/>
+			<div class='inputdiv2'>
+				<icon class="mui-icon iconfont icon-yinpinwenjian inputicon"></icon>
+				<input class='bm-serial-file-2' type="file" id='audio' accept="audio/*" onchange="changemp3name()"/>
+				<div class='filename2'>请选择音频</div>
+			</div>	
 		</div>
 		<div class="mui-content-padded">
 			<button id='byaudio' class="mui-btn mui-btn-block mui-btn-primary bm-serial-btn-2">更新章节</button>
@@ -142,19 +199,9 @@
 			//console.log('添加音频选项：'+spd+pit+vol+per);
 			var succ=1;
 			var files=document.getElementById('text').files;
-			
-		
-			//var f=new FileReader();
-			//f.readAsText(files[0],'UTF-8');
-			
-            var f=document.getElementById('text').files[0];
-            
-            
+
+            var f=document.getElementById('text').files[0]; 
 		 	console.log(f.name+f.size+f.type);
-		 	//console.log(document.getElementById('text').value+document.getElementById('text').files[0].size);
-			//return;
-			//var f=files[0];
-			//console.log(f.name+f.size+f.type);
 			
 			var formData=new FormData();
 			var edit=plus.webview.getWebviewById('bm-edit.html');
@@ -329,7 +376,18 @@
 		window.addEventListener('clear',function(event){
 			document.getElementById('secname').value='';
 		});
-		
+		function changetxtname(){
+			var f=document.getElementById('text').files[0];
+			var name=f.name;
+			console.log(name);
+			document.getElementsByClassName('filename1')[0].innerHTML=name;
+		}
+		function changemp3name(){
+			var f=document.getElementById('audio').files[0];
+			var name=f.name;
+			console.log(name);
+			document.getElementsByClassName('filename2')[0].innerHTML=name;
+		}
 	</script>
 </body>
 

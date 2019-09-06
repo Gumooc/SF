@@ -458,10 +458,11 @@
 		var num=[1,1,1,1,1,1,1,1,1,1,1];			//当前书籍的数量
 		var self;	
 		mui.plusReady(function(){
+			console.log('bl-main加载');
 			self=plus.webview.currentWebview();
 			mui.fire(self,'get',{tid:0});
-			var lau=plus.webview.getLaunchWebview();
-			mui.fire(lau,'calcu',{});
+			
+			
 		});
 
 		//按钮事件，显示详情
@@ -477,18 +478,19 @@
 		
 		//监听事件，为指定标签页加载书单
 		window.addEventListener('get',function(event){
+			console.log('getbooklist');
 			var tid=event.detail.tid;
 			var rid=req[tid];
 			var uid=plus.storage.getItem('uid');
 			if(uid==null)uid='0';
-			if(event.detail.waiting!='none'){plus.nativeUI.showWaiting();}
+			//if(event.detail.waiting!='none'){plus.nativeUI.showWaiting();}
 			if(tid==0){
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/book/recommend',{
 					data:{uid:uid},
 					dataType:'json',
 					type:'post',
 					async:false,
-					timeout:10000,
+					timeout:5000,
 					headers:{'Content-Type':'application/json'},	              
 					success:function(data){
 						var list;
@@ -586,11 +588,17 @@
 						}
 						document.getElementsByClassName("mui-table-view")[tid].innerHTML=html;
 						num[tid]+=1;
+						var lau=plus.webview.getLaunchWebview();
+						mui.fire(lau,'calcu',{});
+						plus.nativeUI.closeWaiting();
 					},
 					error:function(xhr,type,errorThrown){
 						plus.nativeUI.closeWaiting();
 						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
-						console.log(type);}
+						console.log(type);
+						var lau=plus.webview.getLaunchWebview();
+						mui.fire(lau,'calcu',{});
+					}
 				});
 			}
 			else{
@@ -599,10 +607,7 @@
 					dataType:'json',
 					type:'post',
 					async:false,
-					xhrFields: {
-			            withCredentials: true // 发送Ajax时，Request header中会带上 Cookie 信息。
-			        },
-					timeout:10000,
+					timeout:5000,
 					headers:{'Content-Type':'application/json'},	              
 					success:function(data){
 						var list=data.body;
