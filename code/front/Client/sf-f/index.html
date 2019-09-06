@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,8 +74,12 @@
 	    
 	    //监听事件，导航跳转 
 	    window.addEventListener('jump',function(event){
+	    	var bm=plus.webview.getWebviewById('bm-main.html');
 	    	var dst=event.detail.dst;
 	    	if(dst==src)return;
+	    	if(src=='bm-main.html'){mui.fire(bm,'stop',{});}
+	    	if(dst=='bm-main.html'){mui.fire(bm,'start',{});}
+	    	
 	    	plus.webview.show(dst);
 	    	plus.webview.hide(src);
 	    	src=dst;

@@ -124,6 +124,7 @@
 		
 	    mui.init();
 	    mui.plusReady(function(){
+	    	console.log('us-head加载');
 	    	self = plus.webview.currentWebview();
             for(var i=0;i<sub.length;i++){
                 var page = plus.webview.create(sub[i], sub[i], sub_style);
@@ -136,14 +137,26 @@
             
             
             plus.oauth.getServices(function(services){
-				var service=services[2];
+				var service;
+				for (var i = 0; i < services.length; i++){
+					//用这样的写法指定第三方，参照：
+					//[LOG] : xiaomi
+					//[LOG] : qq
+					//[LOG] : sinaweibo
+					//[LOG] : weixin
+					if (services[i].id == 'qq'){
+					 	service = services[i];
+					 	break; 
+					}
+				}
+
 				console.log(service.id+": "+service.authResult+", "+service.userInfo);
 				auth=service;
 				console.log('获取登录认证成功');
 			},function(e){
 				console.log("获取登录认证失败："+e.message);
 			});
-            
+            console.log('us-head加载end');
 	    });
 	    //监听事件，登录
 	    mui('body').on('tap','.us-head-btn-1',function(e){	
@@ -232,7 +245,7 @@
 						mui.fire(us_main,'login',{uid:uid});
 						plus.webview.show(src);
 					},
-					error:function(xhr,type,errorThrown){console.log(type);}
+					error:function(xhr,type,errorThrown){plus.nativeUI.closeWaiting();console.log(type);}
 				});
 				plus.nativeUI.closeWaiting();
 			}

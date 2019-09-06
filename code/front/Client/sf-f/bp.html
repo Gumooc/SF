@@ -1,3 +1,4 @@
+
 <!doctype html>
 <!--未完成的部分:加载速度问题-->
 <html>
@@ -92,6 +93,7 @@
 		
 		mui.init();
 		mui.plusReady(function(){
+			console.log('bp加载');
 			self=plus.webview.currentWebview();
 			var width=window.screen.width;
 			var height=window.screen.height;
@@ -100,6 +102,7 @@
 			document.getElementsByClassName('bp-disc-2')[0].height=(width*0.8)+'px';
 			document.getElementsByClassName('bp-disc-1')[0].width=(width*0.6)+'px';
 			document.getElementsByClassName('bp-disc-1')[0].width=(width*0.6)+'px';
+			console.log('bp加载end');
 		})
 		
 		mui('body').on('tap','.bp-disc-1',function(e){	
