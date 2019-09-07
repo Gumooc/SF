@@ -27,4 +27,5 @@ public interface UserService {
 	JSONObject updatepassword(int uid, String password);
 	User modifycheck(String username, String email);
 	
+	boolean askhide(int uid);
 }
