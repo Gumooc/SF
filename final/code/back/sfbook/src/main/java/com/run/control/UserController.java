@@ -265,8 +265,21 @@ public class UserController {
 	public JSONObject updateuser(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
+		//System.out.println("update_Controller0");
 		User user = (User) JSONObject.toBean(JSONObject.fromObject(liString), User.class);
+		//System.out.println("update_Controller1");
 		feedback = userService.updateuser(user);
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/askhide")
+	public JSONObject askhide(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int uid = JSONObject.fromObject(liString).getInt("uid");
+		feedback.put("resp", "s");
+		feedback.put("body", userService.askhide(uid));
 		return feedback;
 	}
 	
