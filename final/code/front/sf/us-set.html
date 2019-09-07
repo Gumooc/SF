@@ -1,0 +1,241 @@
+<!doctype html>
+<!--尚未完成的部分
+ 	当无内容的时候无法刷新更新信息，可添加一块面
+-->
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<link href="css/bar.css" rel="stylesheet" />
+	<link href="css/user.css" rel="stylesheet" />
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.picker.all.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+
+	<script src='js/ajax.js'></script>
+	<style>
+		.us-set-info-1{
+			width: 67%;
+			float: right;
+			padding:8px;
+			font-size: 16px;
+		}
+		.us-set-info-2{
+			width: 30%;
+			float: left;
+			padding:8px;
+			margin: 0px;
+			color: white;
+			background: #007AFF;
+		}
+		.us-set-div-1{
+			margin-top: 5px;
+			height:40px;
+			background: white;
+		}
+		.us-set-div-2{
+			width: 94%;
+			margin-left: 3%;
+		}
+		.us-set-input-1{
+			width: 80%;
+		}
+		.us-set-btn-2,.us-set-btn-1{
+			margin-left: 10px;
+			margin-top: 20px;
+			float: right;
+		}
+		.mui-btn {
+			padding: 10px;
+		}
+		.us-set-btn-3{
+			position: absolute;
+			right: 0;
+			font-size: 16px;
+			border:0;
+		}
+	</style>
+</head>
+
+<body>
+
+	<header class="mui-bar mui-bar-nav">
+			<div class='mui-title' style="color:#007AFF;">修改个人信息</div>
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+	</header>
+	<div class="mui-content">
+		<form id='login-form' class="mui-input-group">
+			<div class="mui-input-row">
+				<label>姓名</label>
+	    		<input class='us-set-input-1' type="text" id='nick' placeholder="真实姓名" />
+			</div>
+			<div class="mui-input-row">
+				<label>生日</label>
+				<input disabled="disabled" class='us-set-input-1' type="text" id='birth' placeholder="生日" />
+				<button id='starttime' class="mui-btn us-set-btn-3" type='button'>
+					<span class="mui-icon mui-icon-bars" style="color: #007AFF;font-size: 22px;"></span>
+				</button>
+			</div>
+			<div class="mui-input-row">
+				<label>电话</label>
+				<input class='us-set-input-1' type="text" id='phone' placeholder="电话" />
+			</div>
+			<div class="mui-input-row">
+				<label>性别</label>
+				<input class='us-set-input-1' type='text' id='male' placeholder="性别" disabled="disabled"/>
+				<button id='showUserPicker' class="mui-btn us-set-btn-3" type='button'>
+					<span class="mui-icon mui-icon-bars" style="color: #007AFF;font-size: 22px;"></span>
+				</button>
+			</div>
+		</form>
+		<div class="mui-content-padded" >
+			<button class="mui-btn mui-btn-block mui-btn-primary us-set-btn-1">提交修改</button>
+		</div>
+		
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script src="js/mui.picker.all.js"></script>
+	<script src="js/mui.picker.js"></script>
+	<script src="js/mui.poppicker.js"></script>
+	<script type="text/javascript">
+		var self;
+		var opener;
+		var old={};
+		
+		(function($, doc) {
+			$.init();
+			$.ready(function() {
+				//普通示例
+				var userPicker = new $.PopPicker();
+				userPicker.setData([{
+					value: 'male',
+					text: '男'
+				}, {
+					value: 'female', 
+					text: '女'
+				}]);
+				var showUserPickerButton = doc.getElementById('showUserPicker');
+				var userResult = doc.getElementById('male');
+				showUserPickerButton.addEventListener('tap', function(event) {
+					userPicker.show(function(items) {
+						userResult.placeholder=items[0].text;
+					});
+				}, false);
+
+			});
+		})(mui, document);
+		
+		
+		
+		
+		mui.plusReady(function(){
+			self=plus.webview.currentWebview();
+			opener=self.opener();
+			mui.myAjax=myAjax;
+			mui.fire(self,'self',{});
+		});
+		
+		document.getElementById('starttime').addEventListener('tap', function(){
+		    option={"type":"date","beginYear":"1930","endYear":"2019"};
+		     var picker = new mui.DtPicker(option);
+		     picker.show(function(rs) {
+		        console.log(rs.text);
+		        document.getElementById('birth').placeholder = rs.text;
+		     }); 
+		},false);
+		
+		//点击事件，上传个人信息
+		mui('body').on('tap','.us-set-btn-1',function(e){
+    		var nuser={};
+   			nuser.nickname=document.getElementById('nick').value;
+   			nuser.birth=document.getElementById('birth').placeholder;
+   			nuser.phone=document.getElementById('phone').value;
+   			var m=document.getElementById("male").placeholder;
+   			if(m=='男'){nuser.male=true;}
+   			else{nuser.male=false;}
+   			//不能修改的信息
+   			nuser.lst=old.lst;
+   			nuser.rgt=old.rgt;
+   			nuser.email=old.email;
+   			nuser.uid=parseInt(plus.storage.getItem('uid'));
+   			//过滤未修改的信息
+   			if(!nuser.nickname){nuser.nickname=old.nickname;}
+   			if(!nuser.phone){nuser.phone=old.phone;}
+   			//console.log(nuser.phone+nuser.birth+nuser.nickname+nuser.male);
+   			//更新用户信息
+   			
+   			mui.myAjax('http://49.234.77.32:8080/sfbook/user/updateuser',{
+                        type:'post',
+                        async:false,
+                        timeout:5000,
+                        headers:{'Content-Type':'application/json'},	
+                        dataType:'json',
+                        data:nuser
+                    },
+                function(data){
+                    if(data.resp=='s'){
+						console.log("成功更新基本信息");
+						mui.toast('成功更新基本信息',{ duration:'long', type:'div' }) 
+						var us_head=plus.webview.getWebviewById('us-head.html');
+		        		mui.fire(us_head,'self',{});
+    					var us_main=plus.webview.getWebviewById('us-main.html');
+    					mui.fire(us_head,'info',{uid:old.uid});
+    					self.close();
+					}
+                },function(state,xhr){
+                    console.log(state);
+                    mui.toast('连接到服务器出错',{ duration:'long', type:'div' }) 
+                }
+            );
+   		});
+   		//点击事件，清空
+		mui('body').on('tap','.us-set-btn-2',function(e){
+    		mui.fire(self,'clear',{});
+   		});
+   		//点击事件，加载个人信息
+		window.addEventListener('self',function(event){
+			var uid=parseInt(plus.storage.getItem('uid'));
+			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+				data:{uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					old=data.body;
+					console.log('加载个人信息');
+					document.getElementById('nick').placeholder=old.nickname;
+					document.getElementById('birth').placeholder=old.birth;
+					document.getElementById('phone').placeholder=old.phone;
+					if(old.male==true){
+						document.getElementById('male').placeholder='男';
+					}
+					else{
+						document.getElementById('male').placeholder='女';
+					}
+				},
+				error:function(xhr,type,errorThrown){console.log(type);}
+			});
+		});
+		//监听事件，清空记录
+		window.addEventListener('clear',function(event){
+			document.getElementById('nick').value='';
+			document.getElementById('birth').value='';
+			document.getElementById('phone').value='';
+			document.getElementsByClassName('us-set-input-2')[0].innerHTML="<input style='width:70%;float:right;' type='file' id='img'/>";
+			document.getElementById('birth').placeholder=old.birth;
+			document.getElementById('nick').placeholder=old.nickname;
+			document.getElementById('phone').placeholder=old.phone;
+		});
+
+
+	</script>
+</body>
+
+</html>
