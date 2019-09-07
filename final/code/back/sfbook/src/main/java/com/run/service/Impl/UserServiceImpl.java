@@ -155,11 +155,19 @@ public class UserServiceImpl implements UserService {
 	
 
 	@Override
+	public boolean askhide(int uid) {
+		//System.out.println("¼¤»î");
+		
+		return userMapper.askhide(uid);
+	}
+
+	@Override
 	public JSONObject updateuser(User user) {
-		//System.out.println("update_Service");
+		//System.out.println("update_Service0");
 		//System.out.println(user);
 		JSONObject feedback = new JSONObject();
 		userMapper.updateuser(user);
+		//System.out.println("update_Service1");
 		feedback.put("resp", "s");
 		return feedback;
 	}
