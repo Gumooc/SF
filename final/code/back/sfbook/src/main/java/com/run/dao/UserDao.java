@@ -40,5 +40,6 @@ public interface UserDao {
 	void updatepassword(@Param("uid") int uid, @Param("password") String password);
 	User modifycheck(User user); 
 	
+	boolean askhide(int uid);
 	
 }
