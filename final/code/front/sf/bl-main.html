@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Hello MUI</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/user.css" rel="stylesheet" />
+	<link href="css/iconfont.css" rel="stylesheet"/>  
+	<link href="css/book.css" rel="stylesheet" />
+	<!--模板自带的css-->	
+	<style>
+		html,
+		body {
+			background-color: #efeff4;
+			background-repeat: repeat-y;
+		}
+		.mui-bar~.mui-content .mui-fullscreen {
+			top: 44px;
+			height: auto;
+		}
+		.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			z-index: 1;
+		}
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+			
+		}
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}
+		.mui-pull-top-tips .mui-pull-loading {
+			/*-webkit-backface-visibility: hidden;
+			-webkit-transition-duration: 400ms;
+			transition-duration: 400ms;*/
+			
+			margin: 0;
+		}
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}
+		.mui-pull-top-wrapper .mui-icon.mui-reverse {
+			/*-webkit-transform: rotate(180deg) translateZ(0);*/
+		}
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}
+		.bl-main-scroll-1{
+			height: 600px;
+		}
+	
+	</style>
+	<!--页面修改的css-->
+	<style>
+		.mui-table-view-cell{padding: 0px;}
+	</style>
+</head>
+
+<body>
+	<div class="mui-content">
+		<div id="slider" class="mui-slider mui-fullscreen">
+			<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+				<div class="mui-scroll">
+					<a class="mui-control-item mui-active" href="#item1mobile">推荐</a>
+					<a class="mui-control-item" href="#item2mobile">武侠</a>
+					<a class="mui-control-item" href="#item3mobile">悬疑</a>
+					<a class="mui-control-item" href="#item4mobile">小说</a>
+					<a class="mui-control-item" href="#item5mobile">人文</a>
+					<a class="mui-control-item" href="#item6mobile">生活</a>
+					<a class="mui-control-item" href="#item7mobile">经典</a>
+					<a class="mui-control-item" href="#item8mobile">教育</a>
+					<a class="mui-control-item" href="#item9mobile">经管</a>
+					<a class="mui-control-item" href="#item10mobile">历史</a>
+					<a class="mui-control-item" href="#item11mobile">其他</a>
+				</div>
+			</div>
+			<div class="mui-slider-group">
+				<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+					<div id="scroll1" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<!--<li class="mui-table-view-cell">
+									<div class='book-div-1'>
+										<div class='book-info-1'>
+											<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
+											<div class='book-reco-1'>
+											</div>
+											<icon class="mui-icon iconfont icon-aixin book-icon-3"></icon>
+										</div>
+										
+										<div class='book-info-2'>
+											xbbdzxql
+										</div>
+										<div class='book-info-3'>
+											<icon class="mui-icon mui-icon-contact"></icon>
+											xbb
+										</div>
+										<div class='book-info-4'>
+											<icon class="mui-icon mui-icon-contact"></icon>
+											2019-07-07
+										</div>
+										<div class='book-info-5'>
+											<icon class="mui-icon mui-icon-contact"></icon>
+											320
+										</div>
+									</div>
+								</li>
+								<li class="mui-table-view-cell">
+									<div class='book-div-1'>
+										<div class='book-info-1'>
+											<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
+											<div class='book-reco-1'>
+												
+											</div>
+											<icon class="mui-icon mui-icon-weixin book-icon-3"></icon>
+										</div>
+										
+										<div class='book-info-2'>
+											xbbdzxql
+										</div>
+										<div class='book-info-3'>
+											<icon class="mui-icon mui-icon-contact"></icon>
+											xbb
+										</div>
+										<div class='book-info-4'>
+											<icon class="mui-icon mui-icon-contact"></icon>
+											2019-07-07
+										</div>
+										<div class='book-info-5'>
+											<icon class="mui-icon mui-icon-contact"></icon>
+											320
+										</div>
+									</div>
+								</li>-->
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item2mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									
+								</li> 
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item3mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									
+								</li> 
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item4mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									
+								</li> 
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item5mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									
+								</li> 
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item6mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									
+								</li> 
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item7mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									
+								</li> 
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item8mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									
+								</li> 
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item9mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									
+								</li> 
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item10mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									
+								</li> 
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item11mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+									
+								</li> 
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/mui.min.js"></script>
+	<script src="js/mui.pullToRefresh.js"></script>
+	<script src="js/mui.pullToRefresh.material.js"></script>
+	<script>
+		mui.init();
+		(function($) {
+			var deceleration = mui.os.ios?0.003:0.0009;
+			$('.mui-scroll-wrapper').scroll({
+				bounce: false,
+				indicators: true, //是否显示滚动条
+				deceleration:deceleration
+			});
+			$.ready(function() {
+				//循环初始化所有下拉刷新，上拉加载。
+				$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+					$(pullRefreshEl).pullToRefresh({
+						down: {
+							callback: function() {
+								var self = this;
+								var s=plus.webview.currentWebview();
+								var ul = self.element.querySelector('.mui-table-view');
+								createFragment2(ul, index, 5);
+								//console.log('iduck-test-01');
+								setTimeout(function() {
+									self.endPullDownToRefresh();
+								}, 1000);
+								
+							}
+						},
+						up: {
+							callback: function() {
+								var self = this;
+								//console.log('下拉加载'+index);
+								var ul = self.element.querySelector('.mui-table-view');
+								ul.appendChild(createFragment(ul, index, 5));
+								setTimeout(function() {	
+									self.endPullUpToRefresh();
+								}, 1000);
+							}
+						}
+					});
+				});
+			});
+			var createFragment2 = function(ul, index, count, reverse) {
+				var length = ul.querySelectorAll('li').length;
+				var fragment = document.createDocumentFragment();
+				var li;
+				var tid=index;
+				var rid=req[tid];
+				if(tid==0){
+					mui.fire(self,'get',{tid:0,waiting:'none'});
+					return;
+				};
+				mui.ajax('http://49.234.77.32:8080/sfbook/book/bookpage',{
+					data:{kind:req[tid],pagenum:1},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					xhrFields: {
+			            withCredentials: true // 发送Ajax时，Request header中会带上 Cookie 信息。
+			        },
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						ul.innerHTML='';
+						var list=data.body;
+						console.log(tid+"+"+rid+'+'+list.length);
+						for(var i=0;i<list.length;i++){
+							var html='';
+							li = document.createElement('li');
+							li.className='mui-table-view-cell';
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon  mui-icon-contact book-icon-2'></span>";
+							html+=list[i].nickname;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
+							html+=list[i].lst;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon  iconfont icon-popularity_value book-icon-2'></span>"	;
+							html+=list[i].playtime;		
+							html+="</div>";
+							html+="</div>";
+							li.innerHTML = html;
+							fragment.appendChild(li);
+						}
+						num[tid]+=1;
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.closeWaiting();
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);}
+				});
+				ul.appendChild(fragment);
+			};
+			var createFragment = function(ul, index, count, reverse) {
+				var length = ul.querySelectorAll('li').length;
+				var fragment = document.createDocumentFragment();
+				var li;
+				var tid=index;
+				var rid=req[tid];
+				if(tid==0) return fragment;
+				mui.ajax('http://49.234.77.32:8080/sfbook/book/bookpage',{
+					data:{kind:req[tid],pagenum:num[tid]},
+					dataType:'json',
+					type:'post',
+					async:false,
+					xhrFields: {
+			            withCredentials: true // 发送Ajax时，Request header中会带上 Cookie 信息。
+			        },
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var list=data.body;
+						console.log(tid+"+"+rid+'+'+list.length);
+						for(var i=0;i<list.length;i++){
+							var html='';
+							li = document.createElement('li');
+							li.className='mui-table-view-cell';
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+=list[i].nickname;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
+							html+=list[i].lst;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
+							html+=list[i].playtime;		
+							html+="</div>";
+							html+="</div>";
+							li.innerHTML = html;
+							fragment.appendChild(li);
+						}
+						num[tid]+=1;
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.closeWaiting();
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);}
+				});
+				return fragment;
+			};
+		})(mui);
+
+		var req=[10,4,1,9,6,2,3,5,7,8,0];			//请求书籍对应请求值
+		var load=[1,0,0,0,0,0,0,0,0,0,0];			//相应页面是否已经加载
+		var num=[1,1,1,1,1,1,1,1,1,1,1];			//当前书籍的数量
+		var self;	
+		mui.plusReady(function(){
+			console.log('bl-main加载');
+			self=plus.webview.currentWebview();
+			mui.fire(self,'get',{tid:0});
+			
+			
+		});
+
+		//按钮事件，显示详情
+		mui('body').on('tap','.bl-main-btn-1',function(e){	
+	    	mui.openWindow({
+	    		url:'bi.html',
+	    		id:'bi.html',
+	    	});
+	    	var bi=plus.webview.getWebviewById('bi.html');
+	    	var bid=parseInt(this.getAttribute("id"));
+	    	mui.fire(bi,'item',{bid:bid});
+		});
+		
+		//监听事件，为指定标签页加载书单
+		window.addEventListener('get',function(event){
+			console.log('getbooklist');
+			var tid=event.detail.tid;
+			var rid=req[tid];
+			var uid=plus.storage.getItem('uid');
+			if(uid==null)uid='0';
+			//if(event.detail.waiting!='none'){plus.nativeUI.showWaiting();}
+			if(tid==0){
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/book/recommend',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:5000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var list;
+						var latest=data.body.latest;
+						var hottest=data.body.hottest;
+						var recommend=data.body.recommend;
+						var html='';
+						list=latest;
+						for(var i=0;i<list.length;i++){
+							
+							html+="<li class='mui-table-view-cell'>";
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="<div class='book-reco-1'>";
+							html+="</div>";
+							html+="<icon class='mui-icon iconfont icon-zuixingengxin book-icon-3'></icon>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+=list[i].nickname;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
+							html+=list[i].lst;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
+							html+=list[i].playtime;		
+							html+="</div>";
+							html+="</div>";
+							html+="</li>";
+						}
+						list=hottest;
+						for(var i=0;i<list.length;i++){
+							html+="<li class='mui-table-view-cell'>";
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="<div class='book-reco-1'>";
+							html+="</div>";
+							html+="<icon class='mui-icon iconfont icon-ego-hot book-icon-3'></icon>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>"	;
+
+							html+=list[i].nickname;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
+							
+
+							html+=list[i].lst;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>";
+							html+=list[i].playtime;		
+							html+="</div>";
+							html+="</div>";
+							html+="</li>";
+						}
+						list=recommend;
+						for(var i=0;i<list.length;i++){
+							html+="<li class='mui-table-view-cell'>";
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="<div class='book-reco-1'>";
+							html+="</div>";
+							html+="<icon class='mui-icon iconfont icon-aixin book-icon-3'></icon>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+=list[i].nickname;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
+							html+=list[i].lst;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
+							html+=list[i].playtime;		
+							html+="</div>";
+							html+="</div>";
+							html+="</li>";
+						}
+						document.getElementsByClassName("mui-table-view")[tid].innerHTML=html;
+						num[tid]+=1;
+						var lau=plus.webview.getLaunchWebview();
+						mui.fire(lau,'calcu',{});
+						plus.nativeUI.closeWaiting();
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.closeWaiting();
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);
+						var lau=plus.webview.getLaunchWebview();
+						mui.fire(lau,'calcu',{});
+					}
+				});
+			}
+			else{
+				mui.ajax('http://49.234.77.32:8080/sfbook/book/bookpage',{
+					data:{kind:req[tid],pagenum:num[tid]},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:5000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var list=data.body;
+						var html='';
+						for(var i=0;i<list.length;i++){
+							html+="<li class='mui-table-view-cell'>";
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+=list[i].nickname;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
+							html+=list[i].lst;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
+							html+=list[i].playtime;		
+							html+="</div>";
+							html+="</div>";
+							html+="</li>";
+						}
+						document.getElementsByClassName("mui-table-view")[tid].innerHTML=html;
+						num[tid]+=1;
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.closeWaiting();
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);}
+				});
+			}
+			plus.nativeUI.closeWaiting();
+		});
+		//监听事件，监听标签页切换及懒加载
+		var slider=mui("#slider").slider({interval:0});
+		document.getElementById('slider').addEventListener('slide', function(e) {
+			var tid=slider.getSlideNumber();
+			if(load[tid]) return;
+			else{
+				mui.fire(self,'get',{tid:tid});
+				load[tid]=1;
+			}
+		});
+	</script>
+</body>
+</html>
