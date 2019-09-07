@@ -1,0 +1,268 @@
+<!doctype html>
+<!--未完成的部分
+	无法通过评论打开页面
+-->
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/user.css" rel="stylesheet" />
+	<style>
+		.user-set-1{
+			position: absolute;
+			left: 10px;
+			top:10px;
+			z-index: 100;
+			font-size: 30px;
+			color: white;
+		}
+		.mui-plus .plus{
+			display: inline;
+		}
+		
+		.plus{
+			display: none;
+		}
+		
+		#topPopover {
+			position: fixed;
+			top: 16px;
+			right: 6px;
+		}
+		#topPopover .mui-popover-arrow {
+			left: auto;
+			right: 6px;
+		}
+		p {
+			text-indent: 22px;
+		}
+		span.mui-icon {
+			font-size: 14px;
+			color: #007aff;
+			margin-left: -15px;
+			padding-right: 10px;
+		}
+		.mui-popover {
+			height: 140px;
+			width:100px
+		}
+		.us-head-btn-1{
+			margin-top: 0px;
+			background: rgba(0,0,0,0);
+			color: darkgray;
+			width: 150px;
+			border-radius: 10px;
+			font-size: 20px;
+		}
+		.us-head-div-1{text-align: center;}
+		.us-head-div-2{
+			margin: 0 auto;
+			margin-top: 80px;
+			width: 200px;
+			height: 200px;
+			background: indianred;
+			background:url(image/und.png);
+			background-size: 100% 100%;
+			
+		}
+	</style>
+</head>
+
+<body>
+	<!--右上角弹出菜单-->
+	
+	<a id="menu" class="mui-action-menu mui-icon mui-icon-bars user-set-1" href="#topPopover"></a>
+	<div class='mui-bar mui-bar-nav user-header-1'>
+		<div class="mui-card user-info-1"></div>
+		<div class='user-info-2'>尚未登录</div>
+	</div>
+	
+	<div id="topPopover" class="mui-popover">
+		<div class="mui-popover-arrow"></div> 
+		<div class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell" id='logout'>
+						登出账户
+					</li>
+					<li class="mui-table-view-cell" id='pass'>
+						修改密码
+					</li>
+					<li class="mui-table-view-cell" id='info'>
+						信息管理
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="mui-content" style="margin-top:150px;">
+		<div class='us-head-div-1'>
+			<div class="us-head-div-2"></div>
+			<button class="us-head-btn-1">登录</button>
+		</div>
+		
+	</div>
+	
+	
+	
+	<script src="js/mui.min.js"></script>
+	<script src="js/mui.enterfocus.js"></script>
+	<script src="js/app.js"></script>
+	<script type="text/javascript" src="../js/common.js"></script>
+	<script type="text/javascript" src="../js/immersed.js" ></script>
+	<script type="text/javascript">
+		var src='us-main.html';
+		var sub=['us-main.html'];
+		var sub_style={top:'200px',bottom:'0px'};
+		var self;
+		var us_main;
+		var auth;
+		
+	    mui.init();
+	    mui.plusReady(function(){
+	    	console.log('us-head加载');
+	    	self = plus.webview.currentWebview();
+            for(var i=0;i<sub.length;i++){
+                var page = plus.webview.create(sub[i], sub[i], sub_style);
+				page.hide();
+                self.append(page);
+            }
+            us_main=plus.webview.getWebviewById('us-main.html');
+            plus.webview.show(src);
+            mui.fire(self,'self',{});
+            
+            
+            plus.oauth.getServices(function(services){
+				var service;
+				for (var i = 0; i < services.length; i++){
+					//用这样的写法指定第三方，参照：
+					//[LOG] : xiaomi
+					//[LOG] : qq
+					//[LOG] : sinaweibo
+					//[LOG] : weixin
+					if (services[i].id == 'qq'){
+					 	service = services[i];
+					 	break; 
+					}
+				}
+
+				console.log(service.id+": "+service.authResult+", "+service.userInfo);
+				auth=service;
+				console.log('获取登录认证成功');
+			},function(e){
+				console.log("获取登录认证失败："+e.message);
+			});
+            console.log('us-head加载end');
+	    });
+	    //监听事件，登录
+	    mui('body').on('tap','.us-head-btn-1',function(e){	
+	    	mui.openWindow({
+	    		url:'ua-log.html',
+	    		id:'ua-log.html',
+	    	});
+		});
+		//按钮事件，登出
+		mui('body').on('tap','#logout',function(e){	
+			mui.ajax('http://49.234.77.32:8080/sfbook/user/logout',{
+				data:'bbsb',
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					var uid=plus.storage.getItem('uid');
+					if(uid==null){
+						mui.toast('请先登录',{ duration:'long', type:'div' }) ;
+						return;
+					}
+			    	plus.storage.removeItem('uid');
+			    	mui.fire(self,'self',{});
+			    	var bm_main=plus.webview.getWebviewById('bm-main.html');
+			    	mui.fire(bm_main,'get',{});
+			    	
+					auth.logout(function(){
+						console.log("注销\""+auth.description+"\"成功");
+					},function(e){
+						console.log("注销\""+auth.description+"\"失败："+e.message);
+					});
+				},
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' }) ;
+					console.log(type);
+				}
+			});
+		});
+		//按钮事件，修改密码
+		 mui('body').on('tap','#pass',function(e){	
+		 	var uid=plus.storage.getItem('uid');
+			if(uid==null){
+				mui.toast('请先登录',{ duration:'long', type:'div' }) ;
+				return;
+			}
+	    	mui.openWindow({
+	    		url:'ua-chgpass.html',
+	    		id:'ua-chgpass.html',
+	    	});
+		});
+		//监听事件，登录
+	    mui('body').on('tap','#info',function(e){	
+	    	var uid=plus.storage.getItem('uid');
+			if(uid==null){
+				mui.toast('请先登录',{ duration:'long', type:'div' }) ;
+				return;
+			}
+	    	mui.openWindow({
+	    		url:'us-set.html',
+	    		id:'us-set.html',
+	    	});
+		});
+		//监听事件，检查登录状态
+		window.addEventListener('self',function(event){
+			var uid=plus.storage.getItem('uid');
+			if(uid==null){
+				document.getElementsByClassName('user-info-1')[0].innerHTML='';
+				document.getElementsByClassName('user-info-2')[0].innerHTML='尚未登录';
+				plus.webview.hide(src);
+			}
+			else{
+				plus.nativeUI.showWaiting();
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var user=data.body;
+						document.getElementsByClassName('user-info-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+user.img+"'/>";
+						document.getElementsByClassName('user-info-2')[0].innerHTML=user.nickname;	
+						mui.fire(us_main,'login',{uid:uid});
+						plus.webview.show(src);
+					},
+					error:function(xhr,type,errorThrown){plus.nativeUI.closeWaiting();console.log(type);}
+				});
+				plus.nativeUI.closeWaiting();
+			}
+		});
+		//进入头像修改界面
+		 mui('body').on('tap','.user-info-1',function(e){	
+		 	var uid=plus.storage.getItem('uid');
+			if(uid==null){
+				mui.toast('请先登录',{ duration:'long', type:'div' }) ;
+				return;
+			}
+	    	mui.openWindow({
+	    		url:'us-img.html',
+	    		id:'us-img.html',
+	    	});
+		});
+	</script>
+</body>
+
+</html>
