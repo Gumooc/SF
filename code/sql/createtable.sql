@@ -1,7 +1,7 @@
 drop table if exists tp;
 create table tp(
 	uid int,
-    openid varchar(16),
+    openid varchar(64),
     primary key(openid)
 );
 
@@ -9,8 +9,8 @@ create table tp(
 drop table if exists user;
 create table user(
 	uid int auto_increment,
-    username varchar(16),
-    password varchar(16),
+    username varchar(64),
+    password varchar(64),
     nickname varchar(16) default "user???",
     lst date not null default "0000-01-01",
     rgt date not null default "0000-01-01",
