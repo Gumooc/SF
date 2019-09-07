@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.run.dao.RecommendDao">
+
+    <select id="asklatest"  parameterType="Integer" resultType="com.run.entity.Book">
+		select * from book where shared = true and forbidden = false order by lst desc limit #{num};
+    </select>
+    <select id="askhottest"  parameterType="Integer" resultType="com.run.entity.Book">
+		select * from book where shared = true and forbidden = false order by playtime desc limit #{num};
+    </select>
+</mapper>
