@@ -1,0 +1,497 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<link href="css/book.css" rel='stylesheet' />
+	<link href="css/iconfont.css" rel="stylesheet"/>  
+	<link href="css/bar.css" rel='stylesheet' />
+	<script src='js/ajax.js'></script>
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<style>
+		.bi-div-5{border-radius: 10px;}
+		.bi-btn-4{position: absolute;right:10px;bottom: 70px;}
+		.bi-btn-2{position: absolute;right:10px;bottom: 10px;}
+		.bi-info-1{height: 150px;width:150px;background:indianred;float: left;
+			/*文字居中*/
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.bi-info-2{height: 150px;width:100%;margin-left: 0px;float: left;background:blue;}
+		.bi-info-3{height: 150px;width: 52%;float: left;border-radius:10px;}
+		.bi-info-5{height: 50px;width: 94%;margin-top: 0px;border-radius: 10px;background:orange;}
+		.bi-div-1{background: white;border-bottom:1px solid #007AFF;}
+		body{padding: 0px;margin: 0px;color: #007AFF;}
+		.bi-btn-7{width:10px;position: absolute;top:0px;color: darkgray;font-weight: bolder;}
+		.bi-font-1{padding-top:10px;width:100%;text-align:center;font-size:18px;}
+		.mui-card{margin:1px 0px 0px 0px;padding: 0px;}
+		.bi-div-2{background: white;padding-bottom:10px;}
+		.bi-div-4{background: white;padding-bottom:10px;}
+		.bi-title-1{height:25px;font-weight:bolder;padding:10px;}
+		.bi-btn-6{float: right;margin-right:3%;margin-top:10px;}
+		.bi-info-7{margin: 10px 10px;width:80%;}
+		.bi-btn-1{width: 50px;margin:3px;}
+		.bi-info-6{height: 80px;width: 80px;border-radius: 100%;float: left;margin:20px 10px 10px 20px;}
+		.bi-info-8{height:25px;padding-top:10px;font-size:18px;font-weight:bolder;}
+		.bi-info-9{height:25px;padding-top:10px;font-size:14px;color:darkgray;font-weight:bolder;}
+		.bi-btn-4{position: absolute;right:20px;top: 20px;}
+		.bi-btn-8{position: absolute;right:60px;bottom: 100px;}
+		.bi-input-1{width: 85%;margin-left:3%;margin-top: 10px;} 
+		.bi-btn-5{position: absolute;right:20px;top: 70px;font-size:25px;}
+		.bi-info-10{height: 70px;width: 70px;border-radius: 100%;float: left;margin:20px 20px 10px 20px;box-shadow:0 0 0 #000000 inset;}
+		.bi-info-11{height:25px;padding-top:10px;font-size:16px;font-weight:bolder;}
+		.bi-info-13{width:100px;float: right;margin-right:20px;color: darkgray;font-size:16px;}
+		.bi-info-12{height:25px;padding-top:10px;font-size:14px;color:darkgray;font-weight:bolder;}
+		.bi-div-6{width: 100%;float:left;}
+		.bi-div-8{width: 100%;float:left;border-bottom: 1px solid darkgray;}
+	</style>
+</head>
+
+<body>
+	
+	<header class="mui-bar mui-bar-nav">
+			<div class='mui-title' style="color: #007AFF;">--</div>
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+	</header>
+	 
+	<div class="mui-content">
+		<div class='mui-card book-div-2'>
+			<div class='book-info-10'>
+				<div class='book-info-6'>?</div>
+			</div>
+		
+			<div class='book-info-2'>
+				--
+			</div>
+			<div class='book-info-3'> 
+				<span class="mui-icon mui-icon-contact book-icon-2"></span>
+				name
+			</div>
+			<div class='book-info-4'>
+				<span class="mui-icon iconfont icon-biaoqian book-icon-2"></span>
+				分类：
+			</div>
+			<div class='book-info-4'>
+				<span class="mui-icon iconfont icon-zuixingengxin book-icon-2"></span>
+				release
+			</div>
+			<div class='book-info-7'>
+				<span class="mui-icon iconfont icon-popularity_value book-icon-2"></span>
+				playtime
+			</div>
+			<div class='book-info-8'>
+				有声书简介
+			</div>
+		</div>	
+		
+		<div class="mui-card bi-div-4">
+			<div class='bi-title-1'>
+				分集情况
+			</div>
+			<!--<button type="button" class="mui-btn mui-btn-primary bi-btn-6"><span class="mui-icon mui-icon-bars"></span></button>-->
+			<div class='bi-info-7'>
+				
+			</div>
+		</div>
+		<div class='mui-card bi-div-2'>
+			<div class='bi-title-1'>
+				作者信息
+			</div>
+			<div class='bi-div-6'>
+				<div class='mui-card bi-info-6 bi-btn-3'>?</div>
+				<div class='bi-info-8'>
+					name
+				</div>
+				<div class='bi-info-9'>
+					<span class="iconfont icon-youxiang"></span>
+					email
+				</div>
+
+			</div>
+		</div>
+		<div class='mui-card bi-div-3'>
+			<div class="mui-card" style="height:120px;">
+				<div class='bi-title-1'>
+					评论信息
+				</div>
+				<textarea class='bi-input-1' placeholder='添加评论' id='cmt'></textarea>
+				<span class='mui-icon iconfont icon-pinglun bi-btn-5'></span>
+			</div>
+			<div class='bi-div-7'>
+				<div class='bi-div-8'>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		var item={book:{},author:{},cmt:[],chapter:[],des:''};
+		var self;
+		var opener;
+		var bookid;
+		
+		mui.init();
+		mui.plusReady(function(){
+			self=plus.webview.currentWebview();
+			opener=self.opener();
+			mui.myAjax=myAjax;
+		})
+		
+		//点击事件，进入作者空间
+		mui('body').on('tap','.bi-btn-3',function(e){
+			plus.nativeUI.showWaiting();
+			var uid=item.book.uid;
+			var mid=parseInt(plus.storage.getItem('uid'));
+			plus.storage.setItem('visit',''+uid+'');
+			mui.openWindow({
+	    		url:'os-head.html',
+	    		id:'os-head.html',
+	    	});
+	    	plus.nativeUI.closeWaiting();
+		});
+		//点击事件，进入评论人空间
+		mui('body').on('tap','.bi-info-10',function(e){
+			plus.nativeUI.showWaiting();
+			var ele=document.getElementsByClassName('bi-info-10');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+			var uid=item.cmt[cnt].uid;
+			var mid=parseInt(plus.storage.getItem('uid'));
+			plus.storage.setItem('visit',''+uid+'');
+			mui.openWindow({
+	    		url:'os-head.html',
+	    		id:'os-head.html',
+	    	});
+	    	plus.nativeUI.closeWaiting();
+		});
+		//点击事件，播放音频
+		mui('body').on('tap','.bi-btn-1',function(e){
+			//console.log('tapsec');
+			var ustr=plus.storage.getItem('uid');
+			var uid=parseInt(ustr);
+			if(ustr==null){ 
+				uid=0;
+			}
+			
+			var ele=document.getElementsByClassName('bi-btn-1');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	    	plus.nativeUI.showWaiting();
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/playbook',{
+				data:{uid:uid,bid:item.book.bid,lst:getdt()},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					mui.fire(self,'play',{sid:cnt});
+				},
+				error:function(xhr,type,errorThrown){
+					plus.nativeUI.closeWaiting();
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);
+				}
+			});
+			plus.nativeUI.closeWaiting();	
+	    });
+	    //点击事件，收藏作品
+	    mui('body').on('tap','.bi-btn-4',function(e){
+			
+			var uid=plus.storage.getItem('uid');
+			var bid=item.book.bid;
+			var stamp=getdt(); 
+			if(!item.book.collected){
+				plus.nativeUI.showWaiting();
+				mui.ajax('http://49.234.77.32:8080/sfbook/collector/insert',{
+					data:{uid:uid,bid:item.book.bid,lst:stamp},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var resp=data.resp;
+						if(resp=='s'){
+							item.book.collected=true;
+							console.log("添加图书至收藏夹");
+							mui.toast('添加图书至收藏夹',{ duration:'long', type:'div' });
+							var us_collect=plus.webview.getWebviewById('us-collect.html');
+							
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.closeWaiting();
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);}
+				});
+				plus.nativeUI.closeWaiting();
+			}
+			else{
+				plus.nativeUI.showWaiting();
+				mui.ajax('http://49.234.77.32:8080/sfbook/collector/delete',{
+					data:{uid:uid,bid:item.book.bid,lst:stamp},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var resp=data.resp;
+						if(resp=='s'){
+							item.book.collected=false;
+							console.log("从图书收藏夹移除");
+							mui.toast('从图书收藏夹移除',{ duration:'long', type:'div' });
+							var us_collect=plus.webview.getWebviewById('us-collect.html');
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.closeWaiting();
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);}
+				});
+				plus.nativeUI.closeWaiting();
+			}
+	    });
+	    
+		//点击事件，发布评论
+		mui('body').on('tap','.bi-btn-5',function(e){
+			var ustr=plus.storage.getItem('uid');
+			if(ustr==null){
+				console.log("尚未登录无法评论");
+				mui.toast('尚未登录无法评论',{ duration:'long', type:'div' });
+				return;
+			}
+			var uid=parseInt(ustr);
+			
+			var cmt=document.getElementById('cmt').value;
+			var dt=getdt();
+			plus.nativeUI.showWaiting();
+			mui.myAjax('http://49.234.77.32:8080/sfbook/comment/insert',{
+                        type:'post',
+                        async:false,
+                        timeout:5000,
+                        headers:{'Content-Type':'application/json'},	
+                        dataType:'json',
+                        data:{uid:uid,bid:item.book.bid,des:cmt,lst:getdt()}
+                    },
+                function(data){
+                    console.log('成功发布评论');
+					mui.toast('成功发布评论',{ duration:'long', type:'div' });
+					mui.fire(self,'cmt',{bid:bookid});
+                },function(state,xhr){
+                	mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+                    console.log(state)
+                }
+            );
+			plus.nativeUI.closeWaiting();
+	    });
+	    
+	    //监听事件，加载评论
+	    window.addEventListener('cmt',function(event){
+	    	var bid=event.detail.bid;
+	    	//console.log(bid);
+	    	plus.nativeUI.showWaiting();
+	    	mui.ajax('http://49.234.77.32:8080/sfbook/book/comment',{
+				data:{bid:bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					item.cmt=data.body;
+					var html='';
+					for(var i=0;i<item.cmt.length;i++){
+						html+="<div class='bi-div-8'>";
+						html+="<div class='mui-card bi-info-10 '><img width='100%' height='100%' src='data:image/jpg;base64,"+item.cmt[i].img+"'/></div>";
+						html+="<div class='bi-info-11'>"+item.cmt[i].nickname;
+						html+="<div class='bi-info-13'>";
+						html+=item.cmt[i].lst;
+					  	html+="</div></div>";
+						html+="<div class='bi-info-12'>"+item.cmt[i].des+"</div>";
+						html+="</div>";
+					}
+					document.getElementsByClassName("bi-div-7")[0].innerHTML=html;
+				},
+				error:function(xhr,type,errorThrown){
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
+			});
+			plus.nativeUI.closeWaiting();
+	
+	    });
+		
+		//监听事件，加载详情
+		window.addEventListener('item',function(event){
+			var uid=plus.storage.getItem('uid');
+			if(uid==null)uid='0';
+			bookid=event.detail.bid;
+			
+			plus.nativeUI.showWaiting();
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/bookinfo',{
+				data:{bid:event.detail.bid,uid:uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){ 
+					item.book=data.body;
+					item.chapter=JSON.parse(item.book.chapter).body;
+					var tagname=['其他 ','悬疑 ','生活  ','经典  ','武侠 ','教育','社科 ','经管 ','历史 ','小说 '];
+					var cate='';
+					for(var i=0;i<10;i++){
+						if(item.book.kind&(1<<i)){cate+=tagname[i];}
+					}
+					var html='';
+					html+="<div class='book-info-10'>";
+					html+="<div class='mui-card book-info-6'><img width='128px' height='128px' src='data:image/jpg;base64,"+item.book.img+"'/></div>";
+					html+="</div>"; 
+					html+="<div class='book-info-2'>";
+					html+=item.book.bookname;
+					html+="</div>";
+					html+="<div class='book-info-3'>";
+					html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+					html+=item.book.nickname;
+					html+="</div>";
+					html+="<div class='book-info-4'>";
+					html+="<span class='mui-icon iconfont icon-biaoqian book-icon-2'></span>";
+					html+=cate;		
+					html+="</div>";		
+					html+="<div class='book-info-4'>";
+					html+="<span class='mui-icon iconfont icon-zuixingengxin  book-icon-2'></span>";
+					html+=item.book.lst;		
+					html+="</div>";		
+					html+="<div class='book-info-7'>";
+					html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
+					html+=item.book.playtime;		
+					html+="</div>";
+					if(uid==0){
+						//do nothing
+					}
+					else if(item.book.collected==true){
+						html+="<span class='mui-icon mui-icon-star bi-btn-4'></span>";
+					}
+					else{
+						html+="<span class='mui-icon mui-icon-star bi-btn-4'></span>";
+					}
+					html+="<div class='book-info-8'>"+"简介"+"</div>"; 
+					document.getElementsByClassName("book-div-2")[0].innerHTML=html;
+					html='';
+					for(var i=0;i<item.chapter.length;i++){
+						html+="<button class='bi-btn-1'>p"+(i+1)+"</button>";
+					}
+					document.getElementsByClassName('bi-info-7')[0].innerHTML=html;
+					document.getElementsByClassName('mui-title')[0].innerHTML=item.book.bookname;
+				},
+				error:function(xhr,type,errorThrown){
+					plus.nativeUI.closeWaiting();
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);
+				}
+			});
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/askbookdes',{
+				data:{bid:event.detail.bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					document.getElementsByClassName("book-info-8")[0].innerHTML=data.body.des;				
+				},
+				error:function(xhr,type,errorThrown){
+					plus.nativeUI.closeWaiting();
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);
+				}
+			});
+			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+				data:{uid:item.book.uid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					item.author=data.body;
+					var html='';
+					html+="<div class='mui-card bi-info-6 bi-btn-3'><img width='100%' height='100%' src='data:image/jpg;base64,"+item.author.img+"'/></div>";
+					html+="<div class='bi-info-8'>";
+					html+=item.author.nickname;
+					html+="</div>";
+					html+="<div class='bi-info-9'>";
+					html+="<span class='mui-icon iconfont icon-youxiang'></span>";
+					html+=item.author.email;
+					html+="</div>";
+					document.getElementsByClassName("bi-div-6")[0].innerHTML=html;				
+				},
+				error:function(xhr,type,errorThrown){
+					plus.nativeUI.closeWaiting();
+					console.log(type);}
+			});
+			mui.ajax('http://49.234.77.32:8080/sfbook/book/comment',{
+				data:{bid:event.detail.bid},
+				dataType:'json',
+				type:'post',
+				async:false,
+				timeout:10000,
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					item.cmt=data.body;
+					var html='';
+					for(var i=0;i<item.cmt.length;i++){
+						html+="<div class='bi-div-8'>";
+						html+="<div class='mui-card bi-info-10'><img width='100%' height='100%' src='data:image/jpg;base64,"+item.cmt[i].img+"'/></div>";
+						html+="<div class='bi-info-11'>"+item.cmt[i].nickname;
+						html+="<div class='bi-info-13'>";
+						html+=item.cmt[i].lst;
+					  	html+="</div></div>";
+						html+="<div class='bi-info-12'>"+item.cmt[i].des+"</div>";
+						html+="</div>";
+					}
+					document.getElementsByClassName("bi-div-7")[0].innerHTML=html;
+				},
+				error:function(xhr,type,errorThrown){
+					plus.nativeUI.closeWaiting();
+					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+					console.log(type);}
+			});
+			plus.nativeUI.closeWaiting();
+		});
+		//监听事件，播放音频
+		window.addEventListener('play',function(event){
+			var sid=event.detail.sid;
+			var bp=plus.webview.getWebviewById('bp.html');
+			mui.fire(bp,'play',{bid:item.book.bid,sid:sid,img:item.book.img});
+			var os=plus.webview.getWebviewById('os-head.html');
+			var index=plus.webview.getLaunchWebview();
+			mui.fire(index,'jump',{dst:'bp.html'});
+			if(os){os.close();}
+			self.close();
+			var be=plus.webview.getWebviewById('bm-edit.html');
+			if(be){be.close();}
+			
+		});
+		
+		//应用函数，获取时间
+		function getdt(){
+			var date=new Date(); 
+			var year=date.getFullYear(); 
+			var mon=date.getMonth()+1; 
+		    var day=date.getDate();
+		    var stamp=year+'-'+mon+'-'+day;
+		    return stamp;
+		}
+
+	</script>
+</body>
+
+</html>
