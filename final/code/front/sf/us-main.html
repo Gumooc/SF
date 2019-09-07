@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/iconfont.css" rel="stylesheet"/>  
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/user.css" rel="stylesheet" />
+		<link href="css/book.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-bar~.mui-content .mui-fullscreen {
+				top: 44px;
+				height: auto;
+			}
+			.mui-pull-top-tips {
+				position: absolute;
+				top: -20px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				z-index: 1;
+			}
+			.mui-bar~.mui-pull-top-tips {
+				top: 24px;
+			}
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd; 
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			.mui-pull-top-tips .mui-pull-loading {
+				/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+				
+				margin: 0;
+			}
+			.mui-pull-top-wrapper .mui-icon,
+			.mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+			.mui-pull-top-wrapper .mui-icon.mui-reverse {
+				/*-webkit-transform: rotate(180deg) translateZ(0);*/
+			}
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+			.mui-slider-indicator.mui-segmented-control {
+				background-color: #efeff4;
+			}
+			.us-cmt-btn-1{
+				position: absolute;
+				left: 0px;
+				top:0px;
+				width: 80%;
+				height: 100%;
+			}
+			.empty{
+				height:120px;
+				text-align: center;
+				color:gray;
+				padding-top:10px;
+			}
+		</style>
+		<style>
+			.us-main-info-1{font-size:16px;}
+			.us-main-tip-1{width: 20%;float: left;font-size: 18px;color: #007AFF;font-weight: bolder;}
+			.us-main-bli-1{padding:0;}
+			.us-cmt-div-1{
+			height: 100px;
+			padding: 5px 0px ;
+		}
+		.us-cmt-info-1{
+			padding-left: 10px;
+			width: 50%;
+			float: left;
+		}
+		.us-cmt-info-3{
+			text-align: right;
+			padding-right: 10px;
+			width: 50%;
+			float: right;
+			color: gray;
+		}
+		.us-cmt-info-2{
+			color: gray;
+			padding-left: 10px;
+			margin-top: 5px;
+			float: left;
+			width: 70%;
+		}
+		.us-cmt-info-4{
+			color: #007AFF;
+			position: absolute;
+			right: 5px;
+			bottom: 10px;
+			font-size: 20px;
+			border: 0px;
+			//background: green;
+		}
+		#deltrack{
+			border-radius: 3px;
+			margin-top:10px;
+		
+		}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="mui-content">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div class="mui-scroll">
+						<a class="mui-control-item mui-active" href="#item1mobile">资料</a>
+						<a class="mui-control-item" href="#item2mobile">作品</a>
+						<a class="mui-control-item" href="#item3mobile">收藏</a>
+						<a class="mui-control-item" href="#item4mobile">评论</a>
+						<a class="mui-control-item" href="#item5mobile">足迹</a>
+					</div>
+				</div>
+				
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<li class="mui-table-view-cell">
+										<div class='us-main-tip-1'>账号</div>
+										<div class='us-main-info-1'> </div>
+									</li> 
+									<li class="mui-table-view-cell">
+										<div class='us-main-tip-1'>昵称</div>
+										<div class='us-main-info-1'> </div>
+									</li> 
+									<li class="mui-table-view-cell">
+										<div class='us-main-tip-1'>性别</div>
+										<div class='us-main-info-1'>男</div>
+									</li> 
+									<li class="mui-table-view-cell">
+										<div class='us-main-tip-1'>生日</div>
+										<div class='us-main-info-1'></div>
+									</li> 
+									<li class="mui-table-view-cell">
+										<div class='us-main-tip-1'>电话</div>
+										<div class='us-main-info-1'></div>
+									</li> 
+									<li class="mui-table-view-cell">
+										<div class='us-main-tip-1'>邮箱</div>
+										<div class='us-main-info-1'></div>
+									</li> 
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<li class="mui-table-view-cell">
+										
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item4mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item5mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js"></script>
+		<script src="js/mui.pullToRefresh.material.js"></script>
+		<script>
+			mui.init();
+			(function($) {
+				//阻尼系数
+				var deceleration = mui.os.ios?0.003:0.0009;
+				$('.mui-scroll-wrapper').scroll({
+					bounce: false,
+					indicators: true, //是否显示滚动条
+					deceleration:deceleration
+				});
+				$.ready(function() {
+					//循环初始化所有下拉刷新，上拉加载。
+					$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+						$(pullRefreshEl).pullToRefresh({
+							down: {
+								callback: function() {
+									var self = this;
+									var s=plus.webview.currentWebview();
+									
+									switch(index){
+										case 0:	
+											mui.fire(s,'info',{uid:uid});
+											mui.toast('刷新个人资料',{ duration:'long', type:'div' });
+											break;
+										case 1:
+											mui.fire(s,'work',{uid:uid});
+											mui.toast('刷新个人作品',{ duration:'long', type:'div' });
+											break;
+										case 2:
+											mui.fire(s,'coll',{uid:uid});
+											mui.toast('刷新个人收藏',{ duration:'long', type:'div' });
+											break;
+										case 3:
+											mui.fire(s,'cmt',{uid:uid});
+											mui.toast('刷新评论记录',{ duration:'long', type:'div' });
+											break;
+										case 4:
+											mui.fire(s,'track',{uid:uid});
+											mui.toast('刷新历史记录',{ duration:'long', type:'div' });
+											break;
+									}
+									setTimeout(function() {
+										self.endPullDownToRefresh();
+									}, 1000);
+								}
+							}
+						});
+					});
+				});
+			})(mui);
+			
+			var self;
+			var uid;
+			var cmt=[];
+			mui.plusReady(function(){
+				self=plus.webview.currentWebview();
+				uid=plus.storage.getItem('uid');
+				if(uid==null)return;
+				mui.fire(self,'info',{uid:uid});
+			});
+			
+			
+			mui('#item2mobile').on('tap','.bl-main-btn-1',function(e){
+	   			mui.openWindow({
+		    		url:'bi.html',
+		    		id:'bi.html',
+		    	});
+		    	var bi=plus.webview.getWebviewById('bi.html');
+		    	var bid=parseInt(this.getAttribute("id"));
+		    	mui.fire(bi,'item',{bid:bid});
+	   		});
+	   		mui('#item3mobile').on('tap','.bl-main-btn-1',function(e){
+	   			mui.openWindow({
+		    		url:'bi.html',
+		    		id:'bi.html',
+		    	});
+		    	var bi=plus.webview.getWebviewById('bi.html');
+		    	var bid=parseInt(this.getAttribute("id"));
+		    	mui.fire(bi,'item',{bid:bid});
+	   		});
+	   		mui('#item4mobile').on('tap','.cmt-to-bi',function(e){
+	   			mui.openWindow({
+		    		url:'bi.html',
+		    		id:'bi.html',
+		    	});
+		    	var bi=plus.webview.getWebviewById('bi.html');
+		    	var bid=parseInt(this.getAttribute("id"));
+		    	console.log('bid='+bid);
+		    	mui.fire(bi,'item',{bid:bid});
+	   		});
+	   		mui('#item5mobile').on('tap','.bl-main-btn-1',function(e){
+	   			mui.openWindow({
+		    		url:'bi.html',
+		    		id:'bi.html',
+		    	});
+		    	var bi=plus.webview.getWebviewById('bi.html');
+		    	var bid=parseInt(this.getAttribute("id"));
+		    	mui.fire(bi,'item',{bid:bid});
+	   		});
+	   		mui('#item5mobile').on('tap','#deltrack',function(e){
+	   			mui.ajax('http://49.234.77.32:8080/sfbook/history/clear',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						mui.toast('成功删除历史',{ duration:'long', type:'div' }) 
+						mui.fire(self,'track',{uid:uid});
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);}
+				});
+
+	   		});
+	   		mui('#item4mobile').on('tap','.us-cmt-btn-1',function(e){
+	   			var ele=document.getElementsByClassName('us-cmt-div-1');
+		    	var cnt=0;
+		    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+	   			mui.openWindow({
+		    		url:'bi.html',
+		    		id:'bi.html',
+		    	});
+		    	var bi=plus.webview.getWebviewById('bi.html');
+		    	mui.fire(bi,'item',{bid:cmt[cnt].bid});
+	   		});
+			
+			window.addEventListener('login',function(event){
+				uid=event.detail.uid;
+				load=[0,0,0,0,0];
+				mui.fire(self,'info',{uid:uid});
+			});
+			//按钮事件，删除评论
+	   		mui('body').on('tap','.us-cmt-info-4',function(e){
+	   			var ele=document.getElementsByClassName('us-cmt-info-4');
+		    	var cnt=0;
+		    	for(cnt=0;cnt<ele.length;cnt++){if(ele[cnt]==this)break;}
+		    	plus.nativeUI.showWaiting();
+		    	var cid=document.getElementsByClassName('us-cmt-div-1')[cnt].getAttribute('id');
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/comment/delete',{
+					data:{cid:cid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						mui.toast('成功删除评论',{ duration:'long', type:'div' }) 
+						mui.fire(self,'cmt',{uid:uid});
+						
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+		    	plus.nativeUI.closeWaiting();
+	   		});
+			//监听事件，加载信息
+			window.addEventListener('info',function(event){
+				var uid=event.detail.uid;
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var user=data.body;
+						var male='男';
+						if(user.male==false){male='女';}
+						document.getElementsByClassName('us-main-info-1')[0].innerHTML=user.username;
+						document.getElementsByClassName('us-main-info-1')[1].innerHTML=user.nickname;
+						document.getElementsByClassName('us-main-info-1')[2].innerHTML=male;
+						document.getElementsByClassName('us-main-info-1')[3].innerHTML=user.birth;
+						document.getElementsByClassName('us-main-info-1')[4].innerHTML=user.phone;
+						document.getElementsByClassName('us-main-info-1')[5].innerHTML=user.email;
+						load[0]=1;
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+			});
+			//监听事件，加载作品
+			window.addEventListener('work',function(event){
+				uid=event.detail.uid;
+		    	var html="";
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/works',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var list=data.body;
+						var html='';
+						if(list.length==0){
+							
+							html+='<li class="mui-table-view-cell">';		
+							html+="<div class='empty'>";		
+							html+="<h3>尚无作品</h3>";		
+							html+="</br>";
+							html+='<h4>通过制作功能创建发布有声书</h4>';
+							html+='</div></li>';
+						}
+						for(var i=0;i<list.length;i++){
+							html+="<li class='mui-table-view-cell us-main-bli-1'>";
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+=list[i].nickname;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
+							html+=list[i].lst;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
+							html+=list[i].playtime;		
+							html+="</div>";
+							html+="</div>";
+							html+="</li>";
+							load[1]=1;
+						}
+						document.getElementsByClassName("mui-table-view")[1].innerHTML=html;
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+			});
+			//监听事件，加载收藏
+			window.addEventListener('coll',function(event){
+				uid=event.detail.uid;
+		    	var html="";
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/collector',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var list=data.body;
+						var html='';
+						if(list.length==0){
+							
+							html+='<li class="mui-table-view-cell">';		
+							html+="<div class='empty'>";		
+							html+="<h3>尚无收藏</h3>";		
+							html+="</br>";
+							html+='<h4>在有声书页面收藏偏好的作品</h4>';
+							html+='</div></li>';
+						}
+						for(var i=0;i<list.length;i++){
+							html+="<li class='mui-table-view-cell us-main-bli-1'>";
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+=list[i].nickname;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin  book-icon-2'></span>";
+							html+=list[i].lst;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
+							html+=list[i].playtime;	
+							
+							html+="</div>";
+							html+="</div>";
+							html+="</li>";
+						}
+						load[2]=1;
+						document.getElementsByClassName("mui-table-view")[2].innerHTML=html;
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+			});
+			//监听事件，加载足迹
+			window.addEventListener('track',function(event){
+				uid=event.detail.uid;
+		    	var html="";
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/history',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var list=data.body;
+						var html='';
+						if(list.length==0){
+							
+							html+='<li class="mui-table-view-cell">';		
+							html+="<div class='empty'>";		
+							html+="<h3>尚无浏览记录</h3>";		
+							html+="</br>";
+							html+='<h4>在主页搜索有声书作品</h4>';
+							html+='</div></li>';
+						}
+						for(var i=0;i<list.length;i++){
+							
+							html+="<li class='mui-table-view-cell us-main-bli-1'>";
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon mui-icon-contact book-icon-2'></span>";
+							html+=list[i].nickname;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
+							html+=list[i].lst;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
+							html+=list[i].playtime;		
+							html+="</div>";
+							html+="</div>";
+							html+="</li>";
+							if(i==list.length-1){
+								html+="<li class='mui-table-view-cell' style='height:50px;background: whitesmoke;'>";
+								html+="<button class='mui-btn mui-btn-primary' id='deltrack'>清空历史记录</button>";
+								html+="</li>"
+							}
+							
+						}
+						load[4]=1;
+						document.getElementsByClassName("mui-table-view")[4].innerHTML=html;
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+			});
+			//监听事件，加载评论
+			window.addEventListener('cmt',function(event){
+				uid=event.detail.uid;
+		    	var html="";
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/comment',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						cmt=data.body;
+						//console.log('cmt='+cmt.length);
+						var html='';
+						if(cmt.length==0){
+							
+							html+='<li class="mui-table-view-cell">';		
+							html+="<div class='empty'>";		
+							html+="<h3>尚未发布评论</h3>";		
+							html+="</br>";
+							html+='<h4>在有声书页面发布读书评论</h4>';
+							html+='</div></li>';
+						}
+						for(var i=0;i<cmt.length;i++){
+							html+="<li class='mui-table-view-cell'>";
+							html+="<div class='us-cmt-div-1' id='"+cmt[i].cid+"'>";
+							html+="<div class='cmt-to-bi' style='height:100%;width:90%;' id='"+cmt[i].bid+"'>";
+								html+="<div class='us-cmt-info-1'>"+cmt[i].bookname+"</div>";
+								html+="<div class='us-cmt-info-3'>"+cmt[i].lst+"</div>";
+								html+="<div class='us-cmt-info-2'>"+cmt[i].des+"</div>";
+							html+='</div>';
+								html+="<button class='us-cmt-info-4'>";
+								html+="<span class='mui-icon mui-icon-trash'></span>";
+								html+="</button>";
+							html+="</div>";
+							html+="</li>";
+							
+						}
+						load[3]=1;
+						document.getElementsByClassName("mui-table-view")[3].innerHTML=html;
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+			});
+			//监听事件，监听标签页切换及加载
+			var slider=mui("#slider").slider({interval:0});
+			var load=[1,0,0,0,0];
+			document.getElementById('slider').addEventListener('slide', function(e) {
+				var tid=slider.getSlideNumber();
+				if(load[tid]) return;
+				else{
+					switch(tid){
+						case 0:mui.fire(self,'info',{uid:uid});break;
+						case 1:mui.fire(self,'work',{uid:uid});break;
+						case 2:mui.fire(self,'coll',{uid:uid});break;
+						case 3:mui.fire(self,'cmt',{uid:uid});break;
+						case 4:mui.fire(self,'track',{uid:uid});break;
+					}
+				}
+			});
+		
+		</script>
+	</body>
+
+</html>
