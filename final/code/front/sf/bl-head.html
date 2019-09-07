@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/iconfont.css" rel="stylesheet"/>  
+		<style>
+			.mui-search{width:87%;margin 3px;position: absolute;left:10px;}
+			.mui-bar{background:#007AFF;height:50px;background-size:500px 50px;}
+			.bl-head-img-1{width:5%;float: right;margin-top:5px;color: white;}
+			.mui-search{margin-top:5px;}
+		</style>
+		<script src='js/ajax.js'></script>
+	</head>
+
+	<body>
+		<header  class="mui-bar mui-bar-nav">
+			<div class="mui-input-row mui-search">
+			    <input type="search" class="mui-input-clear" id='search' placeholder="搜索匹配的有声书" style="background:whitesmoke;">
+			</div>
+			<div class='bl-head-img-1'>
+				<span class="mui-icon iconfont icon-goahead bl-head-btn-1"></span>
+			</div>
+			
+		</header>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				subpages:[{
+					url:'bl-main.html',
+					id:'bl-main.html',
+					styles:{top:'50px',bottom:'0px'}
+				}]
+			});
+			mui.plusReady(function(){
+				console.log('bl-head加载');
+				mui.myAjax=myAjax;
+				console.log('bl-head加载end');
+			})
+			function enterSearch(event){
+            	if(event.keyCode == 13) {//用户点击回车的事件号为13
+	            	var keyword = document.getElementById('search').value;
+	            	if(keyword=='')return;
+	                alert('send keyword:'+keyword+' to bbong.');
+	            }
+	        }
+			
+			//按钮事件，显示详情
+			mui('body').on('tap','.bl-head-btn-1',function(e){	
+		    	var keyword = document.getElementById('search').value;
+		    	console.log(keyword);
+		    	if(keyword=='')return;
+		    	plus.nativeUI.showWaiting();
+		    	mui.myAjax('http://49.234.77.32:8080/sfbook/book/search',{
+	                        type:'post',
+	                        async:false,
+	                        timeout:5000,
+	                        headers:{'Content-Type':'application/json'},	
+	                        dataType:'json',
+	                        data:{bookname:keyword}
+	                    },
+	                function(data){
+	                    var res=data.body;
+	                    mui.openWindow({
+	                    	url:'bl-search.html',
+	                    	id:'bl-search.html'
+	                    });
+	                    var bi_search=plus.webview.getWebviewById('bl-search.html');
+	                    mui.fire(bi_search,'get',{res:res});
+	                },function(state,xhr){
+	                	mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+	                    console.log(state)
+	                }	
+            	);
+            	plus.nativeUI.closeWaiting();
+			});
+		</script>
+	</body>
+
+</html>
