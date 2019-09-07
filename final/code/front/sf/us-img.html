@@ -1,0 +1,82 @@
+ <head> 
+
+        <meta charset="UTF-8"> 
+       	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+        <title></title> 
+       	<link rel="stylesheet" href="css/mui.min.css" />
+		<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+       	<script type="text/javascript" src="js/jquery-1.8.1.js" ></script>
+        <script type="text/javascript" src="js/mui.min.js" ></script>
+        <style> 
+        	.mui-content{text-align: center;}
+			#show{height: 200px;width: 200px;margin:0 auto;margin-top:60px;border-radius:100%;background: white;}
+			#img{margin-top:30px;width:100%;}
+			.us-img-div-1{width:200px;height: 50px;margin:0px auto;}
+			.us-img-div-2{height: 40px;padding: 0px;width:200px;margin-top:20px;}
+        </style> 
+
+    </head> 
+	
+    <body> 
+    	<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
+			<h1 class="mui-title">修改头像</h1>
+		</header>
+		<div class="mui-content">
+            <img id="show" class="headimg" src=''/>
+            <div class="us-img-div-1">
+            	<input style='float:right;' type='file' id='img' onchange="hello()"/>
+            </div>
+        	<button id='subm' class="mui-btn mui-btn-primary us-img-div-2">修改头像</button>
+		</div>
+        <script> 
+			function hello(){
+				var f= document.getElementById('img').files[0];
+				if(window.FileReader) {
+					var fr = new FileReader();
+					
+					var showimg = document.getElementById('show');
+					fr.onloadend = function(e) {
+						showimg.src = e.target.result;
+					};
+					fr.readAsDataURL(f);
+					showimg.style.display = 'block';
+				}
+			}
+			mui("body").on("tap","#subm",function(){
+				var img=document.getElementById('img').files[0];
+				if(!img){mui.toast('请选择图片文件',{ duration:'long', type:'div' });self.close();return;}
+				var formData=new FormData();
+				uid=plus.storage.getItem('uid');
+				formData.append('uid',uid);
+	    		formData.append('file',img); 
+	    		plus.nativeUI.showWaiting();
+				$.ajax({
+			        url:'http://49.234.77.32:8080/sfbook/user/setImg',
+			        type:'post',
+			        dataType:'text',
+			        cache: false,
+			        processData: false,
+			        contentType: false,
+			        async:false,
+			        data:formData,
+			        success:function(list){  
+			            console.log('成功导入头像');
+			            mui.toast('成功导入头像',{ duration:'long', type:'div' })
+			            var us_head=plus.webview.getWebviewById('us-head.html');
+			        	mui.fire(us_head,'self',{});
+			    		plus.nativeUI.closeWaiting();
+			        },
+			        error:function(){
+			        	plus.nativeUI.closeWaiting();
+			        	mui.toast('导入头像失败',{ duration:'long', type:'div' })
+			        	console.log("头像导入失败");
+			        }
+	    		});
+			});
+
+        </script>
+	</body>
+
+</html>
