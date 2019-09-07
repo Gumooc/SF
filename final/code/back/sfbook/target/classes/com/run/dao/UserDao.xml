@@ -43,7 +43,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
 	<select id="askuser" parameterType="Integer" resultType="com.run.entity.User">
-        select username, nickname,lst,rgt,male,phone,email,activation,birth from user where uid=#{uid};
+        select username, nickname,lst,rgt,male,phone,email,activation,birth, hide from user where uid=#{uid};
+    </select>
+    
+	<select id="askhide" parameterType="Integer" resultType="boolean">
+        select hide from user where uid=#{uid};
     </select>
     
 	<select id="askuserallinfo" parameterType="Integer" resultType="com.run.entity.User">
@@ -53,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <update id="updateuser" parameterType="com.run.entity.User">
     	update user 
-    		set nickname=#{nickname}, lst=#{lst}, male=#{male}, phone=#{phone}, email=#{email}, birth=#{birth}
+    		set nickname=#{nickname}, lst=#{lst}, male=#{male}, phone=#{phone}, email=#{email}, birth=#{birth}, hide=#{hide}
     	where uid=#{uid};
     </update>
     
