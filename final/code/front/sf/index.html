@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    
+    <link href="css/mui.min.css" rel="stylesheet"/>  
+    <link href="css/iconfont.css" rel="stylesheet"/>  
+</head>
+<body>
+	<nav class="mui-bar mui-bar-tab"> 
+		<a class="mui-tab-item mui-active" id='bl-head.html'>
+			<span class="mui-icon mui-icon-home"></span>
+			<span class="mui-tab-label">首页</span>
+		</a>       
+		<a class="mui-tab-item" id='bp.html'>
+			<span class="mui-icon iconfont icon-16"></span>
+			<span class="mui-tab-label">播放</span>
+		</a>
+		<a class="mui-tab-item" id='bm-main.html'>            
+			<span class="mui-icon iconfont icon-tijikongjian-xianxing"></span>            
+			<span class="mui-tab-label">制作</span>        
+		</a>   
+		<a class="mui-tab-item" id='us-head.html'> 
+			<span class="mui-icon mui-icon-contact"></span>            
+			<span class="mui-tab-label">我的</span>        
+		</a>      
+	</nav>
+	
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		var src='bl-head.html';
+		var sub=['bl-head.html','bp.html','bm-main.html','us-head.html'];
+		var sub_style={top:'0px',bottom:'51px'};
+		var self;
+		var calcu=0;
+		var t1=setInterval(function(){
+		     if(calcu==1){
+		     	plus.webview.close('welcome.html');
+		     	clearInterval(t1);
+		     }
+		},1000);
+    
+
+	    mui.init();
+	    mui.plusReady(function(){
+	    	mui.openWindow({
+	    		url:'welcome.html',
+	    		id:'welcome.html',
+	    	});
+	    	self = plus.webview.currentWebview();
+            for(var i=0;i<sub.length;i++){
+                var page = plus.webview.create(sub[i], sub[i], sub_style);
+				page.hide();
+                self.append(page);
+            }
+            plus.webview.show(src);
+            console.log("智能有声书开始运行");
+	    });
+	    
+	    //点击事件，导航跳转
+	    mui('body').on('tap','.mui-tab-item',function(e){	
+	    	var ele=document.getElementsByClassName('mui-tab-item');
+	    	var cnt=0;
+	    	for(cnt=0;cnt<ele.length;cnt++){
+	    		if(ele[cnt]==this)break;
+	    	}
+	    	mui.fire(self,'jump',{dst:sub[cnt]});
+	    	
+	    });
+	    
+	    //监听事件，导航跳转 
+	    window.addEventListener('jump',function(event){
+	    	var bm=plus.webview.getWebviewById('bm-main.html');
+	    	var dst=event.detail.dst;
+	    	if(dst==src)return;
+	    	if(src=='bm-main.html'){mui.fire(bm,'stop',{});}
+	    	if(dst=='bm-main.html'){mui.fire(bm,'start',{});}
+	    	
+	    	plus.webview.show(dst);
+	    	plus.webview.hide(src);
+	    	src=dst;
+	    	//切换高亮选项卡
+	    	var currNavi = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+			var destNavi = document.getElementById(dst);
+			if(destNavi!=currNavi){
+				currNavi.classList.remove('mui-active');
+				destNavi.classList.add('mui-active');
+			}
+		});
+		
+		window.addEventListener('calcu',function(event){
+		 	//console.log('calcu');
+	    	calcu=1;
+		});
+		
+		
+	</script>
+	
+</body>
+</html>
