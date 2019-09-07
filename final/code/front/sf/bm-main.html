@@ -1,0 +1,377 @@
+<!doctype html>
+<!--未完成的部分:获取进度存在问题-->
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/book.css" rel="stylesheet" />
+		<link href="css/bar.css" rel="stylesheet" />
+		<link href="css/iconfont.css" rel="stylesheet"/>  
+		<link href="css/user.css" rel="stylesheet" />
+		<style>
+			.bm-main-div-4{margin:0px;padding:0px;}
+			.bm-main-div-5{margin: 0px;padding: 0px;}
+			.mui-title{color: #007AFF;font-weight: bolder;}
+			.mui-bar-nav{height: 200px;background: url(image/design.jpg);background-size: 100% 100%;color: white;text-align: center;}
+			.bm-main-div-1{font-size: 25px;font-weight: bolder;margin-top:30px;}
+			.bm-main-div-2{margin-top:5px;}
+			.bm-main-div-3{border:1px solid white; padding-left:10px;padding-right:10px;border-radius:10px; position: absolute;right: 20px;font-weight: bolder;font-size: 20px;margin-top:20px;}
+			.mui-plus .plus{
+				display: inline;
+			}
+			
+			.plus{
+				display: none;
+			}
+			
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			
+			.mui-popover {
+				height: 100px;
+			}
+			.mui-content {
+				
+			}
+			.user-set-1{
+				position: absolute;
+				left: 10px;
+				top:10px;
+				z-index: 100;
+				font-size: 30px;
+				color: white;
+			}
+			.us-head-btn-1{
+				margin-top: 0px;
+				background: rgba(0,0,0,0);
+				color: darkgray;
+				width: 150px;
+				border-radius: 10px;
+				font-size: 20px;
+			}
+			.us-head-div-1{
+				//display: none;
+				position: absolute;
+				top:199px;
+				left: 0px;
+				width: 100%;
+				//background: indianred;
+				text-align: center;}
+			.us-head-div-2{
+				margin: 0 auto;
+				margin-top: 80px;
+				width: 200px;
+				height: 200px;
+				//background: indianred;
+				background:url(image/und.png);
+				background-size: 100% 100%;
+				
+			}
+			.bm-process-1{
+				position: absolute;
+				right: 0px;
+				top:20px;
+				width: 30%;
+				color: gray;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+
+			<div class='bm-main-div-1'>
+				创建我的有声书
+			</div>
+			<div class='bm-main-div-2'>
+				通过语音合成或人工录制创作作品
+			</div>
+			<div class='bm-main-div-3'>
+				<span class="mui-icon mui-icon-compose"></span>
+				新建作品
+			</div>
+			
+		</header>
+	
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view" id='process'>
+						<li class="mui-table-view-cell">hello</li>
+						<li class="mui-table-view-cell">world</li>
+						<li class="mui-table-view-cell">world</li>
+						<li class="mui-table-view-cell">world</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		
+		<div class="mui-content" style="margin-top:150px;background: red;">
+			<div class='us-head-div-1' id='log'>
+				<div class="us-head-div-2"></div>
+				<button class="us-head-btn-1">登录</button>
+			</div>
+			<ul class="mui-table-view bm-main-div-4 " id='works'>
+				<!--<li class="mui-table-view-cell bm-main-div-5" >
+					<div class='book-div-1'>
+						<div class='book-info-1'>
+							<div class='mui-card book-info-6'><img width='100%' height='100%' src='image/cdw.jpg'/></div>
+						</div>
+						<div class='book-info-2'>
+							xbbdzxql
+							<font style="color:darkgray;font-size: 14px;" class="its-pro">--添加音频 0/35--</font>
+						</div>
+						
+						<div class='book-info-4'>
+							<span class="mui-icon mui-icon-contact book-icon-2"></span>
+							2019-07-07
+						</div>
+						<div class='book-info-3'>
+							<span class="mui-icon mui-icon-contact book-icon-2"></span>
+							已发布
+						</div>
+						<div class='book-info-5'>
+							<span class="mui-icon mui-icon-contact book-icon-2"></span>
+							320
+						</div>
+					</div>
+				</li>-->
+			</ul>
+			
+		</div>
+		
+		
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			var self;
+			var uid;
+			var list;
+			var interval;
+			
+			function clock(){
+				//console.log('hello?');
+				var progress_tips=document.getElementsByClassName('its-pro');
+				for(var i=0;i<progress_tips.length;i++){
+					progress_tips[i].innerHTML='';
+				}
+				mui.ajax('http://49.234.77.32:8080/sfbook/createbook/making',{
+					data:{},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						if(data.body!=null){
+							var p=data.body;
+							for(var i=0;i<p.length;i++){
+								if(p[i].status=='制作完成')continue;
+								
+								//var str='&nbsp;&nbsp;&nbsp;&nbsp;第'+p[i].chapter+'章：'+p[i].status+p[i].start+'/'+p[i].end;
+								//console.log(str);
+								
+								var pid=p[i].bid;
+								var pro=document.getElementById(pid).getElementsByClassName('its-pro')[0];
+								pro.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;正在制作..';
+							}
+						
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);
+					}
+				});
+			}
+			
+			//监听事件，登录
+		    mui('body').on('tap','.us-head-btn-1',function(e){	
+		    	mui.openWindow({
+		    		url:'ua-log.html',
+		    		id:'ua-log.html',
+		    	});
+			});
+			mui.init();
+			mui.plusReady(function(){
+				console.log('bm-main加载');
+				self=plus.webview.currentWebview();
+				mui.fire(self,'self',{});
+				console.log('bm-main加载end');
+			})
+			
+			/*
+			//显示进度
+			mui('body').on('tap','.user-set-1',function(e){	
+				var process= document.getElementById('process');
+				var html='当前没有生成任务';
+				plus.nativeUI.showWaiting();
+				mui.ajax('http://49.234.77.32:8080/sfbook/createbook/making',{
+					data:{},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					xhrFields: {
+			            withCredentials: true // 发送Ajax时，Request header中会带上 Cookie 信息。
+			        },
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						if(data.body!=null){
+							html=''; 
+							console.log(data.body.length);
+							var p=data.body;
+							for(var i=0;i<p.length;i++){
+								html+="<li  class='mui-table-view-cell'>";
+								html+=p[i].bid+'--';
+								html+=p[i].chapter+'--';
+								html+=p[i].status+'--';
+								html+=(parseFloat(p[i].start/p[i].end))*100+'%';
+								console.log(p[i].start+'-'+p[i].end);
+								html+='</li>';
+							}
+							
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);
+					}
+				});
+				process.innerHTML=html;
+				plus.nativeUI.closeWaiting();
+			});
+			*/
+			
+			
+			//按钮事件，显示详情
+			mui('body').on('tap','.bl-main-btn-1',function(e){	
+		    	mui.openWindow({
+		    		url:'bm-edit.html',
+		    		id:'bm-edit.html',
+		    	});
+		    	var bm=plus.webview.getWebviewById('bm-edit.html');
+		    	var bid=parseInt(this.getAttribute("id"));
+		    	mui.fire(bm,'item',{bid:bid});
+			});
+			//按钮事件，新建书籍
+			mui('body').on('tap','.bm-main-div-3',function(e){	
+				var uid=plus.storage.getItem('uid');
+				if(uid==null){
+					mui.toast('登录后创建有声书',{ duration:'long', type:'div' });
+					return;
+				}
+		    	mui.openWindow({
+		    		url:'bm-new.html',
+		    		id:'bm-new.html',
+		    	});
+			});
+		
+			window.addEventListener('toast',function(event){
+				mui.toast('创建作品成功',{ duration:'long', type:'div' }) ;
+			});
+			window.addEventListener('self',function(event){
+				uid=plus.storage.getItem('uid');
+				
+				var login=document.getElementsByClassName('us-head-div-1')[0];
+				var works=document.getElementsByClassName('mui-table-view')[0];
+				if(uid==null){
+					login.style.display='block';
+					works.innerHTML='';
+				}
+				else{
+					login.style.display='none';
+					mui.fire(self,'get',{uid:uid});
+				}
+			});
+			//监听事件，加载作品清单
+			window.addEventListener('get',function(event){
+				uid=plus.storage.getItem('uid');
+				//uid=event.detail.uid;
+				if(uid==null){
+					document.getElementById('works').innerHTML='';
+					document.getElementById('log').style.display='block';
+					return;
+				}
+				plus.nativeUI.showWaiting();
+				document.getElementById('log').style.display='none';
+		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/selfworks',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						var list=data.body;
+						var html='';
+						for(var i=0;i<list.length;i++){
+							
+							var str='已发布';
+							if(list[i].shared==false)str='未发布';
+							html+="<li class='mui-table-view-cell bm-main-div-5'>";
+							html+="<div class='mui-card book-div-1 bl-main-btn-1' id='"+list[i].bid+"'>";
+							html+="<div class='book-info-1'>";
+							html+="<div class='mui-card book-info-6'><img width='100%' height='100%' src='data:image/jpg;base64,"+list[i].img+"'/></div>";
+							html+="</div>";
+							html+="<div class='book-info-2'>";
+							html+=list[i].bookname;
+							html+="<font style='color:darkgray;font-size: 14px;' class='its-pro'></font>"
+							html+="</div>";
+							html+="<div class='book-info-3'>";
+							html+="<span class='mui-icon iconfont icon-zuixingengxin book-icon-2'></span>";
+							html+=list[i].lst;
+							html+="</div>";
+							html+="<div class='book-info-4'>";
+							html+="<span class='mui-icon iconfont icon-biaoqian book-icon-2'></span>";
+							html+=str;		
+							html+="</div>";		
+							html+="<div class='book-info-5'>";
+							html+="<span class='mui-icon iconfont icon-popularity_value book-icon-2'></span>"	;
+							html+=list[i].playtime;		
+							html+="</div>";
+							html+="</div>";
+							html+="</li>";
+						}
+						
+						document.getElementById('works').innerHTML=html;
+					},
+					error:function(xhr,type,errorThrown){
+						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+						console.log(type);}
+				});
+				plus.nativeUI.closeWaiting();
+			});
+			//监听事件，toast
+			window.addEventListener('toast',function(event){
+				var toast=event.detail.toast;
+				mui.toast(toast,{ duration:'long', type:'div' });
+			});
+		
+			window.addEventListener('start',function(event){
+				interval=setInterval(clock,1000);
+			});
+			window.addEventListener('stop',function(event){
+				clearInterval(interval);
+			});
+		</script>
+	</body>
+
+</html>
