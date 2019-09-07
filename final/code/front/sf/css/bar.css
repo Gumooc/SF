@@ -1,0 +1,67 @@
+/*栏目组件*/
+.bar-div-1{
+	padding: 0px;
+	height: 40px;
+	font-size:18px;
+	background: white;
+	color: #007AFF;
+	font-weight:bolder;
+	background-size: 100% 40px;
+	margin-top:3px;
+	margin-bottom:3px;
+}
+.bar-div-2{
+	padding: 0px;
+	height: 40px;
+	font-size:18px;
+	background: white;
+	color: #007AFF;
+	font-weight:bolder;
+	background-size: 100% 40px;
+	margin-top:3px;
+	margin-bottom:3px;
+}
+.bar-div-3{
+	background: #007AFF;
+	color: white;
+	margin-left: 10px;
+	padding-left: 10px ;
+	font-weight: bolder;
+	font-size: 18px;
+	height: 25px;
+	width: 100px;
+}
+.bar-icon-1{
+	padding: 8px;
+	background:#007AFF;
+	color: white;
+	height: 100%;
+	width: 40px;
+	float: left;
+}
+.bar-info-1{
+	padding: 8px;
+	width:50%;
+	float: left;
+}
+.bar-switch-1{
+	float: right;
+	margin: 4px;
+}
+.bar-new-div-1{
+	background: #007AFF;
+	color: white;
+	height:40px;
+	padding: 10px;
+	//font-weight: bolder;
+	text-align: center;
+	margin: 0px; 
+}
+.bar-new-div-2{
+	position: absolute;
+	left: 0px;
+	height: 40px;
+	width: 40px;
+	background: white;
+	
+}
