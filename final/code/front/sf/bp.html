@@ -1,0 +1,220 @@
+
+<!doctype html>
+<!--未完成的部分:加载速度问题-->
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		.bp-info-1{
+			width:80%;
+			height: 5px;
+			margin: 0 auto ;
+			margin-top: 50px;
+			
+		}
+		.bp-div-1{
+			text-align: center;
+			width: 100%;
+			height: 400px;
+		}
+		.bp-disc-1{
+			height: 300px;
+			width: 300px;
+			background: gray;
+			margin: 0 auto;
+			
+			border-radius: 100%;
+			box-shadow: 0;
+		}
+		.bp-disc-2{
+			margin-top: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 400px;
+			width: 400px;
+			background: url(image/disc.jpg); 
+			background-size: 100% 100% ;
+			margin: 0 auto;
+			margin-top: 50px;
+			border-radius: 100%; 
+		}
+		.bp-btn-2{
+			margin-top: 20px;
+		}
+		body{background:url(image/ado.jpg);background-size: 100% 790px; background-repeat:repeat ;}
+		.mui-content{background: rgba(0,0,0,0);background-size: 100% 100%;background-repeat: no-repeat;}
+		.bp-info-2{height: 25px;width:100px;margin: 0px auto;margin-top:40px;color: white;}
+	</style>
+</head>
+
+<body>
+	
+	
+	<div class="mui-content">
+		<!--
+		<button class="bp-btn-3">下载</button>
+		<button class="bp-btn-4">收藏</button>
+		<button class="bp-btn-1">详情</button>-->
+		
+		<div class='bp-div-1'>
+			<div class='bp-disc-2'>
+				<div class='mui-card bp-disc-1'></div>
+			</div>
+			<div class="bp-info-2" id='tip'>
+				暂无任务
+			</div>
+			<div id='ado'>
+				<audio class="bp-btn-2" id="music" name='media' controls="controls" autoplay="autoplay">
+				    <source src='' type='audio/mpeg'/>
+				</audio>
+				<!--<video controls='controls' name='media' autoplay="autoplay" style="margin-top:0px;" >
+					
+				</video>-->
+			</div>
+		</div>
+	
+		<div style='margin-top:100px;'></div>
+		
+	</div>
+	
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		
+		var self;
+		var s;
+		var pause=false;
+		var bid=-1;
+		var sec=0;
+		
+		mui.init();
+		mui.plusReady(function(){
+			console.log('bp加载');
+			self=plus.webview.currentWebview();
+			var width=window.screen.width;
+			var height=window.screen.height;
+			//console.log(width+''+height);
+			document.getElementsByClassName('bp-disc-2')[0].width=(width*0.8)+'px';
+			document.getElementsByClassName('bp-disc-2')[0].height=(width*0.8)+'px';
+			document.getElementsByClassName('bp-disc-1')[0].width=(width*0.6)+'px';
+			document.getElementsByClassName('bp-disc-1')[0].width=(width*0.6)+'px';
+			console.log('bp加载end');
+		})
+		
+		mui('body').on('tap','.bp-disc-1',function(e){	
+			if(bid==-1){
+				console.log('当前暂无播放任务');
+				return;
+			}
+			mui.openWindow({
+	    		url:'bi.html',
+	    		id:'bi.html',
+	    	});
+	    	var bi=plus.webview.getWebviewById('bi.html');
+	    	mui.fire(bi,'item',{bid:bid});
+	   	});
+	   	/*
+		//按钮事件，显示详情
+		mui('body').on('tap','.bp-btn-1',function(e){	
+			if(bid==-1){
+				console.log('当前暂无播放任务');
+				return;
+			}
+			mui.openWindow({
+	    		url:'bi.html',
+	    		id:'bi.html',
+	    	});
+	    	var bi=plus.webview.getWebviewById('bi.html');
+	    	mui.fire(bi,'item',{bid:bid});
+	   });
+	   */
+		var img;
+		
+		
+
+		
+		window.addEventListener('play',function(event){
+			bid=event.detail.bid;
+			sid=event.detail.sid+1;
+			img=event.detail.img;
+			document.getElementsByClassName('bp-disc-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+img+"'/>";
+			var disc=document.getElementById('ado');
+			disc.innerHTML='';
+			var html='';
+			console.log('尝试获取播放章节音频:bid='+bid+'sid='+sid);
+			html+="<audio class='bp-btn-2' id='music' name='media' autoplay='autoplay' controls='controls'>";
+			//html+="<source src='audio/2.mp3' type='audio/mp3'/>";
+			html+="<source src='http://49.234.77.32/audio/"+bid+"_"+sid+"-f-v.mp3' type='audio/mpeg'/>";
+			html+="</audio>";
+			disc.innerHTML=html;
+			var d=document.getElementById('music');
+			d.addEventListener('loadstart',function(){
+				document.getElementById('tip').innerHTML='正在加载...';
+		        console.log('开始加载');
+		    },false);
+		   	d.addEventListener('canplay',function(){
+		   		document.getElementById('tip').innerHTML='正在加载...';
+		        console.log('可以播放');
+		        this.play();
+		    },false);
+		    d.addEventListener('pause',function(){
+		        console.log('暂停播放');
+		    },false);
+		     d.addEventListener('canplaythrough',function(){
+		     	document.getElementById('tip').innerHTML='加载完成---';
+		        console.log('完全播放');
+		        this.play();
+		    },false);
+			d.play();
+			/*
+			document.getElementsByClassName('bp-disc-1')[0].innerHTML="<img width='100%' height='100%' src='data:image/jpg;base64,"+img+"'/>";
+			//document.getElementById('music').innerHTML="<source src='http://49.234.77.32/audio/"+bid+"_"+sid+"-f-v.mp3' type='audio/mp3'/>";
+			document.getElementById('music').innerHTML="<source src='audio/'+sid+'.mp3' type='audio/mp3'/>";
+			disc.play();
+			*/
+		});
+		
+		
+		/*
+		//监听事件，播放音频
+		window.addEventListener('play',function(event){ 
+			var img=event.detail.img;
+			if(s) s.stop();
+			bid=event.detail.bid;
+			sid=event.detail.sid+1;
+			console.log('尝试获取播放章节音频bid='+bid+'sid='+sid);
+			var url;
+			s= plus.audio.createPlayer('http://49.234.77.32/audio/'+bid+'_'+sid+'-f-v.mp3');
+			//console.log('http://49.234.77.32'+url);
+		    var num=s.getDuration();
+		    setTimeout(function(){num = s.getDuration();},100);
+		    s.play(function(){console.log("播放音频文件(bid:"+bid+",sid:"+sid+")");},
+		    	function(e){
+		    		mui.toast('连接服务器出错',{ duration:'long', type:'div' });
+		    		console.log("error");
+		    	}
+		    );
+		});
+		*/
+		
+		//监听事件，暂停播放
+		window.addEventListener('pause',function(event){
+			if(pause==true){
+				s.resume();
+				pause=false;
+			}
+			else{
+				s.pause();
+				pause=true;
+			}
+		});
+		
+		
+	</script>
+</body>
+
+</html>
