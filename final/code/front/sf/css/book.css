@@ -1,0 +1,127 @@
+/*书籍组件*/
+.book-reco-1{
+	position: absolute;
+	left: 70px;
+	top: 10px;
+	height: 40px;
+	width: 40px;
+	border: 20px;
+	border-style: solid;
+	border-color:#007AFF #007AFF rgba(0,0,0,0) rgba(0,0,0,0);
+	background: rgba(0,0,0,0);
+	padding: 0px;
+}
+.book-icon-3{
+	color: white;
+	position: absolute;
+	top: 10px;
+	left: 85px;
+	z-index: 100;
+	font-size: 20px;
+}
+.book-div-1{
+	width:100%;
+	height:120px;
+	padding: 0px;
+	margin: 0px;
+	background-size:100% 100%; 
+	//background:url(../image/bg.jpg);
+} 
+.book-div-2{
+	width:100%;
+	height:250px;
+	background: white;
+	padding: 0px;
+	margin: 0px;
+}
+.book-info-1{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width:120px;
+	float: left;
+	height: 120px;
+	box-shadow: 0 0 0 #000000 inset;
+}
+.book-info-10{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width:160px;
+	float: left;
+	height: 160px;
+
+}
+.book-info-2{
+	text-align: left;
+	font-size: 18px;
+	font-weight: bolder;
+	height:50px;
+	padding-top:20px;
+	margin:0px;
+	color: #007AFF;
+}
+.book-info-4,.book-info-3,.book-info-7{
+	text-align: left;
+	font-size: 14px;
+	font-weight: bolder;
+	height: 20px;
+	color: #007AFF;
+	color: darkgray;
+	padding: 0px;
+}
+.book-info-6{
+	width: 80%;
+	height: 80%;
+	border-radius: 10px;
+	box-shadow: 0 0 0 #000000 inset;
+}
+.book-info-5{
+	position: absolute;
+	top: 90px;
+	right: 3%;
+	height: 30px;
+	width: 15%;
+	font-weight: bolder;
+	color: darkgray;
+	margin-bottom: 10px;
+	text-align: right;
+}
+.book-btn-1{
+	position: absolute;
+	top: 110px;
+	right: 3%;
+	height: 30px;
+	width: 8%;
+	margin-bottom: 10px;
+	text-align: left;	
+}
+.book-btn-2{
+	position: absolute;
+	top: 110px;
+	right: 12%;
+	height: 30px;
+	width: 8%;
+	margin-bottom: 10px;
+	text-align: left;	
+}
+.book-icon-1{
+	font-size: 35px;
+}
+.book-info-8{
+	position: absolute;
+	top:170px;
+	width: 94%;
+	margin-left: 3%;
+	height:70px;
+	color: darkgray;
+	font-weight: bolder;
+}
+.book-info-9{
+	position: absolute;
+	top: 200px;
+	left: 10px;
+}
+.book-icon-2{
+	font-size: 17px;
+}
