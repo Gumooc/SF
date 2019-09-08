@@ -54,7 +54,7 @@ public class EmailServiceImpl implements EmailService {
             // 2.2设置接收人
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
             // 2.3设置邮件主题
-            message.setSubject("账号激活");
+            message.setSubject("sfbook账号操作");
             // 2.4设置邮件内容
             
             message.setContent(content, "text/html;charset=UTF-8");
