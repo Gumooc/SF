@@ -304,7 +304,7 @@
 					});
 				});
 			})(mui);
-			
+			var auth;
 			var self;
 			var uid;
 			var cmt=[];
@@ -312,6 +312,7 @@
 				self=plus.webview.currentWebview();
 				uid=plus.storage.getItem('visit');
 				if(uid==null)return;
+				mui.fire(self,'auth',{uid:uid});
 				mui.fire(self,'info',{uid:uid});
 			});
 			
@@ -369,6 +370,23 @@
 				load=[0,0,0,0,0];
 				mui.fire(self,'info',{uid:uid});
 			});
+			
+			window.addEventListener('auth',function(event){
+				var uid=event.detail.uid;
+				mui.ajax('http://49.234.77.32:8080/sfbook/user/askhide',{
+					data:{uid:uid},
+					dataType:'json',
+					type:'post',
+					async:false,
+					timeout:10000,
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						if(data.body==true){auth=false;}
+						else{auth=true;}
+					},
+					error:function(xhr,type,errorThrown){console.log(type);}
+				});
+			});
 			//按钮事件，删除评论
 	   		mui('body').on('tap','.us-cmt-info-4',function(e){
 	   			var ele=document.getElementsByClassName('us-cmt-info-4');
@@ -394,6 +412,7 @@
 	   		});
 			//监听事件，加载信息
 			window.addEventListener('info',function(event){
+				
 				var uid=event.detail.uid;
 				plus.nativeUI.showWaiting();
 		    	mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
@@ -404,15 +423,25 @@
 					timeout:10000,
 					headers:{'Content-Type':'application/json'},	              
 					success:function(data){
-						var user=data.body;
-						var male='男';
-						if(user.male==false){male='女';}
-						document.getElementsByClassName('us-main-info-1')[0].innerHTML=user.nickname;
-						document.getElementsByClassName('us-main-info-1')[1].innerHTML=male;
-						document.getElementsByClassName('us-main-info-1')[2].innerHTML=user.birth;
-						document.getElementsByClassName('us-main-info-1')[3].innerHTML=user.phone;
-						document.getElementsByClassName('us-main-info-1')[4].innerHTML=user.email;
-						load[0]=1;
+						if(auth==false){
+							var user=data.body;
+							document.getElementsByClassName('us-main-info-1')[0].innerHTML=user.nickname;
+							document.getElementsByClassName('us-main-info-1')[1].innerHTML='--';
+							document.getElementsByClassName('us-main-info-1')[2].innerHTML='--';
+							document.getElementsByClassName('us-main-info-1')[3].innerHTML='--';
+							document.getElementsByClassName('us-main-info-1')[4].innerHTML='--';
+						}
+						else{
+							var user=data.body;
+							var male='男';
+							if(user.male==false){male='女';}
+							document.getElementsByClassName('us-main-info-1')[0].innerHTML=user.nickname;
+							document.getElementsByClassName('us-main-info-1')[1].innerHTML=male;
+							document.getElementsByClassName('us-main-info-1')[2].innerHTML=user.birth;
+							document.getElementsByClassName('us-main-info-1')[3].innerHTML=user.phone;
+							document.getElementsByClassName('us-main-info-1')[4].innerHTML=user.email;
+							load[0]=1;
+						}
 					},
 					error:function(xhr,type,errorThrown){console.log(type);}
 				});
@@ -420,6 +449,17 @@
 			});
 			//监听事件，加载作品
 			window.addEventListener('work',function(event){
+				if(auth==false){
+					var html='';
+					html+='<li class="mui-table-view-cell">';		
+					html+="<div class='empty'>";		
+					html+="<h3>访问受限</h3>";		
+					html+="</br>";
+					html+='<h4>该用户已关闭访问权限</h4>';
+					html+='</div></li>';
+					document.getElementsByClassName("mui-table-view")[1].innerHTML=html;
+					return;
+				}
 				uid=event.detail.uid;
 		    	var html="";
 		    	plus.nativeUI.showWaiting();
@@ -476,6 +516,18 @@
 			});
 			//监听事件，加载收藏
 			window.addEventListener('coll',function(event){
+				
+				if(auth==false){
+					var html='';
+					html+='<li class="mui-table-view-cell">';		
+					html+="<div class='empty'>";		
+					html+="<h3>访问受限</h3>";		
+					html+="</br>";
+					html+='<h4>该用户已关闭访问权限</h4>';
+					html+='</div></li>';
+					document.getElementsByClassName("mui-table-view")[2].innerHTML=html;
+					return;
+				}
 				uid=event.detail.uid;
 		    	var html="";
 		    	plus.nativeUI.showWaiting();
@@ -532,6 +584,17 @@
 			});
 			//监听事件，加载足迹
 			window.addEventListener('track',function(event){
+				if(auth==false){
+					var html='';
+					html+='<li class="mui-table-view-cell">';		
+					html+="<div class='empty'>";		
+					html+="<h3>访问受限</h3>";		
+					html+="</br>";
+					html+='<h4>该用户已关闭访问权限</h4>';
+					html+='</div></li>';
+					document.getElementsByClassName("mui-table-view")[4].innerHTML=html;
+					return;
+				}
 				uid=event.detail.uid;
 		    	var html="";
 		    	plus.nativeUI.showWaiting();
@@ -588,6 +651,17 @@
 			});
 			//监听事件，加载评论
 			window.addEventListener('cmt',function(event){
+				if(auth==false){
+					var html='';
+					html+='<li class="mui-table-view-cell">';		
+					html+="<div class='empty'>";		
+					html+="<h3>访问受限</h3>";		
+					html+="</br>";
+					html+='<h4>该用户已关闭访问权限</h4>';
+					html+='</div></li>';
+					document.getElementsByClassName("mui-table-view")[3].innerHTML=html;
+					return;
+				}
 				uid=event.detail.uid;
 		    	var html="";
 		    	plus.nativeUI.showWaiting();
