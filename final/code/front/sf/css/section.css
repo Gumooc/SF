@@ -16,8 +16,9 @@
 }
 .section-info-2{
 	padding: 8px;
-	width:60%;
+	width:80%;
 	float: left;
+	//background-color: blue;
 }
 .section-btn-1{
 	float: right;	
