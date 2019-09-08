@@ -30,12 +30,16 @@ public interface UserDao {
 	User askuser(int uid);
 	
 	User askuserallinfo(int uid);
-	void mdfypassword(User user);
 	
 	boolean checkforbidden(int uid);
 	
 	TpUser tpcheck(String openid);
 	void tp(@Param("uid") int uid, @Param("openid") String openid);
 	void updatelst(@Param("uid") int uid, @Param("lst") String lst);
+	
+	void updatepassword(@Param("uid") int uid, @Param("password") String password);
+	User modifycheck(User user); 
+	
+	boolean askhide(int uid);
 	
 }
