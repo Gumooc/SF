@@ -40,6 +40,11 @@ public class BookServiceImpl implements BookService {
 	private MongoTemplate mongoTemplate;
 	
 	@Override
+	public String getBookname(int bid) {
+		return bookMapper.getBookname(bid);
+	}
+	
+	@Override
 	public JSONObject setkind(int bid, String kind) {
 		JSONObject feedbody = new JSONObject();
 		Book book = new Book();
@@ -157,7 +162,9 @@ public class BookServiceImpl implements BookService {
 	
 	@Override
 	public List<Book> searchbytitle(String bookname){
-		List<Book> booklist = bookMapper.askbooklist();
+		
+		List<Book> booklist = bookMapper.searchbytitle(bookname);
+		
 		for (Book book:booklist) {
 			Query query = new Query(Criteria.where("id").is(book.getBid()));
 			BookImg result=mongoTemplate.findOne(query, BookImg.class, "bookimg");
