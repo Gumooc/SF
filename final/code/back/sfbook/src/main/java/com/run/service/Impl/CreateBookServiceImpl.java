@@ -87,6 +87,12 @@ public class CreateBookServiceImpl implements CreateBookService {
         File tmpfile=new File(Path);
         if (tmpfile.exists()) tmpfile.delete();
         tmpfile.mkdir();
+        String command = "chmod 755 -R " + Path.toString();
+        try {
+            Runtime.getRuntime().exec(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println(originfilename);
         try {
             bb = sound.getBytes();
@@ -115,7 +121,7 @@ public class CreateBookServiceImpl implements CreateBookService {
         		break;
         	}
         }
-        newbook.put("status","正在上传mp3文件");
+        newbook.put("status","正在上传mp3");
         newbook.put("start",0);
         newbook.put("end",1);
         String filename=bid.toString()+'_'+chapter.toString();
@@ -124,21 +130,21 @@ public class CreateBookServiceImpl implements CreateBookService {
         ffmpegx.denoise(Path+filename+".mp3",Path+filename+"de.mp3");
         String pre=filename;
         filename=filename+"de";
-        newbook.put("status","正在转换pcm文件");
+        newbook.put("status","转换pcm文件");
         newbook.put("start",0);
         newbook.put("end",1);
         ffmpegx.changetopcm(Path+filename+".mp3");
         newbook.put("start",1);
         //System.out.println("OK?"+Path+filename);
         //System.out.println(Path+filename);
-        newbook.put("status","正在分片pcm文件");
+        newbook.put("status","分片pcm文件");
         newbook.put("start",0);
         newbook.put("end",1);
         filecut.cutpcmfile(Path,filename);
         newbook.put("start",1);
         ArrayList<String> allfilename=getAllFileName(Path+filename);
         AipSpeech aipSpeech = new AipSpeech("16720362","drYw1Ut4GQRAeZSC2FMqbNEg", "36Oz5GXBqYWIMC6QfG9GG4AGrVqO0CUI");
-        newbook.put("status","正在实现语音识别");
+        newbook.put("status","语音识别");
         newbook.put("start",0);
         newbook.put("end",allfilename.size());
         asr(aipSpeech,Path,filename,MusicPath,BgmPath,newbook,pre);
@@ -147,9 +153,10 @@ public class CreateBookServiceImpl implements CreateBookService {
         File ffFile =new File(Path+pre+"-f-v.mp3");
         ffFile.setReadable(true);
         ffFile.setExecutable(true);
-        String command = "chmod 755 -R " + Path+pre+"-f-v.mp3";
+        
+        String command1 = "chmod 755 -R " + Path+pre+"-f-v.mp3";
         try {
-            Runtime.getRuntime().exec(command);
+            Runtime.getRuntime().exec(command1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -203,6 +210,12 @@ public class CreateBookServiceImpl implements CreateBookService {
         File tmpfile=new File(Path);
         if (tmpfile.exists()) tmpfile.delete();
         tmpfile.mkdir();
+        String command = "chmod 755 -R " + Path.toString();
+        try {
+            Runtime.getRuntime().exec(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Integer Part=0;
         ArrayList<Boolean> modifyflag=new ArrayList<>();
         
@@ -216,7 +229,7 @@ public class CreateBookServiceImpl implements CreateBookService {
         newbook.put("bid",bid);
         
         newbook.put("chapter",chapter);
-        newbook.put("status","正在处理文本文件");
+        newbook.put("status","处理文本");
         newbook.put("start",0);
         newbook.put("end",text.length());
         createlist.add(newbook);
@@ -246,6 +259,9 @@ public class CreateBookServiceImpl implements CreateBookService {
                 options.put("pit", pit);
                 options.put("per", per);
                 TtsResponse ttsResponse = aipSpeech.synthesis(tmp, "zh", 1, options);
+                while (ttsResponse.getResult()!=null) {
+                    ttsResponse = aipSpeech.synthesis(tmp, "zh", 1, options);
+                }
                 byte[] aa = ttsResponse.getData();
                 getFile(aa, Path, Filename + "-" + Part + ".mp3");
                 time = ffmpegx.processFLT(Path + Filename + "-" + Part + ".mp3");
@@ -320,7 +336,7 @@ public class CreateBookServiceImpl implements CreateBookService {
             else
             modifyflag.add(false);
             Part = Part+1;
-        newbook.put("status","正在合成mp3文件");
+        newbook.put("status","合成mp3");
         newbook.put("start",0);
         newbook.put("end",Part);
         for (Integer i=0;i<Part;i++)
@@ -369,9 +385,9 @@ public class CreateBookServiceImpl implements CreateBookService {
         File ffFile =new File(finalname+"-f-v.mp3");
         ffFile.setReadable(true);
         ffFile.setExecutable(true);
-        String command = "chmod 755 -R " + finalname+"-f-v.mp3";
+        String command2 = "chmod 755 -R " + finalname+"-f-v.mp3";
         try {
-            Runtime.getRuntime().exec(command);
+            Runtime.getRuntime().exec(command2);
         } catch (IOException e) {
             e.printStackTrace();
         }
