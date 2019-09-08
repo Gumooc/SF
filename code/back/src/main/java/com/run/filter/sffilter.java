@@ -32,19 +32,19 @@ public class sffilter implements Filter {
 		response.setHeader("Access-Control-Allow-Methods", "*");
 		response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 		response.setHeader("Access-Control-Allow-Credentials","true");
-		/*
+		
 		boolean flag = false;
+		/*
 		Cookie[] cookies = request.getCookies();
+		//System.out.println("Start_Cookie");
 		if (cookies!=null) {
 			for (Cookie cookie:cookies) {
-				//System.out.println(cookie.getValue());
-				if (cookie.getName().equals("sfpswd") && cookie.getValue().equals("sfpswd")) {
-					flag = true;
-				}
+				System.out.println(cookie.getName()+":"+cookie.getValue());
 			}
-		}*/
-		HttpSession session = request.getSession();
-		
+		}
+		//System.out.println("End_Cookie");
+		//HttpSession session = request.getSession();
+		*/
 		arg2.doFilter(arg0, arg1);
 	}
 
