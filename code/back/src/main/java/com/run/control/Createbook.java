@@ -2,6 +2,7 @@ package com.run.control;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.run.service.BookService;
 import com.run.service.CreateBookService;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -45,13 +47,16 @@ public class Createbook {
 		JSONObject urljs = new JSONObject();
 		try {
 			urljs = createBookService.bytext(request.getSession(), infojs, txt);
+			System.out.println(urljs);
+			bookService.insaudio(infojs.getInt("bid"), infojs.getInt("chapter"), urljs.getString("audiopath"));
+			feedback.put("resp", "s");
+			feedback.put("body", urljs.getString("audiopath"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			feedback.put("resp", "f");
+			System.out.println("text_failed");
 			e.printStackTrace();
 		}
-		bookService.insaudio(infojs.getInt("bid"), infojs.getInt("chapter"), urljs.getString("audiopath"));
-		feedback.put("resp", "s");
-		feedback.put("body", urljs.getString("audiopath"));
 		return feedback;
 	}
 
@@ -64,13 +69,36 @@ public class Createbook {
 		JSONObject urljs = new JSONObject();
 		try {
 			urljs = createBookService.bysound(request.getSession(), infojs, txt);
+			System.out.println(urljs);
+			bookService.insaudio(infojs.getInt("bid"), infojs.getInt("chapter"), urljs.getString("audiopath"));
+			feedback.put("resp", "s");
+			feedback.put("body", urljs.getString("audiopath"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			feedback.put("resp", "f");
+			System.out.println("sound_failed");
 			e.printStackTrace();
 		}
-		bookService.insaudio(infojs.getInt("bid"), infojs.getInt("chapter"), urljs.getString("audiopath"));
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/making")
+	public JSONObject making(HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		HttpSession session = request.getSession();
+		JSONArray createlist = (JSONArray) session.getAttribute("createlist");
+		JSONArray bodylist = new JSONArray();
+		if (createlist != null) {
+			for (int i = 0; i < createlist.size(); i++) {
+				JSONObject item = (JSONObject) createlist.get(i);
+				item.put("bookname", bookService.getBookname(item.getInt("bid")));
+				bodylist.add(item);
+			}
+		}
 		feedback.put("resp", "s");
-		feedback.put("body", urljs.getString("audiopath"));
+		feedback.put("body", bodylist);
 		return feedback;
 	}
 }
