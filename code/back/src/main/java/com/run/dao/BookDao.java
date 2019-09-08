@@ -22,6 +22,6 @@ public interface BookDao {
 	
 	void setkind(Book book);
 	String getauthor(int uid);
-	
+	String getBookname(int bid);
 	
 }
