@@ -3,11 +3,7 @@ package com.run.tools;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,10 +51,9 @@ public class dict {
         String str = "";
         try {
             Charset charset = Charset.forName("GBK");
-        //fileReader = new FileReader(path,charset);
-        //bufferedReader = new BufferedReader( fileReader );
-          bufferedReader=new BufferedReader(new InputStreamReader(new FileInputStream(path),"GBK"));  //或者将"UTF-8"改成"GB2312"
-
+        fileReader = new FileReader(path);
+        bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path),"GBK"));
+            //bufferedReader = new BufferedReader(fileReader);
         while( (str = bufferedReader.readLine()) != null ) {
         if( str.trim().length() > 2 ) {
         }
