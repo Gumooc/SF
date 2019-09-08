@@ -22,7 +22,20 @@
 		
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init();
+			mui.init({
+				preloadPages: [{
+					url: 'index.html',//b页面url路径
+					id: 'index.html'//b页面id
+				}]
+			});
+			window.addEventListener('close',function(event){
+			 	console.log('close');
+			 	mui.openWindow({
+		    		url: 'index.html',//b页面url路径
+					id: 'index.html'//b页面id
+		    	});
+				plus.webview.currentWebview.close(); 	
+			});
 
 		</script>
 	</body>

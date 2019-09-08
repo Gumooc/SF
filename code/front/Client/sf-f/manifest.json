@@ -5,7 +5,7 @@
 		"iPad"
 	],
 	"id": "H5CAEB648",/*应用的标识，创建应用时自动生成，勿手动修改*/
-	"name": "sf-f",/*应用名称，程序桌面图标名称*/
+	"name": "sfbook",/*应用名称，程序桌面图标名称*/
 	"version": {
 		"name": "1.0.0",/*应用版本名称*/
 		"code": "83"
@@ -14,7 +14,7 @@
 	"icons": {
 		"72": "icon.png"
 	},
-	"launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"launch_path": "welcome.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
 	"developer": {
 		"name": "",/*开发者名称*/
 		"email": "",/*开发者邮箱地址*/
@@ -56,11 +56,7 @@
 		"distribute": {
 			"plugins": {
 				"oauth": {
-					"sina": {
-						"appkey": "2421962831",
-						"appsecret": "4186155b917357c8f113a2ac11aa3322",
-						"redirect_uri": "www.baidu.com"
-					}
+					"qq":{"appid":"1109776249"}
 				}
 			},
 			"apple": {
@@ -183,10 +179,10 @@
 				"resources": [
 					"bl.html",
 					"bl-head.html",
-					"us-head.html"
+					"us-head.html",
+					"bp.html"
 				],
 				"refer": [
-					"bp.html",
 					"bm-main.html",
 					"ua-acc.html",
 					"bp-tmp.html",
@@ -294,6 +290,13 @@
 				"resources": [],
 				"refer": [
 					"bi.html"
+				],
+				"priority": 0
+			},
+			"welcome.html": {
+				"resources": [],
+				"refer": [
+					"index.html"
 				],
 				"priority": 0
 			}

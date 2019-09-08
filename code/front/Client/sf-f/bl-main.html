@@ -311,11 +311,9 @@
 						down: {
 							callback: function() {
 								var self = this;
-								var s=plus.webview.currentWebview();
-								var ul = self.element.querySelector('.mui-table-view');
-								createFragment2(ul, index, 5);
-								//console.log('iduck-test-01');
 								setTimeout(function() {
+									var ul = self.element.querySelector('.mui-table-view');
+									createFragment2(ul, index, 5);
 									self.endPullDownToRefresh();
 								}, 1000);
 								
@@ -324,10 +322,9 @@
 						up: {
 							callback: function() {
 								var self = this;
-								//console.log('下拉加载'+index);
-								var ul = self.element.querySelector('.mui-table-view');
-								ul.appendChild(createFragment(ul, index, 5));
 								setTimeout(function() {	
+									var ul = self.element.querySelector('.mui-table-view');
+									ul.appendChild(createFragment(ul, index, 5));
 									self.endPullUpToRefresh();
 								}, 1000);
 							}
@@ -342,7 +339,7 @@
 				var tid=index;
 				var rid=req[tid];
 				if(tid==0){
-					mui.fire(self,'get',{tid:0,waiting:'none'});
+					mui.fire(self,'get',{tid:0});
 					return;
 				};
 				mui.ajax('http://49.234.77.32:8080/sfbook/book/bookpage',{
@@ -391,9 +388,11 @@
 					error:function(xhr,type,errorThrown){
 						plus.nativeUI.closeWaiting();
 						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
-						console.log(type);}
+						console.log(type);
+					}
 				});
 				ul.appendChild(fragment);
+				return;
 			};
 			var createFragment = function(ul, index, count, reverse) {
 				var length = ul.querySelectorAll('li').length;
@@ -458,11 +457,9 @@
 		var num=[1,1,1,1,1,1,1,1,1,1,1];			//当前书籍的数量
 		var self;	
 		mui.plusReady(function(){
-			console.log('bl-main加载');
+			//console.log('bl-main加载');
 			self=plus.webview.currentWebview();
 			mui.fire(self,'get',{tid:0});
-			
-			
 		});
 
 		//按钮事件，显示详情
@@ -478,7 +475,7 @@
 		
 		//监听事件，为指定标签页加载书单
 		window.addEventListener('get',function(event){
-			console.log('getbooklist');
+			//console.log('getbooklist');
 			var tid=event.detail.tid;
 			var rid=req[tid];
 			var uid=plus.storage.getItem('uid');
@@ -589,7 +586,8 @@
 						document.getElementsByClassName("mui-table-view")[tid].innerHTML=html;
 						num[tid]+=1;
 						var lau=plus.webview.getLaunchWebview();
-						mui.fire(lau,'calcu',{});
+						//console.log("calcu->");
+						mui.fire(lau,'close',{});
 						plus.nativeUI.closeWaiting();
 					},
 					error:function(xhr,type,errorThrown){
@@ -597,7 +595,8 @@
 						mui.toast('连接服务器出错',{ duration:'long', type:'div' });
 						console.log(type);
 						var lau=plus.webview.getLaunchWebview();
-						mui.fire(lau,'calcu',{});
+						console.log("calcu->");
+						mui.fire(lau,'close',{});
 					}
 				});
 			}
