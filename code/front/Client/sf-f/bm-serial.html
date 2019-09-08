@@ -120,15 +120,15 @@
 		<div class="bm-serial-div-1">
 			<div class="mui-input-row bm-serial-div-2">
 				<label>语速</label>
-				<input id='spd' type="number" class="mui-input-clear mui-input"  placeholder="3:默认">
+				<input id='spd' type="number" class="mui-input-clear mui-input"  placeholder="1至5加快;默认3">
 			</div>	
 			<div class="mui-input-row bm-serial-div-2">
 				<label>音调</label>
-				<input id='pit' type="number" class="mui-input-clear mui-input"  placeholder="3:默认">
+				<input id='pit' type="number" class="mui-input-clear mui-input"  placeholder="1至5加强;3:默认">
 			</div>
 			<div class="mui-input-row bm-serial-div-2">
 				<label>音量</label>
-				<input id='vol' type="number" class="mui-input-clear mui-input"  placeholder="5:默认">
+				<input id='vol' type="number" class="mui-input-clear mui-input"  placeholder="1至5加强;5:默认">
 			</div>
 			<div class="mui-input-row bm-serial-div-2">
 				<label>性别</label>
@@ -314,10 +314,10 @@
                    
                 },function(state,xhr){
                 	succ=-1;
-                    
                 }
             );
             if(succ==-1){
+            	
             	mui.fire(edit,'toast',{toast:'章节添加失败，连接到服务器出错'})
                 self.close();
             	return;
@@ -342,7 +342,12 @@
 		        	console.log("音频导入失败");
 		        }
     		});
-    		self.close();
+    		mui.toast('正在上传音频文件',{ duration:'long', type:'div'});
+    		plus.nativeUI.showWaiting();
+    		setTimeout(function(){
+				plus.nativeUI.closeWaiting();
+				self.close();
+    		}, 5000);
     		mui.fire(edit,'toast',{toast:'音频正在添加,请稍等片刻...'});
    		});
 		//监听事件，加载章节
@@ -369,6 +374,7 @@
 				}
 			});
 			if(sid==-1){
+				
 				//console.log('添加新的章节');
 			}
 		});

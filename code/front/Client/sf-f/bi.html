@@ -48,6 +48,29 @@
 		.bi-info-12{height:25px;padding-top:10px;font-size:14px;color:darkgray;font-weight:bolder;}
 		.bi-div-6{width: 100%;float:left;}
 		.bi-div-8{width: 100%;float:left;border-bottom: 1px solid darkgray;}
+		.nobook{
+			position: absolute;
+			height: 700px; 
+			width:100%;
+			display: none;
+			background: whitesmoke;
+		}
+		.mui-content{
+			
+		}
+		.nobookimg{
+			
+			margin: 200px auto;
+			width: 200px;
+			height: 200px;
+		}
+		.nobookdes{
+			margin: 0 auto;
+		
+			text-align: center;
+			color: darkgray;
+			font-size: 25px;
+		}
 	</style>
 </head>
 
@@ -58,6 +81,12 @@
 			<a class="mui-icon mui-icon-left-nav mui-pull-left mui-action-back"></a>
 	</header>
 	 
+	<div class='nobook'>
+		<div class='nobookimg'>
+			<img src='image/nobook.jpg' width="100%" height="100%"/>
+			<div class='nobookdes'>未找到有声书</div>
+		</div>
+	</div>
 	<div class="mui-content">
 		<div class='mui-card book-div-2'>
 			<div class='book-info-10'>
@@ -223,6 +252,7 @@
 							console.log("添加图书至收藏夹");
 							mui.toast('添加图书至收藏夹',{ duration:'long', type:'div' });
 							var us_collect=plus.webview.getWebviewById('us-collect.html');
+							document.getElementById('iscoll').innerHTML="<span class='mui-icon mui-icon-star bi-btn-4'></span>";
 							
 						}
 					},
@@ -249,6 +279,8 @@
 							console.log("从图书收藏夹移除");
 							mui.toast('从图书收藏夹移除',{ duration:'long', type:'div' });
 							var us_collect=plus.webview.getWebviewById('us-collect.html');
+							document.getElementById('iscoll').innerHTML="<span class='mui-icon mui-icon-star bi-btn-4' style='color:darkgray'></span>";
+							
 						}
 					},
 					error:function(xhr,type,errorThrown){
@@ -376,11 +408,12 @@
 					if(uid==0){
 						//do nothing
 					}
-					else if(item.book.collected==true){
-						html+="<span class='mui-icon mui-icon-star bi-btn-4'></span>";
+					console.log(item.book.collected);
+				 	if(item.book.collected==true){
+						html+="<div id='iscoll'><span class='mui-icon mui-icon-star bi-btn-4' ></span></div>";
 					}
 					else{
-						html+="<span class='mui-icon mui-icon-star bi-btn-4'></span>";
+						html+="<div id='iscoll'><span class='mui-icon mui-icon-star bi-btn-4' style='color:darkgray'></span></div>";
 					}
 					html+="<div class='book-info-8'>"+"简介"+"</div>"; 
 					document.getElementsByClassName("book-div-2")[0].innerHTML=html;
@@ -395,6 +428,8 @@
 					plus.nativeUI.closeWaiting();
 					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
 					console.log(type);
+					document.getElementsByClassName("mui-content")[0].style.display="none";
+					document.getElementsByClassName("nobook")[0].style.display="block";
 				}
 			});
 			mui.ajax('http://49.234.77.32:8080/sfbook/book/askbookdes',{
@@ -411,6 +446,8 @@
 					plus.nativeUI.closeWaiting();
 					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
 					console.log(type);
+					document.getElementsByClassName("mui-content")[0].style.display="none";
+					document.getElementsByClassName("nobook")[0].style.display="block";
 				}
 			});
 			mui.ajax('http://49.234.77.32:8080/sfbook/user/askuserinfo',{
@@ -435,7 +472,10 @@
 				},
 				error:function(xhr,type,errorThrown){
 					plus.nativeUI.closeWaiting();
-					console.log(type);}
+					console.log(type);
+					document.getElementsByClassName("mui-content")[0].style.display="none";
+					document.getElementsByClassName("nobook")[0].style.display="block";
+				}
 			});
 			mui.ajax('http://49.234.77.32:8080/sfbook/book/comment',{
 				data:{bid:event.detail.bid},
@@ -462,7 +502,9 @@
 				error:function(xhr,type,errorThrown){
 					plus.nativeUI.closeWaiting();
 					mui.toast('连接服务器出错',{ duration:'long', type:'div' });
-					console.log(type);}
+					console.log(type);
+				document.getElementsByClassName("mui-content")[0].style.display="none";
+					document.getElementsByClassName("nobook")[0].style.display="block";}
 			});
 			plus.nativeUI.closeWaiting();
 		});
@@ -472,7 +514,7 @@
 			var bp=plus.webview.getWebviewById('bp.html');
 			mui.fire(bp,'play',{bid:item.book.bid,sid:sid,img:item.book.img});
 			var os=plus.webview.getWebviewById('os-head.html');
-			var index=plus.webview.getLaunchWebview();
+			var index=plus.webview.getWebviewById('index.html');
 			mui.fire(index,'jump',{dst:'bp.html'});
 			if(os){os.close();}
 			self.close();

@@ -37,20 +37,31 @@
 		var sub_style={top:'0px',bottom:'51px'};
 		var self;
 		var calcu=0;
+		/*
 		var t1=setInterval(function(){
-		     if(calcu==1){
-		     	plus.webview.close('welcome.html');
+			//console.log("hello???");
+		    if(calcu==1){
+		     	var wel=plus.webview.getWebviewById('welcome.html');
+		     	mui.fire(wel,'close',{});
+		     	//plus.webview.close('welcome.html');
 		     	clearInterval(t1);
 		     }
 		},1000);
-    
+    	*/
 
-	    mui.init();
+	    mui.init({
+	    	
+	    })
 	    mui.plusReady(function(){
+	    	mui.back = function() {  
+				return;
+			};  
+	    	/*
 	    	mui.openWindow({
 	    		url:'welcome.html',
 	    		id:'welcome.html',
 	    	});
+	    	*/
 	    	self = plus.webview.currentWebview();
             for(var i=0;i<sub.length;i++){
                 var page = plus.webview.create(sub[i], sub[i], sub_style);
@@ -91,12 +102,12 @@
 				destNavi.classList.add('mui-active');
 			}
 		});
-		
+		/*
 		window.addEventListener('calcu',function(event){
-		 	//console.log('calcu');
+		 	console.log('calcu!!!!');
 	    	calcu=1;
 		});
-		
+		*/
 		
 	</script>
 	

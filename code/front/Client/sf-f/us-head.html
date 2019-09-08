@@ -124,7 +124,7 @@
 		
 	    mui.init();
 	    mui.plusReady(function(){
-	    	console.log('us-head加载');
+	    	//console.log('us-head加载');
 	    	self = plus.webview.currentWebview();
             for(var i=0;i<sub.length;i++){
                 var page = plus.webview.create(sub[i], sub[i], sub_style);
@@ -156,7 +156,7 @@
 			},function(e){
 				console.log("获取登录认证失败："+e.message);
 			});
-            console.log('us-head加载end');
+            //console.log('us-head加载end');
 	    });
 	    //监听事件，登录
 	    mui('body').on('tap','.us-head-btn-1',function(e){	

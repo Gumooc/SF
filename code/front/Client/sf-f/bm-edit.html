@@ -87,9 +87,10 @@
 		}
 		.mui-btn-block{height:40px;padding: 0px;}
 		.chpt-pro{
-			margin-left: 30px;
+			margin-left: 15px;
 			font-size: 14px;
 			color: #007AFF;
+			//background-color: red;
 		}
 	</style>
 </head>
@@ -182,7 +183,7 @@
 					<div class='section-info-1'>1</div>
 					<div class='section-info-2'>前世恩怨</div>
 					<button class='mui-btn mui-btn-primary section-btn-1'><icon class="mui-icon mui-icon-trash"></icon></button>
-					<div class="pro-tip">hello</div>
+					<div class="chpt-pro">hello</div>
 				</div>
 				<div class='mui-card section-div-1 bm-edit-btn-7'>
 					<div class='section-info-1'>2</div>
@@ -212,10 +213,10 @@
 		
 		setInterval(clock,1000);
 		function clock(){
-			var chpt_ele=document.getElementsByClassName('chpt-pro');
-			for(var i=0;i<chpt_ele.length;i++){
+			
+			/*for(var i=0;i<chpt_ele.length;i++){
 				chpt_ele[i].innerHTML='';
-			}
+			}*/
 			
 			//console.log('hello');
 		
@@ -223,16 +224,21 @@
 				data:{},
 				dataType:'json',
 				type:'post', 
-				async:false,
-				timeout:10000,
+				async:true,
+				timeout:5000,
 				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 					if(data.body!=null){
+						var chpt_ele=document.getElementsByClassName('chpt-pro');
 						var p=data.body;
 						for(var i=0;i<p.length;i++){
-							if(p[i].status=='制作完成')continue;
-							if(p[i].bid!=bid)continue;
+							if(p[i].status=='制作完成'){
+								chpt_ele[p[i].chapter-1].innerHTML='制作完成--';
+								continue;
+							}
+							if(p[i].bid!=bid)continnue;
 							var str=p[i].status+p[i].start+'/'+p[i].end+'..';
+							console.log(p[i].status+p[i].start+'/'+p[i].end);
 							var chpt_ele=document.getElementsByClassName('chpt-pro');
 							chpt_ele[p[i].chapter-1].innerHTML=str;
 							//console.log(p[i].chapter);
