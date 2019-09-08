@@ -1,5 +1,7 @@
 package com.run.control;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,7 @@ import com.run.entity.User;
 import com.run.service.EmailService;
 import com.run.service.UserService;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -43,6 +46,11 @@ public class UserController {
 		String openid = userjs.getString("openid");
 		String nickname = userjs.getString("nickname");
 		boolean male = userjs.getString("gender").equals("m");*/
+		HttpSession session = request.getSession();
+		if (session.getAttribute("createlist")==null){
+            JSONArray  createlist=new JSONArray();
+            session.setAttribute("createlist",createlist);
+        }
 		feedback.put("uid", userService.tplogin(userjs));
 		return feedback;
 	}
@@ -55,8 +63,7 @@ public class UserController {
 		int uid = JSONObject.fromObject(liString).getInt("uid");
 		String oldp = JSONObject.fromObject(liString).getString("oldp");
 		String newp = JSONObject.fromObject(liString).getString("newp");
-		userService.mdfypassword(uid, oldp, newp);
-		feedback.put("resp", "s");
+		feedback = userService.mdfypassword(uid, oldp, newp);
 		return feedback;
 	}
 	
@@ -71,12 +78,19 @@ public class UserController {
 		user.setPassword(userinfo.getString("password")); 
 		System.out.println(user);
 		feedback = userService.logincheck(user);
+		if (feedback.getString("resp").equals("s")) {
+			HttpSession session = request.getSession();
+			if (session.getAttribute("createlist")==null){
+	            JSONArray  createlist=new JSONArray();
+	            session.setAttribute("createlist",createlist);
+	        }
+		}
 		return feedback;
 	}
 	
 	@ResponseBody
 	@RequestMapping("/register")
-	public JSONObject handleregister(@RequestBody String liString,HttpServletRequest request, HttpServletResponse response) {
+	public JSONObject handleregister(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject userinfo = JSONObject.fromObject(liString);
 		JSONObject feedback = new JSONObject();
@@ -86,7 +100,13 @@ public class UserController {
 		feedback = userService.register(user);
 		if (feedback.getString("resp").equals("s")) {
 			user.setUid(feedback.getJSONObject("body").getInt("uid"));
-			emailService.sendmail(user);
+            int min = 30;
+            int max = 50;
+            int active = new Random().nextInt(max-min)+min;
+            String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://localhost:8080/sfbook/user/activation?uid="
+                    +user.getUid()+"&active="+"1" + "'>http://49.234.77.32:8080/sfbook/user/activation?uid=" +user.getUid() +"&active="+active
+                    + "</href></h3></body></html>";
+			emailService.sendmail(user, content);
 		}
 		return feedback;
 	}
@@ -101,6 +121,75 @@ public class UserController {
 		
 		return "activation";
 	}
+
+	@ResponseBody
+	@RequestMapping("/modify1")
+	public JSONObject modify1(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		JSONObject userjs = JSONObject.fromObject(liString);
+		String username = userjs.getString("username");
+		String email = userjs.getString("email");
+		User user = userService.modifycheck(username, email);
+		if (user != null) {
+			feedback.put("resp", "s");
+			JSONObject feedbody = new JSONObject();
+			feedbody.put("uid", user.getUid());
+			feedback.put("body", feedbody);
+			HttpSession session = request.getSession();
+			String evcode = (String) session.getAttribute("vcode");
+			if (evcode != null) {
+				feedback.put("resp", "ex");
+			} else {
+				int min = 1000;
+				int max = 9999;
+		        int vcode = new Random().nextInt(max-min)+min;
+				String content = "<html><head></head><body><h1>这是您的sfbook验证码, 30分钟内有效</h1><h3>"+vcode+"</h3></body></html>";
+				emailService.sendmail(user, content);
+				String svcode = Integer.toString(vcode);
+				session.setAttribute("vcode", svcode);
+			}
+          
+		} else {
+			feedback.put("resp", "f");
+		}
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/modify2")
+	public JSONObject modify2(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		JSONObject userjs = JSONObject.fromObject(liString);
+		String vcode = userjs.getString("vcode");
+		String username = userjs.getString("username");
+		String email = userjs.getString("email");
+		String password = userjs.getString("password");
+		System.out.println("modify2:"+0);
+		User user = userService.modifycheck(username, email);
+		int uid = user.getUid();
+		System.out.println("modify2:"+1);
+		HttpSession session = request.getSession();
+		System.out.println("modify2:"+2);
+		String evcode = (String) session.getAttribute("vcode");
+		System.out.println("modify2:"+3);
+		System.out.println("evcode:"+evcode);
+		if (evcode == null) {
+			feedback.put("resp", "to");
+		} else {
+			if (vcode.equals(evcode)) {
+				System.out.println("modify2:"+4);
+				feedback.put("resp", "s");
+				userService.updatepassword(uid, password);
+				session.removeAttribute("vcode");
+			} else {
+				feedback.put("resp", "f");
+			}
+		}
+		return feedback;
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping("/collector")
@@ -176,11 +265,21 @@ public class UserController {
 	public JSONObject updateuser(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
-		//System.out.println(liString);
+		//System.out.println("update_Controller0");
 		User user = (User) JSONObject.toBean(JSONObject.fromObject(liString), User.class);
-		//System.out.println("update_controller");
-		//System.out.println(user);
+		//System.out.println("update_Controller1");
 		feedback = userService.updateuser(user);
+		return feedback;
+	}
+
+	@ResponseBody
+	@RequestMapping("/askhide")
+	public JSONObject askhide(@RequestBody String liString, HttpServletRequest request, HttpServletResponse response) {
+		setRHeader(request, response);
+		JSONObject feedback = new JSONObject();
+		int uid = JSONObject.fromObject(liString).getInt("uid");
+		feedback.put("resp", "s");
+		feedback.put("body", userService.askhide(uid));
 		return feedback;
 	}
 	
