@@ -24,4 +24,8 @@ public interface UserService {
 	
 	int tplogin(JSONObject info);
 	
+	JSONObject updatepassword(int uid, String password);
+	User modifycheck(String username, String email);
+	
+	boolean askhide(int uid);
 }
