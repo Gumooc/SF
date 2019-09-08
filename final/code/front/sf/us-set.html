@@ -91,6 +91,13 @@
 					<span class="mui-icon mui-icon-bars" style="color: #007AFF;font-size: 22px;"></span>
 				</button>
 			</div>
+			<div class="mui-input-row">
+				<label>隐私设置</label>
+				<input class='us-set-input-1' type='text' id='secr' placeholder="隐私" disabled="disabled"/>
+				<button id='showUserPicker2' class="mui-btn us-set-btn-3" type='button'>
+					<span class="mui-icon mui-icon-bars" style="color: #007AFF;font-size: 22px;"></span>
+				</button>
+			</div>
 		</form>
 		<div class="mui-content-padded" >
 			<button class="mui-btn mui-btn-block mui-btn-primary us-set-btn-1">提交修改</button>
@@ -119,11 +126,26 @@
 					value: 'female', 
 					text: '女'
 				}]);
+				var userPicker2= new $.PopPicker();
+				userPicker2.setData([{
+					value:'open',
+					text:'开放'
+				},{
+					value:'close',
+					text:'隐私'
+				}])
+				var showUserPickerButton2 = doc.getElementById('showUserPicker2');
 				var showUserPickerButton = doc.getElementById('showUserPicker');
 				var userResult = doc.getElementById('male');
+				var userResult2 = doc.getElementById('secr');
 				showUserPickerButton.addEventListener('tap', function(event) {
 					userPicker.show(function(items) {
 						userResult.placeholder=items[0].text;
+					});
+				}, false);
+				showUserPickerButton2.addEventListener('tap', function(event) {
+					userPicker2.show(function(items) {
+						userResult2.placeholder=items[0].text;
 					});
 				}, false);
 
@@ -149,12 +171,33 @@
 		     }); 
 		},false);
 		
+ 
+		function checkMobile(str) {
+		    if(str==""){
+		        return true
+		    }
+		    else{
+		        var re = /^1\d{10}$/;                           //     以1开始后面加10位数字
+		        if (re.test(str)) {
+		            return true;
+		        } else {
+		            return false;
+		        }
+		    }
+		}
+
 		//点击事件，上传个人信息
 		mui('body').on('tap','.us-set-btn-1',function(e){
     		var nuser={};
    			nuser.nickname=document.getElementById('nick').value;
    			nuser.birth=document.getElementById('birth').placeholder;
    			nuser.phone=document.getElementById('phone').value;
+   			var checkmb=checkMobile(nuser.phone);
+   			if(checkmb==false){  mui.toast('请输入正确的手机格式',{ duration:'long', type:'div' });return;}
+   			var  h=document.getElementById("secr").placeholder;
+   			if(h=='开放'){nuser.hide=false;}
+   			else{nuser.hide=true;}
+   			console.log(nuser.hide);
    			var m=document.getElementById("male").placeholder;
    			if(m=='男'){nuser.male=true;}
    			else{nuser.male=false;}
@@ -162,11 +205,12 @@
    			nuser.lst=old.lst;
    			nuser.rgt=old.rgt;
    			nuser.email=old.email;
+
    			nuser.uid=parseInt(plus.storage.getItem('uid'));
    			//过滤未修改的信息
    			if(!nuser.nickname){nuser.nickname=old.nickname;}
    			if(!nuser.phone){nuser.phone=old.phone;}
-   			//console.log(nuser.phone+nuser.birth+nuser.nickname+nuser.male);
+   			console.log(nuser.phone+nuser.birth+nuser.nickname+nuser.male+nuser.hide);
    			//更新用户信息
    			
    			mui.myAjax('http://49.234.77.32:8080/sfbook/user/updateuser',{
@@ -213,6 +257,13 @@
 					document.getElementById('nick').placeholder=old.nickname;
 					document.getElementById('birth').placeholder=old.birth;
 					document.getElementById('phone').placeholder=old.phone;
+					if(old.hide==true){
+						document.getElementById('secr').placeholder='隐私';
+					}
+					else{
+						document.getElementById('secr').placeholder='开放';
+					}
+					
 					if(old.male==true){
 						document.getElementById('male').placeholder='男';
 					}
