@@ -35,40 +35,62 @@ public class UserServiceImpl implements UserService {
 	private BookDao bookMapper;
 	
 	@Override
+	public User modifycheck(String username, String email) {
+		User info = new User();
+		info.setUsername(username);
+		info.setEmail(email);
+		User user = userMapper.modifycheck(info);
+		return user;
+	}
+	
+	@Override
+	public JSONObject updatepassword(int uid, String password) {
+		JSONObject feedbody = new JSONObject();
+		userMapper.updatepassword(uid, password);
+		return feedbody;
+	}
+	
+	@Override
 	public int tplogin(JSONObject info) {
 		System.out.println(info);
 		String openid = info.getString("openid");
 		TpUser tpUser = userMapper.tpcheck(openid);
 		
 		if (tpUser != null) return tpUser.getUid();
-		
+
 		String nickname = info.getString("nickname");
 		boolean male = info.getString("gender").equals("m");
 		User user = new User();
 		user.setNickname(nickname);
-		user.setUsername("sina"+openid);
-		user.setPassword(openid);
 		user.setMale(male);
 		user.setLst(info.getString("lst"));
 		user.setRgt(info.getString("lst"));
 		user.setActivation(true);
 		user.setAdm(false);
+		String subopenid = openid.substring(2,7);
+		user.setUsername("qquser"+subopenid);
+		user.setPassword(subopenid);
 		userMapper.register(user);
 		userMapper.tp(user.getUid(), openid);
+		
+		
 		return user.getUid();
 		
 	}
 	@Override
 	public JSONObject mdfypassword(int uid, String oldp, String newp) {
-		JSONObject feedbody = new JSONObject();
+		JSONObject feedback = new JSONObject();
 		
 		User user = userMapper.askuserallinfo(uid);
 		
 		if (user.getPassword().equals(oldp)) {
 			user.setPassword(newp);
-			userMapper.mdfypassword(user);
+			userMapper.updatepassword(uid, newp);
+			feedback.put("resp", "s");
+		} else {
+			feedback.put("resp", "w");
 		}
-		return feedbody;
+		return feedback;
 	}
 	
 	@Override
@@ -133,11 +155,19 @@ public class UserServiceImpl implements UserService {
 	
 
 	@Override
+	public boolean askhide(int uid) {
+		//System.out.println("¼¤»î");
+		
+		return userMapper.askhide(uid);
+	}
+
+	@Override
 	public JSONObject updateuser(User user) {
-		//System.out.println("update_Service");
+		//System.out.println("update_Service0");
 		//System.out.println(user);
 		JSONObject feedback = new JSONObject();
 		userMapper.updateuser(user);
+		//System.out.println("update_Service1");
 		feedback.put("resp", "s");
 		return feedback;
 	}
@@ -155,7 +185,9 @@ public class UserServiceImpl implements UserService {
 				if (bookImg != null) {
 					book.setImg(bookImg.getImg());
 				}
-				book.setNickname(bookMapper.getauthor(book.getUid()));
+			    Book aBook = bookMapper.askbookinfo(book.getBid());
+				//book.setNickname(bookMapper.getauthor(book.getUid()));
+			    book.setNickname(bookMapper.getauthor(aBook.getUid()));
 			}
 			feedback.put("body", bookl.getBooks());
 		}
