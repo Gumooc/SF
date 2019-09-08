@@ -5,5 +5,5 @@ import com.run.entity.User;
 import net.sf.json.JSONObject;
 
 public interface EmailService {
-	JSONObject sendmail(User user);
+	JSONObject sendmail(User user, String content);
 }
