@@ -13,14 +13,17 @@ import java.util.regex.Pattern;
  */
 public class deom2{
         //Windows锟斤拷 ffmpeg.exe锟斤拷路锟斤拷
-        private static String ffmpegEXE = "/usr/local/ffmpeg/bin/ffmpeg";
+        //private static String ffmpegEXE = "D:\\ffmpeg\\bin\\ffmpeg";
         //Linux锟斤拷mac锟斤拷  ffmpeg锟斤拷路锟斤拷
-        //private static String ffmpegEXE = "/developer/ffmpeg-4.0/bin/ffmpeg";
+        private static String ffmpegEXE = "/usr/local/ffmpeg/bin/ffmpeg";
         public static void main(String[] args) {
             //String m1 = "E:\\123.mp3";
             //String m2 = "D:\\index\\handle\\澶ц嚜鐒禱\澶ц嚜鐒秏f.mp3";
             //String m3 = "E:\\FINAL.mp3";
                 try {
+                    //mergepcm("E:\\"+"1-1"+"-f.pcm","E:\\BGM\\1\\坂本昌一郎 - 思い出をありがとうmf.mp3","E:\\"+"1-1"+"-f-v.pcm");
+                    //denoise("E:\\我々楽 - 東山花灯路.mp3","E:\\xx.mp3");
+                    //changetopcm("C:\\Users\\hasee\\Desktop\\ICS\\ics-summer\\从百草园到三味书屋.mp3");
                     //addsoundeffect(m1,m2,m3,10000.0,10000.0);
                    // System.out.println(processFLV(m2));
                     //String finalPath= "D:\\index\\handle\\澶ц嚜鐒禱\澶ц嚜鐒�";
@@ -41,6 +44,7 @@ public class deom2{
                     //mofidyvoice("D:\\index\\handle\\澶ф氮鏉ヨ\\澶ф氮鏉ヨmf.mp3","D:\\index\\handle\\澶ф氮鏉ヨ\\澶ф氮鏉ヨmf.mp3",-30.0-ffmpegx.processFLV(finalPath));
                     //System.out.println(processFLV("D:\\index\\handle\\澶ф氮鏉ヨ\\澶ф氮鏉ヨmf.mp3"));
                     //utmusic("D:\\index\\handle\\澶忔棩铦夐福\\澶忔棩铦夐福mf.mp3","D:\\index\\handle\\澶忔棩铦夐福\\澶忔棩铦夐福10mf.mp3",0.0,10.0);
+                    changetomp3("C:\\Users\\hasee\\Desktop\\server\\2.pcm");
                 } catch (Exception e) {
            e.printStackTrace();
             }
@@ -61,13 +65,11 @@ public class deom2{
                 }
                 music2=tmpx;
             }
-            //String str = new String(music2.getBytes("gbk"),"utf-8");
-            String str = music2;
             command.add(ffmpegEXE);
             command.add("-i");
             command.add(music1);
             command.add("-i");
-            command.add(str);
+            command.add(music2);
             command.add("-filter_complex");
             command.add("[1:a]aloop=loop=-1:size=2e+09[out];[out][0:a]amix=inputs=2:duration=first:dropout_transition=2");
             command.add("-f");
@@ -91,8 +93,8 @@ public class deom2{
                     sbf.append(" ");
                     System.out.println(line);
                 }
-                String resultInfo = sbf.toString();
-                System.out.println(resultInfo);
+                //String resultInfo = sbf.toString();
+                //System.out.println(resultInfo);
             }catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -116,7 +118,6 @@ public class deom2{
         }
         public static Double processFLV(String inputPath) throws Exception{
             List<String> command = new ArrayList<String>();
-            //inputPath=new String(inputPath.getBytes("GBK"),"UTF-8");
             command.add(ffmpegEXE);
             command.add("-i");
             command.add(inputPath);
@@ -171,8 +172,20 @@ public class deom2{
         }
         public static Double processFLT(String inputPath) throws Exception{
             List<String> commands = new ArrayList<>();
-            //inputPath=new String(inputPath.getBytes("GBK"),"UTF-8");
             commands.add(ffmpegEXE);
+            String format=inputPath.substring(inputPath.length()-3,inputPath.length());
+            System.out.println(format);
+            if (format.equals("pcm"))
+            {
+                commands.add("-acodec");
+                commands.add("pcm_s16le");
+                commands.add("-f");
+                commands.add("s16le");
+                commands.add("-ac");
+                commands.add("1");
+                commands.add("-ar");
+                commands.add("16000");
+            }
             commands.add("-i");
             commands.add(inputPath);
             Double time=0.0;
@@ -186,10 +199,15 @@ public class deom2{
                 String line = "";
                 while ((line = br.readLine()) != null) {
                     stringBuilder.append(line);
+                    System.out.println(line);
                 }
                 br.close();
                 //锟斤拷锟斤拷频锟斤拷息锟叫斤拷锟斤拷时锟斤拷
-                String regexDuration = "Duration: (.*?), start: (.*?), bitrate: (\\d*) kb\\/s";
+                String regexDuration;
+                if (format.equals("mp3"))
+                 regexDuration = "Duration: (.*?), start: (.*?), bitrate: (\\d*) kb\\/s";
+                else
+                    regexDuration = "Duration: (.*?), bitrate: (\\d*) kb\\/s";
                 Pattern pattern = Pattern.compile(regexDuration);
                 Matcher m = pattern.matcher(stringBuilder.toString());
                 if (m.find()) {
@@ -204,8 +222,6 @@ public class deom2{
         public static void mofidyvoice(String inputPath, String outputPath, Double modification)
                 throws Exception {
             List<String> command = new ArrayList<String>();
-            //inputPath=new String(inputPath.getBytes("GBK"),"UTF-8");
-            //outputPath=new String(outputPath.getBytes("GBK"),"UTF-8");
             command.add(ffmpegEXE);
             command.add("-i");
             command.add(inputPath);
@@ -323,88 +339,93 @@ public class deom2{
             errorStream.close();
         }
     }*/
-    public static void addsoundeffects(String music1, List<String> musicset,String dest,List<Double> lasttime)
-            throws Exception {
-        List<String> command = new ArrayList<String>();
-        Double time=processFLT(music1);
-        command.add(ffmpegEXE);
-        command.add("-i");
-        command.add(music1);
-        for (int i=0;i<musicset.size();i++) {
-            String tmp=musicset.get(i);
-            Double last=processFLT(tmp);
-            String tmpx=tmp;
-            if  (last>10){
-                tmpx=tmp.replace(".mp3","");
-                tmpx=tmpx+"10.mp3";
-                System.out.println(tmpx);
-                File file =new File(tmpx);
-                if (!file.exists())
-                    cutmusic(tmp,tmpx,0.0,10.0);
-            }
+        public static void addsoundeffects(String music1, List<String> musicset,String dest,List<Double> lasttime)
+                throws Exception {
+            List<String> command = new ArrayList<String>();
+            Double time=processFLT(music1);
+            command.add(ffmpegEXE);
             command.add("-i");
-            //tmpx=new String(tmpx.getBytes("GBK"),"UTF-8");
-            command.add(tmpx);
-        }
-        command.add("-filter_complex");
-        String delay="";
-        for (Integer i=0;i<lasttime.size();i++) {
-            Integer tmp=i+1;
-            delay += "[" + String.valueOf(tmp)+ "]adelay=" +lasttime.get(i).toString()+"|"+lasttime.get(i).toString()+"[del"+String.valueOf(tmp)+"];";
-        }
-        delay+="[0]";
-        for (Integer i=0;i<lasttime.size();i++) {
-            Integer tmp=i+1;
-            delay += "[del"+String.valueOf(tmp)+"]";
-        }
-        Integer tmp=musicset.size()+1;
-        delay+="amix=inputs="+tmp.toString()+":duration=first:dropout_transition=2";
-        command.add(delay);
-        command.add("-f");
-        command.add("mp3");
-        command.add("-ss");
-        command.add("0");
-        command.add("-t");
-        command.add(time.toString());
-        command.add("-y");
-        command.add(dest);
-        System.out.println(command.toString());
-        ProcessBuilder builder = new ProcessBuilder(command);
-        Process process = null;
-        builder.redirectErrorStream(true);
-        try {
-            process = builder.start();
-            StringBuffer sbf = new StringBuffer();
-            String line = null;
-            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            while ((line = br.readLine()) != null) {
-                sbf.append(line);
-                sbf.append(" ");
-                System.out.println(line);
+            command.add(music1);
+            if (musicset.size()==0) return;
+            for (int i=0;i<musicset.size();i++) {
+                String tmp=musicset.get(i);
+                Double last=processFLT(tmp);
+                String tmpx=tmp;
+                if  (last>10){
+                    tmpx=tmp.replace(".mp3","");
+                    tmpx=tmpx+"10.mp3";
+                    System.out.println(tmpx);
+                    File file =new File(tmpx);
+                    if (!file.exists())
+                        cutmusic(tmp,tmpx,0.0,10.0);
+                }
+                command.add("-i");
+                //tmpx=new String(tmpx.getBytes("GBK"),"UTF-8");
+                command.add(tmpx);
             }
-            String resultInfo = sbf.toString();
-            System.out.println(resultInfo);
-        }catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            command.add("-filter_complex");
+            String delay="";
+            for (Integer i=0;i<lasttime.size();i++) {
+                Integer tmp=i+1;
+                if (i==0)
+                delay += "[" + String.valueOf(i)+ "]"+"volume="+lasttime.size()+"[del"+String.valueOf(i)+"];";
+                //else
+                delay += "[" + String.valueOf(tmp)+ "]adelay=" +lasttime.get(i).toString()+"|"+lasttime.get(i).toString()+"[del"+String.valueOf(tmp)+"];";
+            }
+            delay+="[del0]";
+            for (Integer i=0;i<lasttime.size();i++) {
+                Integer tmp=i+1;
+                delay += "[del"+String.valueOf(tmp)+"]";
+            }
+            Integer tmp=musicset.size()+1;
+            delay+="amix=inputs="+tmp.toString()+":duration=first:dropout_transition=2";
+            command.add(delay);
+            command.add("-f");
+            command.add("mp3");
+            command.add("-ss");
+            command.add("0");
+            command.add("-t");
+            command.add(time.toString());
+            command.add("-y");
+            command.add(dest);
+            System.out.println(command.toString());
+            ProcessBuilder builder = new ProcessBuilder(command);
+            Process process = null;
+            builder.redirectErrorStream(true);
+            try {
+                process = builder.start();
+                StringBuffer sbf = new StringBuffer();
+                String line = null;
+                BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                while ((line = br.readLine()) != null) {
+                    sbf.append(line);
+                    sbf.append(" ");
+                    System.out.println(line);
+                }
+                String resultInfo = sbf.toString();
+                System.out.println(resultInfo);
+            }catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            // 使锟斤拷锟斤拷锟街凤拷式锟斤拷锟斤拷瞬锟斤拷锟斤拷锟斤拷锟斤拷锟紺PU锟斤拷锟节达拷锟较低筹拷锟皆达拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟揭拷锟斤拷锟斤拷锟斤拷写锟斤拷锟 
+            InputStream errorStream = process.getErrorStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
+            BufferedReader br = new BufferedReader(inputStreamReader);
+            String line = "";
+            while ((line = br.readLine()) != null) {
+            }
+            if (br != null) {
+                br.close();
+            }
+            if (inputStreamReader != null) {
+                inputStreamReader.close();
+            }
+            if (errorStream != null) {
+                errorStream.close();
+            }
         }
-        // 使锟斤拷锟斤拷锟街凤拷式锟斤拷锟斤拷瞬锟斤拷锟斤拷锟斤拷锟斤拷锟紺PU锟斤拷锟节达拷锟较低筹拷锟皆达拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟揭拷锟斤拷锟斤拷锟斤拷写锟斤拷锟�
-        InputStream errorStream = process.getErrorStream();
-        InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
-        BufferedReader br = new BufferedReader(inputStreamReader);
-        String line = "";
-        while ((line = br.readLine()) != null) {
-        }
-        if (br != null) {
-            br.close();
-        }
-        if (inputStreamReader != null) {
-            inputStreamReader.close();
-        }
-        if (errorStream != null) {
-            errorStream.close();
-        }
-    }
+
     public static void cutmusic(String music1, String dest,Double starttime,Double endtime)
             throws Exception {
         List<String> command = new ArrayList<String>();
@@ -467,4 +488,334 @@ public class deom2{
         random=(int)(Math.random()*size+1);
         return files[random].getPath();
     }
+    public static void denoise(String music1, String dest)
+            throws Exception {
+        String name=music1.substring(0,music1.length()-4);
+        Double voice=processFLV(music1);
+        //String namemf=name+"mf"+".mp3";
+        //File file = new File(namemf);
+        //if (!file.exists())
+        //mofidyvoice(music1,namemf,-16.0-voice);
+        List<String> command = new ArrayList<String>();
+        command.add(ffmpegEXE);
+        command.add("-i");
+        command.add(music1);
+        command.add("-vf");
+        command.add("hqdn3d");
+        command.add(dest);
+        ProcessBuilder builder = new ProcessBuilder(command);
+        Process process = null;
+        builder.redirectErrorStream(true);
+        try {
+            process = builder.start();
+            StringBuffer sbf = new StringBuffer();
+            String line = null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            while ((line = br.readLine()) != null) {
+                sbf.append(line);
+                sbf.append(" ");
+                System.out.println(line);
+            }
+            String resultInfo = sbf.toString();
+            System.out.println(resultInfo);
+        }catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        InputStream errorStream = process.getErrorStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
+        BufferedReader br = new BufferedReader(inputStreamReader);
+        String line = "";
+        while ((line = br.readLine()) != null) {
+        }
+        if (br != null) {
+            br.close();
+        }
+        if (inputStreamReader != null) {
+            inputStreamReader.close();
+        }
+        if (errorStream != null) {
+            errorStream.close();
+        }
+    }
+    public static void changetopcm(String music1)
+            throws Exception {
+        String name=music1.substring(0,music1.length()-4);
+        String format=music1.substring(music1.length()-3);
+        System.out.println(format);
+        if (format.equals("pcm")) {System.out.println("already pcm"); return;}
+        List<String> command = new ArrayList<String>();
+        command.add(ffmpegEXE);
+        command.add("-y");
+        command.add("-i");
+        command.add(music1);
+        command.add("-acodec");
+        command.add("pcm_s16le");
+        command.add("-f");
+        command.add("s16le");
+        command.add("-ac");
+        command.add("1");
+        command.add("-ar");
+        command.add("16000");
+        command.add(name+".pcm");
+        ProcessBuilder builder = new ProcessBuilder(command);
+        Process process = null;
+        builder.redirectErrorStream(true);
+        try {
+            process = builder.start();
+            StringBuffer sbf = new StringBuffer();
+            String line = null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            while ((line = br.readLine()) != null) {
+                sbf.append(line);
+                sbf.append(" ");
+                System.out.println(line);
+            }
+            String resultInfo = sbf.toString();
+            System.out.println(resultInfo);
+        }catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        InputStream errorStream = process.getErrorStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
+        BufferedReader br = new BufferedReader(inputStreamReader);
+        String line = "";
+        while ((line = br.readLine()) != null) {
+        }
+        if (br != null) {
+            br.close();
+        }
+        if (inputStreamReader != null) {
+            inputStreamReader.close();
+        }
+        if (errorStream != null) {
+            errorStream.close();
+        }
+    }
+    public static void addsoundpcm(String music1,String musicset,String dest)
+            throws Exception {
+        List<String> command = new ArrayList<String>();
+        Double time=processFLT(music1);
+        command.add(ffmpegEXE);
+        command.add("-f");
+        command.add("s16le");
+        command.add("-ac");
+        command.add("1");
+        command.add("-ar");
+        command.add("16000");
+        command.add("-acodec");
+        command.add("pcm_s16le");
+        command.add("-i");
+        command.add(music1);
+        String tmp=musicset;
+        Double last=processFLT(tmp);
+        String tmpx=tmp;
+        if  (last>10){
+                tmpx=tmp.replace(".mp3","");
+                tmpx=tmpx+"10.mp3";
+                System.out.println(tmpx);
+                File file =new File(tmpx);
+                if (!file.exists())
+                    cutmusic(tmp,tmpx,0.0,10.0);
+            }
+        command.add("-i");
+            //tmpx=new String(tmpx.getBytes("GBK"),"UTF-8");
+        command.add(tmpx+".mp3");
+        command.add("-filter_complex");
+        String delay="";
+        //delay+="amix=inputs=2"+":duration=first:dropout_transition=2";
+        delay+="[0:a]volume=2[a0]; [1:a]volume=0.5[a1]; [a0][a1]amix=inputs=2:duration=first";
+        command.add(delay);
+        command.add("-ss");
+        command.add("0");
+        //command.add("-t");
+        //command.add(time.toString());
+        command.add("-y");
+        command.add("-f");
+        command.add("s16le");
+        command.add("-ac");
+        command.add("1");
+        command.add("-ar");
+        command.add("16000");
+        command.add("-acodec");
+        command.add("pcm_s16le");
+        command.add(dest);
+        System.out.println(command.toString());
+        ProcessBuilder builder = new ProcessBuilder(command);
+        Process process = null;
+        builder.redirectErrorStream(true);
+        try {
+            process = builder.start();
+            StringBuffer sbf = new StringBuffer();
+            String line = null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            while ((line = br.readLine()) != null) {
+                sbf.append(line);
+                sbf.append(" ");
+                System.out.println(line);
+            }
+            String resultInfo = sbf.toString();
+            System.out.println(resultInfo);
+        }catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        InputStream errorStream = process.getErrorStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
+        BufferedReader br = new BufferedReader(inputStreamReader);
+        String line = "";
+        while ((line = br.readLine()) != null) {
+        }
+        if (br != null) {
+            br.close();
+        }
+        if (inputStreamReader != null) {
+            inputStreamReader.close();
+        }
+        if (errorStream != null) {
+            errorStream.close();
+        }
+    }
+    public static void mergepcm(String music1, String music2, String dest)
+            throws Exception {
+        List<String> command = new ArrayList<String>();
+        Double time=processFLT(music1);
+        System.out.println(time);
+        String tmpx="";
+        if (music2.indexOf("mf.mp3")==-1)
+        {
+            tmpx=music2.replace(".mp3","mf.mp3");
+            File file=new File(tmpx);
+            if (!file.exists())
+            {
+                mofidyvoice(music2,tmpx,-32-processFLV(music2));
+            }
+            music2=tmpx;
+        }
+        command.add(ffmpegEXE);
+        command.add("-f");
+        command.add("s16le");
+        command.add("-ac");
+        command.add("1");
+        command.add("-ar");
+        command.add("16000");
+        command.add("-acodec");
+        command.add("pcm_s16le");
+        command.add("-i");
+        command.add(music1);
+        command.add("-i");
+        command.add(music2);
+        command.add("-filter_complex");
+        command.add("[1:a]aloop=loop=-1:size=2e+09[out];[out][0:a]amix=inputs=2:duration=first:dropout_transition=2");
+        command.add("-f");
+        command.add("mp3");
+        command.add("-ss");
+        command.add("0");
+        command.add("-t");
+        command.add(time.toString());
+        command.add("-y");
+        command.add("-f");
+        command.add("s16le");
+        command.add("-ac");
+        command.add("1");
+        command.add("-ar");
+        command.add("16000");
+        command.add("-acodec");
+        command.add("pcm_s16le");
+        command.add(dest);
+        ProcessBuilder builder = new ProcessBuilder(command);
+        Process process = null;
+        builder.redirectErrorStream(true);
+        try {
+            process = builder.start();
+            StringBuffer sbf = new StringBuffer();
+            String line = null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            while ((line = br.readLine()) != null) {
+                sbf.append(line);
+                sbf.append(" ");
+                System.out.println(line);
+            }
+            String resultInfo = sbf.toString();
+            System.out.println(resultInfo);
+        }catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        InputStream errorStream = process.getErrorStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
+        BufferedReader br = new BufferedReader(inputStreamReader);
+        String line = "";
+        while ((line = br.readLine()) != null) {
+        }
+        if (br != null) {
+            br.close();
+        }
+        if (inputStreamReader != null) {
+            inputStreamReader.close();
+        }
+        if (errorStream != null) {
+            errorStream.close();
+        }
+    }
+    public static void changetomp3(String music1)
+            throws Exception {
+        String name=music1.substring(0,music1.length()-4);
+        String format=music1.substring(music1.length()-3);
+        System.out.println(format);
+        if (format.equals("mp3")) {System.out.println("already mp3"); return;}
+        List<String> command = new ArrayList<String>();
+        command.add(ffmpegEXE);
+        command.add("-y");
+        if (format.equals("pcm"))
+        {
+            command.add("-acodec");
+            command.add("pcm_s16le");
+            command.add("-f");
+            command.add("s16le");
+            command.add("-ac");
+            command.add("1");
+            command.add("-ar");
+            command.add("16000");
+        }
+        command.add("-i");
+        command.add(music1);
+        command.add(name+".mp3");
+        ProcessBuilder builder = new ProcessBuilder(command);
+        Process process = null;
+        builder.redirectErrorStream(true);
+        try {
+            process = builder.start();
+            StringBuffer sbf = new StringBuffer();
+            String line = null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            while ((line = br.readLine()) != null) {
+                sbf.append(line);
+                sbf.append(" ");
+                System.out.println(line);
+            }
+            String resultInfo = sbf.toString();
+            System.out.println(resultInfo);
+        }catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        InputStream errorStream = process.getErrorStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
+        BufferedReader br = new BufferedReader(inputStreamReader);
+        String line = "";
+        while ((line = br.readLine()) != null) {
+        }
+        if (br != null) {
+            br.close();
+        }
+        if (inputStreamReader != null) {
+            inputStreamReader.close();
+        }
+        if (errorStream != null) {
+            errorStream.close();
+        }
+    }
+
 }
