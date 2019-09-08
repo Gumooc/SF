@@ -1,8 +1,6 @@
 package com.run.service.Impl;
 
 import java.util.Properties;
-import java.util.Random;
-
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -22,7 +20,7 @@ import net.sf.json.JSONObject;
 @Service
 public class EmailServiceImpl implements EmailService {
 	@Override
-	public JSONObject sendmail(User user) {
+	public JSONObject sendmail(User user, String content) {
 		 // 1.创建连接对象javax.mail.Session
         // 2.创建邮件对象 javax.mail.Message
         // 3.发送一封激活邮件
@@ -56,16 +54,9 @@ public class EmailServiceImpl implements EmailService {
             // 2.2设置接收人
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
             // 2.3设置邮件主题
-            message.setSubject("账号激活");
+            message.setSubject("sfbook账号操作");
             // 2.4设置邮件内容
-            int min = 30;
-            int max = 50;
-            int active = new Random().nextInt(max-min)+min;
             
-            
-            String content = "<html><head></head><body><h1>这是一封激活邮件,激活请点击以下链接</h1><h3><a href='http://localhost:8080/sfbook/user/activation?uid="
-                    +user.getUid()+"&active="+"1" + "'>http://49.234.77.32:8080/sfbook/user/activation?uid=" +user.getUid() +"&active="+active
-                    + "</href></h3></body></html>";
             message.setContent(content, "text/html;charset=UTF-8");
             // 3.发送邮件
             Transport.send(message);
