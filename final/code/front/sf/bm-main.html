@@ -168,29 +168,34 @@
 			
 			function clock(){
 				//console.log('hello?');
-				var progress_tips=document.getElementsByClassName('its-pro');
+				/*
 				for(var i=0;i<progress_tips.length;i++){
 					progress_tips[i].innerHTML='';
 				}
+				*/
 				mui.ajax('http://49.234.77.32:8080/sfbook/createbook/making',{
 					data:{},
 					dataType:'json',
 					type:'post',
-					async:false,
-					timeout:10000,
+					async:true,
+					timeout:5000,
 					headers:{'Content-Type':'application/json'},	              
 					success:function(data){
 						if(data.body!=null){
+							var progress_tips=document.getElementsByClassName('its-pro');
+							
 							var p=data.body;
 							for(var i=0;i<p.length;i++){
-								if(p[i].status=='制作完成')continue;
+								//if(p[i].status=='制作完成')continue;
 								
 								//var str='&nbsp;&nbsp;&nbsp;&nbsp;第'+p[i].chapter+'章：'+p[i].status+p[i].start+'/'+p[i].end;
 								//console.log(str);
 								
 								var pid=p[i].bid;
+								console.log(pid);
 								var pro=document.getElementById(pid).getElementsByClassName('its-pro')[0];
-								pro.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;正在制作..';
+								
+								pro.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;制作任务..';
 							}
 						
 						}
@@ -211,10 +216,10 @@
 			});
 			mui.init();
 			mui.plusReady(function(){
-				console.log('bm-main加载');
+				//console.log('bm-main加载');
 				self=plus.webview.currentWebview();
 				mui.fire(self,'self',{});
-				console.log('bm-main加载end');
+				//console.log('bm-main加载end');
 			})
 			
 			/*
