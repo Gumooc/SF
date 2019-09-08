@@ -185,7 +185,9 @@ public class UserServiceImpl implements UserService {
 				if (bookImg != null) {
 					book.setImg(bookImg.getImg());
 				}
-				book.setNickname(bookMapper.getauthor(book.getUid()));
+			    Book aBook = bookMapper.askbookinfo(book.getBid());
+				//book.setNickname(bookMapper.getauthor(book.getUid()));
+			    book.setNickname(bookMapper.getauthor(aBook.getUid()));
 			}
 			feedback.put("body", bookl.getBooks());
 		}
