@@ -14,7 +14,15 @@ public class User {
 	private String email;
 	private boolean activation;
 	private boolean adm;
+	private boolean hide;
 
+	public void setHide(boolean hide) {
+		this.hide = hide;
+	}
+	
+	public boolean getHide() {
+		return hide;
+	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
