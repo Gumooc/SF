@@ -3,6 +3,13 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.run.dao.UserDao">
+
+	<select id="modifycheck" parameterType="com.run.entity.User" resultType="com.run.entity.User">
+        select * from user where username=#{username} and email = #{email};
+    </select>
+	<update id = "updatepassword">
+		update user set password = #{password} where uid = #{uid};
+	</update>
 	<update id = "updatelst">
 		update user set lst = #{lst} where uid = #{uid};
 	</update>
@@ -36,22 +43,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
 	<select id="askuser" parameterType="Integer" resultType="com.run.entity.User">
-        select username, nickname,lst,rgt,male,phone,email,activation,birth from user where uid=#{uid};
+        select username, nickname,lst,rgt,male,phone,email,activation,birth, hide from user where uid=#{uid};
+    </select>
+    
+	<select id="askhide" parameterType="Integer" resultType="boolean">
+        select hide from user where uid=#{uid};
     </select>
     
 	<select id="askuserallinfo" parameterType="Integer" resultType="com.run.entity.User">
         select * from user where uid=#{uid};
     </select>
     
-	<update id="mdfypassword" parameterType="com.run.entity.User">
-        update user
-        	set password = #{password}
-        where uid = #{uid};
-    </update>
     
     <update id="updateuser" parameterType="com.run.entity.User">
     	update user 
-    		set nickname=#{nickname}, lst=#{lst}, male=#{male}, phone=#{phone}, email=#{email}, birth=#{birth}
+    		set nickname=#{nickname}, lst=#{lst}, male=#{male}, phone=#{phone}, email=#{email}, birth=#{birth}, hide=#{hide}
     	where uid=#{uid};
     </update>
     
@@ -77,12 +83,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     		<result column="kind" property="kind"></result>
     		<result column="lst" property="lst"></result>
     		<result column="shared" property="shared"></result>
+    		<result column="playtime" property="playtime"></result>
+    		<result column="forbidden" property="forbidden"></result>
     	</collection>
     </resultMap>
     
     
 	<select id="askcollector" parameterType="Integer" resultMap="collectormap">
-        select collector.uid,book.* from collector,book 
+        select collector.uid, book.* from collector,book 
 		<where>
 			collector.bid = book.bid and collector.uid=#{uid}
 		</where> 
