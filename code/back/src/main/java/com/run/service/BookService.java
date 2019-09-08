@@ -41,4 +41,6 @@ public interface BookService {
 	
 	boolean collectcheck(int uid, int bid);
 	
+	String getBookname(int bid);
+	
 }
