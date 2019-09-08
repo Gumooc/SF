@@ -1,9 +1,11 @@
 package com.run.service.Impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
@@ -15,6 +17,7 @@ import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -64,20 +67,27 @@ public class RecommendServiceImpl implements RecommendService {
 		feedbody.put("hottest", hottestlist);
 		return feedbody;
 	}
-	
+
 	private List<Book> getrecommend(int uid) throws TasteException{
 
-		//Properties prop = PropertiesLoaderUtils.loadProperties(new ClassPathResource("/resources/jdbc.properties"));
-		//System.out.println(new ClassPathResource("../resources/jdbc.properties"));
-		//String userName = prop.getProperty("jdbc.userName");
-		//String password = prop.getProperty("jdbc.password");
+		String username = "";
+		String password = "";
+		try {
+			Properties prop = PropertiesLoaderUtils.loadAllProperties("jdbc.properties");
+			//System.out.println(prop.getProperty("jdbc.username"));
+			//System.out.println(prop.getProperty("jdbc.password"));
+			username = prop.getProperty("jdbc.username");
+			password = prop.getProperty("jdbc.password");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		MysqlDataSource dataSource = new MysqlDataSource();
-		String userName = "root";
-		String password = "234567";
 		dataSource.setServerName("localhost");
 		dataSource.setPort(3306);
 		dataSource.setDatabaseName("sfbook");
-		dataSource.setUser(userName);
+		dataSource.setUser(username);
 		dataSource.setPassword(password);
 		
 		JDBCDataModel model = new MySQLJDBCDataModel(dataSource, "history", "uid", "kind", "prc", "date");
