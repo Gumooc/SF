@@ -83,12 +83,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     		<result column="kind" property="kind"></result>
     		<result column="lst" property="lst"></result>
     		<result column="shared" property="shared"></result>
+    		<result column="playtime" property="playtime"></result>
+    		<result column="forbidden" property="forbidden"></result>
     	</collection>
     </resultMap>
     
     
 	<select id="askcollector" parameterType="Integer" resultMap="collectormap">
-        select collector.uid,book.* from collector,book 
+        select collector.uid, book.* from collector,book 
 		<where>
 			collector.bid = book.bid and collector.uid=#{uid}
 		</where> 
