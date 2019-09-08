@@ -37,12 +37,13 @@ public class EmailController {
 		setRHeader(request, response);
 		JSONObject feedback = new JSONObject();
 		int uid = JSONObject.fromObject(liString).getInt("uid");
+		String content = JSONObject.fromObject(liString).getString("content");
 		User user = (User) JSONObject.toBean(userService.askuser(uid).getJSONObject("body"),User.class);
 		if (user.getActivation()) {
 			feedback.put("resp", "f");
 		} else {
 			user.setUid(uid);
-			emailService.sendmail(user);
+			emailService.sendmail(user, content);
 			feedback.put("resp", "s");
 		}
 		return feedback;
